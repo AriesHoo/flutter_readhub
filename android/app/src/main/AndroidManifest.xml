@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_readhub"
+        android:label="readhub_flutter"
         android:roundIcon="@mipmap/ic_logo_round"
         android:icon="@mipmap/ic_logo_big">
         <activity

@@ -1,0 +1,38 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_readhub/data/basis_http.dart';
+
+final ReadHubHttp http = ReadHubHttp();
+
+///ReadHub http请求基础处理
+class ReadHubHttp extends BasisHttp {
+
+  ///热门话题
+  static const String API_TOPIC = "topic";
+  ///科技动态
+  static const String API_NEWS = "news";
+  ///开发者资讯
+  static const String API_TECH_NEWS = "technews";
+  ///区块链
+  static const String API_BLOCK_CHAIN = "blockchain";
+  @override
+  void init() {
+    options.baseUrl = 'https://api.readhub.me/';
+    interceptors.add(LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+    ));
+    interceptors
+      ..add(ApiInterceptor());
+  }
+}
+
+class ApiInterceptor extends InterceptorsWrapper {
+  @override
+  onRequest(RequestOptions options) async {
+    debugPrint('---api-request--->url--> ${options.baseUrl}${options.path}' +
+        ' queryParameters: ${options.queryParameters}');
+    return options;
+  }
+}
+
