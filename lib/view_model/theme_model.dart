@@ -70,9 +70,9 @@ class ThemeModel with ChangeNotifier {
     _fontIndex = SPUtil.getInt(SP_KEY_FONT_INDEX);
 
     ///如果缓存为黑色字体则进行
-    if (_userDarkMode) {
+//    if (_userDarkMode) {
       switchTheme(userDarkMode: _userDarkMode);
-    }
+//    }
   }
 
   /// 切换是否
@@ -201,14 +201,13 @@ class ThemeModel with ChangeNotifier {
         labelPadding: EdgeInsets.symmetric(horizontal: 8),
         labelStyle: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: 15,
-
+          fontSize: 13,
           ///字体
           fontFamily: fontValueList[_fontIndex],
         ),
         unselectedLabelStyle: TextStyle(
           fontWeight: FontWeight.normal,
-          fontSize: 15,
+          fontSize: 13,
 
           ///字体
           fontFamily: fontValueList[_fontIndex],

@@ -14,7 +14,8 @@ class ListModel {
     if (json['data'] != null) {
       data = new List<Data>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        Data item = new Data.fromJson(v);
+        data.add(item);
       });
     }
     pageSize = json['pageSize'];
@@ -47,6 +48,15 @@ class Data {
   int order;
   bool hasInstantView;
   Extra extra;
+  bool maxLine = true;
+
+  String getUrl(){
+    return newsArray!=null&&newsArray.length>0?newsArray[0].mobileUrl:"";
+  }
+
+  switchMaxLine() {
+    maxLine = !maxLine;
+  }
 
   Data(
       {this.id,
@@ -67,7 +77,7 @@ class Data {
   }
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     if (json['newsArray'] != null) {
       newsArray = new List<NewsArray>();
       json['newsArray'].forEach((v) {
