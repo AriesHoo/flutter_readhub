@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/model/list_model.dart';
 import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 ///分享文章详情
 class ShareArticleDialog extends Dialog {
   final Data data;
 
-  ShareArticleDialog(@required this.data);
+  ShareArticleDialog(this.data);
 
   @override
   Widget build(BuildContext context) {
@@ -58,31 +59,40 @@ class ShareArticleDialog extends Dialog {
                       children: <Widget>[
                         Text(
                           data.summary,
+                          maxLines: 10,
+                          overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.title.copyWith(
                                 fontSize: 14,
                               ),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              data.getSiteName(),
-                              style: Theme.of(context).textTheme.title.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                            ),
                             Expanded(
                               flex: 1,
-                              child: SizedBox(),
+                              child: Text(
+                                data.getSiteName(),
+                                textAlign: TextAlign.start,
+                                style:
+                                    Theme.of(context).textTheme.title.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                              ),
                             ),
                             QrImage(
                               data: data.getUrl(),
                               version: QrVersions.auto,
                               size: 100.0,
+                              backgroundColor: Colors.white,
+                              embeddedImage: NetworkImage(
+                                  'https://avatars0.githubusercontent.com/u/19605922?s=460&v=4'),
+                              embeddedImageStyle: QrEmbeddedImageStyle(
+                                size: Size(26, 26),
+                              ),
                             ),
                           ],
                         )
@@ -97,7 +107,6 @@ class ShareArticleDialog extends Dialog {
                   ),
                   Text(
                     "由 Readhub_Flutter App 分享",
-                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.caption.copyWith(
                           fontSize: 12,
                         ),
@@ -106,9 +115,36 @@ class ShareArticleDialog extends Dialog {
               ),
             ),
           ),
-
+          SizedBox(
+            height: 30,
+          ),
           ///最上边白色圆角结束
           ///最底部水平分享按钮
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FloatingActionButton(
+                elevation: 0,
+                backgroundColor: Theme.of(context).accentColor,
+                child: Icon(Icons.share),
+                onPressed: (){
+                  ToastUtil.show("share");
+                },
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              FloatingActionButton(
+                elevation: 0,
+                backgroundColor: Colors.red,
+                child: Icon(Icons.file_download),
+                onPressed: (){
+                  ToastUtil.show("share");
+                },
+              ),
+            ],
+
+          )
         ],
       ),
     );

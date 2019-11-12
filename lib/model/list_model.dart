@@ -63,7 +63,13 @@ class Data {
   String mobileUrl;
 
   String getUrl() {
-    return mobileUrl ?? url ?? newsArray != null && newsArray.length > 0
+    if (mobileUrl != null) {
+      return mobileUrl;
+    }
+    if (url != null) {
+      return url;
+    }
+    return newsArray != null && newsArray.length > 0
         ? newsArray[0].mobileUrl
         : "";
   }
@@ -80,7 +86,7 @@ class Data {
     } else {
       str = '来着 $siteName 的报道';
     }
-    return str + "\n"+'扫描看详情';
+    return str + "\n" + '扫码看详情';
   }
 
   ///时间转换

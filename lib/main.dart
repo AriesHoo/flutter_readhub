@@ -1,26 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_readhub/data/read_hub_http.dart';
-import 'package:flutter_readhub/data/read_hub_repository.dart';
-import 'package:flutter_readhub/model/list_model.dart';
 import 'package:flutter_readhub/router_manger.dart';
-import 'package:flutter_readhub/util/log_util.dart';
-import 'package:flutter_readhub/util/toast_util.dart';
-import 'package:flutter_readhub/view_model/read_hub_view_model.dart';
 import 'package:flutter_readhub/home_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'generated/i18n.dart';
-import 'view_model/basis/basis_provider_widget.dart';
-import 'view_model/basis/basis_scroll_controller_model.dart';
 import 'view_model/locale_model.dart';
 import 'view_model/theme_model.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-
-import 'widget/skeleton.dart';
 
 void main() => runApp(MyApp());
 
