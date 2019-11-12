@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/read_hub_http.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/model/list_model.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.d
 import 'package:flutter_readhub/view_model/locale_model.dart';
 import 'package:flutter_readhub/view_model/read_hub_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/widget/share_article_dialog.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,13 +44,30 @@ class _HomePageState extends State<HomePage>
     LogUtil.e("_MoviePageState_initState");
   }
 
+  void switchDarkMode(BuildContext context) {
+    if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
+      ToastUtil.show("检测到系统为暗黑模式,已为你自动切换");
+    } else {
+      Provider.of<ThemeModel>(context).switchTheme(
+          userDarkMode: Theme.of(context).brightness == Brightness.light);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
-          leading: Text(""),
+          leading: IconButton(
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.light
+                  ? Icons.brightness_5
+                  : Icons.brightness_2,
+            ),
+            onPressed: () {
+              switchDarkMode(context);
+            },
+          ),
           centerTitle: true,
           title: Text(
             S.of(context).appName,
@@ -60,41 +79,50 @@ class _HomePageState extends State<HomePage>
             IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
-                _scaffoldKey.currentState.openEndDrawer();
+                if (_scaffoldKey.currentState.isEndDrawerOpen) {
+                  Navigator.pop(context);
+                } else {
+                  _scaffoldKey.currentState.openEndDrawer();
+                }
               },
             ),
           ],
         ),
         preferredSize: Size.fromHeight(40),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            height: 36,
 
-            ///添加该属性去掉Tab按下水波纹效果
-            color: Theme.of(context).appBarTheme.color,
-            child: TabBarWidget(
-              labels: _listTab,
-              controller: _tabController,
+      ///如此操作为了抽屉栏在上层AppBar之下否则这样做层次有点多
+      body: Scaffold(
+        key: _scaffoldKey,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: 36,
+
+              ///添加该属性去掉Tab按下水波纹效果
+              color: Theme.of(context).appBarTheme.color,
+              child: TabBarWidget(
+                labels: _listTab,
+                controller: _tabController,
+              ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: TabBarView(
-              controller: _tabController,
-              children: List.generate(
-                  _listTab.length,
-                  (i) => MovieItemPage(
-                        url: _listUrls[i],
-                      )),
-            ),
-          )
-        ],
+            Expanded(
+              flex: 1,
+              child: TabBarView(
+                controller: _tabController,
+                children: List.generate(
+                    _listTab.length,
+                    (i) => MovieItemPage(
+                          url: _listUrls[i],
+                        )),
+              ),
+            )
+          ],
+        ),
+//        drawerScrimColor: Colors.transparent,
+        endDrawer: SettingDrawer(),
       ),
-      drawerScrimColor: Colors.transparent,
-      endDrawer: SettingDrawer(),
     );
   }
 }
@@ -193,23 +221,58 @@ class MovieAdapter extends StatelessWidget {
   final double imgWidth = 72;
   final double imgHeight = 100;
 
+  Future<void> showShareDialog(BuildContext context,Data data) async {
+    int index = await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return ShareArticleDialog(data);
+      },
+    );
+    if (index != null) {
+      print("点击了：$index");
+    }
+  }
+
+  // 弹出底部菜单列表模态对话框
+  Future<int> _showModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet<int>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ListView.builder(
+          itemCount: 30,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text("$index"),
+              onTap: () => Navigator.of(context).pop(index),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    item.parseTimeLong();
+
     ///外层Material包裹以便按下水波纹效果
     return Material(
       color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () async {
-          String url = item.getUrl();
-          LogUtil.e("mobileUrl:" + url);
-          if (await canLaunch(url)) {
-            await launch(url);
-          } else {
-            throw 'Could not launch $url';
-          }
+//          String url = item.getUrl();
+//          LogUtil.e("mobileUrl:" + url);
+//          if (await canLaunch(url)) {
+//            await launch(url);
+//          } else {
+//            throw 'Could not launch $url';
+//          }
+          item.switchMaxLine();
+          Provider.of<LocaleModel>(context).switchLocale(0);
         },
         onLongPress: () {
-          ToastUtil.show("onLongPress");
+          showShareDialog(context,item);
         },
 
         ///Container 包裹以便设置padding margin及边界线
@@ -233,23 +296,58 @@ class MovieAdapter extends StatelessWidget {
               ///右边文字描述
               Text(
                 item.title,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              GestureDetector(
-                child: Text(
-                  item.summary,
-                  maxLines: item.maxLine ? 3 : 10000,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.caption.copyWith(),
-                ),
-                onTap: () {
-                  item.switchMaxLine();
-                  Provider.of<LocaleModel>(context).switchLocale(0);
-                },
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                item.summary,
+                maxLines: item.maxLine ? 3 : 10000,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.caption.copyWith(),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      item.timeStr,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                            fontSize: 12,
+                          ),
+                    ),
+                  ),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        _showModalBottomSheet(context);
+                      },
+                      onLongPress: () {
+                        ToastUtil.show("share");
+                      },
+                      child: Icon(Icons.share),
+                    ),
+                  ),
+                  IconButton(
+                    iconSize: 20,
+                    padding: EdgeInsets.zero,
+                    icon: Icon(Icons.share),
+                    onPressed: () {
+                      ToastUtil.show("share");
+                    },
+                  )
+                ],
               ),
             ],
           ),
@@ -343,7 +441,7 @@ class SettingDrawer extends StatelessWidget {
     return Container(
       ///留出状态栏+appBar高度56+24
       margin: EdgeInsets.only(
-        top: 64,
+        top: 0,
       ),
       height: double.infinity,
       width: 240,
@@ -378,43 +476,9 @@ class SettingDrawer extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Theme.of(context).brightness == Brightness.light
-                      ? Icons.brightness_7
-                      : Icons.brightness_2,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-                onPressed: () {
-                  switchDarkMode(context);
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.info,
-                  color: Theme.of(context).appBarTheme.iconTheme.color,
-                ),
-                onPressed: () {
-                  switchDarkMode(context);
-                },
-              )
-            ],
-          )
         ],
       ),
     );
-  }
-
-  void switchDarkMode(BuildContext context) {
-    if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-      ToastUtil.show("检测到系统为暗黑模式,已为你自动切换");
-    } else {
-      Provider.of<ThemeModel>(context).switchTheme(
-          userDarkMode: Theme.of(context).brightness == Brightness.light);
-    }
   }
 }
 
@@ -426,7 +490,7 @@ class SettingThemeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(S.of(context).choiceTheme),
-      initiallyExpanded: true,
+      initiallyExpanded: false,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

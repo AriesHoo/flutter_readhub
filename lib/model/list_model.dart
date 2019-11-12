@@ -1,3 +1,6 @@
+import 'package:flutter_readhub/util/log_util.dart';
+
+///列表数据
 class ListModel {
   List<Data> data;
   int pageSize;
@@ -15,6 +18,7 @@ class ListModel {
       data = new List<Data>();
       json['data'].forEach((v) {
         Data item = new Data.fromJson(v);
+        item.parseTimeLong();
         data.add(item);
       });
     }
@@ -50,8 +54,62 @@ class Data {
   Extra extra;
   bool maxLine = true;
 
-  String getUrl(){
-    return newsArray!=null&&newsArray.length>0?newsArray[0].mobileUrl:"";
+  ///时间戳-utc时间
+  int publishTime;
+  String timeStr = "";
+  String siteName;
+  String authorName;
+  String url;
+  String mobileUrl;
+
+  String getUrl() {
+    return mobileUrl ?? url ?? newsArray != null && newsArray.length > 0
+        ? newsArray[0].mobileUrl
+        : "";
+  }
+
+  String getSiteName() {
+    String str = "";
+    if (siteName == null) {
+      if (newsArray != null) {
+        NewsArray item = newsArray[0];
+        str = newsArray.length > 1
+            ? '${item.siteName} 等 ${newsArray.length} 家媒体报道'
+            : '来着 ${item.siteName} 的报道';
+      }
+    } else {
+      str = '来着 $siteName 的报道';
+    }
+    return str + "\n"+'扫描看详情';
+  }
+
+  ///时间转换
+  void parseTimeLong() {
+    String targetTime = createdAt == null ? publishDate : createdAt;
+    try {
+      String time =
+          targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+      DateTime createTime = DateTime.parse(time);
+      DateTime nowTime = DateTime.now();
+      Duration hourDiff = nowTime.difference(createTime);
+      if (hourDiff.inDays > 0) {
+        if (hourDiff.inDays == 1) {
+          timeStr = "昨天";
+        } else if (hourDiff.inDays == 1) {
+          timeStr = "前天";
+        } else {
+          timeStr = hourDiff.inDays.toString() + " 天前";
+        }
+      } else if (hourDiff.inHours > 0) {
+        timeStr = hourDiff.inHours.toString() + " 小时前";
+      } else if (hourDiff.inMinutes > 0) {
+        timeStr = hourDiff.inMinutes.toString() + " 分钟前";
+      } else {
+        timeStr = "刚刚";
+      }
+    } catch (e) {
+      LogUtil.e("parseTimeLong:" + e.toString());
+    }
   }
 
   switchMaxLine() {
@@ -90,6 +148,18 @@ class Data {
       json['eventData'].forEach((v) {
         eventData.add(new EventData.fromJson(v));
       });
+    }
+    if (json['siteName'] != null) {
+      siteName = json['siteName'];
+    }
+    if (json['authorName'] != null) {
+      authorName = json['authorName'];
+    }
+    if (json['url'] != null) {
+      url = json['url'];
+    }
+    if (json['mobileUrl'] != null) {
+      mobileUrl = json['mobileUrl'];
     }
     publishDate = json['publishDate'];
     summary = json['summary'];

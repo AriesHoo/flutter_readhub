@@ -9,7 +9,7 @@ import 'package:flutter_readhub/router_manger.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/read_hub_view_model.dart';
-import 'package:flutter_readhub/widget/home_page.dart';
+import 'package:flutter_readhub/home_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'generated/i18n.dart';
