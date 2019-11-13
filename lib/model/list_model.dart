@@ -61,6 +61,7 @@ class Data {
   String authorName;
   String url;
   String mobileUrl;
+  String timeFormatStr = '';
 
   String getUrl() {
     if (mobileUrl != null) {
@@ -102,6 +103,7 @@ class Data {
     try {
       String time =
           targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+      timeFormatStr = time.substring(5,16);
       DateTime createTime = DateTime.parse(time);
       DateTime nowTime = DateTime.now();
       Duration hourDiff = nowTime.difference(createTime);

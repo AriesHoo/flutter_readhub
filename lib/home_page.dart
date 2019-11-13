@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   var _listUrls = [
@@ -40,7 +40,21 @@ class _HomePageState extends State<HomePage>
     super.initState();
     _tabController =
         TabController(initialIndex: 0, length: _listTab.length, vsync: this);
+
+    ///添加监听用于监控前后台转换
+    WidgetsBinding.instance.addObserver(this);
     LogUtil.e("_MoviePageState_initState");
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      ///应用后台
+    } else if (state == AppLifecycleState.resumed) {
+      ///应用前台
+      Provider.of<ThemeModel>(context).switchTheme(userDarkMode: ThemeModel.darkMode);
+    }
   }
 
   void switchDarkMode(BuildContext context) {
@@ -221,7 +235,7 @@ class MovieAdapter extends StatelessWidget {
   final double imgHeight = 100;
 
   ///弹出分享提示框
-  Future<void> showShareDialog(BuildContext context,Data data) async {
+  Future<void> showShareDialog(BuildContext context, Data data) async {
     int index = await showDialog<int>(
       context: context,
       builder: (BuildContext context) {
@@ -253,7 +267,7 @@ class MovieAdapter extends StatelessWidget {
           Provider.of<LocaleModel>(context).switchLocale(0);
         },
         onLongPress: () {
-          showShareDialog(context,item);
+          showShareDialog(context, item);
         },
 
         ///Container 包裹以便设置padding margin及边界线
@@ -311,8 +325,7 @@ class MovieAdapter extends StatelessWidget {
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {
-                      },
+                      onTap: () {},
                       onLongPress: () {
                         ToastUtil.show("share");
                       },

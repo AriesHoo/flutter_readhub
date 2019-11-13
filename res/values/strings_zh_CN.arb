@@ -23,5 +23,8 @@
   "viewStateBRetry": "重试",
   "settingHideFloatingButton": "隐藏悬浮按钮",
   "settingStyle": "样式",
-  "downloadImage": "保存图片到本地"
+  "downloadImage": "保存图片到本地",
+  "saveImageSucceedInGallery": "已保存至系统相册",
+  "saveImagePermissionFailed": "文件读写权限获取失败",
+  "saveImageFailed":"保存文件失败"
 }

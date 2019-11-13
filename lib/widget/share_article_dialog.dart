@@ -9,10 +9,11 @@ import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 
 ///分享文章详情
+// ignore: must_be_immutable
 class ShareArticleDialog extends Dialog {
   final Data data;
 
@@ -20,43 +21,46 @@ class ShareArticleDialog extends Dialog {
 
   final GlobalKey _globalKey = GlobalKey();
 
+  ///已保存图片的路径
   String fileImage;
 
   ///保存图片
   _saveImage(BuildContext context, {bool share: false}) async {
     if (fileImage != null && fileImage.isNotEmpty) {
       if (share) {
-        ToastUtil.show("share");
+        FlutterShare.shareFileWithText(
+            textContent: "来自Readhub_flutter的分享", filePath: fileImage);
       } else {
-        ToastUtil.show("保存成功");
+        ToastUtil.show(S.of(context).saveImageSucceedInGallery);
       }
       return;
     }
 
-    ///检查权限
-//    PermissionStatus permission =  await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
-//    if(permission==PermissionStatus.denied){
-//      ToastUtil.show("denied");
-//    }else if(permission==PermissionStatus.disabled){
-//      ToastUtil.show("disabled");
-//    }else if(permission==PermissionStatus.restricted){
-//      ToastUtil.show("restricted");
-//    }else if(permission==PermissionStatus.granted){
-//      ToastUtil.show("granted");
-//    }
-    /// 在这里添加需要的权限
+    ///直接获取读写文件权限
     Map<PermissionGroup, PermissionStatus> map =
         await PermissionHandler().requestPermissions(<PermissionGroup>[
       PermissionGroup.storage,
     ]);
     PermissionStatus permission = map[PermissionGroup.storage];
     if (permission != PermissionStatus.granted) {
-      ToastUtil.show("denied");
+      ToastUtil.show(S.of(context).saveImagePermissionFailed);
       return;
     }
     RenderRepaintBoundary boundary =
         _globalKey.currentContext.findRenderObject();
-    var image = await boundary.toImage();
+
+    ///弹框宽度与屏幕宽度比值避免截图出来比预览更大
+    LogUtil.e(
+        'width:${_globalKey.currentContext.size.width};heiht:${_globalKey.currentContext.size.height}');
+
+    LogUtil.e(
+        'devicePixelRatio:${MediaQuery.of(context).devicePixelRatio};wo:${MediaQuery.of(context).size.width / MediaQuery.of(context).size.height};:${_globalKey.currentContext.size.width / _globalKey.currentContext.size.height};:${_globalKey.currentContext.size.width / MediaQuery.of(context).size.width}');
+
+    ///分辨率通过获取设备的devicePixelRatio以达到清晰度良好
+    var image = await boundary.toImage(
+        pixelRatio: (_globalKey.currentContext.size.width /
+                MediaQuery.of(context).size.width) *
+            3);
 
     ///转二进制
     ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
@@ -65,17 +69,14 @@ class ShareArticleDialog extends Dialog {
     Uint8List pngBytes = byteData.buffer.asUint8List();
 
     ///保存图片到系统图库
-    String result = await ImageGallerySaver.saveImage(pngBytes);
-    if(result!=null&&result.isNotEmpty){
-      fileImage = result;
-      _saveImage(context,share: share);
+    String resultSaveImage = await ImageGallerySaver.saveImage(pngBytes);
+    LogUtil.e("resultSaveImage:" + resultSaveImage);
+    if (resultSaveImage != null && resultSaveImage.isNotEmpty) {
+      fileImage = resultSaveImage;
+      _saveImage(context, share: share);
       return;
     }
-    ToastUtil.show("保存失败");
-    LogUtil.e("result:" + result);
-//    String appDocPath = await getTemporaryDirectory();
-//    final imageFile = File(path.join(appDocPath, 'dart.png')); // 保存在应用文件夹内
-//    await imageFile.writeAsBytes(finalPngBytes);
+    ToastUtil.show(S.of(context).saveImageFailed);
   }
 
   @override
@@ -87,7 +88,7 @@ class ShareArticleDialog extends Dialog {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ///最上边白色圆角开始
-          ShareWidget(data, _globalKey),
+          ShotImageWidget(data, _globalKey),
 
           ///最上边白色圆角结束
           SizedBox(
@@ -129,11 +130,11 @@ class ShareArticleDialog extends Dialog {
 ///https://www.codercto.com/a/46348.html
 ///https://blog.csdn.net/u014449046/article/details/98471268
 ///https://www.cnblogs.com/wupeng88/p/10797667.html
-class ShareWidget extends StatelessWidget {
+class ShotImageWidget extends StatelessWidget {
   final Data data;
   final GlobalKey globalKey;
 
-  ShareWidget(this.data, this.globalKey);
+  ShotImageWidget(this.data, this.globalKey);
 
   @override
   Widget build(BuildContext context) {
@@ -150,23 +151,40 @@ class ShareWidget extends StatelessWidget {
             bottom: 10,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               ///标题
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      data.title,
+                      textAlign: TextAlign.justify,
+                      style: Theme.of(context).textTheme.title.copyWith(
+                            color: Theme.of(context).accentColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 4,
+              ),
               Text(
-                data.title,
-                textAlign: TextAlign.justify,
-                style: Theme.of(context).textTheme.title.copyWith(
-                      color: Theme.of(context).accentColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
+                data.timeFormatStr,
+                style: Theme.of(context).textTheme.caption.copyWith(
+                      fontSize: 11,
                     ),
               ),
 
               ///圆角分割线包裹内容开始
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(top: 16),
                 padding: EdgeInsets.symmetric(
                   vertical: 12,
                   horizontal: 10,
@@ -187,7 +205,7 @@ class ShareWidget extends StatelessWidget {
                       maxLines: 10,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.title.copyWith(
-                            fontSize: 14,
+                            fontSize: 13,
                           ),
                     ),
                     SizedBox(
@@ -203,8 +221,8 @@ class ShareWidget extends StatelessWidget {
                             data.getScanNote(),
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.title.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
                                 ),
                           ),
                         ),
@@ -212,6 +230,7 @@ class ShareWidget extends StatelessWidget {
                         ///右侧二维码
                         QrImage(
                           data: data.getUrl(),
+                          padding: EdgeInsets.all(2),
                           version: QrVersions.auto,
                           size: 80,
                           backgroundColor: Colors.white,

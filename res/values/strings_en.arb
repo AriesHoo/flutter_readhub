@@ -23,5 +23,8 @@
   "viewStateRetry": "Retry",
   "settingHideFloatingButton": "Hide floating button",
   "settingStyle": "Style",
-  "downloadImage": "Download image"
+  "downloadImage": "Download image",
+  "saveImageSucceedInGallery": "Save succeed in Gallery",
+  "saveImagePermissionFailed": "Failed to get read / write file permission",
+  "saveImageFailed":"Save image failed"
 }
