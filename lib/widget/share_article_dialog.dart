@@ -146,7 +146,7 @@ class ShotImageWidget extends StatelessWidget {
           color: Theme.of(context).cardColor,
           padding: EdgeInsets.only(
             left: 20,
-            top: 24,
+            top: 20,
             right: 20,
             bottom: 10,
           ),
@@ -184,7 +184,7 @@ class ShotImageWidget extends StatelessWidget {
               ///圆角分割线包裹内容开始
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(top: 16),
+                margin: EdgeInsets.only(top: 10),
                 padding: EdgeInsets.symmetric(
                   vertical: 12,
                   horizontal: 10,
