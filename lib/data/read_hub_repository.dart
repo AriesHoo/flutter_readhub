@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_readhub/data/basis_http.dart';
 import 'package:flutter_readhub/data/read_hub_http.dart';
-import 'package:flutter_readhub/model/list_model.dart';
+import 'package:flutter_readhub/model/article_model.dart';
 
 ///Readhub 接口调用
 class ReadHubRepository {
@@ -10,7 +10,7 @@ class ReadHubRepository {
     Response response = await http.get(url);
     debugPrint("response:" + response.toString());
     debugPrint("response_data:" + response.data.toString());
-    ListModel model = ListModel.fromJson(response.data);
+    ArticleModel model = ArticleModel.fromJson(response.data);
     debugPrint("getFirstPage:" + model.data.length.toString());
     return model;
   }
@@ -23,7 +23,7 @@ class ReadHubRepository {
     });
     debugPrint("getNextPage_response:" + response.toString());
     debugPrint("getNextPage_response_data:" + response.data.toString());
-    ListModel model = ListModel.fromJson(response.data);
+    ArticleModel model = ArticleModel.fromJson(response.data);
     return model;
   }
 }

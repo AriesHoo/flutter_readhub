@@ -1,19 +1,19 @@
 import 'package:flutter_readhub/util/log_util.dart';
 
 ///列表数据
-class ListModel {
+class ArticleModel {
   List<Data> data;
   int pageSize;
   int totalItems;
   int totalPages;
 
-  ListModel({this.data, this.pageSize, this.totalItems, this.totalPages});
+  ArticleModel({this.data, this.pageSize, this.totalItems, this.totalPages});
 
   String getLastCursor() {
     return data == null ? "" : data[data.length - 1].getLastCursor();
   }
 
-  ListModel.fromJson(Map<String, dynamic> json) {
+  ArticleModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = new List<Data>();
       json['data'].forEach((v) {

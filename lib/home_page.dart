@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/read_hub_http.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
-import 'package:flutter_readhub/model/list_model.dart';
+import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';

@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
-import 'package:flutter_readhub/model/list_model.dart';
+import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:permission_handler/permission_handler.dart';
