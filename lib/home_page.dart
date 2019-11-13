@@ -322,24 +322,6 @@ class ArticleAdapter extends StatelessWidget {
                           ),
                     ),
                   ),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {},
-                      onLongPress: () {
-                        ToastUtil.show("share");
-                      },
-                      child: Icon(Icons.share),
-                    ),
-                  ),
-                  IconButton(
-                    iconSize: 20,
-                    padding: EdgeInsets.zero,
-                    icon: Icon(Icons.share),
-                    onPressed: () {
-                      ToastUtil.show("share");
-                    },
-                  )
                 ],
               ),
             ],
