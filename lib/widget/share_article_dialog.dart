@@ -172,7 +172,7 @@ class ShotImageWidget extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 4,
+                height: 2,
               ),
               Text(
                 data.timeFormatStr,
@@ -184,7 +184,7 @@ class ShotImageWidget extends StatelessWidget {
               ///圆角分割线包裹内容开始
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.symmetric(
                   vertical: 12,
                   horizontal: 10,
@@ -244,7 +244,7 @@ class ShotImageWidget extends StatelessWidget {
               ///圆角分割线包裹内容结束
 
               SizedBox(
-                height: 10,
+                height: 6,
               ),
               Text(
                 "由 Readhub_Flutter App 分享",
