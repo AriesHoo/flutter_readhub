@@ -231,9 +231,9 @@ class ThemeModel with ChangeNotifier {
     int index = i ?? _fontIndex;
     switch (index) {
       case 0:
-        return S.of(context).autoBySystem;
+//        return S.of(context).autoBySystem;
       case 1:
-        return S.of(context).starCandy;
+//        return S.of(context).starCandy;
       default:
         return '';
     }

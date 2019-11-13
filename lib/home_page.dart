@@ -15,7 +15,6 @@ import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/widget/share_article_dialog.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 ///主页面
 class HomePage extends StatefulWidget {
@@ -221,6 +220,7 @@ class MovieAdapter extends StatelessWidget {
   final double imgWidth = 72;
   final double imgHeight = 100;
 
+  ///弹出分享提示框
   Future<void> showShareDialog(BuildContext context,Data data) async {
     int index = await showDialog<int>(
       context: context,
@@ -231,25 +231,6 @@ class MovieAdapter extends StatelessWidget {
     if (index != null) {
       print("点击了：$index");
     }
-  }
-
-  // 弹出底部菜单列表模态对话框
-  Future<int> _showModalBottomSheet(BuildContext context) {
-    return showModalBottomSheet<int>(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return ListView.builder(
-          itemCount: 30,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text("$index"),
-              onTap: () => Navigator.of(context).pop(index),
-            );
-          },
-        );
-      },
-    );
   }
 
   @override
@@ -306,7 +287,7 @@ class MovieAdapter extends StatelessWidget {
                 height: 4,
               ),
               Text(
-                item.summary,
+                item.getSummary(),
                 maxLines: item.maxLine ? 3 : 10000,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.caption.copyWith(),
@@ -331,7 +312,6 @@ class MovieAdapter extends StatelessWidget {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        _showModalBottomSheet(context);
                       },
                       onLongPress: () {
                         ToastUtil.show("share");

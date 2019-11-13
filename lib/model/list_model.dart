@@ -74,21 +74,28 @@ class Data {
         : "";
   }
 
-  String getSiteName() {
+  ///扫码提示
+  String getScanNote() {
     String str = "";
     if (siteName == null) {
       if (newsArray != null) {
         NewsArray item = newsArray[0];
         str = newsArray.length > 1
             ? '${item.siteName} 等 ${newsArray.length} 家媒体报道'
-            : '来着 ${item.siteName} 的报道';
+            : '来自 ${item.siteName} 的报道';
       }
     } else {
-      str = '来着 $siteName 的报道';
+      str = '来自 $siteName 的报道';
     }
-    return str + "\n" + '扫码看详情';
+    return str + "\n" + '扫码查看详情';
   }
 
+  String getSummary(){
+    if(summary!=null&&summary.isNotEmpty){
+      return summary;
+    }
+    return '本篇报道暂无摘要，请查看详细报道。';
+  }
   ///时间转换
   void parseTimeLong() {
     String targetTime = createdAt == null ? publishDate : createdAt;
