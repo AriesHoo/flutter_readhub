@@ -163,7 +163,7 @@ class ShotImageWidget extends StatelessWidget {
                       data.title,
                       textAlign: TextAlign.justify,
                       style: Theme.of(context).textTheme.title.copyWith(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).appBarTheme.textTheme.title.color,
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
                           ),
