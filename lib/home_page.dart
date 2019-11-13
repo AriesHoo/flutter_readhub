@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage>
                 controller: _tabController,
                 children: List.generate(
                     _listTab.length,
-                    (i) => MovieItemPage(
+                    (i) => ArticleItemPage(
                           url: _listUrls[i],
                         )),
               ),
@@ -180,17 +180,17 @@ class TabBarWidget extends StatelessWidget {
   }
 }
 
-///电影item页--最终展示效果
-class MovieItemPage extends StatefulWidget {
+///文章item页--最终展示效果
+class ArticleItemPage extends StatefulWidget {
   final String url;
 
-  const MovieItemPage({Key key, this.url}) : super(key: key);
+  const ArticleItemPage({Key key, this.url}) : super(key: key);
 
   @override
-  _MovieItemPageState createState() => _MovieItemPageState();
+  _ArticleItemPageState createState() => _ArticleItemPageState();
 }
 
-class _MovieItemPageState extends State<MovieItemPage>
+class _ArticleItemPageState extends State<ArticleItemPage>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
@@ -198,7 +198,7 @@ class _MovieItemPageState extends State<MovieItemPage>
   }
 
   @override
-  void didUpdateWidget(MovieItemPage oldWidget) {
+  void didUpdateWidget(ArticleItemPage oldWidget) {
     super.didUpdateWidget(oldWidget);
     LogUtil.e("movieTabPage:didUpdateWidget");
   }
@@ -208,18 +208,18 @@ class _MovieItemPageState extends State<MovieItemPage>
     super.build(context);
     return BasisRefreshListProviderWidget<ReadHubListRefreshViewModel,
         ScrollTopModel>(
-      ///初始化获取电影列表model
+      ///初始化获取文章列表model
       model1: ReadHubListRefreshViewModel(widget.url),
 
       ///加载中占位-骨架屏-默认菊花loading
       loadingBuilder: (context, model, model2, child) {
         return SkeletonList(
-          builder: (context, index) => MovieSkeleton(),
+          builder: (context, index) => ArticleSkeleton(),
         );
       },
 
       ///列表适配器
-      itemBuilder: (context, model, index) => MovieAdapter(model.list[index]),
+      itemBuilder: (context, model, index) => ArticleAdapter(model.list[index]),
     );
   }
 
@@ -227,9 +227,9 @@ class _MovieItemPageState extends State<MovieItemPage>
   bool get wantKeepAlive => true;
 }
 
-///电影适配器
-class MovieAdapter extends StatelessWidget {
-  const MovieAdapter(this.item, {Key key}) : super(key: key);
+///文章适配器
+class ArticleAdapter extends StatelessWidget {
+  const ArticleAdapter(this.item, {Key key}) : super(key: key);
   final Data item;
   final double imgWidth = 72;
   final double imgHeight = 100;
@@ -350,12 +350,12 @@ class MovieAdapter extends StatelessWidget {
   }
 }
 
-///电影骨架屏效果
-class MovieSkeleton extends StatelessWidget {
+///文章Item骨架屏效果
+class ArticleSkeleton extends StatelessWidget {
   final double imgWidth = 72;
   final double imgHeight = 100;
 
-  MovieSkeleton();
+  ArticleSkeleton();
 
   @override
   Widget build(BuildContext context) {
