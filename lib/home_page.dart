@@ -375,7 +375,7 @@ class NewsAdapter extends StatelessWidget {
               border: Border(
             bottom: BorderSide(
               width: 0.3,
-              color: Theme.of(context).hintColor.withOpacity(0.5),
+              color: Theme.of(context).hintColor.withOpacity(0.1),
             ),
           )),
           child: Column(
