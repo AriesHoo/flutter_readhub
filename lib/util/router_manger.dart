@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_readhub/widget/web_view_widget.dart';
+import 'package:flutter_readhub/web_view_page.dart';
 
 class RouteName {
   static const String webView = 'webView';

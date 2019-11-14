@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_readhub/router_manger.dart';
+import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/home_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'generated/i18n.dart';

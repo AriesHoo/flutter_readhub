@@ -62,7 +62,7 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
         body: Column(
           children: <Widget>[
-            // 模糊进度条(会执行一个动画)
+            /// 模糊进度条(会执行一个动画)
             ValueListenableBuilder(
               valueListenable: _getProgress,
               builder: (context, loading, child) {
@@ -127,7 +127,7 @@ class _WebViewPageState extends State<WebViewPage> {
     _webViewController.getTitle().then((title) {
       _getProgress.value = title == null || title.isEmpty;
       LogUtil.e("getTitle:" + title);
-      _title = title;
+      _title = title!=null&&title.isNotEmpty?title:_title;
       return _getTitle.value = title;
     });
   }

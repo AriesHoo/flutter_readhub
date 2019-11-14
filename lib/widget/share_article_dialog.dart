@@ -111,7 +111,7 @@ class ShareArticleDialog extends Dialog {
                 onPressed: () => _saveImage(context),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -155,7 +155,11 @@ class ShotImageWidget extends StatelessWidget {
                       data.title,
                       textAlign: TextAlign.justify,
                       style: Theme.of(context).textTheme.title.copyWith(
-                            color: Theme.of(context).appBarTheme.textTheme.title.color,
+                            color: Theme.of(context)
+                                .appBarTheme
+                                .textTheme
+                                .title
+                                .color,
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
                           ),
@@ -164,7 +168,7 @@ class ShotImageWidget extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 2,
+                height: 8,
               ),
 //              Text(
 //                data.timeFormatStr,
@@ -194,8 +198,6 @@ class ShotImageWidget extends StatelessWidget {
                     ///文章摘要
                     Text(
                       data.getSummary(),
-//                      maxLines: 10,
-//                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.title.copyWith(
                             fontSize: 13,
                           ),
@@ -239,7 +241,7 @@ class ShotImageWidget extends StatelessWidget {
                 height: 6,
               ),
               Text(
-                "由 Readhub_Flutter App 分享",
+                S.of(context).saveImageShareTip,
                 style: Theme.of(context).textTheme.caption.copyWith(
                       fontSize: 10,
                     ),

@@ -26,5 +26,6 @@
   "downloadImage": "Download image",
   "saveImageSucceedInGallery": "Save succeed in Gallery",
   "saveImagePermissionFailed": "Failed to get read / write file permission",
-  "saveImageFailed":"Save image failed"
+  "saveImageFailed":"Save image failed",
+  "saveImageShareTip":"Shared by Readhub_Flutter App"
 }

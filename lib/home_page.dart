@@ -5,7 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/read_hub_http.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/model/article_model.dart';
-import 'package:flutter_readhub/router_manger.dart';
+import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
@@ -16,7 +16,7 @@ import 'package:flutter_readhub/view_model/read_hub_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/widget/share_article_dialog.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
-import 'package:flutter_readhub/widget/web_view_widget.dart';
+import 'package:flutter_readhub/web_view_page.dart';
 import 'package:provider/provider.dart';
 
 ///主页面
@@ -250,11 +250,15 @@ class ArticleAdapter extends StatelessWidget {
   Future<void> __showNewsDialog(BuildContext context) async {
     await showModalBottomSheet<int>(
         context: context,
+        isScrollControlled: true,
         builder: (BuildContext context) {
           return ListView.builder(
               itemCount: item.newsArray.length,
               shrinkWrap: true,
-              itemBuilder: (context, index) => NewsAdapter(
+              ///通过控制滚动用于手指跟随
+              physics: item.newsArray.length>10?ClampingScrollPhysics():BouncingScrollPhysics(),
+              itemBuilder: (context, index) =>
+                  NewsAdapter(
                     item: item.newsArray[index],
                   ));
         });
@@ -371,7 +375,7 @@ class NewsAdapter extends StatelessWidget {
               border: Border(
             bottom: BorderSide(
               width: 0.3,
-              color: Theme.of(context).hintColor,
+              color: Theme.of(context).hintColor.withOpacity(0.5),
             ),
           )),
           child: Column(
