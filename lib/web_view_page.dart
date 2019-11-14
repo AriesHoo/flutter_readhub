@@ -28,11 +28,9 @@ class _WebViewPageState extends State<WebViewPage> {
   String _title;
 
   _launchURL(String url) async {
-    if (await canLaunch(url)) {
+    try {
       await launch(url);
-    } else {
-      ToastUtil.show('Could not launch $url');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -127,7 +125,7 @@ class _WebViewPageState extends State<WebViewPage> {
     _webViewController.getTitle().then((title) {
       _getProgress.value = title == null || title.isEmpty;
       LogUtil.e("getTitle:" + title);
-      _title = title!=null&&title.isNotEmpty?title:_title;
+      _title = title != null && title.isNotEmpty ? title : _title;
       return _getTitle.value = title;
     });
   }

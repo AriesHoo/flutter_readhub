@@ -111,18 +111,24 @@ class _HomePageState extends State<HomePage>
       ///如此操作为了抽屉栏在上层AppBar之下否则这样做层次有点多
       body: Scaffold(
         key: _scaffoldKey,
+        backgroundColor: Theme.of(context).cardColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               height: 36,
-
+              width: double.infinity,
               ///添加该属性去掉Tab按下水波纹效果
               color: Theme.of(context).appBarTheme.color,
               child: TabBarWidget(
                 labels: _listTab,
                 controller: _tabController,
               ),
+            ),
+            Container(
+              height: 0.2,
+              width: double.infinity,
+              color: Theme.of(context).hintColor.withOpacity(0.15),
             ),
             Expanded(
               flex: 1,
@@ -255,10 +261,12 @@ class ArticleAdapter extends StatelessWidget {
           return ListView.builder(
               itemCount: item.newsArray.length,
               shrinkWrap: true,
+
               ///通过控制滚动用于手指跟随
-              physics: item.newsArray.length>10?ClampingScrollPhysics():BouncingScrollPhysics(),
-              itemBuilder: (context, index) =>
-                  NewsAdapter(
+              physics: item.newsArray.length > 10
+                  ? ClampingScrollPhysics()
+                  : BouncingScrollPhysics(),
+              itemBuilder: (context, index) => NewsAdapter(
                     item: item.newsArray[index],
                   ));
         });
@@ -282,15 +290,15 @@ class ArticleAdapter extends StatelessWidget {
 
         ///Container 包裹以便设置padding margin及边界线
         child: Container(
-          padding: EdgeInsets.only(left: 12, top: 12, right: 12),
-//          margin: EdgeInsets.symmetric(horizontal: 12),
+          padding: EdgeInsets.only(top: 12),
+          margin: EdgeInsets.symmetric(horizontal: 12),
 
           ///分割线
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                width: 8,
-                color: Theme.of(context).scaffoldBackgroundColor,
+                width: 0.2,
+                color: Theme.of(context).hintColor.withOpacity(0.15),
               ),
             ),
           ),
@@ -374,7 +382,7 @@ class NewsAdapter extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border(
             bottom: BorderSide(
-              width: 0.3,
+              width: 0.2,
               color: Theme.of(context).hintColor.withOpacity(0.1),
             ),
           )),
@@ -449,14 +457,14 @@ class ArticleSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12),
-
+      padding: EdgeInsets.symmetric(vertical: 12),
+      margin: EdgeInsets.symmetric(horizontal: 12),
       ///分割线
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            width: 8,
-            color: Theme.of(context).hintColor,
+            width: 0.3,
+            color: Theme.of(context).hintColor.withOpacity(0.3),
           ),
         ),
       ),
@@ -474,24 +482,24 @@ class ArticleSkeleton extends StatelessWidget {
           ///摘要
           SkeletonBox(
             margin: EdgeInsets.only(bottom: 5),
+            width: MediaQuery.of(context).size.width * 0.75,
+            height: 10,
+          ),
+          SkeletonBox(
+            margin: EdgeInsets.only(bottom: 5),
             width: MediaQuery.of(context).size.width * 0.6,
             height: 10,
           ),
           SkeletonBox(
             margin: EdgeInsets.only(bottom: 5),
-            width: MediaQuery.of(context).size.width * 0.4,
-            height: 10,
-          ),
-          SkeletonBox(
-            margin: EdgeInsets.only(bottom: 5),
-            width: MediaQuery.of(context).size.width * 0.75,
+            width: MediaQuery.of(context).size.width * 0.45,
             height: 10,
           ),
           Row(
             children: <Widget>[
               SkeletonBox(
                 margin: EdgeInsets.only(bottom: 7),
-                width: 40,
+                width: 36,
                 height: 12,
               ),
               Expanded(
@@ -500,15 +508,7 @@ class ArticleSkeleton extends StatelessWidget {
               ),
               SkeletonBox(
                 margin: EdgeInsets.only(bottom: 7),
-                width: 20,
-                height: 20,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              SkeletonBox(
-                margin: EdgeInsets.only(bottom: 7),
-                width: 20,
+                width: 40,
                 height: 20,
               ),
             ],
