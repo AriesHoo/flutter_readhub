@@ -157,7 +157,7 @@ class ShotImageWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.title.copyWith(
                             color: Theme.of(context).appBarTheme.textTheme.title.color,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 17,
                           ),
                     ),
                   )
@@ -224,7 +224,7 @@ class ShotImageWidget extends StatelessWidget {
                           data: data.getUrl(),
                           padding: EdgeInsets.all(2),
                           version: QrVersions.auto,
-                          size: 60,
+                          size: 64,
                           backgroundColor: Colors.white,
                         ),
                       ],
