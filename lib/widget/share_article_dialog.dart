@@ -227,7 +227,8 @@ class ShotImageWidget extends StatelessWidget {
                           padding: EdgeInsets.all(2),
                           version: QrVersions.auto,
                           size: 64,
-                          backgroundColor: Colors.white,
+                          foregroundColor: Theme.of(context).textTheme.title.color,
+                          backgroundColor: Theme.of(context).cardColor,
                         ),
                       ],
                     )
