@@ -197,7 +197,7 @@ class ShotImageWidget extends StatelessWidget {
 //                      maxLines: 10,
 //                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.title.copyWith(
-                            fontSize: 12,
+                            fontSize: 13,
                           ),
                     ),
                     SizedBox(

@@ -6,6 +6,7 @@ import 'package:flutter_readhub/data/read_hub_http.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
@@ -53,7 +54,8 @@ class _HomePageState extends State<HomePage>
       ///应用后台
     } else if (state == AppLifecycleState.resumed) {
       ///应用前台
-      Provider.of<ThemeModel>(context).switchTheme(userDarkMode: ThemeModel.darkMode);
+      Provider.of<ThemeModel>(context)
+          .switchTheme(userDarkMode: ThemeModel.darkMode);
     }
   }
 
@@ -272,7 +274,7 @@ class ArticleAdapter extends StatelessWidget {
 
         ///Container 包裹以便设置padding margin及边界线
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+          padding: EdgeInsets.only(left: 12, top: 12, right: 12),
 //          margin: EdgeInsets.symmetric(horizontal: 12),
 
           ///分割线
@@ -288,7 +290,7 @@ class ArticleAdapter extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ///右边文字描述
+              ///标题
               Text(
                 item.title,
                 maxLines: 2,
@@ -300,14 +302,13 @@ class ArticleAdapter extends StatelessWidget {
               SizedBox(
                 height: 4,
               ),
+
+              ///描述摘要
               Text(
                 item.getSummary(),
                 maxLines: item.maxLine ? 3 : 10000,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.caption.copyWith(),
-              ),
-              SizedBox(
-                height: 4,
               ),
               Row(
                 children: <Widget>[
@@ -322,6 +323,14 @@ class ArticleAdapter extends StatelessWidget {
                           ),
                     ),
                   ),
+                  SmallButtonWidget(
+                    onTap: () {},
+                    child: Icon(IconFonts.ic_glass),
+                  ),
+                  SmallButtonWidget(
+                    onTap: () {},
+                    child: Icon(IconFonts.ic_link,size: 20,),
+                  )
                 ],
               ),
             ],
@@ -332,77 +341,97 @@ class ArticleAdapter extends StatelessWidget {
   }
 }
 
+class SmallButtonWidget extends StatelessWidget {
+  final GestureTapCallback onTap;
+  final Widget child;
+
+  const SmallButtonWidget({Key key, @required this.onTap, @required this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      onLongPress: () {},
+      child: Padding(
+        padding: EdgeInsets.only(left: 10, top: 10,right: 4,bottom: 10),
+        child: child,
+      ),
+    );
+  }
+}
+
 ///文章Item骨架屏效果
 class ArticleSkeleton extends StatelessWidget {
-  final double imgWidth = 72;
-  final double imgHeight = 100;
-
   ArticleSkeleton();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 12),
-      margin: EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.all(12),
 
       ///分割线
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            width: 0.5,
-            color: Theme.of(context).hintColor.withOpacity(0.2),
+            width: 8,
+            color: Theme.of(context).hintColor,
           ),
         ),
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ///左边图片
+          ///标题
           SkeletonBox(
-            borderRadius: BorderRadius.circular(1),
-            width: imgWidth,
-            height: imgHeight,
-          ),
-          SizedBox(
-            width: 12,
+            margin: EdgeInsets.only(top: 4, bottom: 4),
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: 16,
           ),
 
-          ///右边文字-设置flex=1宽度占用剩余部分全部以便其中文字自动换行
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ///右边文字描述
-                SkeletonBox(
-                  margin: EdgeInsets.only(bottom: 7, top: 4),
-                  width: 140,
-                  height: 14,
-                ),
-                SkeletonBox(
-                  margin: EdgeInsets.only(bottom: 7),
-                  width: 100,
-                  height: 12,
-                ),
-                SkeletonBox(
-                  margin: EdgeInsets.only(bottom: 7),
-                  width: 66,
-                  height: 12,
-                ),
-                SkeletonBox(
-                  margin: EdgeInsets.only(bottom: 7),
-                  width: 160,
-                  height: 12,
-                ),
-                SkeletonBox(
-                  margin: EdgeInsets.only(bottom: 7),
-                  width: 240,
-                  height: 12,
-                ),
-              ],
-            ),
+          ///摘要
+          SkeletonBox(
+            margin: EdgeInsets.only(bottom: 5),
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 10,
           ),
+          SkeletonBox(
+            margin: EdgeInsets.only(bottom: 5),
+            width: MediaQuery.of(context).size.width * 0.4,
+            height: 10,
+          ),
+          SkeletonBox(
+            margin: EdgeInsets.only(bottom: 5),
+            width: MediaQuery.of(context).size.width * 0.75,
+            height: 10,
+          ),
+          Row(
+            children: <Widget>[
+              SkeletonBox(
+                margin: EdgeInsets.only(bottom: 7),
+                width: 40,
+                height: 12,
+              ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(),
+              ),
+              SkeletonBox(
+                margin: EdgeInsets.only(bottom: 7),
+                width: 20,
+                height: 20,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              SkeletonBox(
+                margin: EdgeInsets.only(bottom: 7),
+                width: 20,
+                height: 20,
+              ),
+            ],
+          )
         ],
       ),
     );
