@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/read_hub_http.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/model/article_model.dart';
+import 'package:flutter_readhub/router_manger.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_readhub/view_model/read_hub_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/widget/share_article_dialog.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
+import 'package:flutter_readhub/widget/web_view_widget.dart';
 import 'package:provider/provider.dart';
 
 ///主页面
@@ -233,20 +235,29 @@ class _ArticleItemPageState extends State<ArticleItemPage>
 class ArticleAdapter extends StatelessWidget {
   const ArticleAdapter(this.item, {Key key}) : super(key: key);
   final Data item;
-  final double imgWidth = 72;
-  final double imgHeight = 100;
 
   ///弹出分享提示框
-  Future<void> showShareDialog(BuildContext context, Data data) async {
-    int index = await showDialog<int>(
+  Future<void> _showShareDialog(BuildContext context, Data data) async {
+    await showDialog<int>(
       context: context,
       builder: (BuildContext context) {
         return ShareArticleDialog(data);
       },
     );
-    if (index != null) {
-      print("点击了：$index");
-    }
+  }
+
+  /// 弹出其它媒体报道
+  Future<void> __showNewsDialog(BuildContext context) async {
+    await showModalBottomSheet<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return ListView.builder(
+              itemCount: item.newsArray.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) => NewsAdapter(
+                    item: item.newsArray[index],
+                  ));
+        });
   }
 
   @override
@@ -258,18 +269,11 @@ class ArticleAdapter extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () async {
-//          String url = item.getUrl();
-//          LogUtil.e("mobileUrl:" + url);
-//          if (await canLaunch(url)) {
-//            await launch(url);
-//          } else {
-//            throw 'Could not launch $url';
-//          }
           item.switchMaxLine();
           Provider.of<LocaleModel>(context).switchLocale(0);
         },
         onLongPress: () {
-          showShareDialog(context, item);
+          _showShareDialog(context, item);
         },
 
         ///Container 包裹以便设置padding margin及边界线
@@ -324,13 +328,86 @@ class ArticleAdapter extends StatelessWidget {
                     ),
                   ),
                   SmallButtonWidget(
-                    onTap: () {},
+                    onTap: () => Navigator.of(context)
+                        .pushNamed(RouteName.webView, arguments: item.getUrl()),
                     child: Icon(IconFonts.ic_glass),
                   ),
-                  SmallButtonWidget(
-                    onTap: () {},
-                    child: Icon(IconFonts.ic_link,size: 20,),
-                  )
+                  item.showLink()
+                      ? SmallButtonWidget(
+                          onTap: () => __showNewsDialog(context),
+                          child: Icon(
+                            IconFonts.ic_link,
+                            size: 20,
+                          ),
+                        )
+                      : SizedBox()
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+///查看更多新闻适配器
+class NewsAdapter extends StatelessWidget {
+  final NewsArray item;
+
+  const NewsAdapter({Key key, @required this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Theme.of(context).cardColor,
+      child: InkWell(
+        onTap: () => Navigator.of(context)
+            .pushNamed(RouteName.webView, arguments: item.getUrl()),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          margin: EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+              border: Border(
+            bottom: BorderSide(
+              width: 0.3,
+              color: Theme.of(context).hintColor,
+            ),
+          )),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ///顶部标题
+              Text(
+                item.title,
+                style: Theme.of(context).textTheme.title.copyWith(
+                      fontSize: 14,
+                    ),
+              ),
+              SizedBox(
+                height: 6,
+              ),
+
+              ///水平媒体名及发布时间
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      item.siteName,
+                      style: Theme.of(context).textTheme.title.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10,
+                          ),
+                    ),
+                  ),
+                  Text(
+                    item.parseTimeLong(),
+                    style: Theme.of(context).textTheme.caption.copyWith(
+                          fontSize: 10,
+                        ),
+                  ),
                 ],
               ),
             ],
@@ -354,7 +431,7 @@ class SmallButtonWidget extends StatelessWidget {
       onTap: onTap,
       onLongPress: () {},
       child: Padding(
-        padding: EdgeInsets.only(left: 10, top: 10,right: 4,bottom: 10),
+        padding: EdgeInsets.only(left: 10, top: 10, right: 4, bottom: 10),
         child: child,
       ),
     );

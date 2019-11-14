@@ -71,8 +71,12 @@ class Data {
       return url;
     }
     return newsArray != null && newsArray.length > 0
-        ? newsArray[0].mobileUrl
+        ? newsArray[0].getUrl()
         : "";
+  }
+
+  bool showLink() {
+    return newsArray != null && newsArray.length > 0;
   }
 
   ///扫码提示
@@ -91,19 +95,20 @@ class Data {
     return str + "\n" + '扫码查看详情';
   }
 
-  String getSummary(){
-    if(summary!=null&&summary.isNotEmpty){
+  String getSummary() {
+    if (summary != null && summary.isNotEmpty) {
       return summary;
     }
     return '本篇报道暂无摘要，请查看详细报道。';
   }
+
   ///时间转换
   void parseTimeLong() {
     String targetTime = createdAt == null ? publishDate : createdAt;
     try {
       String time =
           targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
-      timeFormatStr = time.substring(5,16);
+      timeFormatStr = time.substring(5, 16);
       DateTime createTime = DateTime.parse(time);
       DateTime nowTime = DateTime.now();
       Duration hourDiff = nowTime.difference(createTime);
@@ -221,6 +226,33 @@ class NewsArray {
   String publishDate;
   String language;
   int statementType;
+  String timeStr;
+
+  ///时间转换
+  String parseTimeLong() {
+    if (timeStr != null && timeStr.isNotEmpty) {
+      return timeStr;
+    }
+    String targetTime = publishDate;
+    try {
+      String time =
+          targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+      timeStr = time.substring(5, 16);
+    } catch (e) {
+      LogUtil.e("parseTimeLong:" + e.toString());
+    }
+    return timeStr;
+  }
+
+  String getUrl() {
+    if (mobileUrl != null) {
+      return mobileUrl;
+    }
+    if (url != null) {
+      return url;
+    }
+    return "";
+  }
 
   NewsArray(
       {this.id,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_readhub/widget/web_view_widget.dart';
 
 class RouteName {
   static const String webView = 'webView';
@@ -13,6 +14,12 @@ class RouteName {
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RouteName.webView:
+        var model = settings.arguments as String;
+        return MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (context) => WebViewPage(model,),
+        );
       default:
         return MaterialPageRoute(
             builder: (context) => Scaffold(
