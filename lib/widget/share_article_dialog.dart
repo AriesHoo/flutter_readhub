@@ -50,17 +50,9 @@ class ShareArticleDialog extends Dialog {
         _globalKey.currentContext.findRenderObject();
 
     ///弹框宽度与屏幕宽度比值避免截图出来比预览更大
-    LogUtil.e(
-        'width:${_globalKey.currentContext.size.width};heiht:${_globalKey.currentContext.size.height}');
-
-    LogUtil.e(
-        'devicePixelRatio:${MediaQuery.of(context).devicePixelRatio};wo:${MediaQuery.of(context).size.width / MediaQuery.of(context).size.height};:${_globalKey.currentContext.size.width / _globalKey.currentContext.size.height};:${_globalKey.currentContext.size.width / MediaQuery.of(context).size.width}');
-
     ///分辨率通过获取设备的devicePixelRatio以达到清晰度良好
     var image = await boundary.toImage(
-        pixelRatio: (_globalKey.currentContext.size.width /
-                MediaQuery.of(context).size.width) *
-            3);
+        pixelRatio: (MediaQuery.of(context).devicePixelRatio));
 
     ///转二进制
     ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
@@ -165,7 +157,7 @@ class ShotImageWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.title.copyWith(
                             color: Theme.of(context).appBarTheme.textTheme.title.color,
                             fontWeight: FontWeight.bold,
-                            fontSize: 17,
+                            fontSize: 16,
                           ),
                     ),
                   )
@@ -174,12 +166,12 @@ class ShotImageWidget extends StatelessWidget {
               SizedBox(
                 height: 2,
               ),
-              Text(
-                data.timeFormatStr,
-                style: Theme.of(context).textTheme.caption.copyWith(
-                      fontSize: 11,
-                    ),
-              ),
+//              Text(
+//                data.timeFormatStr,
+//                style: Theme.of(context).textTheme.caption.copyWith(
+//                      fontSize: 10,
+//                    ),
+//              ),
 
               ///圆角分割线包裹内容开始
               Container(
@@ -202,10 +194,10 @@ class ShotImageWidget extends StatelessWidget {
                     ///文章摘要
                     Text(
                       data.getSummary(),
-                      maxLines: 10,
-                      overflow: TextOverflow.ellipsis,
+//                      maxLines: 10,
+//                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.title.copyWith(
-                            fontSize: 13,
+                            fontSize: 12,
                           ),
                     ),
                     SizedBox(
@@ -222,7 +214,7 @@ class ShotImageWidget extends StatelessWidget {
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.title.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 13,
+                                  fontSize: 12,
                                 ),
                           ),
                         ),
@@ -232,7 +224,7 @@ class ShotImageWidget extends StatelessWidget {
                           data: data.getUrl(),
                           padding: EdgeInsets.all(2),
                           version: QrVersions.auto,
-                          size: 80,
+                          size: 60,
                           backgroundColor: Colors.white,
                         ),
                       ],
@@ -249,7 +241,7 @@ class ShotImageWidget extends StatelessWidget {
               Text(
                 "由 Readhub_Flutter App 分享",
                 style: Theme.of(context).textTheme.caption.copyWith(
-                      fontSize: 11,
+                      fontSize: 10,
                     ),
               )
             ],
