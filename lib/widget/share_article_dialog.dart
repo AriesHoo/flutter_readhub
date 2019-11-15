@@ -253,6 +253,10 @@ class ShotImageWidget extends StatelessWidget {
                           foregroundColor:
                               Theme.of(context).textTheme.title.color,
                           backgroundColor: Theme.of(context).cardColor,
+                          embeddedImage: NetworkImage("https://avatars0.githubusercontent.com/u/19605922?s=460&v=4"),
+                          embeddedImageStyle: QrEmbeddedImageStyle(
+                            size: Size(20, 20),
+                          ),
                         ),
                       ],
                     )
