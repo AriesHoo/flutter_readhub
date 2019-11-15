@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -189,9 +190,13 @@ class ShotImageWidget extends StatelessWidget {
                 ///圆角线装修器
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
-                        color: Theme.of(context).hintColor.withAlpha(50),
-                        width: 0.5)),
+                    border: Decorations.lineBoxBorder(
+                      context,
+                      left: true,
+                      top: true,
+                      right: true,
+                      bottom: true,
+                    )),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -227,7 +232,8 @@ class ShotImageWidget extends StatelessWidget {
                           padding: EdgeInsets.all(2),
                           version: QrVersions.auto,
                           size: 64,
-                          foregroundColor: Theme.of(context).textTheme.title.color,
+                          foregroundColor:
+                              Theme.of(context).textTheme.title.color,
                           backgroundColor: Theme.of(context).cardColor,
                         ),
                       ],

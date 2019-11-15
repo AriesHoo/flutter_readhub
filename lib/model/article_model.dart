@@ -55,7 +55,7 @@ class Data {
   bool maxLine = true;
 
   ///时间戳-utc时间
-  int publishTime;
+  int publishTime = 0;
   String timeStr = "";
   String siteName;
   String authorName;
@@ -108,9 +108,10 @@ class Data {
     try {
       String time =
           targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
-      timeFormatStr = time.substring(5, 16);
-      DateTime createTime = DateTime.parse(time);
-      DateTime nowTime = DateTime.now();
+
+      ///因服务返回时间为UTC时间--即0时区时间且将本地时间同步转换为utc时间即可算出时间差
+      DateTime createTime = DateTime.parse(time + "+00:00").toUtc();
+      DateTime nowTime = DateTime.now().toUtc();
       Duration hourDiff = nowTime.difference(createTime);
       if (hourDiff.inDays > 0) {
         if (hourDiff.inDays == 1) {
@@ -127,9 +128,28 @@ class Data {
       } else {
         timeStr = "刚刚";
       }
+      timeFormatStr = createTime
+          .toLocal()
+          .toIso8601String()
+          .replaceAll("T", " ")
+          .substring(5, 16);
     } catch (e) {
       LogUtil.e("parseTimeLong:" + e.toString());
     }
+    try {
+      String time =
+          publishDate.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+      DateTime dateTime = DateTime.parse(time + "+00:00").toUtc();
+      publishTime = dateTime.millisecondsSinceEpoch;
+      LogUtil.e("dateTime:${dateTime.millisecondsSinceEpoch} order:$order");
+    } catch (e) {}
+  }
+
+  String getLastCursor() {
+    if (order != null) {
+      return order.toString();
+    }
+    return publishTime != null ? publishTime.toString() : "";
   }
 
   switchMaxLine() {
@@ -149,10 +169,6 @@ class Data {
       this.order,
       this.hasInstantView,
       this.extra});
-
-  String getLastCursor() {
-    return order != null ? order.toString() : "";
-  }
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -237,7 +253,11 @@ class NewsArray {
     try {
       String time =
           targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
-      timeStr = time.substring(5, 16);
+
+      ///因服务返回时间为UTC时间--即0时区时间将时间转换为本地时间即可正常显示
+      DateTime createTime = DateTime.parse(time + "+00:00").toLocal();
+      timeStr =
+          createTime.toIso8601String().replaceAll("T", " ").substring(5, 16);
     } catch (e) {
       LogUtil.e("parseTimeLong:" + e.toString());
     }

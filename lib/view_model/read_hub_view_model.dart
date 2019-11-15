@@ -11,10 +11,10 @@ class ReadHubListRefreshViewModel extends BasisRefreshListViewModel<Data> {
 
   @override
   Future<List<Data>> loadData({int pageNum}) async {
+    ///第一页将游标重置
     lastCursor = pageNum == 0 ? null : lastCursor;
-    ArticleModel model = lastCursor == null
-        ? await ReadHubRepository.getFirstPage(url)
-        : await ReadHubRepository.getNextPage(url, lastCursor, pageSize);
+    ArticleModel model = await ReadHubRepository.getArticleList(url,
+        lastCursor: lastCursor, pageSize: pageSize);
     lastCursor = model.getLastCursor();
     return model.data;
   }

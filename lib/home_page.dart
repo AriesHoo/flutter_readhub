@@ -118,6 +118,7 @@ class _HomePageState extends State<HomePage>
             Container(
               height: 36,
               width: double.infinity,
+
               ///添加该属性去掉Tab按下水波纹效果
               color: Theme.of(context).appBarTheme.color,
               child: TabBarWidget(
@@ -126,9 +127,10 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             Container(
-              height: 0.2,
               width: double.infinity,
-              color: Theme.of(context).hintColor.withOpacity(0.15),
+              decoration: BoxDecoration(
+                border: Decorations.lineBoxBorder(context,bottom: true),
+              ),
             ),
             Expanded(
               flex: 1,
@@ -295,12 +297,7 @@ class ArticleAdapter extends StatelessWidget {
 
           ///分割线
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                width: 0.2,
-                color: Theme.of(context).hintColor.withOpacity(0.15),
-              ),
-            ),
+            border: Decorations.lineBoxBorder(context,bottom: true),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,12 +377,8 @@ class NewsAdapter extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 10),
           margin: EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-              border: Border(
-            bottom: BorderSide(
-              width: 0.2,
-              color: Theme.of(context).hintColor.withOpacity(0.1),
-            ),
-          )),
+            border: Decorations.lineBoxBorder(context,bottom: true),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -459,14 +452,10 @@ class ArticleSkeleton extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12),
       margin: EdgeInsets.symmetric(horizontal: 12),
+
       ///分割线
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 0.3,
-            color: Theme.of(context).hintColor.withOpacity(0.3),
-          ),
-        ),
+        border: Decorations.lineBoxBorder(context,bottom: true,width: 20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
