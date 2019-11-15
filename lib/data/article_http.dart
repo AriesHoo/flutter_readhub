@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_readhub/data/basis_http.dart';
 
-final ReadHubHttp http = ReadHubHttp();
+final ArticleHttp http = ArticleHttp();
 
 ///ReadHub http请求基础处理
-class ReadHubHttp extends BasisHttp {
+class ArticleHttp extends BasisHttp {
 
   ///热门话题
   static const String API_TOPIC = "topic";

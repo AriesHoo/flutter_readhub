@@ -151,8 +151,8 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   enablePullDown: true,
                   enablePullUp: true,
                   header: MaterialClassicHeader(
-                    backgroundColor: Theme.of(context).appBarTheme.color,
-                    color: Theme.of(context).appBarTheme.textTheme.title.color,
+                    backgroundColor: Colors.white,
+                    color: ThemeModel.accentColor,
                   ),
                   footer: SmartLoadFooterWidget(),
 
@@ -169,6 +169,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   child: ListView.builder(
                     ///滚动监听-用于控制直达顶部功能
                     controller: model2.scrollController,
+
                     ///内容适配
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
@@ -178,24 +179,21 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                     },
                   ),
                 ),
-                floatingActionButton: !model2.showTopBtn||ThemeModel.hideFloatingButton
-                    ? null
-                    : FloatingActionButton(
-                        backgroundColor: Theme.of(context).appBarTheme.color,
-                        child: Icon(
-                          Icons.arrow_upward,
-                          color: Theme.of(context)
-                              .appBarTheme
-                              .textTheme
-                              .title
-                              .color,
-                        ),
-                        onPressed: () {
-                          if (model2 is ScrollTopModel) {
-                            model2.scrollTo();
-                          }
-                        },
-                      ),
+                floatingActionButton:
+                    !model2.showTopBtn || ThemeModel.hideFloatingButton
+                        ? null
+                        : FloatingActionButton(
+                            backgroundColor: Theme.of(context).accentColor,
+                            child: Icon(
+                              Icons.vertical_align_top,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              if (model2 is ScrollTopModel) {
+                                model2.scrollTo();
+                              }
+                            },
+                          ),
               );
             });
 }
@@ -237,14 +235,15 @@ class _BasisProviderWidgetState2<A extends ChangeNotifier,
 
   @override
   void dispose() {
-    if(model1!=null){
+    if (model1 != null) {
       model1.dispose();
     }
-    if(model2!=null){
+    if (model2 != null) {
       model2.dispose();
     }
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

@@ -2,7 +2,7 @@ import 'package:flutter_readhub/util/log_util.dart';
 
 ///列表数据
 class ArticleModel {
-  List<Data> data;
+  List<ArticleItemModel> data;
   int pageSize;
   int totalItems;
   int totalPages;
@@ -15,9 +15,9 @@ class ArticleModel {
 
   ArticleModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<ArticleItemModel>();
       json['data'].forEach((v) {
-        Data item = new Data.fromJson(v);
+        ArticleItemModel item = new ArticleItemModel.fromJson(v);
         item.parseTimeLong();
         data.add(item);
       });
@@ -39,13 +39,14 @@ class ArticleModel {
   }
 }
 
-class Data {
+class ArticleItemModel {
   String id;
   List<NewsArray> newsArray;
   String createdAt;
   List<EventData> eventData;
   String publishDate;
   String summary;
+  String summaryAuto;
   String title;
   String updatedAt;
   String timeline;
@@ -96,8 +97,9 @@ class Data {
   }
 
   String getSummary() {
-    if (summary != null && summary.isNotEmpty) {
-      return summary;
+    String back = summaryAuto ?? summary;
+    if (back != null && back.isNotEmpty) {
+      return back;
     }
     return '本篇报道暂无摘要，请查看详细报道。';
   }
@@ -107,7 +109,7 @@ class Data {
     String targetTime = createdAt == null ? publishDate : createdAt;
     try {
       String time =
-          targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+      targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
 
       ///因服务返回时间为UTC时间--即0时区时间且将本地时间同步转换为utc时间即可算出时间差
       DateTime createTime = DateTime.parse(time + "+00:00").toUtc();
@@ -138,10 +140,9 @@ class Data {
     }
     try {
       String time =
-          publishDate.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+      publishDate.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
       DateTime dateTime = DateTime.parse(time + "+00:00").toUtc();
       publishTime = dateTime.millisecondsSinceEpoch;
-      LogUtil.e("dateTime:${dateTime.millisecondsSinceEpoch} order:$order");
     } catch (e) {}
   }
 
@@ -156,21 +157,20 @@ class Data {
     maxLine = !maxLine;
   }
 
-  Data(
-      {this.id,
-      this.newsArray,
-      this.createdAt,
-      this.eventData,
-      this.publishDate,
-      this.summary,
-      this.title,
-      this.updatedAt,
-      this.timeline,
-      this.order,
-      this.hasInstantView,
-      this.extra});
+  ArticleItemModel({this.id,
+    this.newsArray,
+    this.createdAt,
+    this.eventData,
+    this.publishDate,
+    this.summary,
+    this.title,
+    this.updatedAt,
+    this.timeline,
+    this.order,
+    this.hasInstantView,
+    this.extra});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ArticleItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     if (json['newsArray'] != null) {
       newsArray = new List<NewsArray>();
@@ -196,6 +196,9 @@ class Data {
     }
     if (json['mobileUrl'] != null) {
       mobileUrl = json['mobileUrl'];
+    }
+    if (json['summaryAuto'] != null) {
+      summaryAuto = json['summaryAuto'];
     }
     publishDate = json['publishDate'];
     summary = json['summary'];
@@ -252,7 +255,7 @@ class NewsArray {
     String targetTime = publishDate;
     try {
       String time =
-          targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+      targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
 
       ///因服务返回时间为UTC时间--即0时区时间将时间转换为本地时间即可正常显示
       DateTime createTime = DateTime.parse(time + "+00:00").toLocal();
@@ -274,17 +277,16 @@ class NewsArray {
     return "";
   }
 
-  NewsArray(
-      {this.id,
-      this.url,
-      this.title,
-      this.siteName,
-      this.mobileUrl,
-      this.autherName,
-      this.duplicateId,
-      this.publishDate,
-      this.language,
-      this.statementType});
+  NewsArray({this.id,
+    this.url,
+    this.title,
+    this.siteName,
+    this.mobileUrl,
+    this.autherName,
+    this.duplicateId,
+    this.publishDate,
+    this.language,
+    this.statementType});
 
   NewsArray.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -326,16 +328,15 @@ class EventData {
   String createdAt;
   String updatedAt;
 
-  EventData(
-      {this.id,
-      this.topicId,
-      this.eventType,
-      this.entityId,
-      this.entityType,
-      this.entityName,
-      this.state,
-      this.createdAt,
-      this.updatedAt});
+  EventData({this.id,
+    this.topicId,
+    this.eventType,
+    this.entityId,
+    this.entityType,
+    this.entityName,
+    this.state,
+    this.createdAt,
+    this.updatedAt});
 
   EventData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

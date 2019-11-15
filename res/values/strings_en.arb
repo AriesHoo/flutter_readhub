@@ -1,5 +1,5 @@
 {
-  "appName": "Readhub",
+  "appName": "Freadhub",
   "choiceTheme": "Choice theme",
   "blue": "Twitter blue",
   "green": "Wechat green",
@@ -27,5 +27,5 @@
   "saveImageSucceedInGallery": "Save succeed in Gallery",
   "saveImagePermissionFailed": "Failed to get read / write file permission",
   "saveImageFailed":"Save image failed",
-  "saveImageShareTip":"Shared by Readhub_Flutter App"
+  "saveImageShareTip":"Shared by Freadhub App"
 }

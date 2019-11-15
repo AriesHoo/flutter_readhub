@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/util/log_util.dart';
-import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -29,9 +28,15 @@ class _WebViewPageState extends State<WebViewPage> {
 
   _launchURL(String url) async {
     try {
-      await launch(url);
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        await launch(await _webViewController.currentUrl());
+      }
     } catch (e) {}
   }
+
+  _showMoreDialog(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +62,12 @@ class _WebViewPageState extends State<WebViewPage> {
             valueListenable: _getTitle,
             builder: (context, title, child) => Text(_title),
           ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.more_horiz),
+              onPressed: () => _showMoreDialog(context),
+            ),
+          ],
         ),
         body: Column(
           children: <Widget>[
@@ -88,6 +99,10 @@ class _WebViewPageState extends State<WebViewPage> {
                       _launchURL(request.url);
                       return NavigationDecision.prevent;
                     } else {
+                      if (request.url.contains(".apk")) {
+                        _launchURL(request.url);
+                        return NavigationDecision.prevent;
+                      }
                       return NavigationDecision.navigate;
                     }
                   },

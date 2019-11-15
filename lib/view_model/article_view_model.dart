@@ -1,19 +1,19 @@
-import 'package:flutter_readhub/data/read_hub_repository.dart';
+import 'package:flutter_readhub/data/article_repository.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/view_model/basis/basis_refresh_list_view_model.dart';
 
 ///获取资讯列表Model
-class ReadHubListRefreshViewModel extends BasisRefreshListViewModel<Data> {
+class ArticleListRefreshViewModel extends BasisRefreshListViewModel<ArticleItemModel> {
   String lastCursor;
   String url;
 
-  ReadHubListRefreshViewModel(this.url);
+  ArticleListRefreshViewModel(this.url);
 
   @override
-  Future<List<Data>> loadData({int pageNum}) async {
+  Future<List<ArticleItemModel>> loadData({int pageNum}) async {
     ///第一页将游标重置
     lastCursor = pageNum == 0 ? null : lastCursor;
-    ArticleModel model = await ReadHubRepository.getArticleList(url,
+    ArticleModel model = await ArticleRepository.getArticleList(url,
         lastCursor: lastCursor, pageSize: pageSize);
     lastCursor = model.getLastCursor();
     return model.data;

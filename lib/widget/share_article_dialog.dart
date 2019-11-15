@@ -13,10 +13,20 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 
+///弹出分享提示框
+Future<void> showShareDialog(BuildContext context, ArticleItemModel data) async {
+  await showDialog<int>(
+    context: context,
+    builder: (BuildContext context) {
+      return ShareArticleDialog(data);
+    },
+  );
+}
+
 ///分享文章详情
 // ignore: must_be_immutable
 class ShareArticleDialog extends Dialog {
-  final Data data;
+  final ArticleItemModel data;
 
   ShareArticleDialog(this.data);
 
@@ -94,8 +104,12 @@ class ShareArticleDialog extends Dialog {
             children: <Widget>[
               FloatingActionButton(
                 elevation: 0,
+                highlightElevation: 0,
+                hoverElevation: 0,
+                focusElevation: 0,
+                disabledElevation: 0,
                 tooltip: S.of(context).share,
-                backgroundColor: Theme.of(context).accentColor,
+                backgroundColor: Colors.blue,
                 splashColor: Colors.white.withAlpha(50),
                 child: Icon(Icons.share),
                 onPressed: () => _saveImage(context, share: true),
@@ -105,6 +119,10 @@ class ShareArticleDialog extends Dialog {
               ),
               FloatingActionButton(
                 elevation: 0,
+                highlightElevation: 0,
+                hoverElevation: 0,
+                focusElevation: 0,
+                disabledElevation: 0,
                 tooltip: S.of(context).downloadImage,
                 backgroundColor: Colors.red,
                 splashColor: Colors.white.withAlpha(50),
@@ -124,7 +142,7 @@ class ShareArticleDialog extends Dialog {
 ///https://blog.csdn.net/u014449046/article/details/98471268
 ///https://www.cnblogs.com/wupeng88/p/10797667.html
 class ShotImageWidget extends StatelessWidget {
-  final Data data;
+  final ArticleItemModel data;
   final GlobalKey globalKey;
 
   ShotImageWidget(this.data, this.globalKey);

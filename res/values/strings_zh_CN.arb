@@ -1,5 +1,5 @@
 {
-  "appName": "Readhub",
+  "appName": "Freadhub",
   "choiceTheme": "选择主题",
   "blue": "推特蓝",
   "green": "微信绿",
@@ -27,5 +27,5 @@
   "saveImageSucceedInGallery": "已保存至系统相册",
   "saveImagePermissionFailed": "文件读写权限获取失败",
   "saveImageFailed":"保存文件失败",
-  "saveImageShareTip":"由 Readhub_Flutter App 分享"
+  "saveImageShareTip":"由 Freadhub App 分享"
 }
