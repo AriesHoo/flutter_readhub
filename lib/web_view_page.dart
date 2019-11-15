@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -33,7 +34,9 @@ class _WebViewPageState extends State<WebViewPage> {
       } else {
         await launch(await _webViewController.currentUrl());
       }
-    } catch (e) {}
+    } catch (e) {
+      ToastUtil.show("launchURL error:${e.toString()}");
+    }
   }
 
   _showMoreDialog(BuildContext context) async {}
