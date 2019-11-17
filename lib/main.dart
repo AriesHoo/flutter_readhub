@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/home_page.dart';
+import 'package:flutter_readhub/util/sp_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'generated/i18n.dart';
 import 'view_model/locale_model.dart';
@@ -10,7 +11,10 @@ import 'view_model/theme_model.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() async{
+  await SPUtil.getInstance();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

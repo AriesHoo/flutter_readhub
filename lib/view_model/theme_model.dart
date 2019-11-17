@@ -13,10 +13,12 @@ class ThemeModel with ChangeNotifier {
 
   ///颜色主题列表
   static const List<MaterialColor> themeValueList = <MaterialColor>[
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
     Colors.red,
+    Colors.orange,
+    Colors.yellow,
+    Colors.green,
+    Colors.cyan,
+    Colors.blue,
     Colors.purple
   ];
 
@@ -43,7 +45,7 @@ class ThemeModel with ChangeNotifier {
   int get fontIndex => _fontIndex;
 
   /// 当前主题索引
-  static int _themeIndex = 0;
+  static int _themeIndex = 5;
 
   int get themeIndex => _themeIndex;
 
@@ -244,14 +246,18 @@ class ThemeModel with ChangeNotifier {
     int index = i ?? _themeIndex;
     switch (index) {
       case 0:
-        return S.of(context).blue;
-      case 1:
-        return S.of(context).green;
-      case 2:
-        return S.of(context).orange;
-      case 3:
         return S.of(context).red;
+      case 1:
+        return S.of(context).orange;
+      case 2:
+        return S.of(context).yellow;
+      case 3:
+        return S.of(context).green;
       case 4:
+        return S.of(context).cyan;
+      case 5:
+        return S.of(context).blue;
+      case 6:
         return S.of(context).purple;
       default:
         return '';

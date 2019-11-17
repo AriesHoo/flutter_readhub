@@ -246,7 +246,7 @@ class SmallButtonWidget extends StatelessWidget {
       onTap: onTap,
       onLongPress: () {},
       child: Padding(
-        padding: EdgeInsets.only(left: 10, top: 10, right: 4, bottom: 10),
+        padding: EdgeInsets.only(left: 7, top: 10, right: 7, bottom: 10),
         child: child,
       ),
     );

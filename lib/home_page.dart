@@ -66,18 +66,10 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Theme.of(context).cardColor,
       appBar: PreferredSize(
         child: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Theme.of(context).brightness == Brightness.light
-                  ? Icons.brightness_5
-                  : Icons.brightness_2,
-            ),
-            onPressed: () {
-              switchDarkMode(context);
-            },
-          ),
           centerTitle: true,
           title: Text(
             S.of(context).appName,
@@ -87,13 +79,13 @@ class _HomePageState extends State<HomePage>
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.settings),
+              icon: Icon(
+                Theme.of(context).brightness == Brightness.light
+                    ? Icons.brightness_5
+                    : Icons.brightness_2,
+              ),
               onPressed: () {
-                if (_scaffoldKey.currentState.isEndDrawerOpen) {
-                  Navigator.pop(context);
-                } else {
-                  _scaffoldKey.currentState.openEndDrawer();
-                }
+                switchDarkMode(context);
               },
             ),
           ],
@@ -102,45 +94,42 @@ class _HomePageState extends State<HomePage>
       ),
 
       ///如此操作为了抽屉栏在上层AppBar之下否则这样做层次有点多
-      body: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Theme.of(context).cardColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              height: 36,
-              width: double.infinity,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: 36,
+            width: double.infinity,
 
-              ///添加该属性去掉Tab按下水波纹效果
-              color: Theme.of(context).appBarTheme.color,
-              child: TabBarWidget(
-                labels: _listTab,
-                controller: _tabController,
-              ),
+            ///添加该属性去掉Tab按下水波纹效果
+            color: Theme.of(context).appBarTheme.color,
+            child: TabBarWidget(
+              labels: _listTab,
+              controller: _tabController,
             ),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Decorations.lineBoxBorder(context, bottom: true),
-              ),
+          ),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Decorations.lineBoxBorder(context, bottom: true),
             ),
-            Expanded(
-              flex: 1,
-              child: TabBarView(
-                controller: _tabController,
-                children: List.generate(
-                    _listTab.length,
-                    (i) => ArticleItemWidget(
-                          url: _listUrls[i],
-                        )),
-              ),
-            )
-          ],
-        ),
-//        drawerScrimColor: Colors.transparent,
-        endDrawer: HomeDrawerWidget(),
+          ),
+          Expanded(
+            flex: 1,
+            child: TabBarView(
+              controller: _tabController,
+              children: List.generate(
+                  _listTab.length,
+                  (i) => ArticleItemWidget(
+                        url: _listUrls[i],
+                      )),
+            ),
+          )
+        ],
       ),
+
+      ///侧边抽屉栏
+      drawer: HomeDrawerWidget(),
     );
   }
 }

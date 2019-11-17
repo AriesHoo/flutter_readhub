@@ -30,7 +30,10 @@ class _WebViewPageState extends State<WebViewPage> {
   _launchURL(String url) async {
     try {
       if (await canLaunch(url)) {
-        await launch(url);
+        await launch(
+          url,
+          forceWebView: true,
+        );
       } else {
         await launch(await _webViewController.currentUrl());
       }

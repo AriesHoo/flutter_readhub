@@ -219,11 +219,16 @@ class ShotImageWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ///文章摘要
-                    Text(
-                      data.getSummary(),
-                      style: Theme.of(context).textTheme.title.copyWith(
+                    ConstrainedBox(
+                      constraints:BoxConstraints(maxHeight: MediaQuery.of(context).size.height*0.45),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          data.getSummary(),
+                          style: Theme.of(context).textTheme.title.copyWith(
                             fontSize: 13,
                           ),
+                      ),
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -253,10 +258,6 @@ class ShotImageWidget extends StatelessWidget {
                           foregroundColor:
                               Theme.of(context).textTheme.title.color,
                           backgroundColor: Theme.of(context).cardColor,
-                          embeddedImage: NetworkImage("https://avatars0.githubusercontent.com/u/19605922?s=460&v=4"),
-                          embeddedImageStyle: QrEmbeddedImageStyle(
-                            size: Size(20, 20),
-                          ),
                         ),
                       ],
                     )

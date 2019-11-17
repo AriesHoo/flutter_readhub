@@ -12,7 +12,7 @@ class SPUtil {
 
   static Future<SPUtil> getInstance() async {
     if (singleton == null) {
-      await _lock.synchronized(() async {
+//      await _lock.synchronized(() async {
         if (singleton == null) {
           // keep local instance till it is fully initialized.
           // 保持本地实例直到完全初始化。
@@ -20,7 +20,7 @@ class SPUtil {
           await singleton.init();
           singleton = singleton;
         }
-      });
+//      });
     }
     return singleton;
   }
