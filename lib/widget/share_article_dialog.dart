@@ -14,7 +14,8 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 
 ///弹出分享提示框
-Future<void> showShareDialog(BuildContext context, ArticleItemModel data) async {
+Future<void> showShareDialog(
+    BuildContext context, ArticleItemModel data) async {
   await showDialog<int>(
     context: context,
     builder: (BuildContext context) {
@@ -220,14 +221,15 @@ class ShotImageWidget extends StatelessWidget {
                   children: <Widget>[
                     ///文章摘要
                     ConstrainedBox(
-                      constraints:BoxConstraints(maxHeight: MediaQuery.of(context).size.height*0.45),
+                      constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.45),
                       child: SingleChildScrollView(
                         child: Text(
                           data.getSummary(),
                           style: Theme.of(context).textTheme.title.copyWith(
-                            fontSize: 13,
-                          ),
-                      ),
+                                fontSize: 13,
+                              ),
+                        ),
                       ),
                     ),
                     SizedBox(

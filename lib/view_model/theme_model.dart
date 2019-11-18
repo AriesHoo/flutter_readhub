@@ -64,7 +64,8 @@ class ThemeModel with ChangeNotifier {
     _userDarkMode = SPUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false);
 
     /// 获取主题色
-    _themeIndex = SPUtil.getInt(SP_KEY_THEME_COLOR_INDEX);
+    _themeIndex = SPUtil.getInt(SP_KEY_THEME_COLOR_INDEX,defValue: _themeIndex);
+    LogUtil.e("_themeIndex:$_themeIndex");
     _themeColor = themeValueList[_themeIndex];
     _accentColor = _themeColor;
 

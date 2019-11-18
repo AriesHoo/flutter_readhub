@@ -42,7 +42,28 @@ class _WebViewPageState extends State<WebViewPage> {
     }
   }
 
-  _showMoreDialog(BuildContext context) async {}
+  Future<void> _showMoreDialog(BuildContext context) async {
+    await showModalBottomSheet<int>(
+        context: context,
+        isScrollControlled: false,
+        builder: (BuildContext context) {
+          return Container(
+            width: double.infinity,
+            color: Theme.of(context).cardColor,
+            child:  ListView.builder(
+                itemCount: 6,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: 40,
+                    height: 40,
+                    color: Theme.of(context).accentColor,
+                    child: Text('index$index'),
+                  );
+                }),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {

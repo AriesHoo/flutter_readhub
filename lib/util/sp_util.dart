@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_readhub/util/log_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -27,6 +28,7 @@ class SPUtil {
 
   Future init() async {
     sp = await SharedPreferences.getInstance();
+    LogUtil.e("init0");
   }
 
   /// put object.

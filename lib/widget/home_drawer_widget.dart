@@ -70,7 +70,7 @@ class TopRoundWidget extends StatelessWidget {
           clipper: BottomClipper(),
           child: Container(
             height: 200,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).accentColor.withOpacity(0.8),
           ),
         ),
         Container(
@@ -92,6 +92,9 @@ class TopRoundWidget extends StatelessWidget {
                   placeholder: (context, url) {
                     return Center(
                       child: Container(
+                        width: 64,
+                        height: 64,
+                        color: Theme.of(context).hintColor.withOpacity(0.3),
                         child: CupertinoActivityIndicator(),
                       ),
                     );
@@ -170,7 +173,7 @@ class ChoiceThemeWidget extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       var model = Provider.of<ThemeModel>(context);
-                      model.switchTheme(color: color);
+                      model.switchTheme(themeIndex: index);
                     },
                     splashColor: Colors.white.withAlpha(50),
                     child: Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/home_page.dart';
 import 'package:flutter_readhub/util/sp_util.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 void main() async{
   await SPUtil.getInstance();
   runApp(MyApp());
+  LogUtil.e("init1");
 }
 
 class MyApp extends StatelessWidget {
