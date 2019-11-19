@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -45,22 +46,41 @@ class _WebViewPageState extends State<WebViewPage> {
   Future<void> _showMoreDialog(BuildContext context) async {
     await showModalBottomSheet<int>(
         context: context,
-        isScrollControlled: false,
+        isScrollControlled: true,
         builder: (BuildContext context) {
-          return Container(
-            width: double.infinity,
-            color: Theme.of(context).cardColor,
-            child:  ListView.builder(
-                itemCount: 6,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).accentColor,
-                    child: Text('index$index'),
-                  );
-                }),
+          return ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: ClampingScrollPhysics(),
+            children: <Widget>[
+              RaisedButton(
+                elevation: 0,
+                focusElevation: 0,
+                hoverElevation: 0,
+                highlightElevation: 0,
+                disabledElevation: 0,
+                onPressed: () => Navigator.of(context).pop(),
+                color: Theme.of(context).appBarTheme.color,
+                child: Container(
+                    decoration: BoxDecoration(
+                        border: Decorations.lineBoxBorder(
+                      context,
+                      top: true,
+                      width: 20,
+                    )),
+                    height: 42,
+                    child: Center(
+                      child: Text(
+                        S.of(context).cancel,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .title
+                            .copyWith(fontSize: 16),
+                      ),
+                    )),
+              ),
+            ],
           );
         });
   }

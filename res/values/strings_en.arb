@@ -29,5 +29,6 @@
   "saveImageSucceedInGallery": "Save succeed in Gallery",
   "saveImagePermissionFailed": "Failed to get read / write file permission",
   "saveImageFailed":"Save image failed",
-  "saveImageShareTip":"Shared by Freadhub App"
+  "saveImageShareTip":"Shared by Freadhub App",
+  "cancel":"Cancel"
 }
