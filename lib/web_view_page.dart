@@ -33,13 +33,13 @@ class _WebViewPageState extends State<WebViewPage> {
       if (await canLaunch(url)) {
         await launch(
           url,
-          forceWebView: true,
         );
       } else {
         await launch(await _webViewController.currentUrl());
       }
     } catch (e) {
-      ToastUtil.show("launchURL error:${e.toString()}");
+      await launch(await _webViewController.currentUrl());
+//      ToastUtil.show("launchURL error:${e.toString()}");
     }
   }
 
