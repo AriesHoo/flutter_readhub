@@ -54,7 +54,7 @@ class AuthorDialog extends Dialog {
                       ///选择颜色主题
                       Material(
                         color: Theme.of(context).cardColor,
-                        elevation: 12,
+                        elevation: 0,
                         child: ListTile(
                           title: Text(S.of(context).choiceTheme),
                           onTap: () => showThemeDialog(context),
@@ -100,6 +100,7 @@ class ThemeDialog extends Dialog {
                       return Material(
                         borderRadius: BorderRadius.circular(4),
                         color: color,
+                        elevation: 6,
                         child: InkWell(
                           onTap: () {
                             var model = Provider.of<ThemeModel>(context);

@@ -22,6 +22,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  var _listUrls = [
+    ArticleHttp.API_TOPIC,
+    ArticleHttp.API_NEWS,
+    ArticleHttp.API_TECH_NEWS,
+    ArticleHttp.API_BLOCK_CHAIN
+  ];
   var _listTab = ["热门话题", "科技动态", "开发者资讯", "区块链"];
   TabController _tabController;
   ValueChanged<int> _onTabTap;
@@ -35,6 +42,7 @@ class _HomePageState extends State<HomePage>
         TabController(initialIndex: 0, length: _listTab.length, vsync: this);
     _onTabTap = (i) {
       LogUtil.e('indexIsChanging:${_tabController.indexIsChanging};index:$i');
+
       ///点击非当前tab属于切换不进行回到顶部操作
       if (_tabController.indexIsChanging) {
         return;
@@ -63,6 +71,15 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  void switchDarkMode(BuildContext context) {
+    if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
+      ToastUtil.show("检测到系统为暗黑模式,已为你自动切换");
+    } else {
+      Provider.of<ThemeModel>(context).switchTheme(
+          userDarkMode: Theme.of(context).brightness == Brightness.light);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -79,121 +96,78 @@ class _HomePageState extends State<HomePage>
         }
         return true;
       },
-      child: IndexWidget(
-        listTab: _listTab,
-        tabController: _tabController,
-        onTabTap: _onTabTap,
-        scrollTopModel: _scrollTopModel,
-      ),
-    );
-  }
-}
-
-///主页
-// ignore: must_be_immutable
-class IndexWidget extends StatelessWidget {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  var _listUrls = [
-    ArticleHttp.API_TOPIC,
-    ArticleHttp.API_NEWS,
-    ArticleHttp.API_TECH_NEWS,
-    ArticleHttp.API_BLOCK_CHAIN
-  ];
-  final List<String> listTab;
-  final TabController tabController;
-  final ValueChanged<int> onTabTap;
-  final List<ScrollTopModel> scrollTopModel;
-
-  IndexWidget({
-    Key key,
-    this.tabController,
-    this.onTabTap,
-    this.scrollTopModel,
-    this.listTab,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Theme.of(context).cardColor,
-      appBar: PreferredSize(
-        ///设置AppBar高度
-        preferredSize: Size.fromHeight(40),
-        child: AppBar(
-          title: Text(
-            S.of(context).appName,
-            style: Theme.of(context).appBarTheme.textTheme.title.copyWith(
-                  fontStyle: FontStyle.normal,
-                ),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.info_outline),
-              onPressed: () => showAuthorDialog(context),
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Theme.of(context).cardColor,
+        appBar: PreferredSize(
+          ///设置AppBar高度
+          preferredSize: Size.fromHeight(40),
+          child: AppBar(
+            title: Text(
+              S.of(context).appName,
+              style: Theme.of(context).appBarTheme.textTheme.title.copyWith(
+                    fontStyle: FontStyle.normal,
+                  ),
             ),
-            IconButton(
-              icon: Icon(
-                Theme.of(context).brightness == Brightness.light
-                    ? Icons.brightness_5
-                    : Icons.brightness_2,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.info_outline),
+                onPressed: () => showAuthorDialog(context),
               ),
-              onPressed: () {
-                switchDarkMode(context);
-              },
+              IconButton(
+                icon: Icon(
+                  Theme.of(context).brightness == Brightness.light
+                      ? Icons.brightness_5
+                      : Icons.brightness_2,
+                ),
+                onPressed: () {
+                  switchDarkMode(context);
+                },
+              ),
+            ],
+          ),
+        ),
+
+        ///如此操作为了抽屉栏在上层AppBar之下否则这样做层次有点多
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: 36,
+              width: double.infinity,
+
+              ///添加该属性去掉Tab按下水波纹效果
+              color: Theme.of(context).appBarTheme.color,
+
+              ///TabBar
+              child: TabBarWidget(
+                labels: _listTab,
+                controller: _tabController,
+                onTap: _onTabTap,
+              ),
             ),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Decorations.lineBoxBorder(context, bottom: true),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: TabBarView(
+                controller: _tabController,
+                children: List.generate(
+                    _listTab.length,
+                    (i) => ArticleItemWidget(
+                          url: _listUrls[i],
+                          onScrollTop: (top) => _scrollTopModel[i] = top,
+                        )),
+              ),
+            )
           ],
         ),
       ),
-
-      ///如此操作为了抽屉栏在上层AppBar之下否则这样做层次有点多
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            height: 36,
-            width: double.infinity,
-
-            ///添加该属性去掉Tab按下水波纹效果
-            color: Theme.of(context).appBarTheme.color,
-
-            ///TabBar
-            child: TabBarWidget(
-              labels: listTab,
-              controller: tabController,
-              onTap: onTabTap,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Decorations.lineBoxBorder(context, bottom: true),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: TabBarView(
-              controller: tabController,
-              children: List.generate(
-                  listTab.length,
-                  (i) => ArticleItemWidget(
-                        url: _listUrls[i],
-                        onScrollTop: (top) => scrollTopModel[i] = top,
-                      )),
-            ),
-          )
-        ],
-      ),
     );
-  }
-
-  void switchDarkMode(BuildContext context) {
-    if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-      ToastUtil.show("检测到系统为暗黑模式,已为你自动切换");
-    } else {
-      Provider.of<ThemeModel>(context).switchTheme(
-          userDarkMode: Theme.of(context).brightness == Brightness.light);
-    }
   }
 }
 
