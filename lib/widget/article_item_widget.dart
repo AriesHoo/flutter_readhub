@@ -14,8 +14,10 @@ import 'package:provider/provider.dart';
 ///文章item页--最终展示效果
 class ArticleItemWidget extends StatefulWidget {
   final String url;
+  final Function(ScrollTopModel) onScrollTop;
 
-  const ArticleItemWidget({Key key, this.url}) : super(key: key);
+  const ArticleItemWidget({Key key, this.url, this.onScrollTop})
+      : super(key: key);
 
   @override
   _ArticleItemWidgetState createState() => _ArticleItemWidgetState();
@@ -39,6 +41,10 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
     super.build(context);
     return BasisRefreshListProviderWidget<ArticleListRefreshViewModel,
         ScrollTopModel>(
+      onModelReady: (list, top) {
+        widget.onScrollTop?.call(top);
+      },
+
       ///初始化获取文章列表model
       model1: ArticleListRefreshViewModel(widget.url),
 

@@ -30,5 +30,6 @@
   "saveImagePermissionFailed": "文件读写权限获取失败",
   "saveImageFailed": "保存文件失败",
   "saveImageShareTip": "由 Freadhub App 分享",
-  "cancel": "取消"
+  "cancel": "取消",
+  "openBySystemBrowser":"浏览器打开-推荐Chrome"
 }

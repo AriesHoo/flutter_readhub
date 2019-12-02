@@ -64,61 +64,61 @@ class TopRoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: AlignmentDirectional.center,
+      alignment: AlignmentDirectional.topCenter,
       children: <Widget>[
         ClipPath(
           clipper: BottomClipper(),
           child: Container(
-            height: 200,
+            height: 160,
             color: Theme.of(context).accentColor.withOpacity(0.8),
           ),
         ),
-        Container(
-          padding: EdgeInsets.all(0),
-          color: Colors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2),
-                child: CachedNetworkImage(
-                  width: 64,
-                  height: 64,
-                  fit: BoxFit.fill,
-                  filterQuality: FilterQuality.high,
-                  imageUrl:
-                      'https://avatars0.githubusercontent.com/u/19605922?s=460&v=4',
-                  placeholder: (context, url) {
-                    return Center(
-                      child: Container(
-                        width: 64,
-                        height: 64,
-                        color: Theme.of(context).hintColor.withOpacity(0.3),
-                        child: CupertinoActivityIndicator(),
-                      ),
-                    );
-                  },
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              height: 24,
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(32),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: CachedNetworkImage(
+                width: 56,
+                height: 56,
+                fit: BoxFit.fill,
+                filterQuality: FilterQuality.high,
+                imageUrl:
+                'https://avatars0.githubusercontent.com/u/19605922?s=460&v=4',
+                placeholder: (context, url) {
+                  return Center(
+                    child: Container(
+                      width: 56,
+                      height: 56,
+//                        color: Theme.of(context).hintColor.withOpacity(0.3),
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            GestureDetector(
+              onTap: () async => launch(
+                'https://github.com/AriesHoo',
+              ),
+              child: Text(
+                "AriesHoo",
+                style: Theme.of(context).textTheme.title.copyWith(
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white,
                 ),
               ),
-              SizedBox(
-                height: 6,
-              ),
-              GestureDetector(
-                onTap: () async => launch(
-                  'https://github.com/AriesHoo',
-                ),
-                child: Text(
-                  "AriesHoo",
-                  style: Theme.of(context).textTheme.title.copyWith(
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.white,
-                      ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

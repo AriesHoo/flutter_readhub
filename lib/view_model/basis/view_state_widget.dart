@@ -13,7 +13,7 @@ class LoadingStateWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
         child: Container(
 //          color: Theme.of(context).hintColor.withOpacity(0.5),
-        color: Color(0x60000000),
+          color: Color(0x60000000),
           padding: EdgeInsets.all(20),
           child: CupertinoActivityIndicator(
             radius: 12,
@@ -55,7 +55,7 @@ class ViewStateWidget extends StatelessWidget {
       children: <Widget>[
         image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -64,7 +64,7 @@ class ViewStateWidget extends StatelessWidget {
                 title ?? S.of(context).viewStateError,
                 style: titleStyle,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 12),
               ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
                 child: SingleChildScrollView(
@@ -115,13 +115,10 @@ class ErrorStateWidget extends StatelessWidget {
     String defaultTextData = S.of(context).viewStateRetry;
     switch (error.errorType) {
       case ErrorType.network:
-        defaultImage = Transform.translate(
-          offset: Offset(-50,0),
-          child: const Icon(Icons.network_check,
-              size: 100, color: Colors.grey),
-        );
+        defaultImage =
+            const Icon(Icons.network_check, size: 100, color: Colors.grey);
         defaultTitle = S.of(context).viewStateNetworkError;
-        errorMessage = '';// 网络异常移除message提示
+        errorMessage = ''; // 网络异常移除message提示
         break;
       case ErrorType.normal:
         defaultImage =

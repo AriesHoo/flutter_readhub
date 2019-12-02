@@ -41,7 +41,7 @@ class ShareArticleDialog extends Dialog {
     if (fileImage != null && fileImage.isNotEmpty) {
       if (share) {
         FlutterShare.shareFileWithText(
-            textContent: "来自Readhub_flutter的分享", filePath: fileImage);
+            textContent: S.of(context).saveImageShareTip, filePath: fileImage);
       } else {
         ToastUtil.show(S.of(context).saveImageSucceedInGallery);
       }
@@ -87,7 +87,7 @@ class ShareArticleDialog extends Dialog {
   Widget build(BuildContext context) {
     ///最外层包裹设置距离屏幕边距
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -222,7 +222,7 @@ class ShotImageWidget extends StatelessWidget {
                     ///文章摘要
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.45),
+                          maxHeight: MediaQuery.of(context).size.height * 0.5),
                       child: SingleChildScrollView(
                         child: Text(
                           data.getSummary(),

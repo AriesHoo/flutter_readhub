@@ -64,7 +64,8 @@ class ThemeModel with ChangeNotifier {
     _userDarkMode = SPUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false);
 
     /// 获取主题色
-    _themeIndex = SPUtil.getInt(SP_KEY_THEME_COLOR_INDEX,defValue: _themeIndex);
+    _themeIndex =
+        SPUtil.getInt(SP_KEY_THEME_COLOR_INDEX, defValue: _themeIndex);
     LogUtil.e("_themeIndex:$_themeIndex");
     _themeColor = themeValueList[_themeIndex];
     _accentColor = _themeColor;
@@ -74,7 +75,7 @@ class ThemeModel with ChangeNotifier {
 
     ///如果缓存为黑色字体则进行
 //    if (_userDarkMode) {
-      switchTheme(userDarkMode: _userDarkMode);
+    switchTheme(userDarkMode: _userDarkMode);
 //    }
   }
 
@@ -204,7 +205,8 @@ class ThemeModel with ChangeNotifier {
         labelPadding: EdgeInsets.symmetric(horizontal: 8),
         labelStyle: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: 13,
+          fontSize: 14,
+
           ///字体
           fontFamily: fontValueList[_fontIndex],
         ),
