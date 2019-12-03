@@ -190,7 +190,7 @@ class AuthorDialog extends Dialog {
                                       '\n    长按社会化分享预览图功能-扫码查看详情'
                                       '\n    方便快捷的意见反馈入口',
                                   '来自 Aries Hoo 开发\n扫码下载',
-                                  'https://www.coolapk.com/apk/${Provider.of<UpdateModel>(context).packageName}',
+                                  'https://www.coolapk.com/apk/${UpdateModel.packageName}',
                                   S.of(context).saveImageShareTip)),
                           leading: Icon(
                             Icons.share,
@@ -454,7 +454,7 @@ class UpdateWidget extends StatelessWidget {
                   radius: 8,
                 )
               : Text(
-                  Provider.of<UpdateModel>(context).appVersion,
+                  UpdateModel.appVersion,
                   style: Theme.of(context).textTheme.caption,
                 ),
         ),

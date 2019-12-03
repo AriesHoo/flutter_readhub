@@ -1,19 +1,18 @@
-import 'dart:io';
-
 import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
+import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_view_model.dart';
 
 ///检查更新
 class UpdateModel extends BasisViewModel {
-  String _appVersion;
+  static String _appVersion;
 
-  String get appVersion => _appVersion != null ? _appVersion : "";
+  static String get appVersion => _appVersion != null ? _appVersion : "";
 
-  String _packageName;
+  static String _packageName;
 
-  String get packageName =>
+  static String get packageName =>
       _packageName != null ? _packageName : "cn.aries.freadhub";
 
   ///检查新版本
@@ -30,6 +29,7 @@ class UpdateModel extends BasisViewModel {
   }
 
   UpdateModel() {
+    LogUtil.e('UpdateModel');
     PlatformUtil.getAppVersion().then((str) {
       _appVersion = str;
     });

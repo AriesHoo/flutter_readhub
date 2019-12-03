@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
           builder: (context, themeModel, localeModel,updateModel, child) => AppWidget(
             themeModel: themeModel,
             localeModel: localeModel,
+            updateModel: updateModel,
           ),
         ),
       ),
@@ -46,11 +47,13 @@ class MyApp extends StatelessWidget {
 class AppWidget extends StatelessWidget {
   final ThemeModel themeModel;
   final LocaleModel localeModel;
+  final UpdateModel updateModel;
 
   const AppWidget({
     Key key,
     this.themeModel,
     this.localeModel,
+    this.updateModel,
   }) : super(key: key);
 
   @override
@@ -82,7 +85,7 @@ class AppWidget extends StatelessWidget {
       onGenerateRoute: Router.generateRoute,
 
       ///主页
-      home: HomePage(),
+      home: HomePage(updateModel: updateModel,),
     );
   }
 }

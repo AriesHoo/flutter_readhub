@@ -18,6 +18,10 @@ import 'package:provider/provider.dart';
 
 ///主页面
 class HomePage extends StatefulWidget {
+  final UpdateModel updateModel;
+
+  const HomePage({Key key, this.updateModel}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -35,10 +39,10 @@ class _HomePageState extends State<HomePage>
   TabController _tabController;
   ValueChanged<int> _onTabTap;
   List<ScrollTopModel> _scrollTopModel = [null, null, null, null];
-  DateTime _lastPressedAt; //上次点击时间
+  DateTime _lastPressedAt; ///上次点击时间
 
   void checkUpdate() async {
-    AppUpdateInfo info = await Provider.of<UpdateModel>(context).checkUpdate();
+    AppUpdateInfo info = await widget.updateModel?.checkUpdate();
     LogUtil.e('info:$info');
   }
 
@@ -64,7 +68,9 @@ class _HomePageState extends State<HomePage>
     ///添加监听用于监控前后台转换
     WidgetsBinding.instance.addObserver(this);
     LogUtil.e("_MoviePageState_initState");
-    checkUpdate();
+    Future.delayed(Duration(seconds: 5),(){
+      checkUpdate();
+    });
   }
 
   @override
