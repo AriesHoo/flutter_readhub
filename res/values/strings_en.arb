@@ -31,5 +31,13 @@
   "saveImageFailed":"Save image failed",
   "saveImageShareTip":"Shared by Freadhub App",
   "cancel":"Cancel",
-  "openBySystemBrowser":"Open by system browser"
+  "openBySystemBrowser":"Open by system browser",
+  "appCopyright": "App copyright",
+  "feedback": "Feedback",
+  "checkUpdate": "Check update",
+  "shareApp": "Share app",
+  "currentIsNew": "Current version is the latest",
+  "updateNow": "Update now",
+  "updateNextTime": "Next time",
+  "appreciateDeveloper": "Appreciate"
 }

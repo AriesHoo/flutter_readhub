@@ -14,74 +14,42 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 
 ///弹出分享提示框
-Future<void> showShareDialog(
+Future<void> showShareArticleDialog(
     BuildContext context, ArticleItemModel data) async {
   await showDialog<int>(
     context: context,
     builder: (BuildContext context) {
-      return ShareArticleDialog(data);
+      return ShareDialog(data.title, data.getSummary(), data.getScanNote(),
+          data.getUrl(), S.of(context).saveImageShareTip);
     },
   );
 }
 
-///分享文章详情
-// ignore: must_be_immutable
-class ShareArticleDialog extends Dialog {
-  final ArticleItemModel data;
+///弹出分享App提示框
+Future<void> showShareAppDialog(BuildContext context, Dialog dialog) async {
+  await showDialog<int>(
+    context: context,
+    builder: (BuildContext context) {
+      return dialog;
+    },
+  );
+}
 
-  ShareArticleDialog(this.data);
+///分享Dialog
+class ShareDialog extends Dialog {
+  final String title;
+  final String summary;
+  final String notice;
+  final String url;
+  final String bottomNotice;
+
+  ShareDialog(
+      this.title, this.summary, this.notice, this.url, this.bottomNotice);
 
   final GlobalKey _globalKey = GlobalKey();
 
-  ///已保存图片的路径
-  String fileImage;
-
-  ///保存图片
-  _saveImage(BuildContext context, {bool share: false}) async {
-    if (fileImage != null && fileImage.isNotEmpty) {
-      if (share) {
-        FlutterShare.shareFileWithText(
-            textContent: S.of(context).saveImageShareTip, filePath: fileImage);
-      } else {
-        ToastUtil.show(S.of(context).saveImageSucceedInGallery);
-      }
-      return;
-    }
-
-    ///直接获取读写文件权限
-    Map<PermissionGroup, PermissionStatus> map =
-        await PermissionHandler().requestPermissions(<PermissionGroup>[
-      PermissionGroup.storage,
-    ]);
-    PermissionStatus permission = map[PermissionGroup.storage];
-    if (permission != PermissionStatus.granted) {
-      ToastUtil.show(S.of(context).saveImagePermissionFailed);
-      return;
-    }
-    RenderRepaintBoundary boundary =
-        _globalKey.currentContext.findRenderObject();
-
-    ///弹框宽度与屏幕宽度比值避免截图出来比预览更大
-    ///分辨率通过获取设备的devicePixelRatio以达到清晰度良好
-    var image = await boundary.toImage(
-        pixelRatio: (MediaQuery.of(context).devicePixelRatio));
-
-    ///转二进制
-    ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
-
-    ///图片数据
-    Uint8List pngBytes = byteData.buffer.asUint8List();
-
-    ///保存图片到系统图库
-    String resultSaveImage = await ImageGallerySaver.saveImage(pngBytes);
-    LogUtil.e("resultSaveImage:" + resultSaveImage);
-    if (resultSaveImage != null && resultSaveImage.isNotEmpty) {
-      fileImage = resultSaveImage;
-      _saveImage(context, share: share);
-      return;
-    }
-    ToastUtil.show(S.of(context).saveImageFailed);
-  }
+  ///保存图片到本地
+  final SaveImageToGallery saveImageToGallery = SaveImageToGallery();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +60,8 @@ class ShareArticleDialog extends Dialog {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ///最上边白色圆角开始
-          ShotImageWidget(data, _globalKey),
+          ShotImageWidget(
+              title, summary, notice, url, bottomNotice, _globalKey),
 
           ///最上边白色圆角结束
           SizedBox(
@@ -113,7 +82,8 @@ class ShareArticleDialog extends Dialog {
                 backgroundColor: Colors.blue,
                 splashColor: Colors.white.withAlpha(50),
                 child: Icon(Icons.share),
-                onPressed: () => _saveImage(context, share: true),
+                onPressed: () => saveImageToGallery
+                    .saveImage(context, _globalKey, share: true),
               ),
               SizedBox(
                 width: 20,
@@ -128,7 +98,8 @@ class ShareArticleDialog extends Dialog {
                 backgroundColor: Colors.red,
                 splashColor: Colors.white.withAlpha(50),
                 child: Icon(Icons.file_download),
-                onPressed: () => _saveImage(context),
+                onPressed: () =>
+                    saveImageToGallery.saveImage(context, _globalKey),
               ),
             ],
           ),
@@ -143,10 +114,15 @@ class ShareArticleDialog extends Dialog {
 ///https://blog.csdn.net/u014449046/article/details/98471268
 ///https://www.cnblogs.com/wupeng88/p/10797667.html
 class ShotImageWidget extends StatelessWidget {
-  final ArticleItemModel data;
+  final String title;
+  final String summary;
+  final String notice;
+  final String url;
+  final String bottomNotice;
   final GlobalKey globalKey;
 
-  ShotImageWidget(this.data, this.globalKey);
+  ShotImageWidget(this.title, this.summary, this.notice, this.url,
+      this.bottomNotice, this.globalKey);
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +148,7 @@ class ShotImageWidget extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Text(
-                      data.title,
+                      title,
                       textAlign: TextAlign.justify,
                       style: Theme.of(context).textTheme.title.copyWith(
                             color: Theme.of(context)
@@ -190,12 +166,6 @@ class ShotImageWidget extends StatelessWidget {
               SizedBox(
                 height: 8,
               ),
-//              Text(
-//                data.timeFormatStr,
-//                style: Theme.of(context).textTheme.caption.copyWith(
-//                      fontSize: 10,
-//                    ),
-//              ),
 
               ///圆角分割线包裹内容开始
               Container(
@@ -225,7 +195,7 @@ class ShotImageWidget extends StatelessWidget {
                           maxHeight: MediaQuery.of(context).size.height * 0.5),
                       child: SingleChildScrollView(
                         child: Text(
-                          data.getSummary(),
+                          summary,
                           style: Theme.of(context).textTheme.title.copyWith(
                                 fontSize: 13,
                               ),
@@ -242,7 +212,7 @@ class ShotImageWidget extends StatelessWidget {
                         Expanded(
                           flex: 1,
                           child: Text(
-                            data.getScanNote(),
+                            notice,
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.title.copyWith(
                                   fontWeight: FontWeight.w600,
@@ -253,7 +223,7 @@ class ShotImageWidget extends StatelessWidget {
 
                         ///右侧二维码
                         QrImage(
-                          data: data.getUrl(),
+                          data: url,
                           padding: EdgeInsets.all(2),
                           version: QrVersions.auto,
                           size: 64,
@@ -273,7 +243,7 @@ class ShotImageWidget extends StatelessWidget {
                 height: 6,
               ),
               Text(
-                S.of(context).saveImageShareTip,
+                bottomNotice,
                 style: Theme.of(context).textTheme.caption.copyWith(
                       fontSize: 10,
                     ),
@@ -283,5 +253,59 @@ class ShotImageWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+///保存图片到系统相册
+class SaveImageToGallery {
+  ///已保存图片的路径
+  String fileImage;
+
+  ///保存图片
+  void saveImage(BuildContext context, GlobalKey globalKey,
+      {bool share: false}) async {
+    if (fileImage != null && fileImage.isNotEmpty) {
+      if (share) {
+        FlutterShare.shareFileWithText(
+            textContent: S.of(context).saveImageShareTip, filePath: fileImage);
+      } else {
+        ToastUtil.show(S.of(context).saveImageSucceedInGallery);
+      }
+      return;
+    }
+
+    ///直接获取读写文件权限
+    Map<PermissionGroup, PermissionStatus> map =
+        await PermissionHandler().requestPermissions(<PermissionGroup>[
+      PermissionGroup.storage,
+    ]);
+    PermissionStatus permission = map[PermissionGroup.storage];
+    if (permission != PermissionStatus.granted) {
+      ToastUtil.show(S.of(context).saveImagePermissionFailed);
+      return;
+    }
+    RenderRepaintBoundary boundary =
+        globalKey.currentContext.findRenderObject();
+
+    ///弹框宽度与屏幕宽度比值避免截图出来比预览更大
+    ///分辨率通过获取设备的devicePixelRatio以达到清晰度良好
+    var image = await boundary.toImage(
+        pixelRatio: (MediaQuery.of(context).devicePixelRatio));
+
+    ///转二进制
+    ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+
+    ///图片数据
+    Uint8List pngBytes = byteData.buffer.asUint8List();
+
+    ///保存图片到系统图库
+    String resultSaveImage = await ImageGallerySaver.saveImage(pngBytes);
+    LogUtil.e("resultSaveImage:" + resultSaveImage);
+    if (resultSaveImage != null && resultSaveImage.isNotEmpty) {
+      fileImage = resultSaveImage;
+      saveImage(context, globalKey, share: share);
+      return;
+    }
+    ToastUtil.show(S.of(context).saveImageFailed);
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/home_page.dart';
 import 'package:flutter_readhub/util/sp_util.dart';
+import 'package:flutter_readhub/view_model/update_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'generated/i18n.dart';
 import 'view_model/locale_model.dart';
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<ThemeModel>.value(value: ThemeModel()),
           ChangeNotifierProvider<LocaleModel>.value(value: LocaleModel()),
+          ChangeNotifierProvider<UpdateModel>.value(value: UpdateModel()),
         ],
-        child: Consumer2<ThemeModel, LocaleModel>(
-          builder: (context, themeModel, localeModel, child) => AppWidget(
+        child: Consumer3<ThemeModel, LocaleModel,UpdateModel>(
+          builder: (context, themeModel, localeModel,updateModel, child) => AppWidget(
             themeModel: themeModel,
             localeModel: localeModel,
           ),

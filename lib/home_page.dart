@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/article_http.dart';
+import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/update_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart';
 import 'package:flutter_readhub/widget/author_dialog.dart';
 import 'package:oktoast/oktoast.dart';
@@ -35,6 +37,11 @@ class _HomePageState extends State<HomePage>
   List<ScrollTopModel> _scrollTopModel = [null, null, null, null];
   DateTime _lastPressedAt; //上次点击时间
 
+  void checkUpdate() async {
+    AppUpdateInfo info = await Provider.of<UpdateModel>(context).checkUpdate();
+    LogUtil.e('info:$info');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +64,7 @@ class _HomePageState extends State<HomePage>
     ///添加监听用于监控前后台转换
     WidgetsBinding.instance.addObserver(this);
     LogUtil.e("_MoviePageState_initState");
+    checkUpdate();
   }
 
   @override

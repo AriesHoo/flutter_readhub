@@ -1,4 +1,4 @@
-package cn.aries.readhub
+package cn.aries.freadhub
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity

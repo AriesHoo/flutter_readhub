@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
+import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -69,7 +70,7 @@ class TopRoundWidget extends StatelessWidget {
         ClipPath(
           clipper: BottomClipper(),
           child: Container(
-            height: 160,
+            height: 80,
             color: Theme.of(context).accentColor.withOpacity(0.8),
           ),
         ),
@@ -78,28 +79,15 @@ class TopRoundWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: 24,
+              height: 32,
             ),
             ClipRRect(
               borderRadius: BorderRadius.circular(32),
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: CachedNetworkImage(
+              child: Image.asset(
+                'assets/images/user.jpg',
                 width: 56,
                 height: 56,
-                fit: BoxFit.fill,
-                filterQuality: FilterQuality.high,
-                imageUrl:
-                'https://avatars0.githubusercontent.com/u/19605922?s=460&v=4',
-                placeholder: (context, url) {
-                  return Center(
-                    child: Container(
-                      width: 56,
-                      height: 56,
-//                        color: Theme.of(context).hintColor.withOpacity(0.3),
-                      child: CupertinoActivityIndicator(),
-                    ),
-                  );
-                },
               ),
             ),
             SizedBox(
@@ -112,11 +100,13 @@ class TopRoundWidget extends StatelessWidget {
               child: Text(
                 "AriesHoo",
                 style: Theme.of(context).textTheme.title.copyWith(
-                  color: Colors.white,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
-                ),
+                      fontSize: 16,
+                      decoration: TextDecoration.underline,
+                    ),
               ),
+            ),
+            SizedBox(
+              height: 12,
             ),
           ],
         ),
@@ -128,14 +118,15 @@ class TopRoundWidget extends StatelessWidget {
 class BottomClipper extends CustomClipper<Path> {
   @override
   getClip(Size size) {
+    LogUtil.e('BottomClipper:${size.height}');
     var path = Path();
     path.lineTo(0, 0);
-    path.lineTo(0, size.height - 50);
+    path.lineTo(0, size.height / 2);
 
     var p1 = Offset(size.width / 2, size.height);
-    var p2 = Offset(size.width, size.height - 50);
+    var p2 = Offset(size.width, size.height / 2);
     path.quadraticBezierTo(p1.dx, p1.dy, p2.dx, p2.dy);
-    path.lineTo(size.width, size.height - 50);
+    path.lineTo(size.width, size.height / 2);
     path.lineTo(size.width, 0);
     return path;
   }

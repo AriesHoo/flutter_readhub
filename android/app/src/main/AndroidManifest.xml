@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.aries.readhub">
+    package="cn.aries.freadhub">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_logo_big">
         <activity
-            android:name="cn.aries.readhub.MainActivity"
+            android:name="cn.aries.freadhub.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

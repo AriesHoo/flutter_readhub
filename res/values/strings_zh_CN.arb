@@ -31,5 +31,13 @@
   "saveImageFailed": "保存文件失败",
   "saveImageShareTip": "由 Freadhub App 分享",
   "cancel": "取消",
-  "openBySystemBrowser":"浏览器打开-推荐Chrome"
+  "openBySystemBrowser":"浏览器打开-推荐Chrome",
+  "appCopyright": "软件说明",
+  "feedback": "意见反馈",
+  "checkUpdate": "检查版本",
+  "shareApp": "分享软件",
+  "currentIsNew": "当前已是最新版本",
+  "updateNow": "立即更新",
+  "updateNextTime": "下次再说",
+  "appreciateDeveloper": "赞赏开发"
 }

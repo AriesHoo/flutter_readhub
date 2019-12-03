@@ -55,10 +55,10 @@ class ViewStateWidget extends StatelessWidget {
       children: <Widget>[
         image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 title ?? S.of(context).viewStateError,
@@ -66,7 +66,8 @@ class ViewStateWidget extends StatelessWidget {
               ),
               SizedBox(height: 12),
               ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
+                constraints: BoxConstraints(
+                    maxHeight: 200, minHeight: message != null ? 10 : 0),
                 child: SingleChildScrollView(
                   child: Text(message ?? '', style: messageStyle),
                 ),
@@ -116,13 +117,12 @@ class ErrorStateWidget extends StatelessWidget {
     switch (error.errorType) {
       case ErrorType.network:
         defaultImage =
-            const Icon(Icons.network_check, size: 100, color: Colors.grey);
+            const Icon(Icons.network_check, size: 80, color: Colors.grey);
         defaultTitle = S.of(context).viewStateNetworkError;
         errorMessage = ''; // 网络异常移除message提示
         break;
       case ErrorType.normal:
-        defaultImage =
-            const Icon(Icons.network_check, size: 100, color: Colors.grey);
+        defaultImage = const Icon(Icons.error, size: 80, color: Colors.grey);
         defaultTitle = S.of(context).viewStateError;
         break;
     }
@@ -181,9 +181,14 @@ class ViewStateButton extends StatelessWidget {
       child: child ??
           Text(
             textData ?? S.of(context).viewStateRetry,
-            style: TextStyle(wordSpacing: 5),
+            style: Theme.of(context).textTheme.caption.copyWith(
+              fontSize: 14
+            ),
           ),
       textColor: Colors.grey,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6)
+      ),
       splashColor: Theme.of(context).splashColor,
       onPressed: onPressed,
       highlightedBorderColor: Theme.of(context).splashColor,

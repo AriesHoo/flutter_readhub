@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
-import 'package:flutter_readhub/widget/share_article_dialog.dart';
+import 'package:flutter_readhub/widget/share_dialog.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';

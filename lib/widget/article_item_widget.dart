@@ -6,8 +6,8 @@ import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
 import 'package:flutter_readhub/view_model/locale_model.dart';
-import 'package:flutter_readhub/view_model/article_view_model.dart';
-import 'package:flutter_readhub/widget/share_article_dialog.dart';
+import 'package:flutter_readhub/view_model/article_model.dart';
+import 'package:flutter_readhub/widget/share_dialog.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
 import 'package:provider/provider.dart';
 
@@ -166,7 +166,7 @@ class ArticleAdapter extends StatelessWidget {
           item.switchMaxLine();
           Provider.of<LocaleModel>(context).switchLocale(0);
         },
-        onLongPress: () => showShareDialog(context, item),
+        onLongPress: () => showShareArticleDialog(context, item),
 
         ///Container 包裹以便设置padding margin及边界线
         child: Container(
