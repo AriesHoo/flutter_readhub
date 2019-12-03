@@ -182,7 +182,13 @@ class AuthorDialog extends Dialog {
                               context,
                               ShareDialog(
                                   '分享一个还不错的 Readhub 三方客户端-Freadhub',
-                                  'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。',
+                                  'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。'
+                                      '\n初步完成以下功能：'
+                                      '\n    囊括热门话题、科技动态、开发者资讯、区块链四大模块'
+                                      '\n    方便快捷的黑夜/白日模式切换'
+                                      '\n    丰富的彩虹颜色(红橙黄绿青蓝紫)主题切换'
+                                      '\n    长按社会化分享预览图功能-扫码查看详情'
+                                      '\n    方便快捷的意见反馈入口',
                                   '来自 Aries Hoo 开发\n扫码下载',
                                   'https://www.coolapk.com/apk/${Provider.of<UpdateModel>(context).packageName}',
                                   S.of(context).saveImageShareTip)),
