@@ -45,8 +45,10 @@ class ViewStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var titleStyle =
-        Theme.of(context).textTheme.subhead.copyWith(color: Colors.grey);
+    var titleStyle = Theme.of(context).textTheme.subhead.copyWith(
+          color: Colors.grey,
+          fontSize: 14,
+        );
     var messageStyle = titleStyle.copyWith(
         color: titleStyle.color.withOpacity(0.7), fontSize: 14);
     return Column(
@@ -181,14 +183,10 @@ class ViewStateButton extends StatelessWidget {
       child: child ??
           Text(
             textData ?? S.of(context).viewStateRetry,
-            style: Theme.of(context).textTheme.caption.copyWith(
-              fontSize: 14
-            ),
+            style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
           ),
       textColor: Colors.grey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       splashColor: Theme.of(context).splashColor,
       onPressed: onPressed,
       highlightedBorderColor: Theme.of(context).splashColor,

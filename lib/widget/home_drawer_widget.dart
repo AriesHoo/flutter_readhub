@@ -98,8 +98,9 @@ class TopRoundWidget extends StatelessWidget {
               ),
               child: Text(
                 "AriesHoo",
-                style: Theme.of(context).textTheme.title.copyWith(
+                style: Theme.of(context).textTheme.subtitle.copyWith(
                       fontSize: 16,
+                      fontWeight: FontWeight.w400,
                       decoration: TextDecoration.underline,
                     ),
               ),

@@ -19,7 +19,8 @@ class ThemeModel with ChangeNotifier {
     Colors.green,
     Colors.cyan,
     Colors.blue,
-    Colors.purple
+    Colors.purple,
+    Colors.pink
   ];
 
   ///字体列表
@@ -109,7 +110,9 @@ class ThemeModel with ChangeNotifier {
     }
     _userDarkMode = userDarkMode ?? _userDarkMode;
     _themeIndex = themeIndex ?? _themeIndex;
-    _themeColor = color ?? themeValueList[_themeIndex];
+    _themeColor = color ?? _themeIndex == themeValueList.length - 1
+        ? getTodayColor()
+        : themeValueList[_themeIndex];
     LogUtil.i("_userDarkMode" +
         _userDarkMode.toString() +
         "_themeIndex:" +
@@ -262,8 +265,15 @@ class ThemeModel with ChangeNotifier {
         return S.of(context).blue;
       case 6:
         return S.of(context).purple;
+      case 7:
+        return S.of(context).everydayChange +
+            '(${themeName(context, i: DateTime.now().weekday - 1)})';
       default:
         return '';
     }
+  }
+
+  MaterialColor getTodayColor() {
+    return themeValueList[DateTime.now().weekday - 1];
   }
 }

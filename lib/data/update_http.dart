@@ -22,7 +22,7 @@ class UpdateInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options) async {
     options.queryParameters['_api_key'] = 'f4d7dae2132cf8715c99ca79043deefb';
-    options.queryParameters['appKey'] = '17e5f4210823fbe6bf5be548284f0cf4';
+    options.queryParameters['appKey'] = '9d5adc8a82bdcf48a905d8d5aa7f19e3';
     options.queryParameters['buildVersion'] = await PlatformUtil.getAppVersion();
     options.queryParameters['buildBuildVersion'] = await PlatformUtil.getBuildNum();
     LogUtil.e('---api-request--->url--> ${options.baseUrl}${options.path}' +

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
-import 'package:flutter_readhub/widget/share_dialog.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -31,16 +30,15 @@ class _WebViewPageState extends State<WebViewPage> {
 
   _launchURL(String url) async {
     try {
-      if (await canLaunch(url)) {
-        await launch(
-          url,
-        );
+      bool can = await canLaunch(url);
+      if (can) {
+        await launch(url);
       } else {
         await launch(await _webViewController.currentUrl());
       }
     } catch (e) {
+      LogUtil.e('_launchURL:$e');
       await launch(await _webViewController.currentUrl());
-//      ToastUtil.show("launchURL error:${e.toString()}");
     }
   }
 
@@ -93,12 +91,21 @@ class _WebViewPageState extends State<WebViewPage> {
         : _title;
     return WillPopScope(
       onWillPop: () async {
+        String currentUrl = await _webViewController.currentUrl();
         bool canGoBack = await _webViewController.canGoBack();
         if (canGoBack) {
           _webViewController.goBack();
+          String current = await _webViewController.currentUrl();
+
+          ///回退后当前url和回退前url一致直接退出页面
+          if (currentUrl == current) {
+            return true;
+          }
         }
-        LogUtil.e('canGoBack:$canGoBack');
+        LogUtil.e(
+            'canGoBack:$canGoBack;currentUrl:$currentUrl;url:${widget.url}');
         return !canGoBack;
+//        return true;
       },
       child: Scaffold(
         appBar: AppBar(

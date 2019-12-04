@@ -42,9 +42,11 @@ class ShareDialog extends Dialog {
   final String notice;
   final String url;
   final String bottomNotice;
+  Widget summaryWidget;
 
   ShareDialog(
-      this.title, this.summary, this.notice, this.url, this.bottomNotice);
+      this.title, this.summary, this.notice, this.url, this.bottomNotice,
+      {this.summaryWidget});
 
   final GlobalKey _globalKey = GlobalKey();
 
@@ -61,7 +63,14 @@ class ShareDialog extends Dialog {
         children: <Widget>[
           ///最上边白色圆角开始
           ShotImageWidget(
-              title, summary, notice, url, bottomNotice, _globalKey),
+            title,
+            summary,
+            notice,
+            url,
+            bottomNotice,
+            _globalKey,
+            summaryWidget: summaryWidget,
+          ),
 
           ///最上边白色圆角结束
           SizedBox(
@@ -120,9 +129,11 @@ class ShotImageWidget extends StatelessWidget {
   final String url;
   final String bottomNotice;
   final GlobalKey globalKey;
+  Widget summaryWidget;
 
   ShotImageWidget(this.title, this.summary, this.notice, this.url,
-      this.bottomNotice, this.globalKey);
+      this.bottomNotice, this.globalKey,
+      {this.summaryWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -151,11 +162,6 @@ class ShotImageWidget extends StatelessWidget {
                       title,
                       textAlign: TextAlign.justify,
                       style: Theme.of(context).textTheme.title.copyWith(
-                            color: Theme.of(context)
-                                .appBarTheme
-                                .textTheme
-                                .title
-                                .color,
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
                           ),
@@ -194,12 +200,18 @@ class ShotImageWidget extends StatelessWidget {
                       constraints: BoxConstraints(
                           maxHeight: MediaQuery.of(context).size.height * 0.5),
                       child: SingleChildScrollView(
-                        child: Text(
-                          summary,
-                          style: Theme.of(context).textTheme.title.copyWith(
-                                fontSize: 13,
-                              ),
-                        ),
+                        child: summaryWidget ??
+                            Text(
+                              summary,
+                              style: Theme.of(context).textTheme.title.copyWith(
+                                    fontSize: 13,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .title
+                                        .color
+                                        .withOpacity(0.8),
+                                  ),
+                            ),
                       ),
                     ),
                     SizedBox(
@@ -244,6 +256,7 @@ class ShotImageWidget extends StatelessWidget {
               ),
               Text(
                 bottomNotice,
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.caption.copyWith(
                       fontSize: 10,
                     ),

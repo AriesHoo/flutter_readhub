@@ -181,17 +181,13 @@ class AuthorDialog extends Dialog {
                           onTap: () => showShareAppDialog(
                               context,
                               ShareDialog(
-                                  '分享一个还不错的 Readhub 三方客户端-Freadhub',
-                                  'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。'
-                                      '\n初步完成以下功能：'
-                                      '\n    囊括热门话题、科技动态、开发者资讯、区块链四大模块'
-                                      '\n    方便快捷的黑夜/白日模式切换'
-                                      '\n    丰富的彩虹颜色(红橙黄绿青蓝紫)主题切换'
-                                      '\n    长按社会化分享预览图功能-扫码查看详情'
-                                      '\n    方便快捷的意见反馈入口',
-                                  '来自 Aries Hoo 开发\n扫码下载',
-                                  'https://www.coolapk.com/apk/${UpdateModel.packageName}',
-                                  S.of(context).saveImageShareTip)),
+                                '分享一个还不错的 Readhub 三方客户端-Freadhub',
+                                'Freadhub',
+                                'AriesHoo开发\n扫码查看详情',
+                                'https://www.coolapk.com/apk/${UpdateModel.packageName}',
+                                S.of(context).saveImageShareTip,
+                                summaryWidget: ShareAppSummaryWidget(),
+                              )),
                           leading: Icon(
                             Icons.share,
                             color: iconColor,
@@ -216,6 +212,43 @@ class AuthorDialog extends Dialog {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+}
+
+///分享app 摘要
+class ShareAppSummaryWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: Theme.of(context).textTheme.title.copyWith(
+              fontSize: 13,
+              color: Theme.of(context).textTheme.title.color.withOpacity(0.8),
+            ),
+        text:
+            'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。'
+            '\n囊括以下功能：',
+        children: [
+          TextSpan(
+            style: Theme.of(context).textTheme.title.copyWith(
+                  fontSize: 12,
+                  color:
+                      Theme.of(context).textTheme.title.color.withOpacity(0.8),
+                  fontWeight: FontWeight.w900,
+                ),
+            text: '\n热门话题、科技动态、开发者、区块链四大模块'
+                '\n相关聚合资讯快捷查看'
+                '\n方便快捷的日间/夜间模式切换'
+                '\n丰富的彩虹颜色主题/每日主题切换'
+                '\n长按社会化分享预览图效果模式'
+                '\n方便快捷的意见反馈入口',
+          ),
+          TextSpan(
+              text: '\n其它功能由细心的你自己去探索。'
+                  '\n如果你在使用体验上有自己独到的意见或建议,请通过意见反馈功能反馈，由衷感谢！'),
         ],
       ),
     );
@@ -254,8 +287,8 @@ class AppreciateWidget extends StatelessWidget {
                     child: Image.asset(
                       'assets/images/pay.png',
                       fit: BoxFit.fitWidth,
-                      width: 100,
-                      height: 100,
+                      width: 80,
+                      height: 80,
                       colorBlendMode: BlendMode.srcIn,
                     ),
                   ),
@@ -267,7 +300,7 @@ class AppreciateWidget extends StatelessWidget {
                     child: RichText(
                       text: TextSpan(
                           style: Theme.of(context).textTheme.subtitle.copyWith(
-                                fontSize: 14,
+                                fontSize: 13,
                               ),
                           children: [
                             TextSpan(

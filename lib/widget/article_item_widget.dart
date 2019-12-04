@@ -33,7 +33,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   @override
   void didUpdateWidget(ArticleItemWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    LogUtil.e("movieTabPage:didUpdateWidget");
+    LogUtil.e("ArticleItemWidget:didUpdateWidget");
   }
 
   @override
@@ -50,7 +50,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
 
       ///加载中占位-骨架屏-默认菊花loading
       loadingBuilder: (context, model, model2, child) {
-        return SkeletonList(
+        return SkeletonListWidget(
           builder: (context, index) => ArticleSkeleton(),
         );
       },
