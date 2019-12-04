@@ -39,10 +39,15 @@ class _HomePageState extends State<HomePage>
   TabController _tabController;
   ValueChanged<int> _onTabTap;
   List<ScrollTopModel> _scrollTopModel = [null, null, null, null];
-  DateTime _lastPressedAt; ///上次点击时间
+  DateTime _lastPressedAt;
 
-  void checkUpdate() async {
+  ///上次点击时间
+
+  void checkUpdate(BuildContext context) async {
     AppUpdateInfo info = await widget.updateModel?.checkUpdate();
+    if(info!=null){
+      showUpdateDialog(context, info);
+    }
     LogUtil.e('info:$info');
   }
 
@@ -68,8 +73,8 @@ class _HomePageState extends State<HomePage>
     ///添加监听用于监控前后台转换
     WidgetsBinding.instance.addObserver(this);
     LogUtil.e("_MoviePageState_initState");
-    Future.delayed(Duration(seconds: 5),(){
-      checkUpdate();
+    Future.delayed(Duration(seconds: 5), () {
+      checkUpdate(context);
     });
   }
 
@@ -117,11 +122,18 @@ class _HomePageState extends State<HomePage>
           ///设置AppBar高度
           preferredSize: Size.fromHeight(40),
           child: AppBar(
-            title: Text(
-              S.of(context).appName,
-              style: Theme.of(context).appBarTheme.textTheme.title.copyWith(
-                    fontStyle: FontStyle.normal,
-                  ),
+//            title: Text(
+//              S.of(context).appName,
+//              style: Theme.of(context).appBarTheme.textTheme.title.copyWith(
+//                    fontStyle: FontStyle.normal,
+//                  ),
+//            ),
+            title: Image.asset(
+              'assets/images/title${ThemeModel.darkMode ? '_white' : ''}.png',
+              width: 96,
+              height: 96,
+              fit: BoxFit.fitWidth,
+              colorBlendMode: BlendMode.srcIn,
             ),
             actions: <Widget>[
               IconButton(

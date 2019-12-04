@@ -42,7 +42,7 @@ Future<void> showThemeDialog(BuildContext context) async {
 
 ///弹出升级新版本Dialog
 Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
-    {bool background = false}) async {
+    {bool background = true}) async {
   if (info == null || !info.buildHaveNewVersion) {
     if (!background) {
       ToastUtil.show(S.of(context).currentIsNew);
@@ -53,13 +53,27 @@ Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('发现新版本:${info.buildVersion}'),
+        titlePadding: EdgeInsets.only(left: 16, top: 16, right: 16),
+        contentPadding: EdgeInsets.only(left: 16, top: 10, right: 16),
+        title: RichText(
+          text: TextSpan(
+              style: Theme.of(context).textTheme.title,
+              text: '发现新版本:${info.buildVersion}',
+              children: [
+                TextSpan(
+                    text: '\n安装密码:1',
+                    style: Theme.of(context).textTheme.title.copyWith(
+                          color: Theme.of(context).accentColor,
+                          fontSize: 14,
+                        ))
+              ]),
+        ),
         titleTextStyle: Theme.of(context).textTheme.subtitle.copyWith(
               fontSize: 18,
             ),
         content: Text(info.buildUpdateDescription),
         contentTextStyle: Theme.of(context).textTheme.subtitle.copyWith(
-              fontSize: 15,
+              fontSize: 14,
             ),
         actions: <Widget>[
           FlatButton(
@@ -472,11 +486,12 @@ class UpdateWidget extends StatelessWidget {
           onTap: model.loading
               ? null
               : () async {
-                  try {
-                    AppUpdateInfo info =
-                        await Provider.of<UpdateModel>(context).checkUpdate();
-                    showUpdateDialog(context, info);
-                  } catch (e) {}
+                  AppUpdateInfo info = await Provider.of<UpdateModel>(context)
+                      .checkUpdate(showError: true);
+                  if (info == null) {
+                    return;
+                  }
+                  showUpdateDialog(context, info, background: false);
                 },
           leading: Icon(
             Icons.system_update_alt,

@@ -15,8 +15,10 @@ import 'package:provider/provider.dart';
 
 void main() async{
   await SPUtil.getInstance();
-  runApp(MyApp());
-  LogUtil.e("init1");
+  ///做1.5s延迟闪屏页显示
+  Future.delayed(Duration(milliseconds: 500),(){
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

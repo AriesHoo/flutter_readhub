@@ -2,6 +2,7 @@ import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
+import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_view_model.dart';
 
 ///检查更新
@@ -16,7 +17,7 @@ class UpdateModel extends BasisViewModel {
       _packageName != null ? _packageName : "cn.aries.freadhub";
 
   ///检查新版本
-  Future<AppUpdateInfo> checkUpdate() async {
+  Future<AppUpdateInfo> checkUpdate({bool showError = false}) async {
     AppUpdateInfo appUpdateInfo;
     setLoading();
     try {
@@ -24,6 +25,12 @@ class UpdateModel extends BasisViewModel {
       setSuccess();
     } catch (e, s) {
       setError(e, s);
+      if (showError) {
+        ToastUtil.show('检查失败,请稍后重试!$e',
+            duration: Duration(
+              seconds: 6,
+            ));
+      }
     }
     return appUpdateInfo;
   }
