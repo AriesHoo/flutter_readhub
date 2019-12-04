@@ -488,9 +488,6 @@ class UpdateWidget extends StatelessWidget {
               : () async {
                   AppUpdateInfo info = await Provider.of<UpdateModel>(context)
                       .checkUpdate(showError: true);
-                  if (info == null) {
-                    return;
-                  }
                   showUpdateDialog(context, info, background: false);
                 },
           leading: Icon(

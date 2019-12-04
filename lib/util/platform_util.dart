@@ -39,4 +39,24 @@ class PlatformUtil {
       return null;
     }
   }
+
+  static Future<bool> isStatusColorChange() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      return info.version.sdkInt >= 23;
+    } else {
+      return true;
+    }
+  }
+
+  static Future<bool> isNavigationColorChange() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      return info.version.sdkInt >= 26;
+    } else {
+      return true;
+    }
+  }
 }

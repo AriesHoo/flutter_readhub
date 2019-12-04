@@ -109,13 +109,18 @@ class _WebViewPageState extends State<WebViewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          titleSpacing: 0,
           leading: IconButton(
             icon: Icon(Icons.close),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: ValueListenableBuilder(
             valueListenable: _getTitle,
-            builder: (context, title, child) => Text(_title),
+            builder: (context, title, child) => Text(
+              _title,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
           actions: <Widget>[
             IconButton(

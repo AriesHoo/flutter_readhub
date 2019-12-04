@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/sp_util.dart';
 
 ///主题管理
@@ -53,8 +54,9 @@ class ThemeModel with ChangeNotifier {
   static MaterialColor get themeColor => _themeColor;
 
   ///白色主题状态栏及导航栏颜色
-//  Color colorWhiteTheme = Color(0x66000000);
-  Color colorWhiteTheme = Colors.transparent;
+  Color colorWhiteTheme = Color(0x66000000);
+
+//  Color colorWhiteTheme = Colors.transparent;
 
   static Color colorBlackTheme = Colors.grey[900];
 
@@ -104,7 +106,8 @@ class ThemeModel with ChangeNotifier {
   /// 切换指定色彩
   ///
   /// 没有传[brightness]就不改变brightness,color同理
-  void switchTheme({bool userDarkMode, int themeIndex, MaterialColor color}) {
+  void switchTheme(
+      {bool userDarkMode, int themeIndex, MaterialColor color}) async {
     if (themeIndex != null && themeIndex != _themeIndex) {
       SPUtil.putInt(SP_KEY_THEME_COLOR_INDEX, themeIndex);
     }
@@ -119,12 +122,19 @@ class ThemeModel with ChangeNotifier {
         _themeIndex.toString() +
         "_themeColor:" +
         _themeColor.toString());
+    bool statusEnable =
+        Platform.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
+    bool navigationEnable = Platform.isAndroid
+        ? await PlatformUtil.isNavigationColorChange()
+        : true;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: _userDarkMode ? Colors.transparent : colorWhiteTheme,
+      statusBarColor:
+          _userDarkMode || statusEnable ? Colors.transparent : colorWhiteTheme,
       statusBarIconBrightness:
           _userDarkMode ? Brightness.light : Brightness.dark,
-      systemNavigationBarColor:
-          _userDarkMode ? colorBlackTheme : colorWhiteTheme,
+      systemNavigationBarColor: _userDarkMode
+          ? colorBlackTheme
+          : navigationEnable ? Colors.transparent : colorWhiteTheme,
       systemNavigationBarIconBrightness:
           _userDarkMode ? Brightness.light : Brightness.dark,
     ));
@@ -173,7 +183,7 @@ class ThemeModel with ChangeNotifier {
         textTheme: TextTheme(
           title: TextStyle(
             color: isDark ? Colors.white : accentColor,
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
 
             ///字体

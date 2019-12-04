@@ -203,6 +203,8 @@ class ShotImageWidget extends StatelessWidget {
                         child: summaryWidget ??
                             Text(
                               summary,
+                              overflow: TextOverflow.visible,
+                              maxLines: 12,
                               style: Theme.of(context).textTheme.title.copyWith(
                                     fontSize: 13,
                                     color: Theme.of(context)
@@ -215,7 +217,7 @@ class ShotImageWidget extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 12,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

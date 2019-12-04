@@ -11,7 +11,6 @@ class UpdateRepository {
       debugPrint('发现新版本===>${result.buildVersion}');
       return result;
     }
-    debugPrint('没有发现新版本');
     return null;
   }
 }

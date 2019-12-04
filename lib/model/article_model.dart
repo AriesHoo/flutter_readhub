@@ -62,6 +62,7 @@ class ArticleItemModel {
   String authorName;
   String url;
   String mobileUrl;
+  String language = '';
   String timeFormatStr = '';
 
   String getUrl() {
@@ -109,24 +110,35 @@ class ArticleItemModel {
     String targetTime = createdAt == null ? publishDate : createdAt;
     try {
       String time =
-      targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+          targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
 
       ///因服务返回时间为UTC时间--即0时区时间且将本地时间同步转换为utc时间即可算出时间差
       DateTime createTime = DateTime.parse(time + "+00:00").toUtc();
       DateTime nowTime = DateTime.now().toUtc();
       Duration hourDiff = nowTime.difference(createTime);
-      if (hourDiff.inDays > 0) {
-        if (hourDiff.inDays == 1) {
+      int dayDiff = nowTime.day - createTime.day;
+
+      ///如果有天数差
+      if (dayDiff > 0) {
+        if (dayDiff == 1) {
           timeStr = "昨天";
-        } else if (hourDiff.inDays == 1) {
+        } else if (dayDiff == 2) {
           timeStr = "前天";
         } else {
-          timeStr = hourDiff.inDays.toString() + " 天前";
+          timeStr = "$dayDiff天前";
+        }
+      } else if (hourDiff.inDays > 0) {
+        if (hourDiff.inDays == 1) {
+          timeStr = "昨天";
+        } else if (hourDiff.inDays == 2) {
+          timeStr = "前天";
+        } else {
+          timeStr = " ${hourDiff.inDays}天前";
         }
       } else if (hourDiff.inHours > 0) {
-        timeStr = hourDiff.inHours.toString() + " 小时前";
+        timeStr = " ${hourDiff.inHours}小时前";
       } else if (hourDiff.inMinutes > 0) {
-        timeStr = hourDiff.inMinutes.toString() + " 分钟前";
+        timeStr = " ${hourDiff.inMinutes}分钟前";
       } else {
         timeStr = "刚刚";
       }
@@ -136,11 +148,11 @@ class ArticleItemModel {
           .replaceAll("T", " ")
           .substring(5, 16);
     } catch (e) {
-      LogUtil.e("parseTimeLong:" + e.toString());
+      LogUtil.e("parseTimeLong:$e");
     }
     try {
       String time =
-      publishDate.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+          publishDate.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
       DateTime dateTime = DateTime.parse(time + "+00:00").toUtc();
       publishTime = dateTime.millisecondsSinceEpoch;
     } catch (e) {}
@@ -157,18 +169,19 @@ class ArticleItemModel {
     maxLine = !maxLine;
   }
 
-  ArticleItemModel({this.id,
-    this.newsArray,
-    this.createdAt,
-    this.eventData,
-    this.publishDate,
-    this.summary,
-    this.title,
-    this.updatedAt,
-    this.timeline,
-    this.order,
-    this.hasInstantView,
-    this.extra});
+  ArticleItemModel(
+      {this.id,
+      this.newsArray,
+      this.createdAt,
+      this.eventData,
+      this.publishDate,
+      this.summary,
+      this.title,
+      this.updatedAt,
+      this.timeline,
+      this.order,
+      this.hasInstantView,
+      this.extra});
 
   ArticleItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -255,7 +268,7 @@ class NewsArray {
     String targetTime = publishDate;
     try {
       String time =
-      targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
+          targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
 
       ///因服务返回时间为UTC时间--即0时区时间将时间转换为本地时间即可正常显示
       DateTime createTime = DateTime.parse(time + "+00:00").toLocal();
@@ -277,16 +290,17 @@ class NewsArray {
     return "";
   }
 
-  NewsArray({this.id,
-    this.url,
-    this.title,
-    this.siteName,
-    this.mobileUrl,
-    this.autherName,
-    this.duplicateId,
-    this.publishDate,
-    this.language,
-    this.statementType});
+  NewsArray(
+      {this.id,
+      this.url,
+      this.title,
+      this.siteName,
+      this.mobileUrl,
+      this.autherName,
+      this.duplicateId,
+      this.publishDate,
+      this.language,
+      this.statementType});
 
   NewsArray.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -328,15 +342,16 @@ class EventData {
   String createdAt;
   String updatedAt;
 
-  EventData({this.id,
-    this.topicId,
-    this.eventType,
-    this.entityId,
-    this.entityType,
-    this.entityName,
-    this.state,
-    this.createdAt,
-    this.updatedAt});
+  EventData(
+      {this.id,
+      this.topicId,
+      this.eventType,
+      this.entityId,
+      this.entityType,
+      this.entityName,
+      this.state,
+      this.createdAt,
+      this.updatedAt});
 
   EventData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

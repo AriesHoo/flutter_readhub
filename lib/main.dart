@@ -13,12 +13,9 @@ import 'view_model/theme_model.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   await SPUtil.getInstance();
-  ///做1.5s延迟闪屏页显示
-  Future.delayed(Duration(milliseconds: 500),(){
-    runApp(MyApp());
-  });
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,8 +30,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<LocaleModel>.value(value: LocaleModel()),
           ChangeNotifierProvider<UpdateModel>.value(value: UpdateModel()),
         ],
-        child: Consumer3<ThemeModel, LocaleModel,UpdateModel>(
-          builder: (context, themeModel, localeModel,updateModel, child) => AppWidget(
+        child: Consumer3<ThemeModel, LocaleModel, UpdateModel>(
+          builder: (context, themeModel, localeModel, updateModel, child) =>
+              AppWidget(
             themeModel: themeModel,
             localeModel: localeModel,
             updateModel: updateModel,
@@ -87,7 +85,9 @@ class AppWidget extends StatelessWidget {
       onGenerateRoute: Router.generateRoute,
 
       ///主页
-      home: HomePage(updateModel: updateModel,),
+      home: HomePage(
+        updateModel: updateModel,
+      ),
     );
   }
 }

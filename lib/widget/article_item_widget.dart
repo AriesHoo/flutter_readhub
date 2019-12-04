@@ -156,8 +156,6 @@ class ArticleAdapter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    item.parseTimeLong();
-
     ///外层Material包裹以便按下水波纹效果
     return Material(
       color: Theme.of(context).cardColor,
