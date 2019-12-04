@@ -11,6 +11,11 @@ class UpdateModel extends BasisViewModel {
 
   static String get appVersion => _appVersion != null ? _appVersion : "";
 
+  static String _appVersionCode;
+
+  static String get appVersionCode =>
+      _appVersionCode != null ? _appVersionCode : '-1';
+
   static String _packageName;
 
   static String get packageName =>
@@ -39,6 +44,9 @@ class UpdateModel extends BasisViewModel {
     LogUtil.e('UpdateModel');
     PlatformUtil.getAppVersion().then((str) {
       _appVersion = str;
+    });
+    PlatformUtil.getBuildNum().then((num) {
+      _appVersionCode = num;
     });
     PlatformUtil.getPackageName().then((str) {
       _packageName = str;

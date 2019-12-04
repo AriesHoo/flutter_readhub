@@ -102,7 +102,9 @@ class ArticleItemModel {
     if (back != null && back.isNotEmpty) {
       return back;
     }
-    return '本篇报道暂无摘要，请查看详细报道。';
+    return language != null && language.contains('en')
+        ? 'There is no summary of this report. please check the details'
+        : '本篇报道暂无摘要，请查看详细信息。';
   }
 
   ///时间转换
@@ -113,10 +115,12 @@ class ArticleItemModel {
           targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
 
       ///因服务返回时间为UTC时间--即0时区时间且将本地时间同步转换为utc时间即可算出时间差
-      DateTime createTime = DateTime.parse(time + "+00:00").toUtc();
-      DateTime nowTime = DateTime.now().toUtc();
+      DateTime createTime = DateTime.parse(time + "+00:00").toLocal();
+      DateTime nowTime = DateTime.now().toLocal();
       Duration hourDiff = nowTime.difference(createTime);
       int dayDiff = nowTime.day - createTime.day;
+      LogUtil.e(
+          'createTime:$createTime;nowTime:$nowTime;createTime1:${createTime.toLocal()};nowTime:${nowTime.toLocal()};inHours;${hourDiff.inHours};inMinutes;${hourDiff.inMinutes}');
 
       ///如果有天数差
       if (dayDiff > 0) {
@@ -136,7 +140,8 @@ class ArticleItemModel {
           timeStr = " ${hourDiff.inDays}天前";
         }
       } else if (hourDiff.inHours > 0) {
-        timeStr = " ${hourDiff.inHours}小时前";
+        timeStr =
+            " ${hourDiff.inHours + (hourDiff.inMinutes % 60 >= 30 ? 1 : 0)}小时前";
       } else if (hourDiff.inMinutes > 0) {
         timeStr = " ${hourDiff.inMinutes}分钟前";
       } else {
@@ -181,6 +186,7 @@ class ArticleItemModel {
       this.timeline,
       this.order,
       this.hasInstantView,
+      this.language,
       this.extra});
 
   ArticleItemModel.fromJson(Map<String, dynamic> json) {
@@ -212,6 +218,9 @@ class ArticleItemModel {
     }
     if (json['summaryAuto'] != null) {
       summaryAuto = json['summaryAuto'];
+    }
+    if (json['language'] != null) {
+      language = json['language'];
     }
     publishDate = json['publishDate'];
     summary = json['summary'];
