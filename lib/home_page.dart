@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage>
 
   void checkUpdate(BuildContext context) async {
     AppUpdateInfo info = await widget.updateModel?.checkUpdate();
-    if(info!=null){
+    if (info != null) {
       showUpdateDialog(context, info);
     }
     LogUtil.e('info:$info');
@@ -233,7 +233,8 @@ class TabBarWidget extends StatelessWidget {
       labelColor: Theme.of(context).textTheme.title.color,
 
       ///未选择label颜色
-      unselectedLabelColor: Theme.of(context).hintColor,
+      unselectedLabelColor:
+          Theme.of(context).textTheme.title.color.withOpacity(0.6),
     );
   }
 }

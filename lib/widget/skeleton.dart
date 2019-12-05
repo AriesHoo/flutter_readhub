@@ -50,8 +50,7 @@ class SkeletonDecoration extends BoxDecoration {
     ///圆角
     BorderRadiusGeometry borderRadius,
   }) : super(
-//          color: !isDark ? Colors.grey[350] : Colors.grey[700],
-          color: Colors.grey[500],
+          color: !isDark ? Colors.grey[350] : Colors.grey[700],
           borderRadius: borderRadius ?? BorderRadius.circular(0),
           shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
         );
