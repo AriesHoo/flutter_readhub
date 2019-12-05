@@ -1,22 +1,16 @@
-import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
-import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/view_model/update_model.dart';
 import 'package:flutter_readhub/widget/home_drawer_widget.dart';
 import 'package:flutter_readhub/widget/share_dialog.dart';
-import 'package:flutter_share_plugin/flutter_share_plugin.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,10 +55,10 @@ Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
               text: '发现新版本:${info.buildVersion}',
               children: [
                 TextSpan(
-                    text: '\n安装密码:1',
+                    text: '\n系统自带浏览器打开',
                     style: Theme.of(context).textTheme.title.copyWith(
                           color: Theme.of(context).accentColor,
-                          fontSize: 14,
+                          fontSize: 13,
                         ))
               ]),
         ),
@@ -97,7 +91,7 @@ Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
     },
   );
   if (position == 1) {
-    await launch(info.buildShortcutUrl);
+    await launch(info.downloadURL);
   }
 }
 

@@ -114,13 +114,11 @@ class ArticleItemModel {
       String time =
           targetTime.replaceAll("Z", "").replaceAll("T", " ").substring(0, 19);
 
-      ///因服务返回时间为UTC时间--即0时区时间且将本地时间同步转换为utc时间即可算出时间差
+      ///因服务返回时间为UTC时间--即0时区时间且将本地时间同步转换为utc/local时间即可算出时间差
       DateTime createTime = DateTime.parse(time + "+00:00").toLocal();
       DateTime nowTime = DateTime.now().toLocal();
       Duration hourDiff = nowTime.difference(createTime);
       int dayDiff = nowTime.day - createTime.day;
-      LogUtil.e(
-          'createTime:$createTime;nowTime:$nowTime;createTime1:${createTime.toLocal()};nowTime:${nowTime.toLocal()};inHours;${hourDiff.inHours};inMinutes;${hourDiff.inMinutes}');
 
       ///如果有天数差
       if (dayDiff > 0) {
@@ -140,6 +138,7 @@ class ArticleItemModel {
           timeStr = " ${hourDiff.inDays}天前";
         }
       } else if (hourDiff.inHours > 0) {
+        ///此处做了取整-readhub官方亦是如此操作
         timeStr =
             " ${hourDiff.inHours + (hourDiff.inMinutes % 60 >= 30 ? 1 : 0)}小时前";
       } else if (hourDiff.inMinutes > 0) {

@@ -50,7 +50,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
 
       ///加载中占位-骨架屏-默认菊花loading
       loadingBuilder: (context, model, model2, child) {
-        return SkeletonListWidget(
+        return SkeletonList(
           builder: (context, index) => ArticleSkeleton(),
         );
       },

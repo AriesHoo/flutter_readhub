@@ -61,7 +61,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       ///全局主题配置
       theme: themeModel.themeData(),
-      darkTheme: themeModel.themeData(platformDarkMode: true),
+//      darkTheme: themeModel.themeData(platformDarkMode: true),
 
       ///去掉右上顶部debug标签
       debugShowCheckedModeBanner: false,
