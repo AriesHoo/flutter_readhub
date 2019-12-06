@@ -113,9 +113,7 @@ class ThemeModel with ChangeNotifier {
     }
     _userDarkMode = userDarkMode ?? _userDarkMode;
     _themeIndex = themeIndex ?? _themeIndex;
-    _themeColor = color ?? _themeIndex == themeValueList.length - 1
-        ? getTodayColor()
-        : themeValueList[_themeIndex];
+    _themeColor = color ?? getThemeColor();
     LogUtil.i("_userDarkMode" +
         _userDarkMode.toString() +
         "_themeIndex:" +
@@ -276,14 +274,39 @@ class ThemeModel with ChangeNotifier {
       case 6:
         return S.of(context).purple;
       case 7:
-        return S.of(context).everydayChange +
-            '(${themeName(context, i: DateTime.now().weekday - 1)})';
+        return getWeekStr(context) +
+            '-${themeName(context, i: DateTime.now().weekday - 1)}';
       default:
         return '';
     }
   }
 
-  MaterialColor getTodayColor() {
-    return themeValueList[DateTime.now().weekday - 1];
+  static MaterialColor getThemeColor({int i}) {
+    int index = i ?? _themeIndex;
+    return index == themeValueList.length - 1
+        ? themeValueList[DateTime.now().weekday - 1]
+        : themeValueList[index];
+  }
+
+  static String getWeekStr(BuildContext context) {
+    int week = DateTime.now().weekday;
+    switch (week) {
+      case 1:
+        return S.of(context).monday;
+      case 2:
+        return S.of(context).tuesday;
+      case 3:
+        return S.of(context).wednesday;
+      case 4:
+        return S.of(context).thursday;
+      case 5:
+        return S.of(context).friday;
+      case 6:
+        return S.of(context).saturday;
+      case 7:
+        return S.of(context).sunday;
+      default:
+        return '';
+    }
   }
 }

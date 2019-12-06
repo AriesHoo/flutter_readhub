@@ -432,7 +432,7 @@ class ThemeDialog extends Dialog {
                       int index = ThemeModel.themeValueList.indexOf(color);
                       return Material(
                         borderRadius: BorderRadius.circular(4),
-                        color: color,
+                        color: ThemeModel.getThemeColor(i: index),
                         child: InkWell(
                           onTap: () {
                             var model = Provider.of<ThemeModel>(context);
