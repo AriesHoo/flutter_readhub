@@ -212,11 +212,7 @@ class ArticleAdapter extends StatelessWidget {
                           ),
                     ),
                   ),
-                  SmallButtonWidget(
-                    onTap: () => Navigator.of(context)
-                        .pushNamed(RouteName.webView, arguments: item.getUrl()),
-                    child: Icon(IconFonts.ic_glass),
-                  ),
+                ///更多链接
                   item.showLink()
                       ? SmallButtonWidget(
                           onTap: () => __showNewsDialog(context),
@@ -225,7 +221,13 @@ class ArticleAdapter extends StatelessWidget {
                             size: 20,
                           ),
                         )
-                      : SizedBox()
+                      : SizedBox(),
+                  ///查看详情web
+                  SmallButtonWidget(
+                    onTap: () => Navigator.of(context)
+                        .pushNamed(RouteName.webView, arguments: item.getUrl()),
+                    child: Icon(IconFonts.ic_glass),
+                  ),
                 ],
               ),
             ],

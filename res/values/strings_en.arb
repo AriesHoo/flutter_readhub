@@ -16,6 +16,8 @@
   "saturday": "Saturday",
   "sunday": "Sunday",
   "darkMode": "Dark mode",
+  "lightMode": "Light mode",
+  "moreSetting": "More settings",
   "loadingWebTitle": "Loading...",
   "back": "Back",
   "forward": "Forward",

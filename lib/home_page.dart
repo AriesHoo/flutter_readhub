@@ -99,6 +99,8 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  IconData _actionIcon = Icons.brightness_2;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -136,19 +138,22 @@ class _HomePageState extends State<HomePage>
               colorBlendMode: BlendMode.srcIn,
             ),
             actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.info_outline),
+              ///更多信息
+              AnimatedSwitcherIconWidget(
+                defaultIcon: Icons.info,
+                switchIcon: Icons.info_outline,
+                tooltip: S.of(context).moreSetting,
                 onPressed: () => showAuthorDialog(context),
               ),
-              IconButton(
-                icon: Icon(
-                  Theme.of(context).brightness == Brightness.light
-                      ? Icons.brightness_5
-                      : Icons.brightness_2,
-                ),
-                onPressed: () {
-                  switchDarkMode(context);
-                },
+
+              ///暗黑模式切换
+              AnimatedSwitcherIconWidget(
+                defaultIcon: Icons.brightness_2,
+                switchIcon: Icons.brightness_5,
+                tooltip: ThemeModel.darkMode
+                    ? S.of(context).lightMode
+                    : S.of(context).darkMode,
+                onPressed: () => switchDarkMode(context),
               ),
             ],
           ),
@@ -235,6 +240,58 @@ class TabBarWidget extends StatelessWidget {
       ///未选择label颜色
       unselectedLabelColor:
           Theme.of(context).textTheme.title.color.withOpacity(0.6),
+    );
+  }
+}
+
+///添加切换动画IconButton
+class AnimatedSwitcherIconWidget extends StatefulWidget {
+  final IconData defaultIcon;
+  final IconData switchIcon;
+  final String tooltip;
+  final VoidCallback onPressed;
+  final Duration duration;
+
+  const AnimatedSwitcherIconWidget({
+    Key key,
+    this.defaultIcon,
+    this.switchIcon,
+    this.tooltip,
+    this.onPressed,
+    this.duration = const Duration(milliseconds: 500),
+  }) : super(key: key);
+
+  @override
+  _AnimatedSwitcherIconWidgetState createState() =>
+      _AnimatedSwitcherIconWidgetState();
+}
+
+class _AnimatedSwitcherIconWidgetState
+    extends State<AnimatedSwitcherIconWidget> {
+  IconData _actionIcon;
+
+  _AnimatedSwitcherIconWidgetState();
+
+  @override
+  void initState() {
+    super.initState();
+    _actionIcon = widget.defaultIcon;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      transitionBuilder: (child, anim) {
+        return ScaleTransition(child: child, scale: anim);
+      },
+      duration: widget.duration,
+      child: IconButton(
+        tooltip: widget.tooltip,
+        key: ValueKey(_actionIcon =
+            ThemeModel.darkMode ? widget.switchIcon : widget.defaultIcon),
+        icon: Icon(_actionIcon),
+        onPressed: widget.onPressed,
+      ),
     );
   }
 }
