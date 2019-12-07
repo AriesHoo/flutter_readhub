@@ -18,9 +18,7 @@ import 'package:provider/provider.dart';
 
 ///主页面
 class HomePage extends StatefulWidget {
-  final UpdateModel updateModel;
-
-  const HomePage({Key key, this.updateModel}) : super(key: key);
+  const HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -44,7 +42,7 @@ class _HomePageState extends State<HomePage>
   ///上次点击时间
 
   void checkUpdate(BuildContext context) async {
-    AppUpdateInfo info = await widget.updateModel?.checkUpdate();
+    AppUpdateInfo info = await Provider.of<UpdateModel>(context).checkUpdate();
     if (info != null) {
       showUpdateDialog(context, info);
     }

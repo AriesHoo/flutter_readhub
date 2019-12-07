@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
               AppWidget(
             themeModel: themeModel,
             localeModel: localeModel,
-            updateModel: updateModel,
           ),
         ),
       ),
@@ -46,13 +45,11 @@ class MyApp extends StatelessWidget {
 class AppWidget extends StatelessWidget {
   final ThemeModel themeModel;
   final LocaleModel localeModel;
-  final UpdateModel updateModel;
 
   const AppWidget({
     Key key,
     this.themeModel,
     this.localeModel,
-    this.updateModel,
   }) : super(key: key);
 
   @override
@@ -87,18 +84,13 @@ class AppWidget extends StatelessWidget {
 //      home: HomePage(
 //        updateModel: updateModel,
 //      ),
-      home: SplashPage(
-        updateModel: updateModel,
-      ),
+      home: SplashPage(),
     );
   }
 }
 
 ///增加一个闪屏页
 class SplashPage extends StatefulWidget {
-  final UpdateModel updateModel;
-
-  const SplashPage({Key key, this.updateModel}) : super(key: key);
 
   @override
   _SplashPageState createState() => _SplashPageState();
@@ -110,7 +102,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Future.delayed(Duration(milliseconds: 1500), () {
       Navigator.of(context)
-          .pushReplacementNamed(RouteName.tab, arguments: widget.updateModel);
+          .pushReplacementNamed(RouteName.tab);
     });
   }
 

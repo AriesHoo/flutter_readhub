@@ -16,10 +16,9 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteName.tab:
-        var model = settings.arguments as UpdateModel;
         return MaterialPageRoute(
           fullscreenDialog: true,
-          builder: (context) => HomePage(updateModel: model),
+          builder: (context) => HomePage(),
         );
       case RouteName.webView:
         var model = settings.arguments as String;
