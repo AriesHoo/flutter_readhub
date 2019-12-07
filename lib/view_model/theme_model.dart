@@ -229,7 +229,6 @@ class ThemeModel with ChangeNotifier {
           fontFamily: fontValueList[_fontIndex],
         ),
       ),
-
       floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
         backgroundColor: themeAccentColor,
         splashColor: themeColor.withAlpha(50),

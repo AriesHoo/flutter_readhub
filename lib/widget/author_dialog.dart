@@ -309,6 +309,11 @@ class AppreciateWidget extends StatelessWidget {
                       text: TextSpan(
                           style: Theme.of(context).textTheme.subtitle.copyWith(
                                 fontSize: 13,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .title
+                                    .color
+                                    .withOpacity(0.8),
                               ),
                           children: [
                             TextSpan(
@@ -371,6 +376,11 @@ class CopyrightWidget extends StatelessWidget {
               text: TextSpan(
                   style: Theme.of(context).textTheme.subtitle.copyWith(
                         fontSize: 12,
+                        color: Theme.of(context)
+                            .textTheme
+                            .title
+                            .color
+                            .withOpacity(0.8),
                       ),
                   text:
                       '1、本软件为 AriesHoo 通过 Flutter 开发而成的 Readhub 三方客户端，非无码科技 Readhub 官方应用。',
@@ -380,6 +390,11 @@ class CopyrightWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle.copyWith(
                             fontSize: 12,
                             fontWeight: FontWeight.w900,
+                            color: Theme.of(context)
+                                .textTheme
+                                .title
+                                .color
+                                .withOpacity(0.8),
                           ),
                     ),
                     TextSpan(

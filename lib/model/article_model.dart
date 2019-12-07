@@ -84,7 +84,7 @@ class ArticleItemModel {
   ///扫码提示
   String getScanNote() {
     String str = "";
-    if (siteName == null) {
+    if (siteName == null||siteName.isEmpty) {
       if (newsArray != null) {
         NewsArray item = newsArray[0];
         str = newsArray.length > 1
@@ -107,6 +107,24 @@ class ArticleItemModel {
         : '本篇报道暂无摘要，请查看详细信息。';
   }
 
+  String getTimeStr() {
+    String back = timeStr;
+    if (siteName != null && siteName.isNotEmpty) {
+//      if (authorName != null && authorName.isNotEmpty) {
+//        back = '$siteName/$authorName    $timeStr';
+//      } else {
+      back = '$siteName $timeStr';
+//      }
+    } else {
+      if (newsArray != null) {
+        NewsArray item = newsArray[0];
+        back = (newsArray.length > 1 ? item.siteName : item.siteName)
+            .toString() +
+            ' $timeStr';
+      }
+    }
+    return back;
+  }
   ///时间转换
   void parseTimeLong() {
     String targetTime = createdAt == null ? publishDate : createdAt;

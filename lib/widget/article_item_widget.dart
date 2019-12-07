@@ -133,6 +133,9 @@ class ArticleSkeleton extends StatelessWidget {
 class ArticleAdapter extends StatelessWidget {
   const ArticleAdapter(this.item, {Key key}) : super(key: key);
   final ArticleItemModel item;
+  final double leading = 1;
+  final double textLineHeight = 0.6;
+  final double fontSize = 13;
 
   /// 弹出其它媒体报道
   Future<void> __showNewsDialog(BuildContext context) async {
@@ -193,18 +196,32 @@ class ArticleAdapter extends StatelessWidget {
               ),
 
               ///描述摘要
-              Text(
-                item.getSummary(),
-                maxLines: item.maxLine ? 3 : 10000,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.caption.copyWith(),
+              Transform.translate(
+                offset: Offset(0, fontSize * leading / 2),
+                child: Text(
+                  item.getSummary(),
+                  maxLines: item.maxLine ? 3 : 10000,
+                  overflow: TextOverflow.ellipsis,
+                  strutStyle: StrutStyle(
+                      forceStrutHeight: true,
+                      height: textLineHeight,
+                      leading: leading),
+                  style: Theme.of(context).textTheme.caption.copyWith(
+                      fontSize: fontSize,
+                      letterSpacing: 1.5,
+                      color: Theme.of(context)
+                          .textTheme
+                          .title
+                          .color
+                          .withOpacity(0.8)),
+                ),
               ),
               Row(
                 children: <Widget>[
                   Expanded(
                     flex: 1,
                     child: Text(
-                      item.timeStr,
+                      item.getTimeStr(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption.copyWith(
@@ -212,7 +229,8 @@ class ArticleAdapter extends StatelessWidget {
                           ),
                     ),
                   ),
-                ///更多链接
+
+                  ///更多链接
                   item.showLink()
                       ? SmallButtonWidget(
                           onTap: () => __showNewsDialog(context),
@@ -222,6 +240,7 @@ class ArticleAdapter extends StatelessWidget {
                           ),
                         )
                       : SizedBox(),
+
                   ///查看详情web
                   SmallButtonWidget(
                     onTap: () => Navigator.of(context)
@@ -238,7 +257,7 @@ class ArticleAdapter extends StatelessWidget {
   }
 }
 
-///ArticleAdapter 打开连接及关联报道Butto
+///ArticleAdapter 打开连接及关联报道Button
 class SmallButtonWidget extends StatelessWidget {
   final GestureTapCallback onTap;
   final Widget child;

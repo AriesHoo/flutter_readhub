@@ -99,8 +99,6 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  IconData _actionIcon = Icons.brightness_2;
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

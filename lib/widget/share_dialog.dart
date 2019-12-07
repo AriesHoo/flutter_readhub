@@ -36,6 +36,7 @@ Future<void> showShareAppDialog(BuildContext context, Dialog dialog) async {
 }
 
 ///分享Dialog
+// ignore: must_be_immutable
 class ShareDialog extends Dialog {
   final String title;
   final String summary;
