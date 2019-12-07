@@ -83,9 +83,79 @@ class AppWidget extends StatelessWidget {
       ///配置页面路由
       onGenerateRoute: Router.generateRoute,
 
-      ///主页
-      home: HomePage(
+//      ///主页
+//      home: HomePage(
+//        updateModel: updateModel,
+//      ),
+      home: SplashPage(
         updateModel: updateModel,
+      ),
+    );
+  }
+}
+
+///增加一个闪屏页
+class SplashPage extends StatefulWidget {
+  final UpdateModel updateModel;
+
+  const SplashPage({Key key, this.updateModel}) : super(key: key);
+
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 1500), () {
+      Navigator.of(context)
+          .pushReplacementNamed(RouteName.tab, arguments: widget.updateModel);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).cardColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: SizedBox(),
+          ),
+          Image.asset(
+            'assets/images/ic_logo_round.webp',
+            width: 96,
+            height: 96,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Image.asset(
+            'assets/images/ic_slogan.webp',
+            width: 205,
+            height: 205 * 140 / 815,
+            color: Theme.of(context).textTheme.title.color,
+          ),
+          SizedBox(
+            height: 160,
+          ),
+          Expanded(
+            flex: 1,
+            child: SizedBox(),
+          ),
+          Image.asset(
+            'assets/images/ic_powered.webp',
+            width: 110,
+            height: 110 * 100 / 436,
+            color: Theme.of(context).textTheme.title.color,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }
