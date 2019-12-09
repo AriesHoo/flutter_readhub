@@ -351,7 +351,7 @@ class FontSizeWidget extends StatelessWidget {
                     valueIndicatorColor: Theme.of(context).accentColor,
                     //提示进度的气泡文本的颜色
                     valueIndicatorTextStyle: TextStyle(
-                      fontSize: 8,
+                      fontSize: 13,
                       color: Colors.white,
                     ),
 
