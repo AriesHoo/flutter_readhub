@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/i18n.dart';
 
+import '../theme_model.dart';
 import 'view_state.dart';
 
 /// 加载中
@@ -65,13 +66,18 @@ class ViewStateWidget extends StatelessWidget {
               Text(
                 title ?? S.of(context).viewStateError,
                 style: titleStyle,
+                textScaleFactor: ThemeModel.textScaleFactor,
               ),
               SizedBox(height: 12),
               ConstrainedBox(
                 constraints: BoxConstraints(
                     maxHeight: 200, minHeight: message != null ? 10 : 0),
                 child: SingleChildScrollView(
-                  child: Text(message ?? '', style: messageStyle),
+                  child: Text(
+                    message ?? '',
+                    style: messageStyle,
+                    textScaleFactor: ThemeModel.textScaleFactor,
+                  ),
                 ),
               ),
             ],
@@ -183,6 +189,7 @@ class ViewStateButton extends StatelessWidget {
       child: child ??
           Text(
             textData ?? S.of(context).viewStateRetry,
+            textScaleFactor: ThemeModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
           ),
       textColor: Colors.grey,

@@ -127,9 +127,10 @@ class _HomePageState extends State<HomePage>
 //                  ),
 //            ),
             title: Image.asset(
-              'assets/images/title${ThemeModel.darkMode ? '_white' : ''}.png',
+              'assets/images/title.png',
               width: 96,
               height: 96,
+              color: ThemeModel.darkMode ? Colors.white : Colors.black,
               fit: BoxFit.fitWidth,
               colorBlendMode: BlendMode.srcIn,
             ),
@@ -215,8 +216,15 @@ class TabBarWidget extends StatelessWidget {
     return TabBar(
       controller: controller,
       onTap: onTap,
-
-      tabs: List.generate(labels.length, (i) => Tab(text: labels[i])),
+      tabs: List.generate(
+          labels.length,
+          (i) => Tab(
+              child: Text(
+                labels[i],
+                softWrap: false,
+                overflow: TextOverflow.fade,
+                textScaleFactor: ThemeModel.textScaleFactor,
+              ))),
 
       ///不自动滚动则均分屏幕宽度
       isScrollable: false,

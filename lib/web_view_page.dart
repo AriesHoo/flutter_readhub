@@ -8,6 +8,8 @@ import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'view_model/theme_model.dart';
+
 ///加载网页
 class WebViewPage extends StatefulWidget {
   const WebViewPage(
@@ -71,6 +73,7 @@ class _WebViewPageState extends State<WebViewPage> {
                     child: Center(
                       child: Text(
                         S.of(context).cancel,
+                        textScaleFactor: ThemeModel.textScaleFactor,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -111,6 +114,7 @@ class _WebViewPageState extends State<WebViewPage> {
         appBar: AppBar(
           titleSpacing: 0,
           leading: IconButton(
+            tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
             icon: Icon(Icons.close),
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -118,6 +122,7 @@ class _WebViewPageState extends State<WebViewPage> {
             valueListenable: _getTitle,
             builder: (context, title, child) => Text(
               _title,
+              textScaleFactor: ThemeModel.textScaleFactor,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),

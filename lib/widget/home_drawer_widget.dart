@@ -31,6 +31,7 @@ class HomeDrawerWidget extends StatelessWidget {
                         EdgeInsets.only(left: 12, right: 0, top: 0, bottom: 0),
                     title: Text(
                       S.of(context).settingHideFloatingButton,
+                      textScaleFactor: ThemeModel.textScaleFactor,
                       style: Theme.of(context).textTheme.title.copyWith(
                             fontSize: 14,
                           ),
@@ -98,6 +99,7 @@ class TopRoundWidget extends StatelessWidget {
               ),
               child: Text(
                 "AriesHoo",
+                textScaleFactor: ThemeModel.textScaleFactor,
                 style: Theme.of(context).textTheme.subtitle.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -144,6 +146,7 @@ class ChoiceThemeWidget extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         S.of(context).choiceTheme,
+        textScaleFactor: ThemeModel.textScaleFactor,
         style: Theme.of(context).textTheme.title.copyWith(
               fontSize: 14,
             ),
@@ -173,6 +176,7 @@ class ChoiceThemeWidget extends StatelessWidget {
                       child: Center(
                         child: Text(
                           ThemeModel.themeName(context, i: index),
+                          textScaleFactor: ThemeModel.textScaleFactor,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,

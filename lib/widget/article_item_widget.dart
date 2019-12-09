@@ -7,9 +7,14 @@ import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
 import 'package:flutter_readhub/view_model/locale_model.dart';
 import 'package:flutter_readhub/view_model/article_model.dart';
+import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/widget/share_dialog.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
 import 'package:provider/provider.dart';
+
+final double leading = 1;
+final double textLineHeight = 0.5;
+final letterSpacing = 1.0;
 
 ///文章item页--最终展示效果
 class ArticleItemWidget extends StatefulWidget {
@@ -110,7 +115,7 @@ class ArticleSkeleton extends StatelessWidget {
               SkeletonBox(
                 margin: EdgeInsets.only(bottom: 7),
                 width: 36,
-                height: 12,
+                height: 16,
               ),
               Expanded(
                 flex: 1,
@@ -133,9 +138,6 @@ class ArticleSkeleton extends StatelessWidget {
 class ArticleAdapter extends StatelessWidget {
   const ArticleAdapter(this.item, {Key key}) : super(key: key);
   final ArticleItemModel item;
-  final double leading = 1;
-  final double textLineHeight = 0.6;
-  final double fontSize = 13;
 
   /// 弹出其它媒体报道
   Future<void> __showNewsDialog(BuildContext context) async {
@@ -185,36 +187,39 @@ class ArticleAdapter extends StatelessWidget {
               ///标题
               Text(
                 item.title,
+                textScaleFactor: ThemeModel.fontTextSize,
                 maxLines: 2,
+                strutStyle: StrutStyle(
+                    forceStrutHeight: true,
+                    height: textLineHeight,
+                    leading: leading),
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.subtitle.copyWith(
                       fontWeight: FontWeight.bold,
+                      letterSpacing: letterSpacing,
                     ),
               ),
               SizedBox(
-                height: 4,
+                height: 6,
               ),
 
               ///描述摘要
-              Transform.translate(
-                offset: Offset(0, fontSize * leading / 2),
-                child: Text(
-                  item.getSummary(),
-                  maxLines: item.maxLine ? 3 : 10000,
-                  overflow: TextOverflow.ellipsis,
-                  strutStyle: StrutStyle(
-                      forceStrutHeight: true,
-                      height: textLineHeight,
-                      leading: leading),
-                  style: Theme.of(context).textTheme.caption.copyWith(
-                      fontSize: fontSize,
-                      letterSpacing: 1.5,
-                      color: Theme.of(context)
-                          .textTheme
-                          .title
-                          .color
-                          .withOpacity(0.8)),
-                ),
+              Text(
+                item.getSummary(),
+                textScaleFactor: ThemeModel.fontTextSize,
+                maxLines: item.maxLine ? 3 : 10000,
+                overflow: TextOverflow.ellipsis,
+                strutStyle: StrutStyle(
+                    forceStrutHeight: true,
+                    height: textLineHeight,
+                    leading: leading),
+                style: Theme.of(context).textTheme.caption.copyWith(
+                    letterSpacing: letterSpacing,
+                    color: Theme.of(context)
+                        .textTheme
+                        .title
+                        .color
+                        .withOpacity(0.8)),
               ),
               Row(
                 children: <Widget>[
@@ -222,6 +227,7 @@ class ArticleAdapter extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       item.getTimeStr(),
+                      textScaleFactor: ThemeModel.fontTextSize,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption.copyWith(
@@ -303,6 +309,7 @@ class NewsAdapter extends StatelessWidget {
               ///顶部标题
               Text(
                 item.title,
+                textScaleFactor: ThemeModel.textScaleFactor,
                 style: Theme.of(context).textTheme.title.copyWith(
                       fontSize: 14,
                     ),
@@ -319,6 +326,7 @@ class NewsAdapter extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       item.siteName,
+                      textScaleFactor: ThemeModel.textScaleFactor,
                       style: Theme.of(context).textTheme.title.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
@@ -327,6 +335,7 @@ class NewsAdapter extends StatelessWidget {
                   ),
                   Text(
                     item.parseTimeLong(),
+                    textScaleFactor: ThemeModel.textScaleFactor,
                     style: Theme.of(context).textTheme.caption.copyWith(
                           fontSize: 10,
                         ),

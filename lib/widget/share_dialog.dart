@@ -8,10 +8,14 @@ import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
+import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/widget/article_item_widget.dart' as prefix0;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
+
+import 'article_item_widget.dart';
 
 ///弹出分享提示框
 Future<void> showShareArticleDialog(
@@ -161,9 +165,11 @@ class ShotImageWidget extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       title,
+                      textScaleFactor: ThemeModel.textScaleFactor,
                       textAlign: TextAlign.justify,
                       style: Theme.of(context).textTheme.title.copyWith(
                             fontWeight: FontWeight.bold,
+                            letterSpacing: prefix0.letterSpacing,
                             fontSize: 17,
                           ),
                     ),
@@ -204,10 +210,16 @@ class ShotImageWidget extends StatelessWidget {
                         child: summaryWidget ??
                             Text(
                               summary,
+                              textScaleFactor: ThemeModel.textScaleFactor,
                               overflow: TextOverflow.visible,
+                              strutStyle: StrutStyle(
+                                  forceStrutHeight: true,
+                                  height: textLineHeight,
+                                  leading: leading),
                               maxLines: 12,
                               style: Theme.of(context).textTheme.title.copyWith(
                                     fontSize: 13,
+                                    letterSpacing: letterSpacing,
                                     color: Theme.of(context)
                                         .textTheme
                                         .title
@@ -228,6 +240,7 @@ class ShotImageWidget extends StatelessWidget {
                           flex: 1,
                           child: Text(
                             notice,
+                            textScaleFactor: ThemeModel.textScaleFactor,
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.title.copyWith(
                                   fontWeight: FontWeight.w600,
@@ -259,6 +272,7 @@ class ShotImageWidget extends StatelessWidget {
               ),
               Text(
                 bottomNotice,
+                textScaleFactor: ThemeModel.textScaleFactor,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.caption.copyWith(
                       fontSize: 10,

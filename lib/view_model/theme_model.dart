@@ -11,6 +11,7 @@ class ThemeModel with ChangeNotifier {
   static const SP_KEY_THEME_COLOR_INDEX = 'SP_KEY_THEME_COLOR_INDEX';
   static const SP_KEY_THEME_DARK_MODE = 'SP_KEY_THEME_DARK_MODE';
   static const SP_KEY_FONT_INDEX = 'SP_KEY_FONT_INDEX';
+  static const SP_KEY_FONT_TEXT_SIZE = 'SP_KEY_FONT_TEXT_SIZE';
 
   ///颜色主题列表
   static const List<MaterialColor> themeValueList = <MaterialColor>[
@@ -62,6 +63,16 @@ class ThemeModel with ChangeNotifier {
 
   static Color get accentColor => _accentColor;
 
+  static Color get themeAccentColor =>
+      _userDarkMode ? colorBlackTheme : accentColor;
+
+  static double get textScaleFactor => 1;
+
+  /// 当前主size textScaleFactor
+  static double _fontTextSize = 1.0;
+
+  static double get fontTextSize => _fontTextSize;
+
   ThemeModel() {
     /// 用户选择的明暗模式
     _userDarkMode = SPUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false);
@@ -75,6 +86,9 @@ class ThemeModel with ChangeNotifier {
 
     /// 获取本地字体
     _fontIndex = SPUtil.getInt(SP_KEY_FONT_INDEX);
+
+    /// 获取本地文字缩放
+    _fontTextSize = SPUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
 
     ///如果缓存为黑色字体则进行
 //    if (_userDarkMode) {
@@ -93,6 +107,13 @@ class ThemeModel with ChangeNotifier {
     _fontIndex = index;
     switchTheme();
     SPUtil.putInt(SP_KEY_FONT_INDEX, _fontIndex);
+  }
+
+  /// 切换文字字号缩放
+  switchFontTextSize(double textSize) {
+    _fontTextSize = textSize;
+    switchTheme();
+    SPUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _fontTextSize);
   }
 
   static String fontFamily() {
@@ -209,6 +230,11 @@ class ThemeModel with ChangeNotifier {
         labelStyle: themeData.textTheme.caption,
         backgroundColor: themeData.chipTheme.backgroundColor.withOpacity(0.1),
       ),
+      tooltipTheme: themeData.tooltipTheme.copyWith(
+          textStyle: TextStyle(
+              fontSize: 11,
+              color:
+                  (darkMode ? Colors.black : Colors.white).withOpacity(0.8))),
 
       ///TabBar样式设置
       tabBarTheme: themeData.tabBarTheme.copyWith(
@@ -237,9 +263,6 @@ class ThemeModel with ChangeNotifier {
 
     return themeData;
   }
-
-  static Color get themeAccentColor =>
-      _userDarkMode ? colorBlackTheme : accentColor;
 
   /// 根据索引获取字体名称,这里牵涉到国际化
   static String fontName(context, {int i}) {

@@ -14,6 +14,8 @@ import 'package:flutter_readhub/widget/share_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'article_item_widget.dart';
+
 ///弹出分享提示框
 Future<void> showAuthorDialog(BuildContext context) async {
   await showDialog<int>(
@@ -50,6 +52,7 @@ Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
         titlePadding: EdgeInsets.only(left: 16, top: 16, right: 16),
         contentPadding: EdgeInsets.only(left: 16, top: 10, right: 16),
         title: RichText(
+          textScaleFactor: ThemeModel.textScaleFactor,
           text: TextSpan(
               style: Theme.of(context).textTheme.title,
               text: '发现新版本:${info.buildVersion}',
@@ -65,7 +68,10 @@ Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
         titleTextStyle: Theme.of(context).textTheme.subtitle.copyWith(
               fontSize: 18,
             ),
-        content: Text(info.buildUpdateDescription),
+        content: Text(
+          info.buildUpdateDescription,
+          textScaleFactor: ThemeModel.textScaleFactor,
+        ),
         contentTextStyle: Theme.of(context).textTheme.subtitle.copyWith(
               fontSize: 14,
             ),
@@ -73,6 +79,7 @@ Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
           FlatButton(
             child: Text(
               S.of(context).updateNextTime,
+              textScaleFactor: ThemeModel.textScaleFactor,
               style: Theme.of(context).textTheme.caption,
             ),
             onPressed: () => Navigator.of(context).pop(0),
@@ -80,6 +87,7 @@ Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
           FlatButton(
             child: Text(
               S.of(context).updateNow,
+              textScaleFactor: ThemeModel.textScaleFactor,
               style: Theme.of(context).textTheme.caption.copyWith(
                     color: Theme.of(context).accentColor,
                   ),
@@ -133,6 +141,7 @@ class AuthorDialog extends Dialog {
                         child: ListTile(
                           title: Text(
                             S.of(context).choiceTheme,
+                            textScaleFactor: ThemeModel.textScaleFactor,
                             style:
                                 Theme.of(context).textTheme.subtitle.copyWith(),
                           ),
@@ -143,6 +152,7 @@ class AuthorDialog extends Dialog {
                           ),
                           trailing: Text(
                             ThemeModel.themeName(context),
+                            textScaleFactor: ThemeModel.textScaleFactor,
                             style: Theme.of(context).textTheme.caption,
                           ),
                         ),
@@ -155,6 +165,7 @@ class AuthorDialog extends Dialog {
                         child: ListTile(
                           title: Text(
                             S.of(context).feedback,
+                            textScaleFactor: ThemeModel.textScaleFactor,
                             style:
                                 Theme.of(context).textTheme.subtitle.copyWith(),
                           ),
@@ -169,6 +180,7 @@ class AuthorDialog extends Dialog {
                           ),
                           trailing: Text(
                             'AriesHoo@126.com',
+                            textScaleFactor: ThemeModel.textScaleFactor,
                             style: Theme.of(context).textTheme.caption,
                           ),
                         ),
@@ -183,6 +195,7 @@ class AuthorDialog extends Dialog {
                         child: ListTile(
                           title: Text(
                             S.of(context).shareApp,
+                            textScaleFactor: ThemeModel.textScaleFactor,
                             style:
                                 Theme.of(context).textTheme.subtitle.copyWith(),
                           ),
@@ -206,6 +219,9 @@ class AuthorDialog extends Dialog {
                           ),
                         ),
                       ),
+
+                      ///文字尺寸设置
+                      FontSizeWidget(),
 
                       ///赞赏开发者
                       AppreciateWidget(),
@@ -231,6 +247,7 @@ class ShareAppSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
+      textScaleFactor: ThemeModel.textScaleFactor,
       text: TextSpan(
         style: Theme.of(context).textTheme.title.copyWith(
               fontSize: 13,
@@ -263,6 +280,111 @@ class ShareAppSummaryWidget extends StatelessWidget {
   }
 }
 
+///文字大小
+class FontSizeWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Theme.of(context).cardColor,
+      child: ExpansionTile(
+        leading: Icon(
+          Icons.font_download,
+          color: Theme.of(context).accentColor,
+        ),
+        title: Text(
+          S.of(context).fontSize,
+          textScaleFactor: ThemeModel.textScaleFactor,
+          style: Theme.of(context).textTheme.subtitle.copyWith(),
+        ),
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 12, right: 12, bottom: 10, top: 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ///标题
+                Text(
+                  '资讯标题预览',
+                  textScaleFactor: ThemeModel.fontTextSize,
+                  maxLines: 2,
+                  strutStyle: StrutStyle(
+                      forceStrutHeight: true,
+                      height: textLineHeight,
+                      leading: leading),
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.subtitle.copyWith(
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: letterSpacing,
+                      ),
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+
+                ///描述摘要
+                Text(
+                  '资讯摘要预览',
+                  textScaleFactor: ThemeModel.fontTextSize,
+                  overflow: TextOverflow.ellipsis,
+                  strutStyle: StrutStyle(
+                      forceStrutHeight: true,
+                      height: textLineHeight,
+                      leading: leading),
+                  style: Theme.of(context).textTheme.caption.copyWith(
+                      letterSpacing: letterSpacing,
+                      color: Theme.of(context)
+                          .textTheme
+                          .title
+                          .color
+                          .withOpacity(0.8)),
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    //已拖动的颜色
+                    activeTrackColor: Theme.of(context).accentColor,
+                    //未拖动的颜色
+                    inactiveTrackColor:
+                        Theme.of(context).accentColor.withOpacity(0.25),
+
+                    //提示进度的气泡的背景色
+                    valueIndicatorColor: Theme.of(context).accentColor,
+                    //提示进度的气泡文本的颜色
+                    valueIndicatorTextStyle: TextStyle(
+                      fontSize: 8,
+                      color: Colors.white,
+                    ),
+
+                    //滑块中心的颜色
+                    thumbColor: Theme.of(context).accentColor,
+                    //滑块边缘的颜色
+                    overlayColor:
+                        Theme.of(context).accentColor.withOpacity(0.3),
+
+                    //divisions对进度线分割后，断续线中间间隔的颜色
+                    inactiveTickMarkColor: Theme.of(context).accentColor,
+                  ),
+                  child: Slider(
+                    min: 8,
+                    max: 12,
+                    value: ThemeModel.fontTextSize * 10,
+                    divisions: 8,
+                    label: '${ThemeModel.fontTextSize * 10}',
+                    onChanged: (value) {
+                      Provider.of<ThemeModel>(context)
+                          .switchFontTextSize(value / 10);
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 ///赞赏开发
 class AppreciateWidget extends StatelessWidget {
   final GlobalKey _globalKey = GlobalKey();
@@ -279,6 +401,7 @@ class AppreciateWidget extends StatelessWidget {
         ),
         title: Text(
           S.of(context).appreciateDeveloper,
+          textScaleFactor: ThemeModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         children: <Widget>[
@@ -367,6 +490,7 @@ class CopyrightWidget extends StatelessWidget {
         ),
         title: Text(
           S.of(context).appCopyright,
+          textScaleFactor: ThemeModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         children: <Widget>[
@@ -461,6 +585,7 @@ class ThemeDialog extends Dialog {
                             child: Center(
                               child: Text(
                                 ThemeModel.themeName(context, i: index),
+                                textScaleFactor: ThemeModel.textScaleFactor,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -490,6 +615,7 @@ class UpdateWidget extends StatelessWidget {
         child: ListTile(
           title: Text(
             S.of(context).checkUpdate,
+            textScaleFactor: ThemeModel.textScaleFactor,
             style: Theme.of(context).textTheme.subtitle.copyWith(),
           ),
           onTap: model.loading
@@ -509,6 +635,7 @@ class UpdateWidget extends StatelessWidget {
                 )
               : Text(
                   UpdateModel.appVersion,
+                  textScaleFactor: ThemeModel.textScaleFactor,
                   style: Theme.of(context).textTheme.caption,
                 ),
         ),

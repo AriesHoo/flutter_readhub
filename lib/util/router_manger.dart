@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_readhub/home_page.dart';
+import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/view_model/update_model.dart';
 import 'package:flutter_readhub/web_view_page.dart';
 import 'package:flutter_readhub/widget/home_drawer_widget.dart';
@@ -23,7 +24,7 @@ class Router {
       case RouteName.webView:
         var model = settings.arguments as String;
         return MaterialPageRoute(
-          fullscreenDialog: true,
+//          fullscreenDialog: true,
           builder: (context) => WebViewPage(
             model,
           ),
@@ -32,7 +33,8 @@ class Router {
         return MaterialPageRoute(
             builder: (context) => Scaffold(
                   body: Center(
-                    child: Text('No route defined for ${settings.name}'),
+                    child: Text('No route defined for ${settings.name}',
+                      textScaleFactor: ThemeModel.textScaleFactor,),
                   ),
                 ));
     }

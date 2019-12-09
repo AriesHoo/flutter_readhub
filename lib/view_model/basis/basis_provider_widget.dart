@@ -269,6 +269,7 @@ class SmartLoadFooterWidget extends StatelessWidget {
         if (mode == LoadStatus.idle) {
           body = Text(
             S.of(context).loadIdle,
+            textScaleFactor: ThemeModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.loading) {
@@ -276,16 +277,19 @@ class SmartLoadFooterWidget extends StatelessWidget {
         } else if (mode == LoadStatus.failed) {
           body = Text(
             S.of(context).loadFailed,
+            textScaleFactor: ThemeModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.canLoading) {
           body = Text(
             S.of(context).loadIdle,
+            textScaleFactor: ThemeModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else {
           body = Text(
             S.of(context).loadNoMore,
+            textScaleFactor: ThemeModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         }
