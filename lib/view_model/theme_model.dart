@@ -50,7 +50,7 @@ class ThemeModel with ChangeNotifier {
   /// 当前主题索引
   static int _themeIndex = 5;
 
-  int get themeIndex => _themeIndex;
+   int get themeIndex => _themeIndex;
 
   static MaterialColor get themeColor => _themeColor;
 
@@ -202,7 +202,7 @@ class ThemeModel with ChangeNotifier {
         textTheme: TextTheme(
           title: TextStyle(
             color: isDark ? Colors.white : accentColor,
-            fontSize: 16,
+            fontSize: 17,
             fontWeight: FontWeight.w500,
 
             ///字体
@@ -230,11 +230,12 @@ class ThemeModel with ChangeNotifier {
         labelStyle: themeData.textTheme.caption,
         backgroundColor: themeData.chipTheme.backgroundColor.withOpacity(0.1),
       ),
+      ///长按提示文本样式
       tooltipTheme: themeData.tooltipTheme.copyWith(
           textStyle: TextStyle(
-              fontSize: 11,
+              fontSize: 13,
               color:
-                  (darkMode ? Colors.black : Colors.white).withOpacity(0.8))),
+                  (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
 
       ///TabBar样式设置
       tabBarTheme: themeData.tabBarTheme.copyWith(

@@ -228,7 +228,7 @@ class ArticleAdapter extends StatelessWidget {
                     child: Text(
                       item.getTimeStr(),
                       textScaleFactor: ThemeModel.fontTextSize,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption.copyWith(
                             fontSize: 12,

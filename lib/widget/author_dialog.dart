@@ -110,7 +110,6 @@ class AuthorDialog extends Dialog {
 
   @override
   Widget build(BuildContext context) {
-    Color iconColor = Theme.of(context).accentColor;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
@@ -135,90 +134,16 @@ class AuthorDialog extends Dialog {
                       TopRoundWidget(),
 
                       ///选择颜色主题
-                      Material(
-                        color: Theme.of(context).cardColor,
-                        elevation: 0,
-                        child: ListTile(
-                          title: Text(
-                            S.of(context).choiceTheme,
-                            textScaleFactor: ThemeModel.textScaleFactor,
-                            style:
-                                Theme.of(context).textTheme.subtitle.copyWith(),
-                          ),
-                          onTap: () => showThemeDialog(context),
-                          leading: Icon(
-                            Icons.color_lens,
-                            color: iconColor,
-                          ),
-                          trailing: Text(
-                            ThemeModel.themeName(context),
-                            textScaleFactor: ThemeModel.textScaleFactor,
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        ),
-                      ),
+                      ThemeWidget(),
 
                       ///意见反馈-发送邮件
-                      Material(
-                        color: Theme.of(context).cardColor,
-                        elevation: 0,
-                        child: ListTile(
-                          title: Text(
-                            S.of(context).feedback,
-                            textScaleFactor: ThemeModel.textScaleFactor,
-                            style:
-                                Theme.of(context).textTheme.subtitle.copyWith(),
-                          ),
-                          onTap: () async {
-                            ///发送邮件
-                            await launch(
-                                'mailto:AriesHoo@126.com?subject=关于Freadhub的意见反馈&body=');
-                          },
-                          leading: Icon(
-                            Icons.mail_outline,
-                            color: iconColor,
-                          ),
-                          trailing: Text(
-                            'AriesHoo@126.com',
-                            textScaleFactor: ThemeModel.textScaleFactor,
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        ),
-                      ),
+                      FeedbackWidget(),
 
                       ///检查更新
                       UpdateWidget(),
 
                       ///应用分享
-                      Material(
-                        color: Theme.of(context).cardColor,
-                        child: ListTile(
-                          title: Text(
-                            S.of(context).shareApp,
-                            textScaleFactor: ThemeModel.textScaleFactor,
-                            style:
-                                Theme.of(context).textTheme.subtitle.copyWith(),
-                          ),
-                          onTap: () => showShareAppDialog(
-                              context,
-                              ShareDialog(
-                                '分享一个还不错的 Readhub 三方客户端-Freadhub',
-                                'Freadhub',
-                                'AriesHoo开发\n扫码查看详情',
-                                'https://www.coolapk.com/apk/${UpdateModel.packageName}',
-                                S.of(context).saveImageShareTip,
-                                summaryWidget: ShareAppSummaryWidget(),
-                              )),
-                          leading: Icon(
-                            Icons.share,
-                            color: iconColor,
-                          ),
-                          trailing: Icon(
-                            Icons.chevron_right,
-                            color: Theme.of(context).textTheme.caption.color,
-                          ),
-                        ),
-                      ),
+                      ShareAppWidget(),
 
                       ///文字尺寸设置
                       FontSizeWidget(),
@@ -237,6 +162,210 @@ class AuthorDialog extends Dialog {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+///主题选择
+class ThemeWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Theme.of(context).cardColor,
+      elevation: 0,
+      child: ListTile(
+        title: Text(
+          S.of(context).choiceTheme,
+          textScaleFactor: ThemeModel.textScaleFactor,
+          style: Theme.of(context).textTheme.subtitle.copyWith(),
+        ),
+        onTap: () => showThemeDialog(context),
+        leading: Icon(
+          Icons.color_lens,
+          color: Theme.of(context).accentColor,
+        ),
+        trailing: Text(
+          ThemeModel.themeName(context),
+          textScaleFactor: ThemeModel.textScaleFactor,
+          style: Theme.of(context).textTheme.caption,
+        ),
+      ),
+    );
+  }
+}
+
+///颜色选择dialog
+class ThemeDialog extends Dialog {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      ///所有颜色按钮垂直排列
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Container(
+                color: Theme.of(context).cardColor,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                child: Wrap(
+                  runSpacing: 8,
+                  children: <Widget>[
+                    ...ThemeModel.themeValueList.map((color) {
+                      int index = ThemeModel.themeValueList.indexOf(color);
+                      return Material(
+                        borderRadius: BorderRadius.circular(4),
+                        color: ThemeModel.getThemeColor(i: index),
+                        child: InkWell(
+                          onTap: () {
+                            var model = Provider.of<ThemeModel>(context);
+                            model.switchTheme(themeIndex: index);
+                            Navigator.of(context).pop();
+                          },
+                          splashColor: Colors.black.withAlpha(50),
+                          child: Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: <Widget>[
+                              Container(
+                                width: double.infinity,
+                                height: 40,
+                                child: Center(
+                                  child: Text(
+                                    ThemeModel.themeName(context, i: index),
+                                    textScaleFactor: ThemeModel.textScaleFactor,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 110),
+                                child: Icon(
+                                  Icons.check,
+                                  size: 22,
+                                  color: index == Provider.of<ThemeModel>(context).themeIndex
+                                      ? Colors.white
+                                      : Colors.transparent,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+///意见反馈
+class FeedbackWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Theme.of(context).cardColor,
+      elevation: 0,
+      child: ListTile(
+        title: Text(
+          S.of(context).feedback,
+          textScaleFactor: ThemeModel.textScaleFactor,
+          style: Theme.of(context).textTheme.subtitle.copyWith(),
+        ),
+        onTap: () async {
+          ///发送邮件
+          await launch('mailto:AriesHoo@126.com?subject=关于Freadhub的意见反馈&body=');
+        },
+        leading: Icon(
+          Icons.mail_outline,
+          color: Theme.of(context).accentColor,
+        ),
+        trailing: Text(
+          'AriesHoo@126.com',
+          textScaleFactor: ThemeModel.textScaleFactor,
+          style: Theme.of(context).textTheme.caption,
+        ),
+      ),
+    );
+  }
+}
+
+///检查更新
+class UpdateWidget extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return BasisProviderWidget<UpdateModel>(
+      model: UpdateModel(),
+      builder: (context, model, child) => Material(
+        color: Theme.of(context).cardColor,
+        child: ListTile(
+          title: Text(
+            S.of(context).checkUpdate,
+            textScaleFactor: ThemeModel.textScaleFactor,
+            style: Theme.of(context).textTheme.subtitle.copyWith(),
+          ),
+          onTap: model.loading
+              ? null
+              : () async {
+                  AppUpdateInfo info = await Provider.of<UpdateModel>(context)
+                      .checkUpdate(showError: true);
+                  showUpdateDialog(context, info, background: false);
+                },
+          leading: Icon(
+            Icons.system_update_alt,
+            color: Theme.of(context).accentColor,
+          ),
+          trailing: model.loading
+              ? CupertinoActivityIndicator(
+                  radius: 8,
+                )
+              : Text(
+                  UpdateModel.appVersion,
+                  textScaleFactor: ThemeModel.textScaleFactor,
+                  style: Theme.of(context).textTheme.caption,
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+///分享App widget
+class ShareAppWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Theme.of(context).cardColor,
+      child: ListTile(
+        title: Text(
+          S.of(context).shareApp,
+          textScaleFactor: ThemeModel.textScaleFactor,
+          style: Theme.of(context).textTheme.subtitle.copyWith(),
+        ),
+        onTap: () => showShareAppDialog(
+            context,
+            ShareDialog(
+              '分享一个还不错的 Readhub 三方客户端-Freadhub',
+              'Freadhub',
+              'AriesHoo开发\n扫码查看详情',
+              'https://www.coolapk.com/apk/${UpdateModel.packageName}',
+              S.of(context).saveImageShareTip,
+              summaryWidget: ShareAppSummaryWidget(),
+            )),
+        leading: Icon(
+          Icons.share,
+          color: Theme.of(context).accentColor,
+        ),
+        trailing: Icon(
+          Icons.chevron_right,
+          color: Theme.of(context).textTheme.caption.color,
+        ),
       ),
     );
   }
@@ -351,7 +480,7 @@ class FontSizeWidget extends StatelessWidget {
                     valueIndicatorColor: Theme.of(context).accentColor,
                     //提示进度的气泡文本的颜色
                     valueIndicatorTextStyle: TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       color: Colors.white,
                     ),
 
@@ -362,7 +491,9 @@ class FontSizeWidget extends StatelessWidget {
                         Theme.of(context).accentColor.withOpacity(0.3),
 
                     //divisions对进度线分割后，断续线中间间隔的颜色
-                    inactiveTickMarkColor: Theme.of(context).accentColor,
+                    inactiveTickMarkColor:
+                        Theme.of(context).accentColor.withOpacity(0.25),
+                    activeTickMarkColor: Theme.of(context).accentColor,
                   ),
                   child: Slider(
                     min: 8,
@@ -395,6 +526,7 @@ class AppreciateWidget extends StatelessWidget {
     return Material(
       color: Theme.of(context).cardColor,
       child: ExpansionTile(
+        backgroundColor: Colors.transparent,
         leading: Icon(
           Icons.payment,
           color: Theme.of(context).accentColor,
@@ -429,9 +561,13 @@ class AppreciateWidget extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(left: 6),
                     child: RichText(
+                      strutStyle: StrutStyle(
+                          forceStrutHeight: true,
+                          height: textLineHeight,
+                          leading: leading),
                       text: TextSpan(
                           style: Theme.of(context).textTheme.subtitle.copyWith(
-                                fontSize: 13,
+                                fontSize: 14,
                                 color: Theme.of(context)
                                     .textTheme
                                     .title
@@ -545,100 +681,6 @@ class CopyrightWidget extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-///颜色选择dialog
-class ThemeDialog extends Dialog {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Container(
-                color: Theme.of(context).cardColor,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                child: Wrap(
-                  runSpacing: 8,
-                  children: <Widget>[
-                    ...ThemeModel.themeValueList.map((color) {
-                      int index = ThemeModel.themeValueList.indexOf(color);
-                      return Material(
-                        borderRadius: BorderRadius.circular(4),
-                        color: ThemeModel.getThemeColor(i: index),
-                        child: InkWell(
-                          onTap: () {
-                            var model = Provider.of<ThemeModel>(context);
-                            model.switchTheme(themeIndex: index);
-                            Navigator.of(context).pop();
-                          },
-                          splashColor: Colors.black.withAlpha(50),
-                          child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            child: Center(
-                              child: Text(
-                                ThemeModel.themeName(context, i: index),
-                                textScaleFactor: ThemeModel.textScaleFactor,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
-  }
-}
-
-///检查更新
-class UpdateWidget extends StatelessWidget {
-  Widget build(BuildContext context) {
-    return BasisProviderWidget<UpdateModel>(
-      model: UpdateModel(),
-      builder: (context, model, child) => Material(
-        color: Theme.of(context).cardColor,
-        child: ListTile(
-          title: Text(
-            S.of(context).checkUpdate,
-            textScaleFactor: ThemeModel.textScaleFactor,
-            style: Theme.of(context).textTheme.subtitle.copyWith(),
-          ),
-          onTap: model.loading
-              ? null
-              : () async {
-                  AppUpdateInfo info = await Provider.of<UpdateModel>(context)
-                      .checkUpdate(showError: true);
-                  showUpdateDialog(context, info, background: false);
-                },
-          leading: Icon(
-            Icons.system_update_alt,
-            color: Theme.of(context).accentColor,
-          ),
-          trailing: model.loading
-              ? CupertinoActivityIndicator(
-                  radius: 8,
-                )
-              : Text(
-                  UpdateModel.appVersion,
-                  textScaleFactor: ThemeModel.textScaleFactor,
-                  style: Theme.of(context).textTheme.caption,
-                ),
-        ),
       ),
     );
   }
