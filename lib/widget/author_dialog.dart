@@ -201,6 +201,7 @@ class ThemeDialog extends Dialog {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+
       ///所有颜色按钮垂直排列
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -247,7 +248,9 @@ class ThemeDialog extends Dialog {
                                 child: Icon(
                                   Icons.check,
                                   size: 22,
-                                  color: index == Provider.of<ThemeModel>(context).themeIndex
+                                  color: index ==
+                                          Provider.of<ThemeModel>(context)
+                                              .themeIndex
                                       ? Colors.white
                                       : Colors.transparent,
                                 ),
@@ -354,7 +357,9 @@ class ShareAppWidget extends StatelessWidget {
               '分享一个还不错的 Readhub 三方客户端-Freadhub',
               'Freadhub',
               'AriesHoo开发\n扫码查看详情',
-              'https://www.coolapk.com/apk/${UpdateModel.packageName}',
+              'https://fir.im/nywj',
+//              'https://www.pgyer.com/ntMA',
+//              'https://www.coolapk.com/apk/${UpdateModel.packageName}',
               S.of(context).saveImageShareTip,
               summaryWidget: ShareAppSummaryWidget(),
             )),
