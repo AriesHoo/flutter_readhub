@@ -49,5 +49,6 @@
   "updateNow": "Update now",
   "updateNextTime": "Next time",
   "fontSize": "Font size",
-  "appreciateDeveloper": "Appreciate"
+  "appreciateDeveloper": "Appreciate",
+  "test": "Test"
 }
