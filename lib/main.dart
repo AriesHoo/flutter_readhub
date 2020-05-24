@@ -14,6 +14,12 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await SPUtil.getInstance();
+
+  ///黑白化效果-缅怀
+//  runApp(ColorFiltered(
+//    colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+//    child: MyApp(),
+//  ));
   runApp(MyApp());
 }
 
@@ -91,7 +97,6 @@ class AppWidget extends StatelessWidget {
 
 ///增加一个闪屏页
 class SplashPage extends StatefulWidget {
-
   @override
   _SplashPageState createState() => _SplashPageState();
 }
@@ -101,8 +106,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 1500), () {
-      Navigator.of(context)
-          .pushReplacementNamed(RouteName.tab);
+      Navigator.of(context).pushReplacementNamed(RouteName.tab);
     });
   }
 

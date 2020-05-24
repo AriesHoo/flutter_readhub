@@ -139,9 +139,7 @@ class _WebViewPageState extends State<WebViewPage> {
               icon: Icon(Icons.share),
               tooltip: S.of(context).share,
               onPressed: () async {
-                await FlutterShare.share(
-                    message:
-                        S.of(context).saveImageShareTip + "   " + widget.url);
+                await FlutterShare.shareText(S.of(context).saveImageShareTip + "   " + widget.url);
               },
             ),
           ],

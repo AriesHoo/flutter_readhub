@@ -28,9 +28,10 @@ dependencies:
   #  吐司toast
   oktoast: '2.2.0'
   #  设备信息
-  device_info: ^0.4.1
+  device_info: ^0.4.2+4
   #  应用包信息
   package_info: ^0.4.0+9
+
   # WebView
   webview_flutter: ^0.3.15+1
   #  网络请求相关dio
@@ -42,7 +43,7 @@ dependencies:
   #  下拉刷新
   pull_to_refresh: ^1.5.7
   #  本地缓存sp
-  shared_preferences: ^0.5.3+5
+  shared_preferences: ^0.5.7+3
   # 用于做骨架屏-闪光效果
   shimmer: ^1.0.0
   #  跳转系统浏览器/打电话等
