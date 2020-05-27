@@ -13,7 +13,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  await SPUtil.getInstance();
+//  await SPUtil.getInstance();
 
   ///黑白化效果-缅怀
 //  runApp(ColorFiltered(
