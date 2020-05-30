@@ -316,8 +316,7 @@ class UpdateWidget extends StatelessWidget {
           onTap: model.loading
               ? null
               : () async {
-                  AppUpdateInfo info = await Provider.of<UpdateModel>(context)
-                      .checkUpdate(showError: true);
+                  AppUpdateInfo info = await model.checkUpdate(showError: true);
                   showUpdateDialog(context, info, background: false);
                 },
           leading: Icon(

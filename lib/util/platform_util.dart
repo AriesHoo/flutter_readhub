@@ -30,25 +30,24 @@ class PlatformUtil {
   }
 
   static Future getDeviceInfo() async {
-//    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-//    if (Platform.isAndroid) {
-//      return await deviceInfo.androidInfo;
-//    } else if (Platform.isIOS) {
-//      return await deviceInfo.iosInfo;
-//    } else {
-//      return null;
-//    }
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      return await deviceInfo.androidInfo;
+    } else if (Platform.isIOS) {
+      return await deviceInfo.iosInfo;
+    } else {
+      return null;
+    }
   }
 
   static Future<bool> isStatusColorChange() async {
-//    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-//    if (Platform.isAndroid) {
-//      AndroidDeviceInfo info = await deviceInfo.androidInfo;
-//      return info.version.sdkInt >= 23;
-//    } else {
-//      return true;
-//    }
-    return true;
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      return info.version.sdkInt >= 23;
+    } else {
+      return true;
+    }
   }
 
   static Future<bool> isNavigationColorChange() async {

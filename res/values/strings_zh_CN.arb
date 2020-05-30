@@ -31,7 +31,7 @@
   "viewStateNetworkError": "网络好像不给力哟！",
   "viewStateEmpty": "空空如也",
   "viewStateRefresh": "刷新一下",
-  "viewStateBRetry": "重试",
+  "viewStateRetry": "重试",
   "settingHideFloatingButton": "隐藏悬浮按钮",
   "settingStyle": "样式",
   "downloadImage": "保存图片到本地",
