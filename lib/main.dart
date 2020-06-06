@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/home_page.dart';
@@ -13,7 +14,8 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-//  await SPUtil.getInstance();
+  WidgetsFlutterBinding.ensureInitialized();
+  await SPUtil.getInstance();
 
   ///黑白化效果-缅怀
 //  runApp(ColorFiltered(
@@ -63,7 +65,9 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       ///全局主题配置
       theme: themeModel.themeData(),
-//      darkTheme: themeModel.themeData(platformDarkMode: true),
+
+      ///全局配置深色主题
+      darkTheme: themeModel.themeData(platformDarkMode: true),
 
       ///去掉右上顶部debug标签
       debugShowCheckedModeBanner: false,
@@ -105,8 +109,17 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+
+    ///设置全屏
+    SystemChrome.setEnabledSystemUIOverlays([]);
     Future.delayed(Duration(milliseconds: 1500), () {
       Navigator.of(context).pushReplacementNamed(RouteName.tab);
+
+      ///恢复显示状态栏及导航栏
+      SystemChrome.setEnabledSystemUIOverlays([
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ]);
     });
   }
 
@@ -142,11 +155,13 @@ class _SplashPageState extends State<SplashPage> {
             flex: 1,
             child: SizedBox(),
           ),
-          Image.asset(
-            'assets/images/ic_powered.webp',
-            width: 110,
-            height: 110 * 100 / 436,
-            color: Theme.of(context).textTheme.title.color,
+          SafeArea(
+            child: Image.asset(
+              'assets/images/ic_powered.webp',
+              width: 110,
+              height: 110 * 100 / 436,
+              color: Theme.of(context).textTheme.title.color,
+            ),
           ),
           SizedBox(
             height: 10,

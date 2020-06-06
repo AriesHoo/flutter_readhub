@@ -167,6 +167,7 @@ class _WebViewPageState extends State<WebViewPage> {
                   initialUrl: widget.url,
                   debuggingEnabled: false,
                   javascriptMode: JavascriptMode.unrestricted,
+                  initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
                   navigationDelegate: (NavigationRequest request) {
                     debugPrint('导航$request');
                     refreshNavigator();

@@ -89,12 +89,12 @@ class _HomePageState extends State<HomePage>
   }
 
   void switchDarkMode(BuildContext context) {
-    if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-      ToastUtil.show("检测到系统为暗黑模式,已为你自动切换");
-    } else {
+//    if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
+//      ToastUtil.show("检测到系统为暗黑模式,已为你自动切换");
+//    } else {
       Provider.of<ThemeModel>(context).switchTheme(
           userDarkMode: Theme.of(context).brightness == Brightness.light);
-    }
+//    }
   }
 
   @override
