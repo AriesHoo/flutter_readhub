@@ -38,7 +38,10 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   @override
   void didUpdateWidget(ArticleItemWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    LogUtil.e("ArticleItemWidget:didUpdateWidget");
+    LogUtil.e(
+        'ArticleItemWidget_didUpdateWidget_platform:${ThemeModel.platformDarkMode};user:${ThemeModel.userDarkMode}');
+    ///更新UI--在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
+    ThemeModel.setSystemBarTheme();
   }
 
   @override

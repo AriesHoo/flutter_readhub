@@ -163,12 +163,11 @@ class ThemeModel with ChangeNotifier {
         ? await PlatformUtil.isNavigationColorChange()
         : true;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor:
-          darkMode || statusEnable ? Colors.transparent : colorWhiteTheme,
+      statusBarColor: darkMode || statusEnable ? Colors.transparent : null,
       statusBarIconBrightness: darkMode ? Brightness.light : Brightness.dark,
       systemNavigationBarColor: darkMode
           ? colorBlackTheme
-          : navigationEnable ? Colors.transparent : colorWhiteTheme,
+          : navigationEnable ? Colors.transparent : null,
       systemNavigationBarIconBrightness:
           darkMode ? Brightness.dark : Brightness.light,
     ));

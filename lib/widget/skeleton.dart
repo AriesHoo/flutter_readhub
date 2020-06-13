@@ -33,8 +33,7 @@ class SkeletonBox extends StatelessWidget {
       height: height,
       decoration: SkeletonDecoration(
         isCircle: isCircle,
-        isDark: ThemeModel.darkMode ||
-            MediaQuery.of(context).platformBrightness == Brightness.dark,
+        isDark: ThemeModel.darkMode,
         borderRadius: borderRadius,
       ),
     );

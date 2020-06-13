@@ -72,24 +72,16 @@ class _HomePageState extends State<HomePage>
     });
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      ///应用后台
-    } else if (state == AppLifecycleState.resumed) {
-      ///应用前台
-      ///
-      Future.delayed(Duration(milliseconds: 100))
-          .then((value) => ThemeModel.setSystemBarTheme());
-    }
-  }
-
 //  @override
-//  void didUpdateWidget(HomePage oldWidget) {
-//    super.didUpdateWidget(oldWidget);
-//    ThemeModel.setSystemBarTheme();
+//  void didChangeAppLifecycleState(AppLifecycleState state) {
+//    super.didChangeAppLifecycleState(state);
+//    if (state == AppLifecycleState.paused) {
+//      ///应用后台
+//    } else if (state == AppLifecycleState.resumed) {
+//      ///应用前台
+//    }
 //  }
+
   void switchDarkMode(BuildContext context) {
     if (ThemeModel.platformDarkMode) {
       ToastUtil.show(S.of(context).tip_switch_theme_when_platform_dark);
