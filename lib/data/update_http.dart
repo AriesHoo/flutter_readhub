@@ -1,5 +1,5 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter_readhub/data/basis_http.dart';
-import 'package:flutter_readhub/util/log_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 
 final UpdateHttp http = UpdateHttp();

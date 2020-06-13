@@ -1,21 +1,25 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_readhub/home_page.dart';
+import 'package:flutter_readhub/permission_page.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
-import 'package:flutter_readhub/view_model/update_model.dart';
 import 'package:flutter_readhub/web_view_page.dart';
-import 'package:flutter_readhub/widget/home_drawer_widget.dart';
 
 class RouteName {
   static const String webView = 'webView';
   static const String setting = 'setting';
   static const String tab = 'tab';
+  static const String permission_page = 'permission_page';
 }
 
 ///用于main MaterialApp配置 onGenerateRoute
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RouteName.permission_page:
+        return MaterialPageRoute(
+          builder: (context) => PermissionPage(),
+        );
       case RouteName.tab:
         return MaterialPageRoute(
           fullscreenDialog: true,
@@ -33,8 +37,10 @@ class Router {
         return MaterialPageRoute(
             builder: (context) => Scaffold(
                   body: Center(
-                    child: Text('No route defined for ${settings.name}',
-                      textScaleFactor: ThemeModel.textScaleFactor,),
+                    child: Text(
+                      'No route defined for ${settings.name}',
+                      textScaleFactor: ThemeModel.textScaleFactor,
+                    ),
                   ),
                 ));
     }

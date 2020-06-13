@@ -1,9 +1,14 @@
+import 'package:flustars/flustars.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
-import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_view_model.dart';
+import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 ///检查更新
 class UpdateModel extends BasisViewModel {
@@ -22,11 +27,12 @@ class UpdateModel extends BasisViewModel {
       _packageName != null ? _packageName : "cn.aries.freadhub";
 
   ///检查新版本
-  Future<AppUpdateInfo> checkUpdate({bool showError = false}) async {
+  Future<AppUpdateInfo> checkUpdate(BuildContext context,{bool showError = false}) async {
     AppUpdateInfo appUpdateInfo;
     setLoading();
     try {
       appUpdateInfo = await UpdateRepository.checkUpdate();
+      showUpdateDialog(context, appUpdateInfo);
       setSuccess();
     } catch (e, s) {
       setError(e, s);
@@ -50,6 +56,41 @@ class UpdateModel extends BasisViewModel {
     });
     PlatformUtil.getPackageName().then((str) {
       _packageName = str;
+    });
+  }
+
+  ///弹出升级新版本Dialog
+  Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
+      {bool background = true}) async {
+    if (info == null || !info.buildHaveNewVersion) {
+      if (!background) {
+        ToastUtil.show(S.of(context).currentIsNew);
+      }
+      return;
+    }
+    DialogUtil.showAlertDialog(
+      context,
+      titleWidget: RichText(
+        textScaleFactor: ThemeModel.textScaleFactor,
+        text: TextSpan(
+            style: Theme.of(context).textTheme.title,
+            text: '发现新版本:${info.buildVersion}',
+            children: [
+              TextSpan(
+                  text: '\n系统自带浏览器打开',
+                  style: Theme.of(context).textTheme.title.copyWith(
+                        color: Theme.of(context).accentColor,
+                        fontSize: 13,
+                      ))
+            ]),
+      ),
+      content: info.buildUpdateDescription,
+      cancel: S.of(context).updateNextTime,
+      ensure: S.of(context).updateNow,
+    ).then((value) {
+      if (value == 1) {
+        launch(info.downloadURL);
+      }
     });
   }
 }

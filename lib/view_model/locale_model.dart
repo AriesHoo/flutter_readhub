@@ -1,6 +1,5 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/generated/i18n.dart';
-import 'package:flutter_readhub/util/sp_util.dart';
 
 ///国际化语言切换
 class LocaleModel extends ChangeNotifier {
@@ -22,13 +21,13 @@ class LocaleModel extends ChangeNotifier {
   }
 
   LocaleModel() {
-    _localeIndex = SPUtil.getInt(SP_KEY_LOCALE_INDEX);
+    _localeIndex = SpUtil.getInt(SP_KEY_LOCALE_INDEX);
     switchLocale(_localeIndex);
   }
 
   switchLocale(int index) {
     _localeIndex = index;
-    SPUtil.putInt(SP_KEY_LOCALE_INDEX, _localeIndex);
+    SpUtil.putInt(SP_KEY_LOCALE_INDEX, _localeIndex);
     notifyListeners();
   }
 

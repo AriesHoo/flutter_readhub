@@ -1,20 +1,20 @@
+import 'dart:io';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_readhub/data/update_http.dart';
-import 'package:flutter_readhub/generated/i18n.dart';
-import 'package:flutter_readhub/util/toast_util.dart';
+import 'package:flutter_readhub/dialog/share_dialog.dart';
+import 'package:flutter_readhub/generated/l10n.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/view_model/update_model.dart';
 import 'package:flutter_readhub/widget/home_drawer_widget.dart';
-import 'package:flutter_readhub/widget/share_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'article_item_widget.dart';
+import '../widget/article_item_widget.dart';
 
 ///弹出分享提示框
 Future<void> showAuthorDialog(BuildContext context) async {
@@ -34,73 +34,6 @@ Future<void> showThemeDialog(BuildContext context) async {
       return ThemeDialog();
     },
   );
-}
-
-///弹出升级新版本Dialog
-Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
-    {bool background = true}) async {
-  if (info == null || !info.buildHaveNewVersion) {
-    if (!background) {
-      ToastUtil.show(S.of(context).currentIsNew);
-    }
-    return;
-  }
-  int position = await showDialog<int>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        titlePadding: EdgeInsets.only(left: 16, top: 16, right: 16),
-        contentPadding: EdgeInsets.only(left: 16, top: 10, right: 16),
-        title: RichText(
-          textScaleFactor: ThemeModel.textScaleFactor,
-          text: TextSpan(
-              style: Theme.of(context).textTheme.title,
-              text: '发现新版本:${info.buildVersion}',
-              children: [
-                TextSpan(
-                    text: '\n系统自带浏览器打开',
-                    style: Theme.of(context).textTheme.title.copyWith(
-                          color: Theme.of(context).accentColor,
-                          fontSize: 13,
-                        ))
-              ]),
-        ),
-        titleTextStyle: Theme.of(context).textTheme.subtitle.copyWith(
-              fontSize: 18,
-            ),
-        content: Text(
-          info.buildUpdateDescription,
-          textScaleFactor: ThemeModel.textScaleFactor,
-        ),
-        contentTextStyle: Theme.of(context).textTheme.subtitle.copyWith(
-              fontSize: 14,
-            ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              S.of(context).updateNextTime,
-              textScaleFactor: ThemeModel.textScaleFactor,
-              style: Theme.of(context).textTheme.caption,
-            ),
-            onPressed: () => Navigator.of(context).pop(0),
-          ),
-          FlatButton(
-            child: Text(
-              S.of(context).updateNow,
-              textScaleFactor: ThemeModel.textScaleFactor,
-              style: Theme.of(context).textTheme.caption.copyWith(
-                    color: Theme.of(context).accentColor,
-                  ),
-            ),
-            onPressed: () => Navigator.of(context).pop(1),
-          ),
-        ],
-      );
-    },
-  );
-  if (position == 1) {
-    await launch(info.downloadURL);
-  }
 }
 
 ///用户信息Dialog
@@ -316,8 +249,7 @@ class UpdateWidget extends StatelessWidget {
           onTap: model.loading
               ? null
               : () async {
-                  AppUpdateInfo info = await model.checkUpdate(showError: true);
-                  showUpdateDialog(context, info, background: false);
+                  await model.checkUpdate(context, showError: true);
                 },
           leading: Icon(
             Icons.system_update_alt,
@@ -328,7 +260,7 @@ class UpdateWidget extends StatelessWidget {
                   radius: 8,
                 )
               : Text(
-                  UpdateModel.appVersion,
+                  '${UpdateModel.appVersion}（${UpdateModel.appVersionCode}）',
                   textScaleFactor: ThemeModel.textScaleFactor,
                   style: Theme.of(context).textTheme.caption,
                 ),
@@ -360,6 +292,7 @@ class ShareAppWidget extends StatelessWidget {
 //              'https://www.pgyer.com/ntMA',
 //              'https://www.coolapk.com/apk/${UpdateModel.packageName}',
               S.of(context).saveImageShareTip,
+              'shareApp',
               summaryWidget: ShareAppSummaryWidget(),
             )),
         leading: Icon(
@@ -474,27 +407,30 @@ class FontSizeWidget extends StatelessWidget {
                 ),
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
-                    //已拖动的颜色
+                    ///已拖动的颜色
                     activeTrackColor: Theme.of(context).accentColor,
-                    //未拖动的颜色
+
+                    ///未拖动的颜色
                     inactiveTrackColor:
                         Theme.of(context).accentColor.withOpacity(0.25),
 
-                    //提示进度的气泡的背景色
+                    ///提示进度的气泡的背景色
                     valueIndicatorColor: Theme.of(context).accentColor,
-                    //提示进度的气泡文本的颜色
+
+                    ///提示进度的气泡文本的颜色
                     valueIndicatorTextStyle: TextStyle(
                       fontSize: 14,
                       color: Colors.white,
                     ),
 
-                    //滑块中心的颜色
+                    ///滑块中心的颜色
                     thumbColor: Theme.of(context).accentColor,
-                    //滑块边缘的颜色
+
+                    ///滑块边缘的颜色
                     overlayColor:
                         Theme.of(context).accentColor.withOpacity(0.3),
 
-                    //divisions对进度线分割后，断续线中间间隔的颜色
+                    ///divisions对进度线分割后，断续线中间间隔的颜色
                     inactiveTickMarkColor:
                         Theme.of(context).accentColor.withOpacity(0.25),
                     activeTickMarkColor: Theme.of(context).accentColor,
@@ -547,8 +483,8 @@ class AppreciateWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 GestureDetector(
-                  onLongPress: () =>
-                      _saveImageToGallery.saveImage(context, _globalKey),
+                  onLongPress: () => _saveImageToGallery.saveImage(
+                      context, _globalKey, '/pay'),
                   child: RepaintBoundary(
                     key: _globalKey,
                     child: Image.asset(
@@ -615,7 +551,8 @@ class CopyrightWidget extends StatelessWidget {
         onExpansionChanged: (opened) {
           if (opened) {
             ///开启详情延时滚动底部
-            Future.delayed(Duration(milliseconds: 200), () {
+            Future.delayed(Duration(milliseconds: Platform.isIOS ? 1 : 200),
+                () {
               scrollController.animateTo(
                 MediaQuery.of(context).size.height,
                 duration: Duration(milliseconds: 1),

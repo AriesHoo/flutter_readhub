@@ -1,6 +1,5 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/util/log_util.dart';
-import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -34,7 +33,8 @@ class SkeletonBox extends StatelessWidget {
       height: height,
       decoration: SkeletonDecoration(
         isCircle: isCircle,
-        isDark: ThemeModel.darkMode,
+        isDark: ThemeModel.darkMode ||
+            MediaQuery.of(context).platformBrightness == Brightness.dark,
         borderRadius: borderRadius,
       ),
     );

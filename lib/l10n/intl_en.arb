@@ -15,8 +15,8 @@
   "friday": "Friday",
   "saturday": "Saturday",
   "sunday": "Sunday",
-  "darkMode": "Dark mode",
-  "lightMode": "Light mode",
+  "darkMode": "Dark theme",
+  "lightMode": "Light theme",
   "moreSetting": "More settings",
   "loadingWebTitle": "Loading...",
   "back": "Back",
@@ -50,5 +50,5 @@
   "updateNextTime": "Next time",
   "fontSize": "Font size",
   "appreciateDeveloper": "Appreciate",
-  "test": "Test"
+  "tip_switch_theme_when_platform_dark": "The current system is in dark mode"
 }

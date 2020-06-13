@@ -15,8 +15,8 @@
   "friday": "周五",
   "saturday": "周六",
   "sunday": "周日",
-  "darkMode": "暗黑模式",
-  "lightMode": "明亮模式",
+  "darkMode": "深色主题",
+  "lightMode": "浅色主题",
   "moreSetting": "更多信息",
   "loadingWebTitle": "加载中...",
   "back": "后退",
@@ -40,7 +40,7 @@
   "saveImageFailed": "保存文件失败",
   "saveImageShareTip": "Freadhub App 分享",
   "cancel": "取消",
-  "openBySystemBrowser":"浏览器打开-推荐Chrome",
+  "openBySystemBrowser": "浏览器打开-推荐Chrome",
   "appCopyright": "软件说明",
   "feedback": "意见反馈",
   "checkUpdate": "检查版本",
@@ -50,6 +50,6 @@
   "updateNextTime": "下次再说",
   "fontSize": "文字大小",
   "appreciateDeveloper": "赞赏开发",
-  "test": "测试",
-  "english": "英语"
+  "english": "英语",
+  "tip_switch_theme_when_platform_dark": "当前系统为深色主题"
 }

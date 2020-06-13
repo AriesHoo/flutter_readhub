@@ -48,5 +48,11 @@
             <key>NSAllowsArbitraryLoads</key>
             <true/>
         </dict>
+    <!-- Permission options for the `camera` group -->
+    <key>NSCameraUsageDescription</key>
+    <string>camera</string>
+    <!-- Permission options for the `photo` group -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>photos</string>
 </dict>
 </plist>

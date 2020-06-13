@@ -1,5 +1,5 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/util/log_util.dart';
 
 ///滚动回顶部
 class ScrollTopModel with ChangeNotifier {

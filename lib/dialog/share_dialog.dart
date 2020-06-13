@@ -1,21 +1,23 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_readhub/generated/i18n.dart';
+import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/path_helper.dart';
+import 'package:flutter_readhub/helper/permission_helper.dart';
 import 'package:flutter_readhub/model/article_model.dart';
-import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart' as prefix0;
+import 'package:flutter_readhub/widget/article_item_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:flutter_share_plugin/flutter_share_plugin.dart';
-
-import 'article_item_widget.dart';
+import 'package:share_extend/share_extend.dart';
 
 ///弹出分享提示框
 Future<void> showShareArticleDialog(
@@ -24,7 +26,7 @@ Future<void> showShareArticleDialog(
     context: context,
     builder: (BuildContext context) {
       return ShareDialog(data.title, data.getSummary(), data.getScanNote(),
-          data.getUrl(), S.of(context).saveImageShareTip);
+          data.getUrl(), S.of(context).saveImageShareTip, data.getFileName());
     },
   );
 }
@@ -47,10 +49,11 @@ class ShareDialog extends Dialog {
   final String notice;
   final String url;
   final String bottomNotice;
+  final String fileName;
   Widget summaryWidget;
 
-  ShareDialog(
-      this.title, this.summary, this.notice, this.url, this.bottomNotice,
+  ShareDialog(this.title, this.summary, this.notice, this.url,
+      this.bottomNotice, this.fileName,
       {this.summaryWidget});
 
   final GlobalKey _globalKey = GlobalKey();
@@ -97,7 +100,7 @@ class ShareDialog extends Dialog {
                 splashColor: Colors.white.withAlpha(50),
                 child: Icon(Icons.share),
                 onPressed: () => saveImageToGallery
-                    .saveImage(context, _globalKey, share: true),
+                    .saveImage(context, _globalKey, '/$fileName', share: true),
               ),
               SizedBox(
                 width: 20,
@@ -112,8 +115,8 @@ class ShareDialog extends Dialog {
                 backgroundColor: Colors.red,
                 splashColor: Colors.white.withAlpha(50),
                 child: Icon(Icons.file_download),
-                onPressed: () =>
-                    saveImageToGallery.saveImage(context, _globalKey),
+                onPressed: () => saveImageToGallery
+                    .saveImage(context, _globalKey, '/$fileName', share: false),
               ),
             ],
           ),
@@ -290,14 +293,23 @@ class ShotImageWidget extends StatelessWidget {
 class SaveImageToGallery {
   ///已保存图片的路径
   String fileImage;
+  Uint8List pngBytes;
+
+  Future<String> getImagePath(String imageName) async {
+    File fileImage = await PathHelper.getImagePath()
+        .then((value) => File('$value$imageName.png'));
+    return fileImage.path;
+  }
 
   ///保存图片
-  void saveImage(BuildContext context, GlobalKey globalKey,
+  void saveImage(BuildContext context, GlobalKey globalKey, String imageName,
       {bool share: false}) async {
     if (fileImage != null && fileImage.isNotEmpty) {
       if (share) {
-        FlutterShare.shareFileWithText(
-            textContent: S.of(context).saveImageShareTip, filePath: fileImage);
+        ShareExtend.share(fileImage, 'image',
+            subject: S.of(context).saveImageShareTip);
+//        FlutterShare.shareFileWithText(
+//            textContent: S.of(context).saveImageShareTip, bytes: File(fileImage).readAsBytesSync());
       } else {
         ToastUtil.show(S.of(context).saveImageSucceedInGallery);
       }
@@ -305,13 +317,18 @@ class SaveImageToGallery {
     }
 
     ///直接获取读写文件权限
-    Map<PermissionGroup, PermissionStatus> map =
-        await PermissionHandler().requestPermissions(<PermissionGroup>[
-      PermissionGroup.storage,
-    ]);
-    PermissionStatus permission = map[PermissionGroup.storage];
-    if (permission != PermissionStatus.granted) {
+    if (!await PermissionHelper.checkStoragePermission()) {
       ToastUtil.show(S.of(context).saveImagePermissionFailed);
+      await DialogUtil.showAlertDialog(context,
+              title: Platform.isIOS ? 'Freadhub提示' : null,
+              content: '分享功能需使用访问您的${Platform.isIOS ? '照片' : '文件读写'}权限',
+              cancel: '暂不授权',
+              ensure: '去授权')
+          .then((value) {
+        if (value == 1) {
+          openAppSettings();
+        }
+      });
       return;
     }
     RenderRepaintBoundary boundary =
@@ -326,14 +343,21 @@ class SaveImageToGallery {
     ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
 
     ///图片数据
-    Uint8List pngBytes = byteData.buffer.asUint8List();
+    pngBytes = byteData.buffer.asUint8List();
 
     ///保存图片到系统图库
-    String resultSaveImage = await ImageGallerySaver.saveImage(pngBytes);
-    LogUtil.e("resultSaveImage:" + resultSaveImage);
-    if (resultSaveImage != null && resultSaveImage.isNotEmpty) {
-      fileImage = resultSaveImage;
-      saveImage(context, globalKey, share: share);
+    File saveFile = File(await getImagePath(imageName));
+    bool exist = await saveFile.exists();
+    LogUtil.e('fileImage_exist0:$exist');
+    if (!exist) {
+      await saveFile.writeAsBytes(pngBytes);
+      exist = await saveFile.exists();
+    }
+    LogUtil.e('fileImage_exist1:$exist');
+    if (exist) {
+      fileImage = saveFile.absolute.path;
+      LogUtil.e('fileImage:$fileImage');
+      saveImage(context, globalKey, imageName, share: share);
       return;
     }
     ToastUtil.show(S.of(context).saveImageFailed);

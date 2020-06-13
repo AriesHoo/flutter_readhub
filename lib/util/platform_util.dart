@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:device_info/device_info.dart';
 import 'package:package_info/package_info.dart';

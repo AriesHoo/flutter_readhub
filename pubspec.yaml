@@ -36,7 +36,7 @@ dependencies:
   webview_flutter: ^0.3.22+1
   #  网络请求相关dio
   dio: ^3.0.1
-#  dio_http_cache: ^0.2.3
+  #  dio_http_cache: ^0.2.3
   #  加载网络图片
   cached_network_image: ^2.2.0+1
   synchronized: ^2.1.0+1
@@ -51,11 +51,14 @@ dependencies:
   #  二维码-生成
   qr_flutter: ^3.1.0
   #  保存文件-图片、音视频到系统目录
-  image_gallery_saver: ^1.1.0
+  image_gallery_saver: ^1.2.2
+  #  工具类
+  flustars: ^0.3.2
   #  动态权限申请
-  permission_handler: "3.0.1"
+  permission_handler: ^5.0.1
   #  分享文字及文件
   flutter_share_plugin: ^0.1.2
+  share_extend: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -109,3 +112,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

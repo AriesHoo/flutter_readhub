@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/generated/i18n.dart';
+import 'package:flutter_readhub/generated/l10n.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import 'basis_list_view_model.dart';
 import 'basis_refresh_list_view_model.dart';
 import 'basis_scroll_controller_model.dart';
 import 'view_state_widget.dart';
-import 'package:provider/provider.dart';
 
 /// Provider简单抽离方便数据初始化
 class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {

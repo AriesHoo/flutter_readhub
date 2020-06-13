@@ -1,22 +1,21 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
-import 'package:flutter_readhub/home_page.dart';
-import 'package:flutter_readhub/util/sp_util.dart';
 import 'package:flutter_readhub/view_model/update_model.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'generated/i18n.dart';
-import 'view_model/locale_model.dart';
-import 'view_model/theme_model.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'generated/l10n.dart';
+import 'view_model/locale_model.dart';
+import 'view_model/theme_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SPUtil.getInstance();
-
+   await SpUtil.getInstance();
   ///黑白化效果-缅怀
 //  runApp(ColorFiltered(
 //    colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
@@ -24,7 +23,7 @@ void main() async {
 //  ));
   runApp(MyApp());
 }
-
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -63,6 +62,7 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       ///全局主题配置
       theme: themeModel.themeData(),
 

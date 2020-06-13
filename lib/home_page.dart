@@ -1,18 +1,18 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/article_http.dart';
-import 'package:flutter_readhub/data/update_http.dart';
-import 'package:flutter_readhub/generated/i18n.dart';
-import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/dialog/author_dialog.dart';
+import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
 import 'package:flutter_readhub/view_model/update_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart';
-import 'package:flutter_readhub/widget/author_dialog.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -42,11 +42,7 @@ class _HomePageState extends State<HomePage>
   ///上次点击时间
 
   void checkUpdate(BuildContext context) async {
-    AppUpdateInfo info = await Provider.of<UpdateModel>(context).checkUpdate();
-    if (info != null) {
-      showUpdateDialog(context, info);
-    }
-    LogUtil.e('info:$info');
+    await Provider.of<UpdateModel>(context).checkUpdate(context);
   }
 
   @override
@@ -83,18 +79,24 @@ class _HomePageState extends State<HomePage>
       ///应用后台
     } else if (state == AppLifecycleState.resumed) {
       ///应用前台
-      Provider.of<ThemeModel>(context)
-          .switchTheme(userDarkMode: ThemeModel.darkMode);
+      ///
+      Future.delayed(Duration(milliseconds: 100))
+          .then((value) => ThemeModel.setSystemBarTheme());
     }
   }
 
+//  @override
+//  void didUpdateWidget(HomePage oldWidget) {
+//    super.didUpdateWidget(oldWidget);
+//    ThemeModel.setSystemBarTheme();
+//  }
   void switchDarkMode(BuildContext context) {
-//    if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-//      ToastUtil.show("检测到系统为暗黑模式,已为你自动切换");
-//    } else {
+    if (ThemeModel.platformDarkMode) {
+      ToastUtil.show(S.of(context).tip_switch_theme_when_platform_dark);
+    } else {
       Provider.of<ThemeModel>(context).switchTheme(
           userDarkMode: Theme.of(context).brightness == Brightness.light);
-//    }
+    }
   }
 
   @override
@@ -104,11 +106,12 @@ class _HomePageState extends State<HomePage>
         if (_lastPressedAt == null ||
             DateTime.now().difference(_lastPressedAt) >
                 Duration(milliseconds: 1500)) {
-          //两次点击间隔超过阈值则重新计时
+          ///两次点击间隔超过阈值则重新计时
           _lastPressedAt = DateTime.now();
           ToastUtil.show(S.of(context).quitApp,
               position: ToastPosition.bottom,
               duration: Duration(milliseconds: 1500));
+          exit(0);
           return false;
         }
         return true;
@@ -130,7 +133,7 @@ class _HomePageState extends State<HomePage>
               'assets/images/title.png',
               width: 96,
               height: 96,
-              color: ThemeModel.darkMode ? Colors.white : Colors.black,
+              color: Theme.of(context).appBarTheme.iconTheme.color,
               fit: BoxFit.fitWidth,
               colorBlendMode: BlendMode.srcIn,
             ),
@@ -219,7 +222,7 @@ class TabBarWidget extends StatelessWidget {
       tabs: List.generate(
           labels.length,
           (i) => Tab(
-              child: Text(
+                  child: Text(
                 labels[i],
                 softWrap: false,
                 overflow: TextOverflow.fade,

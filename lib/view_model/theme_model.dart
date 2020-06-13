@@ -1,10 +1,10 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_readhub/generated/i18n.dart';
-import 'package:flutter_readhub/util/log_util.dart';
+import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
-import 'package:flutter_readhub/util/sp_util.dart';
 
 ///主题管理
 class ThemeModel with ChangeNotifier {
@@ -35,7 +35,14 @@ class ThemeModel with ChangeNotifier {
   /// 用户选择的明暗模式
   static bool _userDarkMode = false;
 
-  static bool get darkMode => _userDarkMode;
+  static bool get platformDarkMode =>
+      navigatorKey.currentContext != null &&
+      MediaQuery.of(navigatorKey.currentContext).platformBrightness ==
+          Brightness.dark;
+
+  static bool get userDarkMode => _userDarkMode;
+
+  static bool get darkMode => userDarkMode || platformDarkMode;
 
   ///是否隐藏悬浮按钮-用于回到顶部
   static bool _hideFloatingButton = false;
@@ -50,12 +57,12 @@ class ThemeModel with ChangeNotifier {
   /// 当前主题索引
   static int _themeIndex = 5;
 
-   int get themeIndex => _themeIndex;
+  int get themeIndex => _themeIndex;
 
   static MaterialColor get themeColor => _themeColor;
 
   ///白色主题状态栏及导航栏颜色
-  Color colorWhiteTheme = Color(0x66000000);
+  static Color colorWhiteTheme = Color(0x66000000);
 
 //  Color colorWhiteTheme = Colors.transparent;
 
@@ -75,20 +82,20 @@ class ThemeModel with ChangeNotifier {
 
   ThemeModel() {
     /// 用户选择的明暗模式
-    _userDarkMode = SPUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false);
+    _userDarkMode = SpUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false);
 
     /// 获取主题色
     _themeIndex =
-        SPUtil.getInt(SP_KEY_THEME_COLOR_INDEX, defValue: _themeIndex);
+        SpUtil.getInt(SP_KEY_THEME_COLOR_INDEX, defValue: _themeIndex);
     LogUtil.e("_themeIndex:$_themeIndex");
     _themeColor = themeValueList[_themeIndex];
     _accentColor = _themeColor;
 
     /// 获取本地字体
-    _fontIndex = SPUtil.getInt(SP_KEY_FONT_INDEX);
+    _fontIndex = SpUtil.getInt(SP_KEY_FONT_INDEX);
 
     /// 获取本地文字缩放
-    _fontTextSize = SPUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
+    _fontTextSize = SpUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
 
     ///如果缓存为黑色字体则进行
 //    if (_userDarkMode) {
@@ -106,14 +113,14 @@ class ThemeModel with ChangeNotifier {
   switchFont(int index) {
     _fontIndex = index;
     switchTheme();
-    SPUtil.putInt(SP_KEY_FONT_INDEX, _fontIndex);
+    SpUtil.putInt(SP_KEY_FONT_INDEX, _fontIndex);
   }
 
   /// 切换文字字号缩放
   switchFontTextSize(double textSize) {
     _fontTextSize = textSize;
     switchTheme();
-    SPUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _fontTextSize);
+    SpUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _fontTextSize);
   }
 
   static String fontFamily() {
@@ -130,17 +137,26 @@ class ThemeModel with ChangeNotifier {
   void switchTheme(
       {bool userDarkMode, int themeIndex, MaterialColor color}) async {
     if (themeIndex != null && themeIndex != _themeIndex) {
-      SPUtil.putInt(SP_KEY_THEME_COLOR_INDEX, themeIndex);
+      SpUtil.putInt(SP_KEY_THEME_COLOR_INDEX, themeIndex);
     }
     _userDarkMode = userDarkMode ?? _userDarkMode;
     _themeIndex = themeIndex ?? _themeIndex;
     _themeColor = color ?? getThemeColor();
-    LogUtil.i("_userDarkMode" +
+    LogUtil.e("_userDarkMode" +
         _userDarkMode.toString() +
         "_themeIndex:" +
         _themeIndex.toString() +
         "_themeColor:" +
         _themeColor.toString());
+    await setSystemBarTheme();
+
+    ///存入缓存
+    SpUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode);
+    notifyListeners();
+  }
+
+  ///设置系统Bar主题
+  static Future setSystemBarTheme() async {
     bool statusEnable =
         Platform.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
     bool navigationEnable = Platform.isAndroid
@@ -148,24 +164,20 @@ class ThemeModel with ChangeNotifier {
         : true;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor:
-          _userDarkMode || statusEnable ? Colors.transparent : colorWhiteTheme,
-      statusBarIconBrightness:
-          _userDarkMode ? Brightness.light : Brightness.dark,
-      systemNavigationBarColor: _userDarkMode
+          darkMode || statusEnable ? Colors.transparent : colorWhiteTheme,
+      statusBarIconBrightness: darkMode ? Brightness.light : Brightness.dark,
+      systemNavigationBarColor: darkMode
           ? colorBlackTheme
           : navigationEnable ? Colors.transparent : colorWhiteTheme,
       systemNavigationBarIconBrightness:
-          _userDarkMode ? Brightness.light : Brightness.dark,
+          darkMode ? Brightness.dark : Brightness.light,
     ));
-
-    ///存入缓存
-    SPUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode);
-    notifyListeners();
   }
 
   /// 根据主题 明暗 和 颜色 生成对应的主题
   /// [dark]系统的Dark Mode
   themeData({bool platformDarkMode: false}) {
+    LogUtil.e('themeData_platform:$platformDarkMode');
     var isDark = platformDarkMode || _userDarkMode;
     var themeColor = _themeColor;
     _accentColor = isDark ? themeColor[600] : _themeColor;
@@ -196,8 +208,8 @@ class ThemeModel with ChangeNotifier {
       ),
       appBarTheme: themeData.appBarTheme.copyWith(
         ///设置主题决定状态栏icon颜色
-        brightness: _userDarkMode ? Brightness.dark : Brightness.light,
-        color: _userDarkMode ? colorBlackTheme : Colors.white,
+        brightness: isDark ? Brightness.dark : Brightness.light,
+        color: isDark ? colorBlackTheme : Colors.white,
         elevation: 0,
         textTheme: TextTheme(
           title: TextStyle(
@@ -230,6 +242,7 @@ class ThemeModel with ChangeNotifier {
         labelStyle: themeData.textTheme.caption,
         backgroundColor: themeData.chipTheme.backgroundColor.withOpacity(0.1),
       ),
+
       ///长按提示文本样式
       tooltipTheme: themeData.tooltipTheme.copyWith(
           textStyle: TextStyle(
@@ -261,7 +274,7 @@ class ThemeModel with ChangeNotifier {
         splashColor: themeColor.withAlpha(50),
       ),
     );
-
+    setSystemBarTheme();
     return themeData;
   }
 

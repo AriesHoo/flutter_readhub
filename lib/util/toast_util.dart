@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:oktoast/oktoast.dart';
 
 class ToastUtil {
   static BuildContext get context => null;
