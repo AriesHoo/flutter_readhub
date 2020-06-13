@@ -14,8 +14,11 @@ import 'view_model/locale_model.dart';
 import 'view_model/theme_model.dart';
 
 void main() async {
+  ///设置全屏
+  SystemChrome.setEnabledSystemUIOverlays([]);
   WidgetsFlutterBinding.ensureInitialized();
-   await SpUtil.getInstance();
+  await SpUtil.getInstance();
+
   ///黑白化效果-缅怀
 //  runApp(ColorFiltered(
 //    colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
@@ -23,7 +26,9 @@ void main() async {
 //  ));
   runApp(MyApp());
 }
+
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -63,6 +68,7 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
+
       ///全局主题配置
       theme: themeModel.themeData(),
 
@@ -110,8 +116,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    ///设置全屏
-    SystemChrome.setEnabledSystemUIOverlays([]);
     Future.delayed(Duration(milliseconds: 1500), () {
       Navigator.of(context).pushReplacementNamed(RouteName.tab);
 
