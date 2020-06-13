@@ -148,7 +148,7 @@ class ThemeModel with ChangeNotifier {
         _themeIndex.toString() +
         "_themeColor:" +
         _themeColor.toString());
-    await setSystemBarTheme();
+//    await setSystemBarTheme();
 
     ///存入缓存
     SpUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode);
