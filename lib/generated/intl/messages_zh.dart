@@ -55,7 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "saveImageFailed" : MessageLookupByLibrary.simpleMessage("保存文件失败"),
     "saveImagePermissionFailed" : MessageLookupByLibrary.simpleMessage("文件读写权限获取失败"),
     "saveImageShareTip" : MessageLookupByLibrary.simpleMessage("Freadhub App 分享"),
-    "saveImageSucceedInGallery" : MessageLookupByLibrary.simpleMessage("已保存至系统相册"),
+    "saveImageSucceedInGallery" : MessageLookupByLibrary.simpleMessage("已保存至手机"),
     "settingHideFloatingButton" : MessageLookupByLibrary.simpleMessage("隐藏悬浮按钮"),
     "settingStyle" : MessageLookupByLibrary.simpleMessage("样式"),
     "share" : MessageLookupByLibrary.simpleMessage("分享"),

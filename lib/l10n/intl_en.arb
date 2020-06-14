@@ -35,7 +35,7 @@
   "settingHideFloatingButton": "Hide floating button",
   "settingStyle": "Style",
   "downloadImage": "Download image",
-  "saveImageSucceedInGallery": "Save succeed in Gallery",
+  "saveImageSucceedInGallery": "Save succeed in user phone",
   "saveImagePermissionFailed": "Failed to get read / write file permission",
   "saveImageFailed": "Save image failed",
   "saveImageShareTip": "Shared by Freadhub app",
