@@ -2,7 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 
 ///国际化语言切换
-class LocaleModel extends ChangeNotifier {
+class LocaleViewModel extends ChangeNotifier {
   static const localeValueList = ['', 'zh-CN', 'en'];
 
   static const SP_KEY_LOCALE_INDEX = 'SP_KEY_LOCALE_INDEX';
@@ -20,7 +20,7 @@ class LocaleModel extends ChangeNotifier {
     return null;
   }
 
-  LocaleModel() {
+  LocaleViewModel() {
     _localeIndex = SpUtil.getInt(SP_KEY_LOCALE_INDEX);
     switchLocale(_localeIndex);
   }

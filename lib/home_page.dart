@@ -10,8 +10,8 @@ import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
-import 'package:flutter_readhub/view_model/update_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
+import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage>
   ///上次点击时间
 
   void checkUpdate(BuildContext context) async {
-    await Provider.of<UpdateModel>(context).checkUpdate(context);
+    UpdateViewModel().checkUpdate(context);
   }
 
   @override
@@ -83,10 +83,10 @@ class _HomePageState extends State<HomePage>
 //  }
 
   void switchDarkMode(BuildContext context) {
-    if (ThemeModel.platformDarkMode) {
+    if (ThemeViewModel.platformDarkMode) {
       ToastUtil.show(S.of(context).tip_switch_theme_when_platform_dark);
     } else {
-      Provider.of<ThemeModel>(context).switchTheme(
+      Provider.of<ThemeViewModel>(context).switchTheme(
           userDarkMode: Theme.of(context).brightness == Brightness.light);
     }
   }
@@ -103,9 +103,9 @@ class _HomePageState extends State<HomePage>
           ToastUtil.show(S.of(context).quitApp,
               position: ToastPosition.bottom,
               duration: Duration(milliseconds: 1500));
-          exit(0);
           return false;
         }
+        exit(0);
         return true;
       },
       child: Scaffold(
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage>
               AnimatedSwitcherIconWidget(
                 defaultIcon: Icons.brightness_2,
                 switchIcon: Icons.brightness_5,
-                tooltip: ThemeModel.darkMode
+                tooltip: ThemeViewModel.darkMode
                     ? S.of(context).lightMode
                     : S.of(context).darkMode,
                 onPressed: () => switchDarkMode(context),
@@ -218,7 +218,7 @@ class TabBarWidget extends StatelessWidget {
                 labels[i],
                 softWrap: false,
                 overflow: TextOverflow.fade,
-                textScaleFactor: ThemeModel.textScaleFactor,
+                textScaleFactor: ThemeViewModel.textScaleFactor,
               ))),
 
       ///不自动滚动则均分屏幕宽度
@@ -287,7 +287,7 @@ class _AnimatedSwitcherIconWidgetState
       child: IconButton(
         tooltip: widget.tooltip,
         key: ValueKey(_actionIcon =
-            ThemeModel.darkMode ? widget.switchIcon : widget.defaultIcon),
+            ThemeViewModel.darkMode ? widget.switchIcon : widget.defaultIcon),
         icon: Icon(_actionIcon),
         onPressed: widget.onPressed,
       ),

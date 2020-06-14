@@ -4,11 +4,11 @@ import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
-import 'package:flutter_readhub/view_model/article_model.dart';
+import 'package:flutter_readhub/view_model/article_view_model.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
-import 'package:flutter_readhub/view_model/locale_model.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/locale_view_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
 import 'package:provider/provider.dart';
 
@@ -39,22 +39,22 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   void didUpdateWidget(ArticleItemWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     LogUtil.e(
-        'ArticleItemWidget_didUpdateWidget_platform:${ThemeModel.platformDarkMode};user:${ThemeModel.userDarkMode}');
+        'ArticleItemWidget_didUpdateWidget_platform:${ThemeViewModel.platformDarkMode};user:${ThemeViewModel.userDarkMode}');
+
     ///更新UI--在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
-    ThemeModel.setSystemBarTheme();
+    ThemeViewModel.setSystemBarTheme();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BasisRefreshListProviderWidget<ArticleListRefreshViewModel,
-        ScrollTopModel>(
+    return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       onModelReady: (list, top) {
         widget.onScrollTop?.call(top);
       },
 
       ///初始化获取文章列表model
-      model1: ArticleListRefreshViewModel(widget.url),
+      model1: ArticleViewModel(widget.url),
 
       ///加载中占位-骨架屏-默认菊花loading
       loadingBuilder: (context, model, model2, child) {
@@ -170,7 +170,7 @@ class ArticleAdapter extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           item.switchMaxLine();
-          Provider.of<LocaleModel>(context).switchLocale(0);
+          Provider.of<LocaleViewModel>(context).switchLocale(0);
         },
         onLongPress: () => showShareArticleDialog(context, item),
 
@@ -190,7 +190,7 @@ class ArticleAdapter extends StatelessWidget {
               ///标题
               Text(
                 item.title,
-                textScaleFactor: ThemeModel.fontTextSize,
+                textScaleFactor: ThemeViewModel.fontTextSize,
                 maxLines: 2,
                 strutStyle: StrutStyle(
                     forceStrutHeight: true,
@@ -209,7 +209,7 @@ class ArticleAdapter extends StatelessWidget {
               ///描述摘要
               Text(
                 item.getSummary(),
-                textScaleFactor: ThemeModel.fontTextSize,
+                textScaleFactor: ThemeViewModel.fontTextSize,
                 maxLines: item.maxLine ? 3 : 10000,
                 overflow: TextOverflow.ellipsis,
                 strutStyle: StrutStyle(
@@ -230,7 +230,7 @@ class ArticleAdapter extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       item.getTimeStr(),
-                      textScaleFactor: ThemeModel.fontTextSize,
+                      textScaleFactor: ThemeViewModel.fontTextSize,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption.copyWith(
@@ -312,7 +312,7 @@ class NewsAdapter extends StatelessWidget {
               ///顶部标题
               Text(
                 item.title,
-                textScaleFactor: ThemeModel.textScaleFactor,
+                textScaleFactor: ThemeViewModel.textScaleFactor,
                 style: Theme.of(context).textTheme.title.copyWith(
                       fontSize: 14,
                     ),
@@ -329,7 +329,7 @@ class NewsAdapter extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       item.siteName,
-                      textScaleFactor: ThemeModel.textScaleFactor,
+                      textScaleFactor: ThemeViewModel.textScaleFactor,
                       style: Theme.of(context).textTheme.title.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
@@ -338,7 +338,7 @@ class NewsAdapter extends StatelessWidget {
                   ),
                   Text(
                     item.parseTimeLong(),
-                    textScaleFactor: ThemeModel.textScaleFactor,
+                    textScaleFactor: ThemeViewModel.textScaleFactor,
                     style: Theme.of(context).textTheme.caption.copyWith(
                           fontSize: 10,
                         ),

@@ -1,6 +1,6 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 ///占位方块控件
@@ -25,7 +25,7 @@ class SkeletonBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Divider.createBorderSide(context, width: 0.7);
-    LogUtil.e('SkeletonBox:${ThemeModel.darkMode}');
+    LogUtil.e('SkeletonBox:${ThemeViewModel.darkMode}');
     return Container(
       margin: margin,
       padding: padding,
@@ -33,7 +33,7 @@ class SkeletonBox extends StatelessWidget {
       height: height,
       decoration: SkeletonDecoration(
         isCircle: isCircle,
-        isDark: ThemeModel.darkMode,
+        isDark: ThemeViewModel.darkMode,
         borderRadius: borderRadius,
       ),
     );
@@ -90,9 +90,9 @@ class SkeletonList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       child: Shimmer.fromColors(
         period: Duration(milliseconds: 1000),
-        baseColor: baseColor ?? (ThemeModel.darkMode ? color[700] : color[350]),
+        baseColor: baseColor ?? (ThemeViewModel.darkMode ? color[700] : color[350]),
         highlightColor:
-            highlightColor ?? (ThemeModel.darkMode ? color[500] : color[200]),
+            highlightColor ?? (ThemeViewModel.darkMode ? color[500] : color[200]),
         child: Padding(
             padding: padding,
             child: horizontal

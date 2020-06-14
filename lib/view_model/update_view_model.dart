@@ -7,11 +7,11 @@ import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_view_model.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///检查更新
-class UpdateModel extends BasisViewModel {
+class UpdateViewModel extends BasisViewModel {
   static String _appVersion;
 
   static String get appVersion => _appVersion != null ? _appVersion : "";
@@ -27,12 +27,16 @@ class UpdateModel extends BasisViewModel {
       _packageName != null ? _packageName : "cn.aries.freadhub";
 
   ///检查新版本
-  Future<AppUpdateInfo> checkUpdate(BuildContext context,{bool showError = false}) async {
+  Future<AppUpdateInfo> checkUpdate(BuildContext context,
+      {bool showError = false}) async {
+    if (Platform.isIOS) {
+      return null;
+    }
     AppUpdateInfo appUpdateInfo;
     setLoading();
     try {
       appUpdateInfo = await UpdateRepository.checkUpdate();
-      showUpdateDialog(context, appUpdateInfo);
+      showUpdateDialog(context, appUpdateInfo, background: !showError);
       setSuccess();
     } catch (e, s) {
       setError(e, s);
@@ -46,12 +50,12 @@ class UpdateModel extends BasisViewModel {
     return appUpdateInfo;
   }
 
-  UpdateModel() {
-    LogUtil.e('UpdateModel');
+  UpdateViewModel() {
+    LogUtil.e('UpdateViewModel');
     PlatformUtil.getAppVersion().then((str) {
       _appVersion = str;
     });
-    PlatformUtil.getBuildNum().then((num) {
+    PlatformUtil.getBuildNumber().then((num) {
       _appVersionCode = num;
     });
     PlatformUtil.getPackageName().then((str) {
@@ -71,7 +75,7 @@ class UpdateModel extends BasisViewModel {
     DialogUtil.showAlertDialog(
       context,
       titleWidget: RichText(
-        textScaleFactor: ThemeModel.textScaleFactor,
+        textScaleFactor: ThemeViewModel.textScaleFactor,
         text: TextSpan(
             style: Theme.of(context).textTheme.title,
             text: '发现新版本:${info.buildVersion}',

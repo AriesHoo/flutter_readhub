@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -153,7 +153,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   enablePullUp: true,
                   header: MaterialClassicHeader(
                     backgroundColor: Colors.white,
-                    color: ThemeModel.accentColor,
+                    color: ThemeViewModel.accentColor,
                   ),
                   footer: SmartLoadFooterWidget(),
 
@@ -181,7 +181,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   ),
                 ),
                 floatingActionButton:
-                    !model2.showTopBtn || ThemeModel.hideFloatingButton
+                    !model2.showTopBtn || ThemeViewModel.hideFloatingButton
                         ? null
                         : FloatingActionButton(
                             backgroundColor: Theme.of(context).accentColor,
@@ -270,7 +270,7 @@ class SmartLoadFooterWidget extends StatelessWidget {
         if (mode == LoadStatus.idle) {
           body = Text(
             S.of(context).loadIdle,
-            textScaleFactor: ThemeModel.textScaleFactor,
+            textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.loading) {
@@ -278,19 +278,19 @@ class SmartLoadFooterWidget extends StatelessWidget {
         } else if (mode == LoadStatus.failed) {
           body = Text(
             S.of(context).loadFailed,
-            textScaleFactor: ThemeModel.textScaleFactor,
+            textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.canLoading) {
           body = Text(
             S.of(context).loadIdle,
-            textScaleFactor: ThemeModel.textScaleFactor,
+            textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else {
           body = Text(
             S.of(context).loadNoMore,
-            textScaleFactor: ThemeModel.textScaleFactor,
+            textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         }

@@ -12,12 +12,12 @@ import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart' as prefix0;
 import 'package:flutter_readhub/widget/article_item_widget.dart';
+import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share_extend/share_extend.dart';
 
 ///弹出分享提示框
 Future<void> showShareArticleDialog(
@@ -168,7 +168,7 @@ class ShotImageWidget extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       title,
-                      textScaleFactor: ThemeModel.textScaleFactor,
+                      textScaleFactor: ThemeViewModel.textScaleFactor,
                       textAlign: TextAlign.justify,
                       style: Theme.of(context).textTheme.title.copyWith(
                             fontWeight: FontWeight.bold,
@@ -213,7 +213,7 @@ class ShotImageWidget extends StatelessWidget {
                         child: summaryWidget ??
                             Text(
                               summary,
-                              textScaleFactor: ThemeModel.textScaleFactor,
+                              textScaleFactor: ThemeViewModel.textScaleFactor,
                               overflow: TextOverflow.visible,
                               strutStyle: StrutStyle(
                                   forceStrutHeight: true,
@@ -243,7 +243,7 @@ class ShotImageWidget extends StatelessWidget {
                           flex: 1,
                           child: Text(
                             notice,
-                            textScaleFactor: ThemeModel.textScaleFactor,
+                            textScaleFactor: ThemeViewModel.textScaleFactor,
                             textAlign: TextAlign.start,
                             style: Theme.of(context).textTheme.title.copyWith(
                                   fontWeight: FontWeight.w600,
@@ -275,7 +275,7 @@ class ShotImageWidget extends StatelessWidget {
               ),
               Text(
                 bottomNotice,
-                textScaleFactor: ThemeModel.textScaleFactor,
+                textScaleFactor: ThemeViewModel.textScaleFactor,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.caption.copyWith(
                       fontSize: 10,
@@ -306,10 +306,10 @@ class SaveImageToGallery {
       {bool share: false}) async {
     if (fileImage != null && fileImage.isNotEmpty) {
       if (share) {
-        ShareExtend.share(fileImage, 'image',
-            subject: S.of(context).saveImageShareTip);
-//        FlutterShare.shareFileWithText(
-//            textContent: S.of(context).saveImageShareTip, bytes: File(fileImage).readAsBytesSync());
+//        ShareExtend.share(fileImage, 'image',
+//            subject: S.of(context).saveImageShareTip);
+        FlutterShare.shareFileWithText(
+            textContent: S.of(context).saveImageShareTip, filePath: fileImage);
       } else {
         ToastUtil.show(S.of(context).saveImageSucceedInGallery);
       }

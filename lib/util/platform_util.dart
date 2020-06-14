@@ -19,7 +19,7 @@ class PlatformUtil {
     return packageInfo.version;
   }
 
-  static Future<String> getBuildNum() async {
+  static Future<String> getBuildNumber() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.buildNumber;
   }
@@ -40,6 +40,7 @@ class PlatformUtil {
     }
   }
 
+  ///Android 6.0及以上-icon颜色
   static Future<bool> isStatusColorChange() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
@@ -50,6 +51,7 @@ class PlatformUtil {
     }
   }
 
+  ///Android 8.0及以上-icon颜色
   static Future<bool> isNavigationColorChange() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {

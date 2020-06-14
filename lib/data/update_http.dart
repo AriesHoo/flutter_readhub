@@ -26,7 +26,7 @@ class UpdateInterceptor extends InterceptorsWrapper {
     options.queryParameters['buildVersion'] =
         await PlatformUtil.getAppVersion();
     options.queryParameters['buildBuildVersion'] =
-        await PlatformUtil.getBuildNum();
+        await PlatformUtil.getBuildNumber();
     LogUtil.e('---api-request--->url--> ${options.baseUrl}${options.path}' +
         ' queryParameters: ${options.queryParameters}');
     return options;

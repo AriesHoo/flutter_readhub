@@ -7,7 +7,7 @@ import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 
 ///主题管理
-class ThemeModel with ChangeNotifier {
+class ThemeViewModel with ChangeNotifier {
   static const SP_KEY_THEME_COLOR_INDEX = 'SP_KEY_THEME_COLOR_INDEX';
   static const SP_KEY_THEME_DARK_MODE = 'SP_KEY_THEME_DARK_MODE';
   static const SP_KEY_FONT_INDEX = 'SP_KEY_FONT_INDEX';
@@ -80,7 +80,7 @@ class ThemeModel with ChangeNotifier {
 
   static double get fontTextSize => _fontTextSize;
 
-  ThemeModel() {
+  ThemeViewModel() {
     /// 用户选择的明暗模式
     _userDarkMode = SpUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false);
 

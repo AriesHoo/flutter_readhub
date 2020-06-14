@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:oktoast/oktoast.dart';
 
 class ToastUtil {
@@ -19,7 +19,7 @@ class ToastUtil {
       text,
       textStyle: TextStyle(
         fontSize: 14,
-        fontFamily: ThemeModel.fontFamily(),
+        fontFamily: ThemeViewModel.fontFamily(),
       ),
       backgroundColor: Color(0xA0000000),
       dismissOtherToast: true,

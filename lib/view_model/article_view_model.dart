@@ -3,11 +3,11 @@ import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/view_model/basis/basis_refresh_list_view_model.dart';
 
 ///获取资讯列表Model
-class ArticleListRefreshViewModel extends BasisRefreshListViewModel<ArticleItemModel> {
+class ArticleViewModel extends BasisRefreshListViewModel<ArticleItemModel> {
   String lastCursor;
   String url;
 
-  ArticleListRefreshViewModel(this.url);
+  ArticleViewModel(this.url);
 
   @override
   Future<List<ArticleItemModel>> loadData({int pageNum}) async {

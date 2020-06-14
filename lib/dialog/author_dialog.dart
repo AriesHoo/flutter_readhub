@@ -8,15 +8,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
-import 'package:flutter_readhub/view_model/update_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
+import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/home_drawer_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widget/article_item_widget.dart';
 
-///弹出分享提示框
+///弹出作者信息分享提示框
 Future<void> showAuthorDialog(BuildContext context) async {
   await showDialog<int>(
     context: context,
@@ -110,7 +110,7 @@ class ThemeWidget extends StatelessWidget {
       child: ListTile(
         title: Text(
           S.of(context).choiceTheme,
-          textScaleFactor: ThemeModel.textScaleFactor,
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         onTap: () => showThemeDialog(context),
@@ -119,8 +119,8 @@ class ThemeWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         trailing: Text(
-          ThemeModel.themeName(context),
-          textScaleFactor: ThemeModel.textScaleFactor,
+          ThemeViewModel.themeName(context),
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.caption,
         ),
       ),
@@ -147,14 +147,14 @@ class ThemeDialog extends Dialog {
                 child: Wrap(
                   runSpacing: 8,
                   children: <Widget>[
-                    ...ThemeModel.themeValueList.map((color) {
-                      int index = ThemeModel.themeValueList.indexOf(color);
+                    ...ThemeViewModel.themeValueList.map((color) {
+                      int index = ThemeViewModel.themeValueList.indexOf(color);
                       return Material(
                         borderRadius: BorderRadius.circular(4),
-                        color: ThemeModel.getThemeColor(i: index),
+                        color: ThemeViewModel.getThemeColor(i: index),
                         child: InkWell(
                           onTap: () {
-                            var model = Provider.of<ThemeModel>(context);
+                            var model = Provider.of<ThemeViewModel>(context);
                             model.switchTheme(themeIndex: index);
                             Navigator.of(context).pop();
                           },
@@ -167,8 +167,9 @@ class ThemeDialog extends Dialog {
                                 height: 40,
                                 child: Center(
                                   child: Text(
-                                    ThemeModel.themeName(context, i: index),
-                                    textScaleFactor: ThemeModel.textScaleFactor,
+                                    ThemeViewModel.themeName(context, i: index),
+                                    textScaleFactor:
+                                        ThemeViewModel.textScaleFactor,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -182,7 +183,7 @@ class ThemeDialog extends Dialog {
                                   Icons.check,
                                   size: 22,
                                   color: index ==
-                                          Provider.of<ThemeModel>(context)
+                                          Provider.of<ThemeViewModel>(context)
                                               .themeIndex
                                       ? Colors.white
                                       : Colors.transparent,
@@ -212,7 +213,7 @@ class FeedbackWidget extends StatelessWidget {
       child: ListTile(
         title: Text(
           S.of(context).feedback,
-          textScaleFactor: ThemeModel.textScaleFactor,
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         onTap: () async {
@@ -225,7 +226,7 @@ class FeedbackWidget extends StatelessWidget {
         ),
         trailing: Text(
           'AriesHoo@126.com',
-          textScaleFactor: ThemeModel.textScaleFactor,
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.caption,
         ),
       ),
@@ -236,37 +237,39 @@ class FeedbackWidget extends StatelessWidget {
 ///检查更新
 class UpdateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
-    return BasisProviderWidget<UpdateModel>(
-      model: UpdateModel(),
-      builder: (context, model, child) => Material(
-        color: Theme.of(context).cardColor,
-        child: ListTile(
-          title: Text(
-            S.of(context).checkUpdate,
-            textScaleFactor: ThemeModel.textScaleFactor,
-            style: Theme.of(context).textTheme.subtitle.copyWith(),
-          ),
-          onTap: model.loading
-              ? null
-              : () async {
-                  await model.checkUpdate(context, showError: true);
-                },
-          leading: Icon(
-            Icons.system_update_alt,
-            color: Theme.of(context).accentColor,
-          ),
-          trailing: model.loading
-              ? CupertinoActivityIndicator(
-                  radius: 8,
-                )
-              : Text(
-                  '${UpdateModel.appVersion}（${UpdateModel.appVersionCode}）',
-                  textScaleFactor: ThemeModel.textScaleFactor,
-                  style: Theme.of(context).textTheme.caption,
+    return Platform.isIOS
+        ? null
+        : BasisProviderWidget<UpdateViewModel>(
+            model: UpdateViewModel(),
+            builder: (context, model, child) => Material(
+              color: Theme.of(context).cardColor,
+              child: ListTile(
+                title: Text(
+                  S.of(context).checkUpdate,
+                  textScaleFactor: ThemeViewModel.textScaleFactor,
+                  style: Theme.of(context).textTheme.subtitle.copyWith(),
                 ),
-        ),
-      ),
-    );
+                onTap: model.loading
+                    ? null
+                    : () async {
+                        await model.checkUpdate(context, showError: true);
+                      },
+                leading: Icon(
+                  Icons.system_update_alt,
+                  color: Theme.of(context).accentColor,
+                ),
+                trailing: model.loading
+                    ? CupertinoActivityIndicator(
+                        radius: 8,
+                      )
+                    : Text(
+                        '${UpdateViewModel.appVersion}（${UpdateViewModel.appVersionCode}）',
+                        textScaleFactor: ThemeViewModel.textScaleFactor,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+              ),
+            ),
+          );
   }
 }
 
@@ -279,7 +282,7 @@ class ShareAppWidget extends StatelessWidget {
       child: ListTile(
         title: Text(
           S.of(context).shareApp,
-          textScaleFactor: ThemeModel.textScaleFactor,
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         onTap: () => showShareAppDialog(
@@ -290,7 +293,7 @@ class ShareAppWidget extends StatelessWidget {
               'AriesHoo开发\n扫码查看详情',
               'https://fir.im/nywj',
 //              'https://www.pgyer.com/ntMA',
-//              'https://www.coolapk.com/apk/${UpdateModel.packageName}',
+//              'https://www.coolapk.com/apk/${UpdateViewModel.packageName}',
               S.of(context).saveImageShareTip,
               'shareApp',
               summaryWidget: ShareAppSummaryWidget(),
@@ -313,7 +316,7 @@ class ShareAppSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-      textScaleFactor: ThemeModel.textScaleFactor,
+      textScaleFactor: ThemeViewModel.textScaleFactor,
       text: TextSpan(
         style: Theme.of(context).textTheme.title.copyWith(
               fontSize: 13,
@@ -359,7 +362,7 @@ class FontSizeWidget extends StatelessWidget {
         ),
         title: Text(
           S.of(context).fontSize,
-          textScaleFactor: ThemeModel.textScaleFactor,
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         children: <Widget>[
@@ -372,7 +375,7 @@ class FontSizeWidget extends StatelessWidget {
                 ///标题
                 Text(
                   '资讯标题预览',
-                  textScaleFactor: ThemeModel.fontTextSize,
+                  textScaleFactor: ThemeViewModel.fontTextSize,
                   maxLines: 2,
                   strutStyle: StrutStyle(
                       forceStrutHeight: true,
@@ -391,7 +394,7 @@ class FontSizeWidget extends StatelessWidget {
                 ///描述摘要
                 Text(
                   '资讯摘要预览',
-                  textScaleFactor: ThemeModel.fontTextSize,
+                  textScaleFactor: ThemeViewModel.fontTextSize,
                   overflow: TextOverflow.ellipsis,
                   strutStyle: StrutStyle(
                       forceStrutHeight: true,
@@ -438,11 +441,11 @@ class FontSizeWidget extends StatelessWidget {
                   child: Slider(
                     min: 8,
                     max: 12,
-                    value: ThemeModel.fontTextSize * 10,
+                    value: ThemeViewModel.fontTextSize * 10,
                     divisions: 8,
-                    label: '${ThemeModel.fontTextSize * 10}',
+                    label: '${ThemeViewModel.fontTextSize * 10}',
                     onChanged: (value) {
-                      Provider.of<ThemeModel>(context)
+                      Provider.of<ThemeViewModel>(context)
                           .switchFontTextSize(value / 10);
                     },
                   ),
@@ -473,7 +476,7 @@ class AppreciateWidget extends StatelessWidget {
         ),
         title: Text(
           S.of(context).appreciateDeveloper,
-          textScaleFactor: ThemeModel.textScaleFactor,
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         children: <Widget>[
@@ -567,7 +570,7 @@ class CopyrightWidget extends StatelessWidget {
         ),
         title: Text(
           S.of(context).appCopyright,
-          textScaleFactor: ThemeModel.textScaleFactor,
+          textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         children: <Widget>[

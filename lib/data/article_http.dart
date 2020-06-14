@@ -34,5 +34,10 @@ class ApiInterceptor extends InterceptorsWrapper {
         ' queryParameters: ${options.queryParameters}');
     return options;
   }
+
+  @override
+  Future onResponse(Response response) {
+    return super.onResponse(response);
+  }
 }
 

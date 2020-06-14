@@ -2,7 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
-import 'package:flutter_readhub/view_model/theme_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -31,22 +31,22 @@ class HomeDrawerWidget extends StatelessWidget {
                         EdgeInsets.only(left: 12, right: 0, top: 0, bottom: 0),
                     title: Text(
                       S.of(context).settingHideFloatingButton,
-                      textScaleFactor: ThemeModel.textScaleFactor,
+                      textScaleFactor: ThemeViewModel.textScaleFactor,
                       style: Theme.of(context).textTheme.title.copyWith(
                             fontSize: 14,
                           ),
                     ),
                     trailing: Checkbox(
                       activeColor: Theme.of(context).accentColor,
-                      value: ThemeModel.hideFloatingButton,
+                      value: ThemeViewModel.hideFloatingButton,
                       onChanged: (checked) {
-                        Provider.of<ThemeModel>(context)
+                        Provider.of<ThemeViewModel>(context)
                             .switchHideFloatingButton(checked);
                       },
                     ),
                     onTap: () {
-                      Provider.of<ThemeModel>(context).switchHideFloatingButton(
-                          !ThemeModel.hideFloatingButton);
+                      Provider.of<ThemeViewModel>(context).switchHideFloatingButton(
+                          !ThemeViewModel.hideFloatingButton);
                     },
                   ),
                 ),
@@ -99,7 +99,7 @@ class TopRoundWidget extends StatelessWidget {
               ),
               child: Text(
                 "AriesHoo",
-                textScaleFactor: ThemeModel.textScaleFactor,
+                textScaleFactor: ThemeViewModel.textScaleFactor,
                 style: Theme.of(context).textTheme.subtitle.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -146,7 +146,7 @@ class ChoiceThemeWidget extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         S.of(context).choiceTheme,
-        textScaleFactor: ThemeModel.textScaleFactor,
+        textScaleFactor: ThemeViewModel.textScaleFactor,
         style: Theme.of(context).textTheme.title.copyWith(
               fontSize: 14,
             ),
@@ -159,14 +159,14 @@ class ChoiceThemeWidget extends StatelessWidget {
             runSpacing: 5,
             spacing: 5,
             children: <Widget>[
-              ...ThemeModel.themeValueList.map((color) {
-                int index = ThemeModel.themeValueList.indexOf(color);
+              ...ThemeViewModel.themeValueList.map((color) {
+                int index = ThemeViewModel.themeValueList.indexOf(color);
                 return Material(
                   borderRadius: BorderRadius.circular(2),
                   color: color,
                   child: InkWell(
                     onTap: () {
-                      var model = Provider.of<ThemeModel>(context);
+                      var model = Provider.of<ThemeViewModel>(context);
                       model.switchTheme(themeIndex: index);
                     },
                     splashColor: Colors.white.withAlpha(50),
@@ -175,8 +175,8 @@ class ChoiceThemeWidget extends StatelessWidget {
                       height: 36,
                       child: Center(
                         child: Text(
-                          ThemeModel.themeName(context, i: index),
-                          textScaleFactor: ThemeModel.textScaleFactor,
+                          ThemeViewModel.themeName(context, i: index),
+                          textScaleFactor: ThemeViewModel.textScaleFactor,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,

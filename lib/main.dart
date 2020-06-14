@@ -1,17 +1,19 @@
+import 'dart:io';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
-import 'package:flutter_readhub/view_model/update_model.dart';
+import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'generated/l10n.dart';
-import 'view_model/locale_model.dart';
-import 'view_model/theme_model.dart';
+import 'view_model/locale_view_model.dart';
+import 'view_model/theme_view_model.dart';
 
 void main() async {
   ///设置全屏
@@ -37,15 +39,17 @@ class MyApp extends StatelessWidget {
       ///Provider 以便主题及国际化语言
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider<ThemeModel>.value(value: ThemeModel()),
-          ChangeNotifierProvider<LocaleModel>.value(value: LocaleModel()),
-          ChangeNotifierProvider<UpdateModel>.value(value: UpdateModel()),
+          ChangeNotifierProvider<ThemeViewModel>.value(value: ThemeViewModel()),
+          ChangeNotifierProvider<LocaleViewModel>.value(
+              value: LocaleViewModel()),
+          ChangeNotifierProvider<UpdateViewModel>.value(value: UpdateViewModel()),
         ],
-        child: Consumer3<ThemeModel, LocaleModel, UpdateModel>(
-          builder: (context, themeModel, localeModel, updateModel, child) =>
-              AppWidget(
-            themeModel: themeModel,
-            localeModel: localeModel,
+        child: Consumer3<ThemeViewModel, LocaleViewModel, UpdateViewModel>(
+          builder:
+              (context, ThemeViewModel, LocaleViewModel, UpdateViewModel, child) =>
+                  AppWidget(
+            theme: ThemeViewModel,
+            locale: LocaleViewModel,
           ),
         ),
       ),
@@ -55,13 +59,13 @@ class MyApp extends StatelessWidget {
 
 ///App
 class AppWidget extends StatelessWidget {
-  final ThemeModel themeModel;
-  final LocaleModel localeModel;
+  final ThemeViewModel theme;
+  final LocaleViewModel locale;
 
   const AppWidget({
     Key key,
-    this.themeModel,
-    this.localeModel,
+    this.theme,
+    this.locale,
   }) : super(key: key);
 
   @override
@@ -70,16 +74,16 @@ class AppWidget extends StatelessWidget {
       navigatorKey: navigatorKey,
 
       ///全局主题配置
-      theme: themeModel.themeData(),
+      theme: theme.themeData(),
 
       ///全局配置深色主题
-      darkTheme: themeModel.themeData(platformDarkMode: true),
+      darkTheme: theme.themeData(platformDarkMode: true),
 
       ///去掉右上顶部debug标签
       debugShowCheckedModeBanner: false,
 
       ///国际化语言
-      locale: localeModel.locale,
+      locale: locale.locale,
       localizationsDelegates: [
         S.delegate,
 
@@ -98,7 +102,7 @@ class AppWidget extends StatelessWidget {
 
 //      ///主页
 //      home: HomePage(
-//        updateModel: updateModel,
+//        UpdateViewModel: UpdateViewModel,
 //      ),
       home: SplashPage(),
     );
@@ -160,6 +164,7 @@ class _SplashPageState extends State<SplashPage> {
             child: SizedBox(),
           ),
           SafeArea(
+            bottom: Platform.isIOS,
             child: Image.asset(
               'assets/images/ic_powered.webp',
               width: 110,
