@@ -49,10 +49,10 @@ class SkeletonDecoration extends BoxDecoration {
     ///圆角
     BorderRadiusGeometry borderRadius,
   }) : super(
-          color: !isDark ? Colors.grey[350] : Colors.grey[700],
-          borderRadius: borderRadius ?? BorderRadius.circular(0),
-          shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
-        );
+    color: !isDark ? Colors.grey[350] : Colors.grey[700],
+    borderRadius: borderRadius ?? BorderRadius.circular(0),
+    shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+  );
 }
 
 /// 骨架屏ListView
@@ -83,27 +83,18 @@ class SkeletonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    MaterialColor color =
-//        theme.accentColor is MaterialColor ? theme.accentColor : Colors.grey;
     MaterialColor color = Colors.grey;
-    return SingleChildScrollView(
-      physics: NeverScrollableScrollPhysics(),
-      child: Shimmer.fromColors(
-        period: Duration(milliseconds: 1000),
-        baseColor: baseColor ?? (ThemeViewModel.darkMode ? color[700] : color[350]),
-        highlightColor:
-            highlightColor ?? (ThemeViewModel.darkMode ? color[500] : color[200]),
-        child: Padding(
-            padding: padding,
-            child: horizontal
-                ? Row(
-                    children: List.generate(
-                        length, (index) => builder(context, index)),
-                  )
-                : Column(
-                    children: List.generate(
-                        length, (index) => builder(context, index)),
-                  )),
+    return Shimmer.fromColors(
+      period: Duration(milliseconds: 1000),
+      baseColor:
+      baseColor ?? (ThemeViewModel.darkMode ? color[700] : color[350]),
+      highlightColor: highlightColor ??
+          (ThemeViewModel.darkMode ? color[500] : color[200]),
+      child: ListView.builder(
+        padding: padding,
+        itemBuilder: builder,
+        itemCount: length,
+        scrollDirection: horizontal ? Axis.horizontal : Axis.vertical,
       ),
     );
   }
