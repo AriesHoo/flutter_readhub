@@ -238,7 +238,7 @@ class FeedbackWidget extends StatelessWidget {
 class UpdateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Platform.isIOS
-        ? null
+        ? SizedBox()
         : BasisProviderWidget<UpdateViewModel>(
             model: UpdateViewModel(),
             builder: (context, model, child) => Material(
@@ -558,7 +558,7 @@ class CopyrightWidget extends StatelessWidget {
                 () {
               scrollController.animateTo(
                 MediaQuery.of(context).size.height,
-                duration: Duration(milliseconds: 1),
+                duration: Duration(milliseconds: Platform.isAndroid?1:0),
                 curve: Curves.easeInCirc,
               );
             });

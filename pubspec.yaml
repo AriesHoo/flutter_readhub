@@ -50,8 +50,8 @@ dependencies:
   url_launcher: ^3.0.3
   #  二维码-生成
   qr_flutter: ^3.1.0
-  #  保存文件-图片、音视频到系统目录
-  image_gallery_saver: ^1.2.2
+  #  保存文件-图片、音视频到系统目录--iOS无法返回file路径故舍弃
+  #  image_gallery_saver: ^1.2.2
   #  工具类
   flustars: ^0.3.2
   #  动态权限申请
