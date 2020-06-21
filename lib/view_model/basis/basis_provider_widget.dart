@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
@@ -151,10 +153,10 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                 body: SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: true,
-                  header: MaterialClassicHeader(
+                  header:Platform.isAndroid? MaterialClassicHeader(
                     backgroundColor: Colors.white,
                     color: ThemeViewModel.accentColor,
-                  ),
+                  ):ClassicHeader(),
                   footer: SmartLoadFooterWidget(),
 
                   ///下拉刷新监听
@@ -173,7 +175,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
 
                     ///内容适配
                     shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
+//                    physics: ClampingScrollPhysics(),
                     itemCount: model.list.length,
                     itemBuilder: (context, index) {
                       return itemBuilder(context, model, index);

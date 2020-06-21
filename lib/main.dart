@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
@@ -17,7 +16,7 @@ import 'view_model/theme_view_model.dart';
 
 void main() async {
   ///设置全屏
-  SystemChrome.setEnabledSystemUIOverlays([]);
+//  SystemChrome.setEnabledSystemUIOverlays([]);
   WidgetsFlutterBinding.ensureInitialized();
   await SpUtil.getInstance();
 
@@ -42,12 +41,13 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<ThemeViewModel>.value(value: ThemeViewModel()),
           ChangeNotifierProvider<LocaleViewModel>.value(
               value: LocaleViewModel()),
-          ChangeNotifierProvider<UpdateViewModel>.value(value: UpdateViewModel()),
+          ChangeNotifierProvider<UpdateViewModel>.value(
+              value: UpdateViewModel()),
         ],
         child: Consumer3<ThemeViewModel, LocaleViewModel, UpdateViewModel>(
-          builder:
-              (context, ThemeViewModel, LocaleViewModel, UpdateViewModel, child) =>
-                  AppWidget(
+          builder: (context, ThemeViewModel, LocaleViewModel, UpdateViewModel,
+                  child) =>
+              AppWidget(
             theme: ThemeViewModel,
             locale: LocaleViewModel,
           ),
@@ -124,10 +124,10 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.of(context).pushReplacementNamed(RouteName.tab);
 
       ///恢复显示状态栏及导航栏
-      SystemChrome.setEnabledSystemUIOverlays([
-        SystemUiOverlay.top,
-        SystemUiOverlay.bottom,
-      ]);
+//      SystemChrome.setEnabledSystemUIOverlays([
+//        SystemUiOverlay.top,
+//        SystemUiOverlay.bottom,
+//      ]);
     });
   }
 
@@ -164,6 +164,9 @@ class _SplashPageState extends State<SplashPage> {
             child: SizedBox(),
           ),
           SafeArea(
+            left: Platform.isIOS,
+            top: Platform.isIOS,
+            right: Platform.isIOS,
             bottom: Platform.isIOS,
             child: Image.asset(
               'assets/images/ic_powered.webp',

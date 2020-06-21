@@ -16,6 +16,7 @@ import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart' as prefix0;
 import 'package:flutter_readhub/widget/article_item_widget.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -42,7 +43,6 @@ Future<void> showShareAppDialog(BuildContext context, Dialog dialog) async {
 }
 
 ///分享Dialog
-// ignore: must_be_immutable
 class ShareDialog extends Dialog {
   final String title;
   final String summary;
@@ -98,26 +98,37 @@ class ShareDialog extends Dialog {
                 tooltip: S.of(context).share,
                 backgroundColor: Colors.blue,
                 splashColor: Colors.white.withAlpha(50),
-                child: Icon(Icons.share),
+                child: Icon(
+                  Icons.share,
+                  color: Colors.white,
+                ),
                 onPressed: () => saveImageToGallery
                     .saveImage(context, _globalKey, '/$fileName', share: true),
               ),
               SizedBox(
-                width: 20,
+                width: Platform.isIOS ? 0 : 20,
               ),
-              FloatingActionButton(
-                elevation: 0,
-                highlightElevation: 0,
-                hoverElevation: 0,
-                focusElevation: 0,
-                disabledElevation: 0,
-                tooltip: S.of(context).downloadImage,
-                backgroundColor: Colors.red,
-                splashColor: Colors.white.withAlpha(50),
-                child: Icon(Icons.file_download),
-                onPressed: () => saveImageToGallery
-                    .saveImage(context, _globalKey, '/$fileName', share: false),
-              ),
+
+              ///iOS保存图片到缓存其它应用无法获取。不想引入其它保存到相册的三方库
+              Platform.isIOS
+                  ? SizedBox()
+                  : FloatingActionButton(
+                      elevation: 0,
+                      highlightElevation: 0,
+                      hoverElevation: 0,
+                      focusElevation: 0,
+                      disabledElevation: 0,
+                      tooltip: S.of(context).downloadImage,
+                      backgroundColor: Colors.red,
+                      splashColor: Colors.white.withAlpha(50),
+                      child: Icon(
+                        Icons.file_download,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => saveImageToGallery.saveImage(
+                          context, _globalKey, '/$fileName',
+                          share: false),
+                    ),
             ],
           ),
         ],
@@ -309,7 +320,7 @@ class SaveImageToGallery {
 //        ShareExtend.share(fileImage, 'image',
 //            subject: S.of(context).saveImageShareTip);
         FlutterShare.shareFileWithText(
-            textContent: S.of(context).saveImageShareTip, filePath: fileImage);
+            filePath: fileImage, textContent: S.of(context).saveImageShareTip);
       } else {
         ToastUtil.show(S.of(context).saveImageSucceedInGallery);
       }
@@ -347,16 +358,27 @@ class SaveImageToGallery {
 
     ///保存图片到系统图库
     File saveFile = File(await getImagePath(imageName));
-    bool exist = await saveFile.exists();
+    bool exist = saveFile.existsSync() && saveFile.lengthSync() > 0;
     LogUtil.e('fileImage_exist0:$exist');
     if (!exist) {
-      await saveFile.writeAsBytes(pngBytes);
-      exist = await saveFile.exists();
+      if (!saveFile.existsSync()) {
+        await saveFile.create();
+      }
+      File file = await saveFile.writeAsBytes(pngBytes);
+//      ToastUtil.show('kkkk:${file.existsSync()};file_path:${file.path}',
+//          duration: Duration(
+//            seconds: 10,
+//          ));
+//
+//      await showDialog(
+//        context: context,
+//        builder: (context) => Image.file(file),
+//      );
+      exist = file.existsSync();
     }
-    LogUtil.e('fileImage_exist1:$exist');
     if (exist) {
       fileImage = saveFile.absolute.path;
-      LogUtil.e('fileImage:$fileImage');
+      LogUtil.e('fileImage:$fileImage;length:${saveFile.lengthSync()}');
       saveImage(context, globalKey, imageName, share: share);
       return;
     }

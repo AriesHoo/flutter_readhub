@@ -172,11 +172,11 @@ class _WebViewPageState extends State<WebViewPage> {
                     debugPrint('导航$request');
                     refreshNavigator();
                     if (!request.url.startsWith('http')) {
-                      _launchURL(request.url);
+//                      _launchURL(request.url);
                       return NavigationDecision.prevent;
                     } else {
                       if (request.url.contains(".apk")) {
-                        _launchURL(request.url);
+//                        _launchURL(request.url);
                         return NavigationDecision.prevent;
                       }
                       return NavigationDecision.navigate;

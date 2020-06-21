@@ -51,5 +51,6 @@
   "fontSize": "文字大小",
   "appreciateDeveloper": "赞赏开发",
   "english": "英语",
-  "tip_switch_theme_when_platform_dark": "当前系统为深色主题"
+  "tipSwitchThemeWhenPlatformDark": "当前系统为深色主题",
+  "tipNoEmailApp": "请安装邮箱app后重试！"
 }

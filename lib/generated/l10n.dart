@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -545,10 +544,20 @@ class S {
   }
 
   /// `The current system is in dark mode`
-  String get tip_switch_theme_when_platform_dark {
+  String get tipSwitchThemeWhenPlatformDark {
     return Intl.message(
       'The current system is in dark mode',
-      name: 'tip_switch_theme_when_platform_dark',
+      name: 'tipSwitchThemeWhenPlatformDark',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please install email app and try again！`
+  String get tipNoEmailApp {
+    return Intl.message(
+      'Please install email app and try again！',
+      name: 'tipNoEmailApp',
       desc: '',
       args: [],
     );

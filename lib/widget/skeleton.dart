@@ -1,4 +1,3 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:shimmer/shimmer.dart';
@@ -25,7 +24,6 @@ class SkeletonBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Divider.createBorderSide(context, width: 0.7);
-    LogUtil.e('SkeletonBox:${ThemeViewModel.darkMode}');
     return Container(
       margin: margin,
       padding: padding,

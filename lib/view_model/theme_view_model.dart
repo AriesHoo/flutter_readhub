@@ -55,7 +55,7 @@ class ThemeViewModel with ChangeNotifier {
   int get fontIndex => _fontIndex;
 
   /// 当前主题索引
-  static int _themeIndex = 5;
+  static int _themeIndex = 7;
 
   int get themeIndex => _themeIndex;
 

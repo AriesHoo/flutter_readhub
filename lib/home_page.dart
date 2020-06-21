@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage>
 
   void switchDarkMode(BuildContext context) {
     if (ThemeViewModel.platformDarkMode) {
-      ToastUtil.show(S.of(context).tip_switch_theme_when_platform_dark);
+      ToastUtil.show(S.of(context).tipSwitchThemeWhenPlatformDark);
     } else {
       Provider.of<ThemeViewModel>(context).switchTheme(
           userDarkMode: Theme.of(context).brightness == Brightness.light);

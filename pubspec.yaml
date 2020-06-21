@@ -47,17 +47,17 @@ dependencies:
   # 用于做骨架屏-闪光效果
   shimmer: ^1.0.0
   #  跳转系统浏览器/打电话等
-  url_launcher: ^3.0.3
+  url_launcher: ^5.4.11
   #  二维码-生成
   qr_flutter: ^3.1.0
   #  保存文件-图片、音视频到系统目录--iOS无法返回file路径故舍弃
-  #  image_gallery_saver: ^1.2.2
+  image_gallery_saver: ^1.2.2
   #  工具类
   flustars: ^0.3.2
   #  动态权限申请
   permission_handler: ^5.0.1
   #  分享文字及文件-固定版本新版本分享微信提示无法获取资源
-  flutter_share_plugin: 0.1.2
+  flutter_share_plugin: ^0.1.2
 
 dev_dependencies:
   flutter_test:

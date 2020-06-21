@@ -2,11 +2,13 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
@@ -217,8 +219,17 @@ class FeedbackWidget extends StatelessWidget {
           style: Theme.of(context).textTheme.subtitle.copyWith(),
         ),
         onTap: () async {
+          Uri _emailLaunchUri = Uri(
+              scheme: 'mailto',
+              path: 'AriesHoo@126.com',
+              queryParameters: {'subject': '关于Freadhub的意见反馈'});
+
           ///发送邮件
-          await launch('mailto:AriesHoo@126.com?subject=关于Freadhub的意见反馈&body=');
+          if (!await canLaunch(_emailLaunchUri.toString())) {
+            ToastUtil.show(S.of(context).tipNoEmailApp);
+            return;
+          }
+          launch(_emailLaunchUri.toString());
         },
         leading: Icon(
           Icons.mail_outline,
@@ -335,7 +346,7 @@ class ShareAppSummaryWidget extends StatelessWidget {
                 ),
             text: '\n热门话题、科技动态、开发者、区块链四大模块'
                 '\n相关聚合资讯快捷查看'
-                '\n方便快捷的日间/夜间模式切换'
+                '\n方便快捷的浅色/深色模式切换'
                 '\n丰富的彩虹颜色主题/每日主题切换'
                 '\n长按社会化分享预览图效果模式'
                 '\n方便快捷的意见反馈入口',
@@ -487,7 +498,8 @@ class AppreciateWidget extends StatelessWidget {
               children: <Widget>[
                 GestureDetector(
                   onLongPress: () => _saveImageToGallery.saveImage(
-                      context, _globalKey, '/pay'),
+                      context, _globalKey, '/pay',
+                      share: Platform.isIOS),
                   child: RepaintBoundary(
                     key: _globalKey,
                     child: Image.asset(
@@ -558,7 +570,7 @@ class CopyrightWidget extends StatelessWidget {
                 () {
               scrollController.animateTo(
                 MediaQuery.of(context).size.height,
-                duration: Duration(milliseconds: Platform.isAndroid?1:0),
+                duration: Duration(milliseconds: Platform.isAndroid ? 1 : 0),
                 curve: Curves.easeInCirc,
               );
             });

@@ -50,5 +50,6 @@
   "updateNextTime": "Next time",
   "fontSize": "Font size",
   "appreciateDeveloper": "Appreciate",
-  "tip_switch_theme_when_platform_dark": "The current system is in dark mode"
+  "tipSwitchThemeWhenPlatformDark": "The current system is in dark mode",
+  "tipNoEmailApp": "Please install email app and try again！"
 }
