@@ -6,7 +6,7 @@
              Flutter draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:navigationBarColor">#60000000</item>
+        <item name="android:navigationBarColor">#00000000</item>
         <item name="android:statusBarColor">#00000000</item>
         <item name="android:windowDisablePreview">false</item>
         <item name="android:windowNoDisplay">false</item>

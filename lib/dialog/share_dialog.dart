@@ -16,7 +16,6 @@ import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart' as prefix0;
 import 'package:flutter_readhub/widget/article_item_widget.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -148,7 +147,7 @@ class ShotImageWidget extends StatelessWidget {
   final String url;
   final String bottomNotice;
   final GlobalKey globalKey;
-  Widget summaryWidget;
+  final Widget summaryWidget;
 
   ShotImageWidget(this.title, this.summary, this.notice, this.url,
       this.bottomNotice, this.globalKey,

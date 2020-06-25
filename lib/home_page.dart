@@ -115,19 +115,14 @@ class _HomePageState extends State<HomePage>
           ///设置AppBar高度
           preferredSize: Size.fromHeight(40),
           child: AppBar(
-//            title: Text(
-//              S.of(context).appName,
-//              style: Theme.of(context).appBarTheme.textTheme.title.copyWith(
-//                    fontStyle: FontStyle.normal,
-//                  ),
-//            ),
             title: Image.asset(
               'assets/images/title.png',
-              width: 96,
-              height: 96,
+              width: 108,
+//              height: 96,
               color: Theme.of(context).appBarTheme.iconTheme.color,
-              fit: BoxFit.fitWidth,
-              colorBlendMode: BlendMode.srcIn,
+              fit: BoxFit.fill,
+              filterQuality: FilterQuality.high,
+//              colorBlendMode: BlendMode.srcIn,
             ),
             actions: <Widget>[
               ///更多信息
@@ -176,7 +171,6 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             Expanded(
-              flex: 1,
               child: TabBarView(
                 controller: _tabController,
                 children: List.generate(

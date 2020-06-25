@@ -61,6 +61,7 @@ class AuthorDialog extends Dialog {
                 constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height - 50),
                 child: SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
                   controller: _scrollController,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
