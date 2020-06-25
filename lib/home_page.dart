@@ -118,11 +118,10 @@ class _HomePageState extends State<HomePage>
             title: Image.asset(
               'assets/images/title.png',
               width: 108,
-//              height: 96,
               color: Theme.of(context).appBarTheme.iconTheme.color,
               fit: BoxFit.fill,
               filterQuality: FilterQuality.high,
-//              colorBlendMode: BlendMode.srcIn,
+              colorBlendMode: BlendMode.srcIn,
             ),
             actions: <Widget>[
               ///更多信息
