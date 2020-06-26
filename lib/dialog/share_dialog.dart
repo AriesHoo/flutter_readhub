@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
@@ -49,7 +48,7 @@ class ShareDialog extends Dialog {
   final String url;
   final String bottomNotice;
   final String fileName;
-  Widget summaryWidget;
+  final Widget summaryWidget;
 
   ShareDialog(this.title, this.summary, this.notice, this.url,
       this.bottomNotice, this.fileName,
@@ -358,26 +357,15 @@ class SaveImageToGallery {
     ///保存图片到系统图库
     File saveFile = File(await getImagePath(imageName));
     bool exist = saveFile.existsSync() && saveFile.lengthSync() > 0;
-    LogUtil.e('fileImage_exist0:$exist');
     if (!exist) {
       if (!saveFile.existsSync()) {
         await saveFile.create();
       }
       File file = await saveFile.writeAsBytes(pngBytes);
-//      ToastUtil.show('kkkk:${file.existsSync()};file_path:${file.path}',
-//          duration: Duration(
-//            seconds: 10,
-//          ));
-//
-//      await showDialog(
-//        context: context,
-//        builder: (context) => Image.file(file),
-//      );
       exist = file.existsSync();
     }
     if (exist) {
       fileImage = saveFile.absolute.path;
-      LogUtil.e('fileImage:$fileImage;length:${saveFile.lengthSync()}');
       saveImage(context, globalKey, imageName, share: share);
       return;
     }

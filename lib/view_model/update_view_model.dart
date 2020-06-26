@@ -54,12 +54,15 @@ class UpdateViewModel extends BasisViewModel {
     LogUtil.e('UpdateViewModel');
     PlatformUtil.getAppVersion().then((str) {
       _appVersion = str;
+      notifyListeners();
     });
     PlatformUtil.getBuildNumber().then((num) {
       _appVersionCode = num;
+      notifyListeners();
     });
     PlatformUtil.getPackageName().then((str) {
       _packageName = str;
+      notifyListeners();
     });
   }
 
@@ -77,12 +80,12 @@ class UpdateViewModel extends BasisViewModel {
       titleWidget: RichText(
         textScaleFactor: ThemeViewModel.textScaleFactor,
         text: TextSpan(
-            style: Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.subtitle1,
             text: '发现新版本:${info.buildVersion}',
             children: [
               TextSpan(
                   text: '\n系统自带浏览器打开',
-                  style: Theme.of(context).textTheme.title.copyWith(
+                  style: Theme.of(context).textTheme.subtitle1.copyWith(
                         color: Theme.of(context).accentColor,
                         fontSize: 13,
                       ))

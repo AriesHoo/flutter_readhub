@@ -114,7 +114,7 @@ class ThemeWidget extends StatelessWidget {
         title: Text(
           S.of(context).choiceTheme,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.subtitle.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
         onTap: () => showThemeDialog(context),
         leading: Icon(
@@ -149,55 +149,53 @@ class ThemeDialog extends Dialog {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                 child: Wrap(
                   runSpacing: 8,
-                  children: <Widget>[
-                    ...ThemeViewModel.themeValueList.map((color) {
-                      int index = ThemeViewModel.themeValueList.indexOf(color);
-                      return Material(
-                        borderRadius: BorderRadius.circular(4),
-                        color: ThemeViewModel.getThemeColor(i: index),
-                        child: InkWell(
-                          onTap: () {
-                            var model = Provider.of<ThemeViewModel>(context);
-                            model.switchTheme(themeIndex: index);
-                            Navigator.of(context).pop();
-                          },
-                          splashColor: Colors.black.withAlpha(50),
-                          child: Stack(
-                            alignment: AlignmentDirectional.center,
-                            children: <Widget>[
-                              Container(
-                                width: double.infinity,
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    ThemeViewModel.themeName(context, i: index),
-                                    textScaleFactor:
-                                        ThemeViewModel.textScaleFactor,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
+                  children: ThemeViewModel.themeValueList.map((color) {
+                    int index = ThemeViewModel.themeValueList.indexOf(color);
+                    return Material(
+                      borderRadius: BorderRadius.circular(4),
+                      color: ThemeViewModel.getThemeColor(i: index),
+                      child: InkWell(
+                        onTap: () {
+                          var model = Provider.of<ThemeViewModel>(context);
+                          model.switchTheme(themeIndex: index);
+                          Navigator.of(context).pop();
+                        },
+                        splashColor: Colors.black.withAlpha(50),
+                        child: Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: <Widget>[
+                            Container(
+                              width: double.infinity,
+                              height: 40,
+                              child: Center(
+                                child: Text(
+                                  ThemeViewModel.themeName(context, i: index),
+                                  textScaleFactor:
+                                      ThemeViewModel.textScaleFactor,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 110),
-                                child: Icon(
-                                  Icons.check,
-                                  size: 22,
-                                  color: index ==
-                                          Provider.of<ThemeViewModel>(context)
-                                              .themeIndex
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 124),
+                              child: Icon(
+                                Icons.check,
+                                size: 22,
+                                color: index ==
+                                        Provider.of<ThemeViewModel>(context)
+                                            .themeIndex
+                                    ? Colors.white
+                                    : Colors.transparent,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    }).toList(),
-                  ],
+                      ),
+                    );
+                  }).toList(),
                 ),
               ))
         ],
@@ -217,7 +215,7 @@ class FeedbackWidget extends StatelessWidget {
         title: Text(
           S.of(context).feedback,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.subtitle.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
         onTap: () async {
           Uri _emailLaunchUri = Uri(
@@ -259,7 +257,7 @@ class UpdateWidget extends StatelessWidget {
                 title: Text(
                   S.of(context).checkUpdate,
                   textScaleFactor: ThemeViewModel.textScaleFactor,
-                  style: Theme.of(context).textTheme.subtitle.copyWith(),
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(),
                 ),
                 onTap: model.loading
                     ? null
@@ -295,7 +293,7 @@ class ShareAppWidget extends StatelessWidget {
         title: Text(
           S.of(context).shareApp,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.subtitle.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
         onTap: () => showShareAppDialog(
             context,
@@ -373,7 +371,7 @@ class FontSizeWidget extends StatelessWidget {
         title: Text(
           S.of(context).fontSize,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.subtitle.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
         children: <Widget>[
           Padding(
@@ -385,14 +383,14 @@ class FontSizeWidget extends StatelessWidget {
                 ///标题
                 Text(
                   '资讯标题预览',
-                  textScaleFactor: ThemeViewModel.fontTextSize,
+                  textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                   maxLines: 2,
                   strutStyle: StrutStyle(
                       forceStrutHeight: true,
                       height: textLineHeight,
                       leading: leading),
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.subtitle.copyWith(
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
                         fontWeight: FontWeight.bold,
                         letterSpacing: letterSpacing,
                       ),
@@ -404,7 +402,7 @@ class FontSizeWidget extends StatelessWidget {
                 ///描述摘要
                 Text(
                   '资讯摘要预览',
-                  textScaleFactor: ThemeViewModel.fontTextSize,
+                  textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                   overflow: TextOverflow.ellipsis,
                   strutStyle: StrutStyle(
                       forceStrutHeight: true,
@@ -451,9 +449,9 @@ class FontSizeWidget extends StatelessWidget {
                   child: Slider(
                     min: 8,
                     max: 12,
-                    value: ThemeViewModel.fontTextSize * 10,
+                    value: ThemeViewModel.articleTextScaleFactor * 10,
                     divisions: 8,
-                    label: '${ThemeViewModel.fontTextSize * 10}',
+                    label: '${ThemeViewModel.articleTextScaleFactor * 10}',
                     onChanged: (value) {
                       Provider.of<ThemeViewModel>(context)
                           .switchFontTextSize(value / 10);
@@ -487,7 +485,7 @@ class AppreciateWidget extends StatelessWidget {
         title: Text(
           S.of(context).appreciateDeveloper,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.subtitle.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
         children: <Widget>[
           Padding(
@@ -520,7 +518,7 @@ class AppreciateWidget extends StatelessWidget {
                           height: textLineHeight,
                           leading: leading),
                       text: TextSpan(
-                          style: Theme.of(context).textTheme.subtitle.copyWith(
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
                                 fontSize: 14,
                                 color: Theme.of(context)
                                     .textTheme
@@ -582,14 +580,14 @@ class CopyrightWidget extends StatelessWidget {
         title: Text(
           S.of(context).appCopyright,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.subtitle.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
             child: RichText(
               text: TextSpan(
-                  style: Theme.of(context).textTheme.subtitle.copyWith(
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
                         fontSize: 12,
                         color: Theme.of(context)
                             .textTheme
@@ -602,7 +600,7 @@ class CopyrightWidget extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: '所有数据来源于无码科技 Readhub ,版权归无码科技 Readhub 所有。',
-                      style: Theme.of(context).textTheme.subtitle.copyWith(
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
                             fontSize: 12,
                             fontWeight: FontWeight.w900,
                             color: Theme.of(context)
@@ -617,7 +615,7 @@ class CopyrightWidget extends StatelessWidget {
                     ),
                     TextSpan(
                         text: ' readhub.cn ',
-                        style: Theme.of(context).textTheme.subtitle.copyWith(
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
                               color: Theme.of(context).accentColor,
                               fontStyle: FontStyle.italic,
                               decoration: TextDecoration.underline,

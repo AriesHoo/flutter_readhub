@@ -76,9 +76,9 @@ class ThemeViewModel with ChangeNotifier {
   static double get textScaleFactor => 1;
 
   /// 当前主size textScaleFactor
-  static double _fontTextSize = 1.0;
+  static double _articleTextScaleFactor = 1.0;
 
-  static double get fontTextSize => _fontTextSize;
+  static double get articleTextScaleFactor => _articleTextScaleFactor;
 
   ThemeViewModel() {
     /// 用户选择的明暗模式
@@ -87,7 +87,6 @@ class ThemeViewModel with ChangeNotifier {
     /// 获取主题色
     _themeIndex =
         SpUtil.getInt(SP_KEY_THEME_COLOR_INDEX, defValue: _themeIndex);
-    LogUtil.e("_themeIndex:$_themeIndex");
     _themeColor = themeValueList[_themeIndex];
     _accentColor = _themeColor;
 
@@ -95,7 +94,7 @@ class ThemeViewModel with ChangeNotifier {
     _fontIndex = SpUtil.getInt(SP_KEY_FONT_INDEX);
 
     /// 获取本地文字缩放
-    _fontTextSize = SpUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
+    _articleTextScaleFactor = SpUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
 
     ///如果缓存为黑色字体则进行
 //    if (_userDarkMode) {
@@ -117,10 +116,10 @@ class ThemeViewModel with ChangeNotifier {
   }
 
   /// 切换文字字号缩放
-  switchFontTextSize(double textSize) {
-    _fontTextSize = textSize;
+  switchFontTextSize(double textScaleFactor) {
+    _articleTextScaleFactor = textScaleFactor;
     switchTheme();
-    SpUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _fontTextSize);
+    SpUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _articleTextScaleFactor);
   }
 
   static String fontFamily() {
@@ -131,9 +130,7 @@ class ThemeViewModel with ChangeNotifier {
     return fontValueList[index ?? _fontIndex];
   }
 
-  /// 切换指定色彩
-  ///
-  /// 没有传[brightness]就不改变brightness,color同理
+  /// 切换指定色彩；没有传[brightness]就不改变brightness,color同理
   void switchTheme(
       {bool userDarkMode, int themeIndex, MaterialColor color}) async {
     if (themeIndex != null && themeIndex != _themeIndex) {
@@ -142,13 +139,6 @@ class ThemeViewModel with ChangeNotifier {
     _userDarkMode = userDarkMode ?? _userDarkMode;
     _themeIndex = themeIndex ?? _themeIndex;
     _themeColor = color ?? getThemeColor();
-    LogUtil.e("_userDarkMode" +
-        _userDarkMode.toString() +
-        "_themeIndex:" +
-        _themeIndex.toString() +
-        "_themeColor:" +
-        _themeColor.toString());
-//    await setSystemBarTheme();
 
     ///存入缓存
     SpUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode);
@@ -163,18 +153,21 @@ class ThemeViewModel with ChangeNotifier {
         ? await PlatformUtil.isNavigationColorChange()
         : true;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      ///状态栏背景色
       statusBarColor: darkMode || statusEnable ? Colors.transparent : null,
+      ///状态栏icon 亮度（浅色/深色）
       statusBarIconBrightness: darkMode ? Brightness.light : Brightness.dark,
+      ///导航栏颜色
       systemNavigationBarColor: darkMode
           ? colorBlackTheme
           : navigationEnable ? Colors.transparent : null,
+      ///导航栏icon（浅色/深色）
       systemNavigationBarIconBrightness:
-          darkMode ? Brightness.dark : Brightness.light,
+          darkMode ? Brightness.light : Brightness.dark,
     ));
   }
 
-  /// 根据主题 明暗 和 颜色 生成对应的主题
-  /// [dark]系统的Dark Mode
+  ///根据主题 明暗 和 颜色 生成对应的主题[dark]系统的Dark Mode
   themeData({bool platformDarkMode: false}) {
     LogUtil.e('themeData_platform:$platformDarkMode');
     var isDark = platformDarkMode || _userDarkMode;
@@ -182,10 +175,13 @@ class ThemeViewModel with ChangeNotifier {
     _accentColor = isDark ? themeColor[600] : _themeColor;
     Brightness brightness = isDark ? Brightness.dark : Brightness.light;
     var themeData = ThemeData(
+      ///主题浅色或深色-
       brightness: brightness,
-      primaryColorBrightness: Brightness.dark,
-      accentColorBrightness: Brightness.dark,
+      primaryColorBrightness: brightness,
+      accentColorBrightness: brightness,
       primarySwatch: themeColor,
+
+      ///强调色
       accentColor: accentColor,
       primaryColor: accentColor,
 
@@ -205,21 +201,37 @@ class ThemeViewModel with ChangeNotifier {
       cupertinoOverrideTheme: CupertinoThemeData(
         primaryColor: themeColor,
       ),
+
+      ///主题设置Appbar样式背景
       appBarTheme: themeData.appBarTheme.copyWith(
-        ///设置主题决定状态栏icon颜色
-        brightness: isDark ? Brightness.dark : Brightness.light,
+        ///根据主题设置Appbar样式背景
         color: isDark ? colorBlackTheme : Colors.white,
+
+        ///去掉海拔高度
         elevation: 0,
         textTheme: TextTheme(
-          title: TextStyle(
+          ///title Text样式
+          subtitle1: TextStyle(
             color: isDark ? Colors.white : accentColor,
-            fontSize: 17,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+
+            ///字体
+            fontFamily: fontValueList[_fontIndex],
+          ),
+
+          ///action Text样式
+          bodyText2: TextStyle(
+            color: isDark ? Colors.white : accentColor,
+            fontSize: 13,
             fontWeight: FontWeight.w500,
 
             ///字体
             fontFamily: fontValueList[_fontIndex],
           ),
         ),
+
+        ///icon样式
         iconTheme: IconThemeData(
           color: isDark ? Colors.white : accentColor,
         ),
@@ -270,10 +282,14 @@ class ThemeViewModel with ChangeNotifier {
       ),
       floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
         backgroundColor: themeAccentColor,
-        splashColor: themeColor.withAlpha(50),
       ),
+      dialogTheme: DialogTheme(
+        titleTextStyle: themeData.textTheme.subtitle1,
+        contentTextStyle: themeData.textTheme.bodyText1,
+      )
     );
-    setSystemBarTheme();
+    setSystemBarTheme(
+    );
     return themeData;
   }
 

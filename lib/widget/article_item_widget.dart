@@ -1,4 +1,3 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/model/article_model.dart';
@@ -33,16 +32,6 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void didUpdateWidget(ArticleItemWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    LogUtil.e(
-        'ArticleItemWidget_didUpdateWidget_platform:${ThemeViewModel.platformDarkMode};user:${ThemeViewModel.userDarkMode}');
-
-    ///更新UI--在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
-    ThemeViewModel.setSystemBarTheme();
   }
 
   @override
@@ -190,14 +179,14 @@ class ArticleAdapter extends StatelessWidget {
               ///标题
               Text(
                 item.title,
-                textScaleFactor: ThemeViewModel.fontTextSize,
+                textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                 maxLines: 2,
                 strutStyle: StrutStyle(
                     forceStrutHeight: true,
                     height: textLineHeight,
                     leading: leading),
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.subtitle.copyWith(
+                style: Theme.of(context).textTheme.subtitle2.copyWith(
                       fontWeight: FontWeight.bold,
                       letterSpacing: letterSpacing,
                     ),
@@ -209,7 +198,7 @@ class ArticleAdapter extends StatelessWidget {
               ///描述摘要
               Text(
                 item.getSummary(),
-                textScaleFactor: ThemeViewModel.fontTextSize,
+                textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                 maxLines: item.maxLine ? 3 : 10000,
                 overflow: TextOverflow.ellipsis,
                 strutStyle: StrutStyle(
@@ -230,7 +219,7 @@ class ArticleAdapter extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       item.getTimeStr(),
-                      textScaleFactor: ThemeViewModel.fontTextSize,
+                      textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption.copyWith(

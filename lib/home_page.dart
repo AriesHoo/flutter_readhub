@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+    with SingleTickerProviderStateMixin {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var _listUrls = [
     ArticleHttp.API_TOPIC,
@@ -37,13 +37,9 @@ class _HomePageState extends State<HomePage>
   TabController _tabController;
   ValueChanged<int> _onTabTap;
   List<ScrollTopModel> _scrollTopModel = [null, null, null, null];
-  DateTime _lastPressedAt;
 
   ///上次点击时间
-
-  void checkUpdate(BuildContext context) async {
-    UpdateViewModel().checkUpdate(context);
-  }
+  DateTime _lastPressedAt;
 
   @override
   void initState() {
@@ -51,8 +47,6 @@ class _HomePageState extends State<HomePage>
     _tabController =
         TabController(initialIndex: 0, length: _listTab.length, vsync: this);
     _onTabTap = (i) {
-      LogUtil.e('indexIsChanging:${_tabController.indexIsChanging};index:$i');
-
       ///点击非当前tab属于切换不进行回到顶部操作
       if (_tabController.indexIsChanging) {
         return;
@@ -64,24 +58,13 @@ class _HomePageState extends State<HomePage>
       }
     };
 
-    ///添加监听用于监控前后台转换
-    WidgetsBinding.instance.addObserver(this);
-    LogUtil.e("_MoviePageState_initState");
+    ///5s后进行版本检测
     Future.delayed(Duration(seconds: 5), () {
-      checkUpdate(context);
+      UpdateViewModel().checkUpdate(context);
     });
   }
 
-//  @override
-//  void didChangeAppLifecycleState(AppLifecycleState state) {
-//    super.didChangeAppLifecycleState(state);
-//    if (state == AppLifecycleState.paused) {
-//      ///应用后台
-//    } else if (state == AppLifecycleState.resumed) {
-//      ///应用前台
-//    }
-//  }
-
+  ///深色浅色模式切换
   void switchDarkMode(BuildContext context) {
     if (ThemeViewModel.platformDarkMode) {
       ToastUtil.show(S.of(context).tipSwitchThemeWhenPlatformDark);
@@ -91,6 +74,11 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  @override
+  void didUpdateWidget(HomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    LogUtil.e('home_page_didUpdateWidget');
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -130,6 +118,7 @@ class _HomePageState extends State<HomePage>
                 switchIcon: Icons.info_outline,
                 tooltip: S.of(context).moreSetting,
                 onPressed: () => showAuthorDialog(context),
+                checkTheme: true,
               ),
 
               ///暗黑模式切换
@@ -243,6 +232,7 @@ class AnimatedSwitcherIconWidget extends StatefulWidget {
   final String tooltip;
   final VoidCallback onPressed;
   final Duration duration;
+  final bool checkTheme;
 
   const AnimatedSwitcherIconWidget({
     Key key,
@@ -251,6 +241,7 @@ class AnimatedSwitcherIconWidget extends StatefulWidget {
     this.tooltip,
     this.onPressed,
     this.duration = const Duration(milliseconds: 500),
+    this.checkTheme: false,
   }) : super(key: key);
 
   @override
@@ -268,6 +259,26 @@ class _AnimatedSwitcherIconWidgetState
   void initState() {
     super.initState();
     _actionIcon = widget.defaultIcon;
+  }
+
+  DateTime _lastSetSystemUiAt;
+
+  @override
+  void didUpdateWidget(AnimatedSwitcherIconWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.checkTheme) {
+      return;
+    }
+
+    ///更新UI--在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
+    if (_lastSetSystemUiAt == null ||
+        DateTime.now().difference(_lastSetSystemUiAt) >
+            Duration(milliseconds: 1000)) {
+      ///两次点击间隔超过阈值则重新计时
+      _lastSetSystemUiAt = DateTime.now();
+      LogUtil.e('设置系统栏颜色');
+      ThemeViewModel.setSystemBarTheme();
+    }
   }
 
   @override

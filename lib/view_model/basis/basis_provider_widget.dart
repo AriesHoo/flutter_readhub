@@ -43,9 +43,7 @@ class _BasisProviderWidgetState<T extends ChangeNotifier>
 
   @override
   void dispose() {
-    if (model != null) {
-      model.dispose();
-    }
+    model?.dispose();
     super.dispose();
   }
 
@@ -153,10 +151,12 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                 body: SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: true,
-                  header:Platform.isAndroid? MaterialClassicHeader(
-                    backgroundColor: Colors.white,
-                    color: ThemeViewModel.accentColor,
-                  ):ClassicHeader(),
+                  header: Platform.isAndroid
+                      ? MaterialClassicHeader(
+                          backgroundColor: Colors.white,
+                          color: ThemeViewModel.accentColor,
+                        )
+                      : ClassicHeader(),
                   footer: SmartLoadFooterWidget(),
 
                   ///下拉刷新监听
@@ -186,16 +186,11 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                     !model2.showTopBtn || ThemeViewModel.hideFloatingButton
                         ? null
                         : FloatingActionButton(
-                            backgroundColor: Theme.of(context).accentColor,
                             child: Icon(
                               Icons.vertical_align_top,
                               color: Colors.white,
                             ),
-                            onPressed: () {
-                              if (model2 is ScrollTopModel) {
-                                model2.scrollTo();
-                              }
-                            },
+                            onPressed: () => model2?.scrollTo(),
                           ),
               );
             });
@@ -238,12 +233,8 @@ class _BasisProviderWidgetState2<A extends ChangeNotifier,
 
   @override
   void dispose() {
-    if (model1 != null) {
-      model1.dispose();
-    }
-    if (model2 != null) {
-      model2.dispose();
-    }
+    model1?.dispose();
+    model2?.dispose();
     super.dispose();
   }
 

@@ -53,6 +53,8 @@ dependencies:
   flustars: ^0.3.2
   #  动态权限申请
   permission_handler: ^5.0.1
+  #  文件路径
+  path_provider: ^1.6.11
   #  分享文字及文件-注意保存文件位置
   flutter_share_plugin: ^0.1.3+3
 
