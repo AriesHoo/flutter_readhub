@@ -9,7 +9,7 @@
 
 >- **$\color{red}{本文为 AriesHoo 原创，未经授权禁止转载！}$** 
 >- **[【 简书】](https://www.jianshu.com/p/5e1db7423dac)**
->>- **[【 掘金】](https://juejin.im/post/5ef5bb1fe51d4534bb148c67)**
+>- **[【 掘金】](https://juejin.im/post/5ef5bb1fe51d4534bb148c67)**
 
 ## 前言
 
