@@ -443,6 +443,8 @@ Android端App放在蒲公英上的，故也做了一个蒲公英的检测应用�
 
 ##  关于我
 
+掘金: [AriesHoo](https://juejin.im/user/57c3cdcb5bbb50006341a6a4) 
+
 简书: [AriesHoo](http://www.jianshu.com/u/a229eee96115)
 
 GitHub: [AriesHoo](https://github.com/AriesHoo)
