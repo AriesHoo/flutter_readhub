@@ -234,13 +234,13 @@ themeData({bool platformDarkMode: false}) {
   }
 ~~~
 
- ![导航栏颜色](https://upload-images.jianshu.io/upload_images/2828782-27ec0ac90989782b.gif?imageMogr2/auto-orient/strip)
+ ![导航栏颜色](https://user-gold-cdn.xitu.io/2020/6/26/172efe2e4416db12?w=436&h=892&f=gif&s=5501033)
 
 是不是顿时感觉好不少啊（好开森😄）
 
 但是如果我们从系统切换深色主题会怎样呢？
 
-![深色模式异常](https://upload-images.jianshu.io/upload_images/2828782-382ec7689ddd9a7c.gif?imageMogr2/auto-orient/strip)
+![深色模式异常](https://user-gold-cdn.xitu.io/2020/6/26/172efe2e4f9327fa?w=436&h=892&f=gif&s=9872093)
 
 尼玛咋深色模式下导航栏还是浅色的，好突兀。
 这个就是前面说到的因为Flutter `ThemeData`里没有专门设置虚拟导航栏颜色的属性，所以当系统切换深色模式导航栏没有任何变化
