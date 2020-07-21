@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/generated/l10n.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:oktoast/oktoast.dart';
 

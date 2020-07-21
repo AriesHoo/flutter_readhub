@@ -3,12 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
-import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import 'view_model/theme_view_model.dart';
 
 ///加载网页
 class WebViewPage extends StatefulWidget {

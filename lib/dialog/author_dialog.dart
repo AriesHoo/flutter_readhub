@@ -7,17 +7,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
-import 'package:flutter_readhub/generated/l10n.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
+import 'package:flutter_readhub/widget/article_item_widget.dart';
 import 'package:flutter_readhub/widget/home_drawer_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../widget/article_item_widget.dart';
 
 ///弹出作者信息分享提示框
 Future<void> showAuthorDialog(BuildContext context) async {
@@ -40,7 +39,6 @@ Future<void> showThemeDialog(BuildContext context) async {
 }
 
 ///用户信息Dialog
-// ignore: must_be_immutable
 class AuthorDialog extends Dialog {
   ScrollController _scrollController = ScrollController();
 
@@ -327,19 +325,19 @@ class ShareAppSummaryWidget extends StatelessWidget {
     return RichText(
       textScaleFactor: ThemeViewModel.textScaleFactor,
       text: TextSpan(
-        style: Theme.of(context).textTheme.title.copyWith(
+        style: Theme.of(context).textTheme.headline6.copyWith(
               fontSize: 13,
-              color: Theme.of(context).textTheme.title.color.withOpacity(0.8),
+              color: Theme.of(context).textTheme.headline6.color.withOpacity(0.8),
             ),
         text:
             'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。'
             '\n囊括以下功能：',
         children: [
           TextSpan(
-            style: Theme.of(context).textTheme.title.copyWith(
+            style: Theme.of(context).textTheme.headline6.copyWith(
                   fontSize: 12,
                   color:
-                      Theme.of(context).textTheme.title.color.withOpacity(0.8),
+                      Theme.of(context).textTheme.headline6.color.withOpacity(0.8),
                   fontWeight: FontWeight.w900,
                 ),
             text: '\n热门话题、科技动态、开发者、区块链四大模块'
@@ -523,7 +521,7 @@ class AppreciateWidget extends StatelessWidget {
                                 fontSize: 14,
                                 color: Theme.of(context)
                                     .textTheme
-                                    .title
+                                    .headline6
                                     .color
                                     .withOpacity(0.8),
                               ),
@@ -592,7 +590,7 @@ class CopyrightWidget extends StatelessWidget {
                         fontSize: 12,
                         color: Theme.of(context)
                             .textTheme
-                            .title
+                            .headline6
                             .color
                             .withOpacity(0.8),
                       ),
@@ -606,7 +604,7 @@ class CopyrightWidget extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             color: Theme.of(context)
                                 .textTheme
-                                .title
+                                .headline6
                                 .color
                                 .withOpacity(0.8),
                           ),

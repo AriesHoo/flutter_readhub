@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_readhub/generated/l10n.dart';
 import 'package:flutter_readhub/helper/path_helper.dart';
 import 'package:flutter_readhub/helper/permission_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
@@ -235,7 +234,7 @@ class ShotImageWidget extends StatelessWidget {
                                     letterSpacing: letterSpacing,
                                     color: Theme.of(context)
                                         .textTheme
-                                        .title
+                                        .headline6
                                         .color
                                         .withOpacity(0.8),
                                   ),
@@ -255,7 +254,7 @@ class ShotImageWidget extends StatelessWidget {
                             notice,
                             textScaleFactor: ThemeViewModel.textScaleFactor,
                             textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.title.copyWith(
+                            style: Theme.of(context).textTheme.headline6.copyWith(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
                                 ),
@@ -269,7 +268,7 @@ class ShotImageWidget extends StatelessWidget {
                           version: QrVersions.auto,
                           size: 64,
                           foregroundColor:
-                              Theme.of(context).textTheme.title.color,
+                              Theme.of(context).textTheme.headline6.color,
                           backgroundColor: Theme.of(context).cardColor,
                         ),
                       ],

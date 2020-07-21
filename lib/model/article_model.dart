@@ -1,6 +1,6 @@
 import 'package:flustars/flustars.dart';
 
-///列表数据
+///Readhub 文章item model
 class ArticleModel {
 
   List<ArticleItemModel> data;

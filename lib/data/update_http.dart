@@ -70,7 +70,7 @@ class AppUpdateInfo {
   String buildShortcutUrl;
   String buildUpdateDescription;
 
-  static AppUpdateInfo fromMap(Map<String, dynamic> map) {
+  static AppUpdateInfo fromJson(Map<String, dynamic> map) {
     if (map == null) return null;
     AppUpdateInfo pgyerApiBean = AppUpdateInfo();
     pgyerApiBean.buildBuildVersion = map['buildBuildVersion'];
