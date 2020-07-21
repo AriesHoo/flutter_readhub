@@ -2,6 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,9 +31,9 @@ class HomeDrawerWidget extends StatelessWidget {
                     contentPadding:
                         EdgeInsets.only(left: 12, right: 0, top: 0, bottom: 0),
                     title: Text(
-                      S.of(context).settingHideFloatingButton,
+                      StringHelper.getS().settingHideFloatingButton,
                       textScaleFactor: ThemeViewModel.textScaleFactor,
-                      style: Theme.of(context).textTheme.title.copyWith(
+                      style: Theme.of(context).textTheme.headline6.copyWith(
                             fontSize: 14,
                           ),
                     ),
@@ -45,8 +46,9 @@ class HomeDrawerWidget extends StatelessWidget {
                       },
                     ),
                     onTap: () {
-                      Provider.of<ThemeViewModel>(context).switchHideFloatingButton(
-                          !ThemeViewModel.hideFloatingButton);
+                      Provider.of<ThemeViewModel>(context)
+                          .switchHideFloatingButton(
+                              !ThemeViewModel.hideFloatingButton);
                     },
                   ),
                 ),
@@ -145,7 +147,7 @@ class ChoiceThemeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        S.of(context).choiceTheme,
+        StringHelper.getS().choiceTheme,
         textScaleFactor: ThemeViewModel.textScaleFactor,
         style: Theme.of(context).textTheme.title.copyWith(
               fontSize: 14,
@@ -175,7 +177,7 @@ class ChoiceThemeWidget extends StatelessWidget {
                       height: 36,
                       child: Center(
                         child: Text(
-                          ThemeViewModel.themeName(context, i: index),
+                          ThemeViewModel.themeName(i: index),
                           textScaleFactor: ThemeViewModel.textScaleFactor,
                           style: TextStyle(
                             color: Colors.white,

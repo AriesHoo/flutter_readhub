@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
 import 'package:flutter_readhub/helper/path_helper.dart';
 import 'package:flutter_readhub/helper/permission_helper.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
@@ -25,7 +26,7 @@ Future<void> showShareArticleDialog(
     context: context,
     builder: (BuildContext context) {
       return ShareDialog(data.title, data.getSummary(), data.getScanNote(),
-          data.getUrl(), S.of(context).saveImageShareTip, data.getFileName());
+          data.getUrl(), StringHelper.getS().saveImageShareTip, data.getFileName());
     },
   );
 }
@@ -93,7 +94,7 @@ class ShareDialog extends Dialog {
                 hoverElevation: 0,
                 focusElevation: 0,
                 disabledElevation: 0,
-                tooltip: S.of(context).share,
+                tooltip: StringHelper.getS().share,
                 backgroundColor: Colors.blue,
                 splashColor: Colors.white.withAlpha(50),
                 child: Icon(
@@ -116,7 +117,7 @@ class ShareDialog extends Dialog {
                       hoverElevation: 0,
                       focusElevation: 0,
                       disabledElevation: 0,
-                      tooltip: S.of(context).downloadImage,
+                      tooltip: StringHelper.getS().downloadImage,
                       backgroundColor: Colors.red,
                       splashColor: Colors.white.withAlpha(50),
                       child: Icon(
@@ -316,18 +317,18 @@ class SaveImageToGallery {
     if (fileImage != null && fileImage.isNotEmpty) {
       if (share) {
 //        ShareExtend.share(fileImage, 'image',
-//            subject: S.of(context).saveImageShareTip);
+//            subject: StringHelper.getS().saveImageShareTip);
         FlutterShare.shareFileWithText(
-            filePath: fileImage, textContent: S.of(context).saveImageShareTip);
+            filePath: fileImage, textContent: StringHelper.getS().saveImageShareTip);
       } else {
-        ToastUtil.show(S.of(context).saveImageSucceedInGallery);
+        ToastUtil.show(StringHelper.getS().saveImageSucceedInGallery);
       }
       return;
     }
 
     ///直接获取读写文件权限
     if (!await PermissionHelper.checkStoragePermission()) {
-      ToastUtil.show(S.of(context).saveImagePermissionFailed);
+      ToastUtil.show(StringHelper.getS().saveImagePermissionFailed);
       await DialogUtil.showAlertDialog(context,
               title: Platform.isIOS ? 'Freadhub提示' : null,
               content: '分享功能需使用访问您的${Platform.isIOS ? '照片' : '文件读写'}权限',
@@ -369,6 +370,6 @@ class SaveImageToGallery {
       saveImage(context, globalKey, imageName, share: share);
       return;
     }
-    ToastUtil.show(S.of(context).saveImageFailed);
+    ToastUtil.show(StringHelper.getS().saveImageFailed);
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
@@ -112,7 +113,7 @@ class ThemeWidget extends StatelessWidget {
       elevation: 0,
       child: ListTile(
         title: Text(
-          S.of(context).choiceTheme,
+          StringHelper.getS().choiceTheme,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
@@ -122,7 +123,7 @@ class ThemeWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         trailing: Text(
-          ThemeViewModel.themeName(context),
+          ThemeViewModel.themeName(),
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.caption,
         ),
@@ -169,7 +170,7 @@ class ThemeDialog extends Dialog {
                               height: 40,
                               child: Center(
                                 child: Text(
-                                  ThemeViewModel.themeName(context, i: index),
+                                  ThemeViewModel.themeName(i: index),
                                   textScaleFactor:
                                       ThemeViewModel.textScaleFactor,
                                   style: TextStyle(
@@ -213,7 +214,7 @@ class FeedbackWidget extends StatelessWidget {
       elevation: 0,
       child: ListTile(
         title: Text(
-          S.of(context).feedback,
+          StringHelper.getS().feedback,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
@@ -225,7 +226,7 @@ class FeedbackWidget extends StatelessWidget {
 
           ///发送邮件
           if (!await canLaunch(_emailLaunchUri.toString())) {
-            ToastUtil.show(S.of(context).tipNoEmailApp);
+            ToastUtil.show(StringHelper.getS().tipNoEmailApp);
             return;
           }
           launch(_emailLaunchUri.toString());
@@ -255,7 +256,7 @@ class UpdateWidget extends StatelessWidget {
               color: Theme.of(context).cardColor,
               child: ListTile(
                 title: Text(
-                  S.of(context).checkUpdate,
+                  StringHelper.getS().checkUpdate,
                   textScaleFactor: ThemeViewModel.textScaleFactor,
                   style: Theme.of(context).textTheme.bodyText1.copyWith(),
                 ),
@@ -291,7 +292,7 @@ class ShareAppWidget extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: ListTile(
         title: Text(
-          S.of(context).shareApp,
+          StringHelper.getS().shareApp,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
@@ -302,7 +303,7 @@ class ShareAppWidget extends StatelessWidget {
               'Freadhub',
               'AriesHoo开发\n扫码查看详情',
               'https://www.pgyer.com/ntMA',
-              S.of(context).saveImageShareTip,
+              StringHelper.getS().saveImageShareTip,
               'shareApp',
               summaryWidget: ShareAppSummaryWidget(),
             )),
@@ -369,7 +370,7 @@ class FontSizeWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          S.of(context).fontSize,
+          StringHelper.getS().fontSize,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
@@ -483,7 +484,7 @@ class AppreciateWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          S.of(context).appreciateDeveloper,
+          StringHelper.getS().appreciateDeveloper,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),
@@ -578,7 +579,7 @@ class CopyrightWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          S.of(context).appCopyright,
+          StringHelper.getS().appCopyright,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1.copyWith(),
         ),

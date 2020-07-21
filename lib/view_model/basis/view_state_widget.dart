@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 
 import '../theme_view_model.dart';
 import 'view_state.dart';
@@ -64,7 +65,7 @@ class ViewStateWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                title ?? S.of(context).viewStateError,
+                title ?? StringHelper.getS().viewStateError,
                 style: titleStyle,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
               ),
@@ -121,17 +122,17 @@ class ErrorStateWidget extends StatelessWidget {
     var defaultImage;
     var defaultTitle;
     var errorMessage = error.message;
-    String defaultTextData = S.of(context).viewStateRetry;
+    String defaultTextData = StringHelper.getS().viewStateRetry;
     switch (error.errorType) {
       case ErrorType.network:
         defaultImage =
             const Icon(Icons.network_check, size: 80, color: Colors.grey);
-        defaultTitle = S.of(context).viewStateNetworkError;
+        defaultTitle = StringHelper.getS().viewStateNetworkError;
         errorMessage = ''; // 网络异常移除message提示
         break;
       case ErrorType.normal:
         defaultImage = const Icon(Icons.error, size: 80, color: Colors.grey);
-        defaultTitle = S.of(context).viewStateError;
+        defaultTitle = StringHelper.getS().viewStateError;
         break;
     }
 
@@ -167,9 +168,9 @@ class EmptyStateWidget extends StatelessWidget {
       onPressed: this.onPressed,
       image: image ??
           const Icon(Icons.hourglass_empty, size: 100, color: Colors.grey),
-      title: message ?? S.of(context).viewStateEmpty,
+      title: message ?? StringHelper.getS().viewStateEmpty,
       buttonText: buttonText,
-      buttonTextData: S.of(context).viewStateRefresh,
+      buttonTextData: StringHelper.getS().viewStateRefresh,
     );
   }
 }
@@ -188,7 +189,7 @@ class ViewStateButton extends StatelessWidget {
     return OutlineButton(
       child: child ??
           Text(
-            textData ?? S.of(context).viewStateRetry,
+            textData ?? StringHelper.getS().viewStateRetry,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
           ),

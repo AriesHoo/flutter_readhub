@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -262,7 +263,7 @@ class SmartLoadFooterWidget extends StatelessWidget {
         Widget body;
         if (mode == LoadStatus.idle) {
           body = Text(
-            S.of(context).loadIdle,
+            StringHelper.getS().loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
@@ -270,19 +271,19 @@ class SmartLoadFooterWidget extends StatelessWidget {
           body = CupertinoActivityIndicator();
         } else if (mode == LoadStatus.failed) {
           body = Text(
-            S.of(context).loadFailed,
+            StringHelper.getS().loadFailed,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.canLoading) {
           body = Text(
-            S.of(context).loadIdle,
+            StringHelper.getS().loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else {
           body = Text(
-            S.of(context).loadNoMore,
+            StringHelper.getS().loadNoMore,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );

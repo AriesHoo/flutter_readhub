@@ -34,11 +34,11 @@ class LocaleViewModel extends ChangeNotifier {
   String localeName(index, context) {
     switch (index) {
       case 0:
-//        return S.of(context).autoBySystem;
+//        return StringHelper.getS().autoBySystem;
       case 1:
-//        return S.of(context).chinese;
+//        return StringHelper.getS().chinese;
       case 2:
-//        return S.of(context).english;
+//        return StringHelper.getS().english;
       default:
         return '';
     }

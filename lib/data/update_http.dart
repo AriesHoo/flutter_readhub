@@ -23,11 +23,9 @@ class UpdateInterceptor extends InterceptorsWrapper {
   onRequest(RequestOptions options) async {
     options.queryParameters['_api_key'] = 'f4d7dae2132cf8715c99ca79043deefb';
     options.queryParameters['appKey'] = '9d5adc8a82bdcf48a905d8d5aa7f19e3';
-    options.queryParameters['buildVersion'] =
-        await PlatformUtil.getAppVersion();
-    options.queryParameters['buildBuildVersion'] =
-        await PlatformUtil.getBuildNumber();
-    LogUtil.e('---api-request--->url--> ${options.baseUrl}${options.path}' +
+    options.queryParameters['buildVersion'] = await PlatformUtil.getAppVersion();
+    options.queryParameters['buildBuildVersion'] = await PlatformUtil.getBuildNumber();
+    LogUtil.e('---UpdateHttp-UpdateInterceptor-request--->url--> ${options.baseUrl}${options.path}' +
         ' queryParameters: ${options.queryParameters}');
     return options;
   }
@@ -35,7 +33,7 @@ class UpdateInterceptor extends InterceptorsWrapper {
   @override
   onResponse(Response response) {
     ResponseData respData = ResponseData.fromJson(response.data);
-    LogUtil.e('onResponse:$respData');
+    LogUtil.e('UpdateHttp-UpdateInterceptor-onResponse:$respData');
     if (respData.success) {
       response.data = respData.data;
       return http.resolve(response);

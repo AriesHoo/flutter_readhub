@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'view_state.dart';
@@ -82,7 +83,7 @@ class BasisViewModel with ChangeNotifier {
   showErrorMessage(context, {String message}) {
     if (viewStateError != null && message != null) {
       if (viewStateError.isNetworkError) {
-        message ??= S.of(context).viewStateNetworkError;
+        message ??= StringHelper.getS().viewStateNetworkError;
       } else {
         message ??= viewStateError.message;
       }

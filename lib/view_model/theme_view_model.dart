@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 
@@ -94,7 +95,8 @@ class ThemeViewModel with ChangeNotifier {
     _fontIndex = SpUtil.getInt(SP_KEY_FONT_INDEX);
 
     /// 获取本地文字缩放
-    _articleTextScaleFactor = SpUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
+    _articleTextScaleFactor =
+        SpUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
 
     ///如果缓存为黑色字体则进行
 //    if (_userDarkMode) {
@@ -155,12 +157,15 @@ class ThemeViewModel with ChangeNotifier {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       ///状态栏背景色
       statusBarColor: darkMode || statusEnable ? Colors.transparent : null,
+
       ///状态栏icon 亮度（浅色/深色）
       statusBarIconBrightness: darkMode ? Brightness.light : Brightness.dark,
+
       ///导航栏颜色
       systemNavigationBarColor: darkMode
           ? colorBlackTheme
           : navigationEnable ? Colors.transparent : null,
+
       ///导航栏icon（浅色/深色）
       systemNavigationBarIconBrightness:
           darkMode ? Brightness.light : Brightness.dark,
@@ -198,98 +203,93 @@ class ThemeViewModel with ChangeNotifier {
     );
 
     themeData = themeData.copyWith(
-      cupertinoOverrideTheme: CupertinoThemeData(
-        primaryColor: themeColor,
-      ),
+        cupertinoOverrideTheme: CupertinoThemeData(
+          primaryColor: themeColor,
+        ),
 
-      ///主题设置Appbar样式背景
-      appBarTheme: themeData.appBarTheme.copyWith(
-        ///根据主题设置Appbar样式背景
-        color: isDark ? colorBlackTheme : Colors.white,
+        ///主题设置Appbar样式背景
+        appBarTheme: themeData.appBarTheme.copyWith(
+          ///根据主题设置Appbar样式背景
+          color: isDark ? colorBlackTheme : Colors.white,
 
-        ///去掉海拔高度
-        elevation: 0,
-        textTheme: TextTheme(
-          ///title Text样式
-          subtitle1: TextStyle(
+          ///去掉海拔高度
+          elevation: 0,
+          textTheme: TextTheme(
+            ///title Text样式 原title 被废弃
+            headline6: TextStyle(
+              color: isDark ? Colors.white : accentColor,
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+
+              ///字体
+              fontFamily: fontValueList[_fontIndex],
+            ),
+
+            ///action及leading Text样式 原body1废弃
+            bodyText2: TextStyle(
+              color: isDark ? Colors.white : accentColor,
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+
+              ///字体
+              fontFamily: fontValueList[_fontIndex],
+            ),
+          ),
+
+          ///icon样式
+          iconTheme: IconThemeData(
             color: isDark ? Colors.white : accentColor,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
+          ),
+        ),
+        iconTheme: themeData.iconTheme.copyWith(
+          color: accentColor,
+        ),
+
+        ///水波纹
+        splashColor: themeColor.withAlpha(50),
+
+        ///长按提示文本样式
+        tooltipTheme: themeData.tooltipTheme.copyWith(
+            textStyle: TextStyle(
+                fontSize: 13,
+                color:
+                    (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
+
+        ///TabBar样式设置
+        tabBarTheme: themeData.tabBarTheme.copyWith(
+          ///标签内边距
+          labelPadding: EdgeInsets.symmetric(horizontal: 8),
+
+          ///选中文字样式
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
 
             ///字体
             fontFamily: fontValueList[_fontIndex],
           ),
 
-          ///action Text样式
-          bodyText2: TextStyle(
-            color: isDark ? Colors.white : accentColor,
+          ///未选择样式
+          unselectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.normal,
             fontSize: 13,
-            fontWeight: FontWeight.w500,
 
             ///字体
             fontFamily: fontValueList[_fontIndex],
           ),
         ),
-
-        ///icon样式
-        iconTheme: IconThemeData(
-          color: isDark ? Colors.white : accentColor,
+        floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
+          backgroundColor: themeAccentColor,
         ),
-      ),
-      iconTheme: themeData.iconTheme.copyWith(
-        color: accentColor,
-      ),
-      splashColor: themeColor.withAlpha(50),
-      hintColor: themeData.hintColor.withAlpha(90),
-      textTheme: themeData.textTheme.copyWith(
-          subhead: themeData.textTheme.subhead.copyWith(
-        textBaseline: TextBaseline.alphabetic,
-      )),
-      textSelectionColor: accentColor.withAlpha(60),
-      textSelectionHandleColor: accentColor.withAlpha(60),
-      chipTheme: themeData.chipTheme.copyWith(
-        pressElevation: 0,
-        padding: EdgeInsets.symmetric(horizontal: 6),
-        labelStyle: themeData.textTheme.caption,
-        backgroundColor: themeData.chipTheme.backgroundColor.withOpacity(0.1),
-      ),
 
-      ///长按提示文本样式
-      tooltipTheme: themeData.tooltipTheme.copyWith(
-          textStyle: TextStyle(
-              fontSize: 13,
-              color:
-                  (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
-
-      ///TabBar样式设置
-      tabBarTheme: themeData.tabBarTheme.copyWith(
-        ///标签内边距
-        labelPadding: EdgeInsets.symmetric(horizontal: 8),
-        labelStyle: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-
-          ///字体
-          fontFamily: fontValueList[_fontIndex],
-        ),
-        unselectedLabelStyle: TextStyle(
-          fontWeight: FontWeight.normal,
-          fontSize: 13,
-
-          ///字体
-          fontFamily: fontValueList[_fontIndex],
-        ),
-      ),
-      floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
-        backgroundColor: themeAccentColor,
-      ),
-      dialogTheme: DialogTheme(
-        titleTextStyle: themeData.textTheme.subtitle1,
-        contentTextStyle: themeData.textTheme.bodyText1,
-      )
-    );
-    setSystemBarTheme(
-    );
+        ///dialog主题
+        dialogTheme: DialogTheme(
+          titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          contentTextStyle: themeData.textTheme.subtitle1.copyWith(
+            fontSize: 14,
+          ),
+        ));
+    setSystemBarTheme();
     return themeData;
   }
 
@@ -298,35 +298,34 @@ class ThemeViewModel with ChangeNotifier {
     int index = i ?? _fontIndex;
     switch (index) {
       case 0:
-//        return S.of(context).autoBySystem;
+//        return StringHelper.getS().autoBySystem;
       case 1:
-//        return S.of(context).starCandy;
+//        return StringHelper.getS().starCandy;
       default:
         return '';
     }
   }
 
   /// 根据索引获取颜色名称,这里牵涉到国际化
-  static String themeName(context, {int i}) {
+  static String themeName({int i}) {
     int index = i ?? _themeIndex;
     switch (index) {
       case 0:
-        return S.of(context).red;
+        return StringHelper.getS().red;
       case 1:
-        return S.of(context).orange;
+        return StringHelper.getS().orange;
       case 2:
-        return S.of(context).yellow;
+        return StringHelper.getS().yellow;
       case 3:
-        return S.of(context).green;
+        return StringHelper.getS().green;
       case 4:
-        return S.of(context).cyan;
+        return StringHelper.getS().cyan;
       case 5:
-        return S.of(context).blue;
+        return StringHelper.getS().blue;
       case 6:
-        return S.of(context).purple;
+        return StringHelper.getS().purple;
       case 7:
-        return getWeekStr(context) +
-            '-${themeName(context, i: DateTime.now().weekday - 1)}';
+        return '${getWeekStr()}-${themeName(i: DateTime.now().weekday - 1)}';
       default:
         return '';
     }
@@ -339,23 +338,24 @@ class ThemeViewModel with ChangeNotifier {
         : themeValueList[index];
   }
 
-  static String getWeekStr(BuildContext context) {
+  ///获取周
+  static String getWeekStr() {
     int week = DateTime.now().weekday;
     switch (week) {
       case 1:
-        return S.of(context).monday;
+        return StringHelper.getS().monday;
       case 2:
-        return S.of(context).tuesday;
+        return StringHelper.getS().tuesday;
       case 3:
-        return S.of(context).wednesday;
+        return StringHelper.getS().wednesday;
       case 4:
-        return S.of(context).thursday;
+        return StringHelper.getS().thursday;
       case 5:
-        return S.of(context).friday;
+        return StringHelper.getS().friday;
       case 6:
-        return S.of(context).saturday;
+        return StringHelper.getS().saturday;
       case 7:
-        return S.of(context).sunday;
+        return StringHelper.getS().sunday;
       default:
         return '';
     }

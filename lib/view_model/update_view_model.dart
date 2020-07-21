@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
@@ -71,7 +72,7 @@ class UpdateViewModel extends BasisViewModel {
       {bool background = true}) async {
     if (info == null || !info.buildHaveNewVersion) {
       if (!background) {
-        ToastUtil.show(S.of(context).currentIsNew);
+        ToastUtil.show(StringHelper.getS().currentIsNew);
       }
       return;
     }
@@ -92,8 +93,8 @@ class UpdateViewModel extends BasisViewModel {
             ]),
       ),
       content: info.buildUpdateDescription,
-      cancel: S.of(context).updateNextTime,
-      ensure: S.of(context).updateNow,
+      cancel: StringHelper.getS().updateNextTime,
+      ensure: StringHelper.getS().updateNow,
     ).then((value) {
       if (value == 1) {
         launch(info.downloadURL);

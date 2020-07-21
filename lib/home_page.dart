@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/data/article_http.dart';
 import 'package:flutter_readhub/dialog/author_dialog.dart';
 import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
@@ -67,7 +68,7 @@ class _HomePageState extends State<HomePage>
   ///深色浅色模式切换
   void switchDarkMode(BuildContext context) {
     if (ThemeViewModel.platformDarkMode) {
-      ToastUtil.show(S.of(context).tipSwitchThemeWhenPlatformDark);
+      ToastUtil.show(StringHelper.getS().tipSwitchThemeWhenPlatformDark);
     } else {
       Provider.of<ThemeViewModel>(context).switchTheme(
           userDarkMode: Theme.of(context).brightness == Brightness.light);
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage>
                 Duration(milliseconds: 1500)) {
           ///两次点击间隔超过阈值则重新计时
           _lastPressedAt = DateTime.now();
-          ToastUtil.show(S.of(context).quitApp,
+          ToastUtil.show(StringHelper.getS().quitApp,
               position: ToastPosition.bottom,
               duration: Duration(milliseconds: 1500));
           return false;
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage>
               AnimatedSwitcherIconWidget(
                 defaultIcon: Icons.info,
                 switchIcon: Icons.info_outline,
-                tooltip: S.of(context).moreSetting,
+                tooltip: StringHelper.getS().moreSetting,
                 onPressed: () => showAuthorDialog(context),
                 checkTheme: true,
               ),
@@ -126,8 +127,8 @@ class _HomePageState extends State<HomePage>
                 defaultIcon: Icons.brightness_2,
                 switchIcon: Icons.brightness_5,
                 tooltip: ThemeViewModel.darkMode
-                    ? S.of(context).lightMode
-                    : S.of(context).darkMode,
+                    ? StringHelper.getS().lightMode
+                    : StringHelper.getS().darkMode,
                 onPressed: () => switchDarkMode(context),
               ),
             ],

@@ -2,7 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/generated/l10n.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,53 +44,10 @@ class _WebViewPageState extends State<WebViewPage> {
     }
   }
 
-  Future<void> _showMoreDialog(BuildContext context) async {
-    await showModalBottomSheet<int>(
-        context: context,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            physics: ClampingScrollPhysics(),
-            children: <Widget>[
-              RaisedButton(
-                elevation: 0,
-                focusElevation: 0,
-                hoverElevation: 0,
-                highlightElevation: 0,
-                disabledElevation: 0,
-                onPressed: () => Navigator.of(context).pop(),
-                color: Theme.of(context).appBarTheme.color,
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: Decorations.lineBoxBorder(
-                      context,
-                      top: true,
-                      width: 20,
-                    )),
-                    height: 42,
-                    child: Center(
-                      child: Text(
-                        S.of(context).cancel,
-                        textScaleFactor: ThemeViewModel.textScaleFactor,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .title
-                            .copyWith(fontSize: 16),
-                      ),
-                    )),
-              ),
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     _title = _title == null || _title.isEmpty
-        ? S.of(context).loadingWebTitle
+        ? StringHelper.getS().loadingWebTitle
         : _title;
     return WillPopScope(
       onWillPop: () async {
@@ -122,7 +79,6 @@ class _WebViewPageState extends State<WebViewPage> {
             valueListenable: _getTitle,
             builder: (context, title, child) => Text(
               _title,
-              textScaleFactor: ThemeViewModel.textScaleFactor,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -130,16 +86,17 @@ class _WebViewPageState extends State<WebViewPage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.language),
-              tooltip: S.of(context).openBySystemBrowser,
+              tooltip: StringHelper.getS().openBySystemBrowser,
               onPressed: () async {
                 await launch(widget.url);
               },
             ),
             IconButton(
               icon: Icon(Icons.share),
-              tooltip: S.of(context).share,
+              tooltip: StringHelper.getS().share,
               onPressed: () async {
-                await FlutterShare.shareText(S.of(context).saveImageShareTip + "   " + widget.url);
+                await FlutterShare.shareText(
+                    StringHelper.getS().saveImageShareTip + "   " + widget.url);
               },
             ),
           ],
@@ -167,7 +124,8 @@ class _WebViewPageState extends State<WebViewPage> {
                   initialUrl: widget.url,
                   debuggingEnabled: false,
                   javascriptMode: JavascriptMode.unrestricted,
-                  initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
+                  initialMediaPlaybackPolicy:
+                      AutoMediaPlaybackPolicy.always_allow,
                   navigationDelegate: (NavigationRequest request) {
                     debugPrint('导航$request');
                     refreshNavigator();

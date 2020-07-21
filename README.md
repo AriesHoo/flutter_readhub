@@ -356,7 +356,7 @@ Flutter官方提供的`share`只提供简单的文字分享，故Freadhub使用�
 
 ~~~
  FlutterShare.shareFileWithText(
-            filePath: fileImage, textContent: S.of(context).saveImageShareTip);
+            filePath: fileImage, textContent: StringHelper.getS().saveImageShareTip);
 ~~~
 
 Android真机 | iPad真机 | 

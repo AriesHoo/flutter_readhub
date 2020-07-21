@@ -2,6 +2,7 @@ import 'package:flustars/flustars.dart';
 
 ///列表数据
 class ArticleModel {
+
   List<ArticleItemModel> data;
   int pageSize;
   int totalItems;
