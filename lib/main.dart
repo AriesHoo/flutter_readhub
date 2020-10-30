@@ -24,6 +24,12 @@ void main() async {
 //    colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
 //    child: MyApp(),
 //  ));
+  ///初始化日志打印-使用LogUtil.v设置debug模式才打印
+  LogUtil.init(
+    tag: 'flutter_readhub',
+    isDebug: true,
+    maxLen: 1024,
+  );
   runApp(MyApp());
 }
 
@@ -41,18 +47,20 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<LocaleViewModel>.value(
               value: LocaleViewModel()),
         ],
-        child: AppWidget(),
+        child: MaterialAppPage(),
       ),
     );
   }
 }
 
 ///App入口
-class AppWidget extends StatelessWidget {
-  const AppWidget({
-    Key key,
-  }) : super(key: key);
+class MaterialAppPage extends StatefulWidget {
+  @override
+  _MaterialAppPageState createState() => _MaterialAppPageState();
+}
 
+class _MaterialAppPageState extends State<MaterialAppPage>
+    with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return BasisProviderWidget2<ThemeViewModel, LocaleViewModel>(
@@ -92,6 +100,25 @@ class AppWidget extends StatelessWidget {
         home: SplashPage(),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    ///添加监听用于监控前后台转换
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    LogUtil.v('didChangeAppLifecycleState:$state', tag: 'MaterialAppPage');
+
+    ///应用前台
+    if (state == AppLifecycleState.resumed) {
+      ThemeViewModel.setSystemBarTheme();
+    }
   }
 }
 
@@ -158,7 +185,7 @@ class _SplashPageState extends State<SplashPage> {
               'assets/images/ic_powered.webp',
               width: 110,
               height: 110 * 100 / 436,
-              color: Theme.of(context).textTheme.title.color,
+              color: Theme.of(context).textTheme.headline6.color,
             ),
           ),
           SizedBox(

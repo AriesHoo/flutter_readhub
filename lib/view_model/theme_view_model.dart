@@ -148,6 +148,7 @@ class ThemeViewModel with ChangeNotifier {
 
   ///设置系统Bar主题
   static Future setSystemBarTheme() async {
+    LogUtil.v('platformDarkMode:$platformDarkMode;userDarkMode:$userDarkMode');
     bool statusEnable =
         Platform.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
     bool navigationEnable = Platform.isAndroid
