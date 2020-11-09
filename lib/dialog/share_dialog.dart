@@ -108,7 +108,7 @@ class ShareDialog extends Dialog {
               ),
 
               ///iOS保存图片到缓存其它应用无法获取。不想引入其它保存到相册的三方库
-              Platform.isIOS
+              Platform.isWindows
                   ? SizedBox()
                   : FloatingActionButton(
                       elevation: 0,

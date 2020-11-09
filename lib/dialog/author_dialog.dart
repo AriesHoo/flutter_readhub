@@ -6,17 +6,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
-import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/article_item_widget.dart';
-import 'package:flutter_readhub/widget/home_drawer_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 ///弹出作者信息分享提示框
 Future<void> showAuthorDialog(BuildContext context) async {
@@ -98,6 +96,140 @@ class AuthorDialog extends Dialog {
           )
         ],
       ),
+    );
+  }
+}
+
+///顶部个人信息介绍
+class TopRoundWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.topCenter,
+      children: <Widget>[
+        ClipPath(
+          clipper: BottomClipper(),
+          child: Container(
+            height: 80,
+            color: Theme.of(context).accentColor.withOpacity(0.8),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              height: 32,
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(32),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: Image.asset(
+                'assets/images/user.jpg',
+                width: 56,
+                height: 56,
+              ),
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            GestureDetector(
+              onTap: () async => launch(
+                'https://github.com/AriesHoo',
+              ),
+              child: Text(
+                "AriesHoo",
+                textScaleFactor: ThemeViewModel.textScaleFactor,
+                style: Theme.of(context).textTheme.subtitle.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      decoration: TextDecoration.underline,
+                    ),
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class BottomClipper extends CustomClipper<Path> {
+  @override
+  getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, 0);
+    path.lineTo(0, size.height / 2);
+
+    var p1 = Offset(size.width / 2, size.height);
+    var p2 = Offset(size.width, size.height / 2);
+    path.quadraticBezierTo(p1.dx, p1.dy, p2.dx, p2.dy);
+    path.lineTo(size.width, size.height / 2);
+    path.lineTo(size.width, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) {
+    return false;
+  }
+}
+
+///颜色主题选择
+class ChoiceThemeWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      title: Text(
+        StringHelper.getS().choiceTheme,
+        textScaleFactor: ThemeViewModel.textScaleFactor,
+        style: Theme.of(context).textTheme.title.copyWith(
+              fontSize: 14,
+            ),
+      ),
+      initiallyExpanded: false,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          child: Wrap(
+            runSpacing: 5,
+            spacing: 5,
+            children: <Widget>[
+              ...ThemeViewModel.themeValueList.map((color) {
+                int index = ThemeViewModel.themeValueList.indexOf(color);
+                return Material(
+                  borderRadius: BorderRadius.circular(2),
+                  color: color,
+                  child: InkWell(
+                    onTap: () {
+                      var model = Provider.of<ThemeViewModel>(context);
+                      model.switchTheme(themeIndex: index);
+                    },
+                    splashColor: Colors.white.withAlpha(50),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      child: Center(
+                        child: Text(
+                          ThemeViewModel.themeName(i: index),
+                          textScaleFactor: ThemeViewModel.textScaleFactor,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -327,7 +459,8 @@ class ShareAppSummaryWidget extends StatelessWidget {
       text: TextSpan(
         style: Theme.of(context).textTheme.headline6.copyWith(
               fontSize: 13,
-              color: Theme.of(context).textTheme.headline6.color.withOpacity(0.8),
+              color:
+                  Theme.of(context).textTheme.headline6.color.withOpacity(0.8),
             ),
         text:
             'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。'
@@ -336,8 +469,11 @@ class ShareAppSummaryWidget extends StatelessWidget {
           TextSpan(
             style: Theme.of(context).textTheme.headline6.copyWith(
                   fontSize: 12,
-                  color:
-                      Theme.of(context).textTheme.headline6.color.withOpacity(0.8),
+                  color: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .color
+                      .withOpacity(0.8),
                   fontWeight: FontWeight.w900,
                 ),
             text: '\n热门话题、科技动态、开发者、区块链四大模块'

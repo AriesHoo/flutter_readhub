@@ -38,3 +38,7 @@ lib/generated_plugin_registrant.dart
 /pubspec.lock
 /ios/Flutter/flutter_export_environment.sh
 /.flutter-plugins-dependencies
+/android/settings_aar.gradle
+/ios/Podfile
+/ios/Podfile.lock
+/ios/Runner.xcworkspace/

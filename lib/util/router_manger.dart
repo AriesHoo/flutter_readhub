@@ -11,7 +11,7 @@ class RouteName {
 }
 
 ///用于main MaterialApp配置 onGenerateRoute
-class Router {
+class RouterManager {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteName.tab:

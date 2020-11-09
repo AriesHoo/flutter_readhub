@@ -4,8 +4,8 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
-import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -67,6 +67,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
       model1: ThemeViewModel(),
       model2: LocaleViewModel(),
       builder: (context, theme, locale, child) => MaterialApp(
+        title: 'Freadhub',
         navigatorKey: navigatorKey,
 
         ///全局主题配置
@@ -94,7 +95,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
         supportedLocales: S.delegate.supportedLocales,
 
         ///配置页面路由
-        onGenerateRoute: Router.generateRoute,
+        onGenerateRoute: RouterManager.generateRoute,
 
         ///启动页显示slogan
         home: SplashPage(),

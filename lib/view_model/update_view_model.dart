@@ -1,12 +1,12 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/basis/basis_view_model.dart';
 import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
-import 'package:flutter_readhub/view_model/basis/basis_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 

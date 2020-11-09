@@ -1,6 +1,6 @@
+import 'package:flutter_readhub/basis/basis_refresh_list_view_model.dart';
 import 'package:flutter_readhub/data/article_repository.dart';
 import 'package:flutter_readhub/model/article_model.dart';
-import 'package:flutter_readhub/view_model/basis/basis_refresh_list_view_model.dart';
 
 ///获取资讯列表Model
 class ArticleViewModel extends BasisRefreshListViewModel<ArticleItemModel> {

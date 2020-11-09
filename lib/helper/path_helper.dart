@@ -4,15 +4,26 @@ import 'package:path_provider/path_provider.dart';
 
 ///文件路径帮助类
 class PathHelper {
+//   /// 获取存储路径
+//   static Future<String> getLocalPath() async {
+//     /// 因为Apple没有外置存储，所以第一步我们需要先对所在平台进行判断
+//     /// 如果是android，使用getExternalStorageDirectory
+//     /// 如果是iOS，使用getApplicationSupportDirectory
+// //    final directory = Platform.isAndroid
+// //        ? await getExternalStorageDirectory()
+// //        : await getApplicationSupportDirectory();
+//     final directory = await getTemporaryDirectory();
+//     return directory.path;
+//   }
+
   /// 获取存储路径
   static Future<String> getLocalPath() async {
     /// 因为Apple没有外置存储，所以第一步我们需要先对所在平台进行判断
     /// 如果是android，使用getExternalStorageDirectory
-    /// 如果是iOS，使用getApplicationSupportDirectory
-//    final directory = Platform.isAndroid
-//        ? await getExternalStorageDirectory()
-//        : await getApplicationSupportDirectory();
-    final directory = await getTemporaryDirectory();
+    /// 如果是iOS，使用getApplicationDocumentsDirectory-这样下载后通过系统打开
+    final directory = Platform.isAndroid
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
     return directory.path;
   }
 

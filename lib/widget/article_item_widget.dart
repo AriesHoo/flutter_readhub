@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/basis/basis_provider_widget.dart';
+import 'package:flutter_readhub/basis/basis_scroll_controller_model.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/view_model/article_view_model.dart';
-import 'package:flutter_readhub/view_model/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/view_model/basis/basis_scroll_controller_model.dart';
 import 'package:flutter_readhub/view_model/locale_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';

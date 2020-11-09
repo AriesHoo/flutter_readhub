@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/basis/view_state.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
-
-import '../theme_view_model.dart';
-import 'view_state.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 /// 加载中
 class LoadingStateWidget extends StatelessWidget {
