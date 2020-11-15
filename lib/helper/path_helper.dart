@@ -20,7 +20,7 @@ class PathHelper {
   static Future<String> getLocalPath() async {
     /// 因为Apple没有外置存储，所以第一步我们需要先对所在平台进行判断
     /// 如果是android，使用getExternalStorageDirectory
-    /// 如果是iOS，使用getApplicationDocumentsDirectory-这样下载后通过系统打开
+    /// 如果是iOS，使用getApplicationDocumentsDirectory-这样下载后其它应用也可访问
     final directory = Platform.isAndroid
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();

@@ -24,8 +24,13 @@ Future<void> showShareArticleDialog(
   await showDialog<int>(
     context: context,
     builder: (BuildContext context) {
-      return ShareDialog(data.title, data.getSummary(), data.getScanNote(),
-          data.getUrl(), StringHelper.getS().saveImageShareTip, data.getFileName());
+      return ShareDialog(
+          data.title,
+          data.getSummary(),
+          data.getScanNote(),
+          data.getUrl(),
+          StringHelper.getS().saveImageShareTip,
+          data.getFileName());
     },
   );
 }
@@ -50,9 +55,15 @@ class ShareDialog extends Dialog {
   final String fileName;
   final Widget summaryWidget;
 
-  ShareDialog(this.title, this.summary, this.notice, this.url,
-      this.bottomNotice, this.fileName,
-      {this.summaryWidget});
+  ShareDialog(
+    this.title,
+    this.summary,
+    this.notice,
+    this.url,
+    this.bottomNotice,
+    this.fileName, {
+    this.summaryWidget,
+  });
 
   final GlobalKey _globalKey = GlobalKey();
 
@@ -108,7 +119,7 @@ class ShareDialog extends Dialog {
               ),
 
               ///iOS保存图片到缓存其它应用无法获取。不想引入其它保存到相册的三方库
-              Platform.isWindows
+              Platform.isIOS
                   ? SizedBox()
                   : FloatingActionButton(
                       elevation: 0,
@@ -254,10 +265,11 @@ class ShotImageWidget extends StatelessWidget {
                             notice,
                             textScaleFactor: ThemeViewModel.textScaleFactor,
                             textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.headline6.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
                           ),
                         ),
 
@@ -318,9 +330,13 @@ class SaveImageToGallery {
 //        ShareExtend.share(fileImage, 'image',
 //            subject: StringHelper.getS().saveImageShareTip);
         FlutterShare.shareFileWithText(
-            filePath: fileImage, textContent: StringHelper.getS().saveImageShareTip);
+          filePath: fileImage,
+          textContent: StringHelper.getS().saveImageShareTip,
+        );
       } else {
-        ToastUtil.show(StringHelper.getS().saveImageSucceedInGallery);
+        ToastUtil.show(
+          StringHelper.getS().saveImageSucceedInGallery,
+        );
       }
       return;
     }

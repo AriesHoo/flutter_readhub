@@ -4,6 +4,7 @@ import 'package:flutter_readhub/basis/basis_view_model.dart';
 import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/model/app_update_model.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
@@ -27,16 +28,16 @@ class UpdateViewModel extends BasisViewModel {
       _packageName != null ? _packageName : "cn.aries.freadhub";
 
   ///检查新版本
-  Future<AppUpdateInfo> checkUpdate(BuildContext context,
+  Future<AppUpdateModel> checkUpdate(BuildContext context,
       {bool showError = false}) async {
     if (Platform.isIOS) {
       return null;
     }
-    AppUpdateInfo appUpdateInfo;
+    AppUpdateModel appModel;
     setLoading();
     try {
-      appUpdateInfo = await UpdateRepository.checkUpdate();
-      showUpdateDialog(context, appUpdateInfo, background: !showError);
+      appModel = await UpdateRepository.checkUpdate();
+      showUpdateDialog(context, appModel, background: !showError);
       setSuccess();
     } catch (e, s) {
       setError(e, s);
@@ -47,7 +48,7 @@ class UpdateViewModel extends BasisViewModel {
             ));
       }
     }
-    return appUpdateInfo;
+    return appModel;
   }
 
   UpdateViewModel() {
@@ -67,7 +68,7 @@ class UpdateViewModel extends BasisViewModel {
   }
 
   ///弹出升级新版本Dialog
-  Future<void> showUpdateDialog(BuildContext context, AppUpdateInfo info,
+  Future<void> showUpdateDialog(BuildContext context, AppUpdateModel info,
       {bool background = true}) async {
     if (info == null || !info.buildHaveNewVersion) {
       if (!background) {
@@ -94,8 +95,8 @@ class UpdateViewModel extends BasisViewModel {
       content: info.buildUpdateDescription,
       cancel: StringHelper.getS().updateNextTime,
       ensure: StringHelper.getS().updateNow,
-    ).then((value) {
-      if (value == 1) {
+    ).then((index) {
+      if (index == 1) {
         launch(info.downloadURL);
       }
     });

@@ -40,7 +40,7 @@ class PlatformUtil {
     }
   }
 
-  ///Android 6.0及以上-icon颜色
+  ///Android 6.0及以上-状态栏icon颜色
   static Future<bool> isStatusColorChange() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
@@ -51,7 +51,7 @@ class PlatformUtil {
     }
   }
 
-  ///Android 8.0及以上-icon颜色
+  ///Android 8.0及以上-底部导航栏icon颜色
   static Future<bool> isNavigationColorChange() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
