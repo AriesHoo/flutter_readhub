@@ -21,17 +21,9 @@ class UpdateViewModel extends BasisViewModel {
   static String get appVersionCode =>
       _appVersionCode != null ? _appVersionCode : '-1';
 
-  static String _packageName;
-
-  static String get packageName =>
-      _packageName != null ? _packageName : "cn.aries.freadhub";
-
   ///检查新版本
   Future<AppUpdateModel> checkUpdate(BuildContext context,
       {bool showError = false}) async {
-    if (Platform.isIOS) {
-      return null;
-    }
     AppUpdateModel appModel;
     setLoading();
     try {
@@ -51,18 +43,13 @@ class UpdateViewModel extends BasisViewModel {
   }
 
   UpdateViewModel() {
-   LogUtil.v('UpdateViewModel');
     PlatformUtil.getAppVersion().then((str) {
       _appVersion = str;
-      notifyListeners();
+      setSuccess();
     });
     PlatformUtil.getBuildNumber().then((num) {
       _appVersionCode = num;
-      notifyListeners();
-    });
-    PlatformUtil.getPackageName().then((str) {
-      _packageName = str;
-      notifyListeners();
+      setSuccess();
     });
   }
 

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 ///dialog提示
 class DialogUtil {
-
   /// 弹出对话框
   static Future<int> showAlertDialog(
     BuildContext context, {
@@ -25,7 +24,12 @@ class DialogUtil {
         titleWidget != null ? titleWidget : title != null ? Text(title) : null;
     Widget widgetContent = contentWidget != null
         ? contentWidget
-        : content != null ? Text(content,textAlign: TextAlign.left,) : null;
+        : content != null
+            ? Text(
+                content,
+                textAlign: TextAlign.left,
+              )
+            : null;
     Widget widgetCancel = cancelWidget != null
         ? cancelWidget
         : !TextUtil.isEmpty(cancel)
@@ -34,7 +38,7 @@ class DialogUtil {
                     child: Text(
                       cancel,
                       style: Theme.of(context).textTheme.caption.copyWith(
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                     ),
                     onPressed: () {
@@ -46,7 +50,7 @@ class DialogUtil {
                     child: Text(
                       cancel,
                       style: Theme.of(context).textTheme.caption.copyWith(
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                     ),
                     onPressed: () {
@@ -60,14 +64,26 @@ class DialogUtil {
         : !TextUtil.isEmpty(ensure)
             ? Platform.isIOS
                 ? CupertinoButton(
-                    child: Text(ensure),
+                    child: Text(
+                      ensure,
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                            color: Theme.of(context).accentColor,
+                            fontSize: 14,
+                          ),
+                    ),
                     onPressed: () {
                       ///关闭对话框并返回
                       Navigator.of(context).pop(1);
                     },
                   )
                 : FlatButton(
-                    child: Text(ensure),
+                    child: Text(
+                      ensure,
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                            color: Theme.of(context).accentColor,
+                            fontSize: 14,
+                          ),
+                    ),
                     onPressed: () {
                       ///关闭对话框并返回
                       Navigator.of(context).pop(1);

@@ -22,18 +22,23 @@ class UpdateInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options) async {
     options.queryParameters['_api_key'] = 'f4d7dae2132cf8715c99ca79043deefb';
-    options.queryParameters['appKey'] = '9d5adc8a82bdcf48a905d8d5aa7f19e3';
-    options.queryParameters['buildVersion'] = await PlatformUtil.getAppVersion();
-    options.queryParameters['buildBuildVersion'] = await PlatformUtil.getBuildNumber();
-   LogUtil.v('---UpdateHttp-UpdateInterceptor-request--->url--> ${options.baseUrl}${options.path}' +
-        ' queryParameters: ${options.queryParameters}');
+    options.queryParameters['appKey'] = Platform.isAndroid
+        ? '9d5adc8a82bdcf48a905d8d5aa7f19e3'
+        : '430e714ebb8fb7c3f2ab72fa5c5009dc';
+    options.queryParameters['buildVersion'] =
+        await PlatformUtil.getAppVersion();
+    options.queryParameters['buildBuildVersion'] =
+        await PlatformUtil.getBuildNumber();
+    LogUtil.v(
+        '---UpdateHttp-UpdateInterceptor-request--->url--> ${options.baseUrl}${options.path}' +
+            ' queryParameters: ${options.queryParameters}');
     return options;
   }
 
   @override
   onResponse(Response response) {
     ResponseData respData = ResponseData.fromJson(response.data);
-   LogUtil.v('UpdateHttp-UpdateInterceptor-onResponse:$respData');
+    LogUtil.v('UpdateHttp-UpdateInterceptor-onResponse:$respData');
     if (respData.success) {
       response.data = respData.data;
       return http.resolve(response);
