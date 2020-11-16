@@ -42,3 +42,5 @@ lib/generated_plugin_registrant.dart
 /ios/Podfile
 /ios/Podfile.lock
 /ios/Runner.xcworkspace/
+/ios/Flutter/
+/ios/Flutter/
