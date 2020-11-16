@@ -52,5 +52,6 @@
   "appreciateDeveloper": "赞赏开发",
   "english": "英语",
   "tipSwitchThemeWhenPlatformDark": "当前系统为深色主题",
-  "tipNoEmailApp": "请安装邮箱app后重试！"
+  "tipNoEmailApp": "请安装邮箱app后重试！",
+  "tooltipScrollTop": "回到顶部"
 }

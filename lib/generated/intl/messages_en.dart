@@ -64,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "thursday" : MessageLookupByLibrary.simpleMessage("Thursday"),
     "tipNoEmailApp" : MessageLookupByLibrary.simpleMessage("Please install email app and try again！"),
     "tipSwitchThemeWhenPlatformDark" : MessageLookupByLibrary.simpleMessage("The current system is in dark mode"),
+    "tooltipScrollTop" : MessageLookupByLibrary.simpleMessage("To top"),
     "tuesday" : MessageLookupByLibrary.simpleMessage("Tuesday"),
     "updateNextTime" : MessageLookupByLibrary.simpleMessage("Next time"),
     "updateNow" : MessageLookupByLibrary.simpleMessage("Update now"),

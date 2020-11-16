@@ -31,8 +31,8 @@ abstract class BasisHttp extends DioForNative {
 class HeaderInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options) async {
-    options.connectTimeout = 1000 * 45;
-    options.receiveTimeout = 1000 * 45;
+    options.connectTimeout = 1000 * 15;
+    options.receiveTimeout = 1000 * 15;
     options.responseType = ResponseType.json;
     options.contentType = Headers.jsonContentType;
     return options;

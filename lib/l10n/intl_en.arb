@@ -51,5 +51,6 @@
   "fontSize": "Font size",
   "appreciateDeveloper": "Appreciate",
   "tipSwitchThemeWhenPlatformDark": "The current system is in dark mode",
-  "tipNoEmailApp": "Please install email app and try again！"
+  "tipNoEmailApp": "Please install email app and try again！",
+  "tooltipScrollTop": "To top"
 }

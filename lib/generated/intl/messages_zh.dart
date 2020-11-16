@@ -64,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "thursday" : MessageLookupByLibrary.simpleMessage("周四"),
     "tipNoEmailApp" : MessageLookupByLibrary.simpleMessage("请安装邮箱app后重试！"),
     "tipSwitchThemeWhenPlatformDark" : MessageLookupByLibrary.simpleMessage("当前系统为深色主题"),
+    "tooltipScrollTop" : MessageLookupByLibrary.simpleMessage("回到顶部"),
     "tuesday" : MessageLookupByLibrary.simpleMessage("周二"),
     "updateNextTime" : MessageLookupByLibrary.simpleMessage("下次再说"),
     "updateNow" : MessageLookupByLibrary.simpleMessage("立即更新"),

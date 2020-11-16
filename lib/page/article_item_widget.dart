@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/basis/basis_scroll_controller_model.dart';
+import 'package:flutter_readhub/basis/scroll_top_model.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
+import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/router_manger.dart';
@@ -9,7 +10,6 @@ import 'package:flutter_readhub/view_model/article_view_model.dart';
 import 'package:flutter_readhub/view_model/locale_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
-import 'package:provider/provider.dart';
 
 final double leading = 1;
 final double textLineHeight = 0.5;
@@ -18,10 +18,11 @@ final letterSpacing = 1.0;
 ///文章item页--最终展示效果
 class ArticleItemWidget extends StatefulWidget {
   final String url;
-  final Function(ScrollTopModel) onScrollTop;
 
-  const ArticleItemWidget({Key key, this.url, this.onScrollTop})
-      : super(key: key);
+  const ArticleItemWidget({
+    Key key,
+    this.url,
+  }) : super(key: key);
 
   @override
   _ArticleItemWidgetState createState() => _ArticleItemWidgetState();
@@ -38,10 +39,6 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   Widget build(BuildContext context) {
     super.build(context);
     return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
-      onModelReady: (list, top) {
-        widget.onScrollTop?.call(top);
-      },
-
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
 
@@ -159,7 +156,7 @@ class ArticleAdapter extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           item.switchMaxLine();
-          Provider.of<LocaleViewModel>(context).switchLocale(0);
+          ProviderHelper.of<LocaleViewModel>(context).switchLocale(0);
         },
         onLongPress: () => showShareArticleDialog(context, item),
 
@@ -241,8 +238,9 @@ class ArticleAdapter extends StatelessWidget {
 
                   ///查看详情web
                   SmallButtonWidget(
-                    onTap: () => Navigator.of(context)
-                        .pushNamed(RouteName.webView, arguments: item.getUrl()),
+                    onTap: () => Navigator.of(context).pushNamed(
+                        RouteName.web_view_page,
+                        arguments: item.getUrl()),
                     child: Icon(IconFonts.ic_glass),
                   ),
                 ],
@@ -288,7 +286,7 @@ class NewsAdapter extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () => Navigator.of(context)
-            .pushNamed(RouteName.webView, arguments: item.getUrl()),
+            .pushNamed(RouteName.web_view_page, arguments: item.getUrl()),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10),
           margin: EdgeInsets.symmetric(horizontal: 12),

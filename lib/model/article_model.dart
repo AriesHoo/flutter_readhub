@@ -144,7 +144,7 @@ class ArticleItemModel {
       Duration hourDiff = nowTime.difference(createTime);
       int dayDiff = nowTime.day - createTime.day;
 
-      ///如果有天数差
+      ///如果有天数差-此处是重点应该是以天数差作为昨天/前天 几天前标志而不是24小时
       if (dayDiff > 0) {
         if (dayDiff == 1) {
           timeStr = "昨天";
@@ -176,7 +176,7 @@ class ArticleItemModel {
           .replaceAll("T", " ")
           .substring(5, 16);
     } catch (e) {
-      LogUtil.e("parseTimeLong:$e");
+     LogUtil.v("parseTimeLong:$e");
     }
     try {
       String time =
@@ -306,7 +306,7 @@ class NewsArray {
       timeStr =
           createTime.toIso8601String().replaceAll("T", " ").substring(5, 16);
     } catch (e) {
-      LogUtil.e("parseTimeLong:" + e.toString());
+     LogUtil.v("parseTimeLong:" + e.toString());
     }
     return timeStr;
   }

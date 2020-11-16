@@ -36,7 +36,7 @@ class _WebViewPageState extends State<WebViewPage> {
         await launch(await _webViewController.currentUrl());
       }
     } catch (e) {
-      LogUtil.e('_launchURL:$e');
+     LogUtil.v('_launchURL:$e');
       await launch(await _webViewController.currentUrl());
     }
   }
@@ -59,7 +59,7 @@ class _WebViewPageState extends State<WebViewPage> {
             return true;
           }
         }
-        LogUtil.e(
+       LogUtil.v(
             'canGoBack:$canGoBack;currentUrl:$currentUrl;url:${widget.url}');
         return !canGoBack;
 //        return true;
@@ -170,7 +170,7 @@ class _WebViewPageState extends State<WebViewPage> {
   void refreshNavigator() {
     _webViewController.getTitle().then((title) {
       _getProgress.value = title == null || title.isEmpty;
-      LogUtil.e("getTitle:" + title);
+     LogUtil.v("getTitle:" + title);
       _title = title != null && title.isNotEmpty ? title : _title;
       return _getTitle.value = title;
     });

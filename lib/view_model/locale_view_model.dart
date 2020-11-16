@@ -1,7 +1,7 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 
-///国际化语言切换
+///国际化语言切换-刚开始做了语言切换后面废弃
 class LocaleViewModel extends ChangeNotifier {
   static const localeValueList = ['', 'zh-CN', 'en'];
 

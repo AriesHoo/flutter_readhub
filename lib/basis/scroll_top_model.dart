@@ -30,7 +30,7 @@ class ScrollTopModel with ChangeNotifier {
 
   ///滚动到某个位置
   scrollTo({double offset, Duration duration, Curve curve}) {
-    LogUtil.e("_scrollController.hasClients${_scrollController.hasClients}");
+   LogUtil.v("_scrollController.hasClients${_scrollController.hasClients}");
     if (!_scrollController.hasClients) {
       return;
     }

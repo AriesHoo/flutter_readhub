@@ -8,12 +8,12 @@ import 'package:flutter_readhub/helper/path_helper.dart';
 import 'package:flutter_readhub/helper/permission_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/article_model.dart';
+import 'package:flutter_readhub/page/article_item_widget.dart' as prefix0;
+import 'package:flutter_readhub/page/article_item_widget.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
-import 'package:flutter_readhub/widget/article_item_widget.dart' as prefix0;
-import 'package:flutter_readhub/widget/article_item_widget.dart';
 import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -78,7 +78,7 @@ class ShareDialog extends Dialog {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ///最上边白色圆角开始
+          ///最上边白色圆角开始--需要截图区域Widget
           ShotImageWidget(
             title,
             summary,
@@ -111,8 +111,12 @@ class ShareDialog extends Dialog {
                   Icons.share,
                   color: Colors.white,
                 ),
-                onPressed: () => saveImageToGallery
-                    .saveImage(context, _globalKey, '/$fileName', share: true),
+                onPressed: () => saveImageToGallery.saveImage(
+                  context,
+                  _globalKey,
+                  '/$fileName',
+                  share: true,
+                ),
               ),
               SizedBox(
                 width: Platform.isIOS ? 0 : 20,
@@ -190,7 +194,7 @@ class ShotImageWidget extends StatelessWidget {
                       title,
                       textScaleFactor: ThemeViewModel.textScaleFactor,
                       textAlign: TextAlign.justify,
-                      style: Theme.of(context).textTheme.title.copyWith(
+                      style: Theme.of(context).textTheme.headline6.copyWith(
                             fontWeight: FontWeight.bold,
                             letterSpacing: prefix0.letterSpacing,
                             fontSize: 17,
@@ -206,7 +210,9 @@ class ShotImageWidget extends StatelessWidget {
               ///圆角分割线包裹内容开始
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(top: 8),
+                margin: EdgeInsets.only(
+                  top: 8,
+                ),
                 padding: EdgeInsets.symmetric(
                   vertical: 12,
                   horizontal: 10,
@@ -240,7 +246,7 @@ class ShotImageWidget extends StatelessWidget {
                                   height: textLineHeight,
                                   leading: leading),
                               maxLines: 12,
-                              style: Theme.of(context).textTheme.title.copyWith(
+                              style: Theme.of(context).textTheme.headline6 .copyWith(
                                     fontSize: 13,
                                     letterSpacing: letterSpacing,
                                     color: Theme.of(context)

@@ -24,7 +24,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   # 状态管理State
-  provider: ^3.2.0
+  provider: ^4.3.2
   #  吐司toast
   oktoast: ^2.2.0
   #  设备信息
@@ -43,19 +43,19 @@ dependencies:
   pull_to_refresh: ^1.6.0
   #  本地缓存sp
   shared_preferences: ^0.5.7+3
-  # 用于做骨架屏-闪光效果
+  #用于做骨架屏-闪光效果
   shimmer: ^1.1.1
-  #  跳转系统浏览器/打电话等
+  #跳转系统浏览器/打电话等
   url_launcher: ^5.4.11
-  #  二维码-生成
+  #二维码-生成
   qr_flutter: ^3.2.0
-  #  工具类
+  #工具类
   flustars: ^0.3.2
-  #  动态权限申请
+  #动态权限申请
   permission_handler: ^5.0.1
-  #  文件路径
+  #文件路径
   path_provider: ^1.6.11
-  #  分享文字及文件-注意保存文件位置
+  #分享文字及文件-注意保存文件位置
   flutter_share_plugin: ^0.1.3+3
 
 dev_dependencies:

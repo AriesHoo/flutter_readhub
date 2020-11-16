@@ -1,7 +1,6 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_view_model.dart';
-import 'package:flutter_readhub/data/update_http.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/app_update_model.dart';
@@ -52,7 +51,7 @@ class UpdateViewModel extends BasisViewModel {
   }
 
   UpdateViewModel() {
-    LogUtil.e('UpdateViewModel');
+   LogUtil.v('UpdateViewModel');
     PlatformUtil.getAppVersion().then((str) {
       _appVersion = str;
       notifyListeners();

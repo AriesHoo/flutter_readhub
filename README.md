@@ -252,14 +252,14 @@ themeData({bool platformDarkMode: false}) {
 @override
   void didUpdateWidget(HomePage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    LogUtil.e('home_page_didUpdateWidget');
+   LogUtil.v('home_page_didUpdateWidget');
     ///更新UI--在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
     if (_lastSetSystemUiAt == null ||
         DateTime.now().difference(_lastSetSystemUiAt) >
             Duration(milliseconds: 1000)) {
       ///两次点击间隔超过阈值则重新计时
       _lastSetSystemUiAt = DateTime.now();
-      LogUtil.e('设置系统栏颜色');
+     LogUtil.v('设置系统栏颜色');
       ThemeViewModel.setSystemBarTheme();
     }
   }

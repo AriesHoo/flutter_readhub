@@ -9,7 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'basis_list_view_model.dart';
 import 'basis_refresh_list_view_model.dart';
-import 'basis_scroll_controller_model.dart';
+import 'scroll_top_model.dart';
 import 'view_state_widget.dart';
 
 /// Provider简单抽离方便数据初始化
@@ -186,6 +186,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                     !model2.showTopBtn || ThemeViewModel.hideFloatingButton
                         ? null
                         : FloatingActionButton(
+                            tooltip: StringHelper.getS().tooltipScrollTop,
                             child: Icon(
                               Icons.vertical_align_top,
                               color: Colors.white,

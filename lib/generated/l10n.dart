@@ -565,6 +565,16 @@ class S {
       args: [],
     );
   }
+
+  /// `To top`
+  String get tooltipScrollTop {
+    return Intl.message(
+      'To top',
+      name: 'tooltipScrollTop',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
