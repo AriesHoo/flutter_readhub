@@ -1,22 +1,23 @@
 # flutter_readhub
 
 
-[![](https://img.shields.io/badge/download-demo-blue.svg)](https://raw.githubusercontent.com/AriesHoo/flutter_readhub/master/apk/sample.apk)
-[![GitHub license](https://img.shields.io/github/license/AriesHoo/flutter_freadhub.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/badge/download-apk-blue.svg)](https://raw.githubusercontent.com/AriesHoo/flutter_readhub/master/sample/sample.apk)
+[![](https://img.shields.io/badge/download-ipa-blue.svg)](https://raw.githubusercontent.com/AriesHoo/flutter_readhub/master/sample/sample.ipa)
+[![GitHub license](https://img.shields.io/github/license/AriesHoo/flutter_readhub.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/Github-Github主仓库-blue.svg)](https://github.com/AriesHoo/flutter_readhub)
 [![](https://img.shields.io/badge/Gitee-Gitee备用仓库-red.svg)](https://gitee.com/AriesHoo/flutter_readhub)
-
-该项目为Flutter实战项目,为[Readhub](https://readhub.me/)非官方客户端。
-
-数据来源于Readhub官方API接口。**版权及最终解释权归Readhub官方所有,如有侵权请邮箱联系删除!**
-
-仅供学习使用，禁止商用
 
 [相关文章一：用Flutter给Readhub写一个App](https://www.jianshu.com/p/5e1db7423dac)
 
 [相关文章二：Flutter版本Readhub开源](https://www.jianshu.com/p/f4161c721ff7)
 
 [相关文章三：Flutter iOS真机调试及打包过程记录](https://www.jianshu.com/p/58a6e272a038)
+
+该项目为Flutter实战项目,为[Readhub](https://readhub.me/)非官方客户端。
+
+数据来源于Readhub官方API接口。**版权及最终解释权归Readhub官方所有,如有侵权请邮箱联系删除!**
+
+仅供学习使用，禁止商用
 
 ## 前言
 
