@@ -14,9 +14,9 @@
 
 [相关文章一：用Flutter给Readhub写一个App](https://www.jianshu.com/p/5e1db7423dac)
 
-[相关文章二：Flutter版本Readhub开源](https://www.jianshu.com/p/5e1db7423dac)
+[相关文章二：Flutter版本Readhub开源](https://www.jianshu.com/p/f4161c721ff7)
 
-[相关文章三：Flutter iOS真机调试及打包过程记录](https://www.jianshu.com/p/5e1db7423dac)
+[相关文章三：Flutter iOS真机调试及打包过程记录](https://www.jianshu.com/p/58a6e272a038)
 
 ## 前言
 
