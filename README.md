@@ -38,6 +38,28 @@
 
 因为前面文章介绍了不少的页面及实现功能相关描述，这里只简要介绍下项目的分包及使用的三方库及当前环境。
 
+## 效果一览
+
+###  Android 部分
+
+浅色主题 | 深色主题 | 
+-|-
+![](https://upload-images.jianshu.io/upload_images/2828782-b0f264ff8130888b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)| ![](https://upload-images.jianshu.io/upload_images/2828782-fab837fbe5964914.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+资讯详情| 更多操作 | 
+| ![](https://upload-images.jianshu.io/upload_images/2828782-945aa151bb9f6b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)| ![](https://upload-images.jianshu.io/upload_images/2828782-e3ee8a2252aede6b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+ | 选择主题 | 社交分享 |
+ ![](https://upload-images.jianshu.io/upload_images/2828782-a87eaa05e71f37e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)| ![](https://upload-images.jianshu.io/upload_images/2828782-ce917d37671b1367.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+
+###  iOS 部分
+
+浅色主题 | 深色主题 | 
+-|-
+![](https://upload-images.jianshu.io/upload_images/2828782-d32c592c48194dd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)| ![](https://upload-images.jianshu.io/upload_images/2828782-5f54608101d4618e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+资讯详情| 更多操作 | 
+| ![](https://upload-images.jianshu.io/upload_images/2828782-7e5b92c094bc2048.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)| ![](https://upload-images.jianshu.io/upload_images/2828782-cd50e71517e32765.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+ | 选择主题 | 社交分享 |
+ ![](https://upload-images.jianshu.io/upload_images/2828782-7189161f93d57a60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)|![](https://upload-images.jianshu.io/upload_images/2828782-941060caeccc5e48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+
 ## 分包
 
 ![](https://upload-images.jianshu.io/upload_images/2828782-e2835295e6a943c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
