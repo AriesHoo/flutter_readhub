@@ -2,7 +2,6 @@
 
 
 [![](https://img.shields.io/badge/download-apk-blue.svg)](https://gitee.com/AriesHoo/flutter_readhub/raw/master/sample/sample.apk)
-[![](https://img.shields.io/badge/download-ipa-blue.svg)](https://gitee.com/AriesHoo/flutter_readhub/raw/master/sample/sample.ipa)
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/flutter_readhub.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/Github-Github主仓库-blue.svg)](https://github.com/AriesHoo/flutter_readhub)
 [![](https://img.shields.io/badge/Gitee-Gitee备用仓库-red.svg)](https://gitee.com/AriesHoo/flutter_readhub)
