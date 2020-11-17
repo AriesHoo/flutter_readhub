@@ -12,11 +12,10 @@
 
 仅供学习使用，禁止商用
 
->- **$\color{red}{本文为 AriesHoo 原创，未经授权禁止转载！}$** 
->- **[【 原文地址】](https://www.jianshu.com/p/5e1db7423dac)**
-
 [相关文章一：用Flutter给Readhub写一个App](https://www.jianshu.com/p/5e1db7423dac)
+
 [相关文章二：Flutter版本Readhub开源](https://www.jianshu.com/p/5e1db7423dac)
+
 [相关文章三：Flutter iOS真机调试及打包过程记录](https://www.jianshu.com/p/5e1db7423dac)
 
 ## 前言
