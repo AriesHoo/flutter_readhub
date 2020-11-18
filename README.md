@@ -26,7 +26,7 @@
 
 [GitHub地址](https://github.com/AriesHoo/flutter_readhub)     [Gitee地址](https://gitee.com/AriesHoo/flutter_readhub)
 
-![扫码下载](https://upload-images.jianshu.io/upload_images/2828782-7e167a7701fa7497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
+![扫码下载](https://www.pgyer.com/app/qrcode/ntMA)
 
 说明：
 
@@ -34,7 +34,7 @@
 
 2、iOS版本只加了21台周围的朋友UUID,如果有朋友想要下载尝试可将UUID留言到GitHub或者私信到我的邮箱，我会第一时间打包并通知你，感谢
 
-![扫码获取UUID](https://upload-images.jianshu.io/upload_images/2828782-eaf694cb8b3b9d2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![扫码获取UUID](https://www.pgyer.com/qrCodePNG/generateQR?content=https://www.pgyer.com/tools/udid)
 
 因为前面文章介绍了不少的页面及实现功能相关描述，这里只简要介绍下项目的分包及使用的三方库及当前环境。
 
