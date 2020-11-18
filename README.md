@@ -68,14 +68,23 @@
 
 
 basis：主要存放一些基类
+
 data：为api调用相关-文章及更新app
+
 dialog：为用户信息及分享dialog弹窗-继承Dialog
+
 generated及l10n：为国际化插件自动生成
+
 helper：为路径及权限等帮助类
+
 model：存放数据对象
+
 page：页面
+
 util：各种工具栏
+
 view_model：为page与data之前桥梁
+
 widget：为拆分公共组件
 
 ## 三方库
