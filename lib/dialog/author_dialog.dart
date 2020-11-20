@@ -21,7 +21,13 @@ Future<void> showAuthorDialog(BuildContext context) async {
   await showDialog<int>(
     context: context,
     builder: (BuildContext context) {
-      return AuthorDialog();
+      ///部分手机调试模式出错增加居中及滚动
+      return Center(
+        child: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
+          child: AuthorDialog(),
+        ),
+      );
     },
   );
 }
@@ -55,43 +61,35 @@ class AuthorDialog extends Dialog {
             ///整体背景
             child: Container(
               color: Theme.of(context).cardColor,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height - 50),
-                child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  controller: _scrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ///顶部信息
-                      TopRoundWidget(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ///顶部信息
+                  TopRoundWidget(),
 
-                      ///意见反馈-发送邮件
-                      FeedbackWidget(),
+                  ///意见反馈-发送邮件
+                  FeedbackWidget(),
 
-                      ///检查更新
-                      UpdateWidget(),
+                  ///检查更新
+                  UpdateWidget(),
 
-                      ///应用分享
-                      ShareAppWidget(),
+                  ///应用分享
+                  ShareAppWidget(),
 
-                      ///选择颜色主题
-                      ThemeWidget(),
+                  ///选择颜色主题
+                  ThemeWidget(),
 
-                      ///文字尺寸设置
-                      FontSizeWidget(),
+                  ///文字尺寸设置
+                  FontSizeWidget(),
 
-                      ///赞赏开发者
-                      AppreciateWidget(),
+                  ///赞赏开发者
+                  AppreciateWidget(),
 
-                      ///版权申明
-                      CopyrightWidget(
-                        scrollController: _scrollController,
-                      ),
-                    ],
+                  ///版权申明
+                  CopyrightWidget(
+                    scrollController: _scrollController,
                   ),
-                ),
+                ],
               ),
             ),
           )
@@ -461,7 +459,8 @@ class ThemeBody extends StatelessWidget {
                       color: ThemeViewModel.getThemeColor(i: index),
                       child: InkWell(
                         onTap: () {
-                          var model = ProviderHelper.of<ThemeViewModel>(context);
+                          var model =
+                              ProviderHelper.of<ThemeViewModel>(context);
                           model.switchTheme(themeIndex: index);
                           if (dialog) {
                             Navigator.of(context).pop();
@@ -492,7 +491,8 @@ class ThemeBody extends StatelessWidget {
                                 Icons.check,
                                 size: 22,
                                 color: index ==
-                                        ProviderHelper.of<ThemeViewModel>(context)
+                                        ProviderHelper.of<ThemeViewModel>(
+                                                context)
                                             .themeIndex
                                     ? Colors.white
                                     : Colors.transparent,
@@ -715,10 +715,9 @@ class CopyrightWidget extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: ExpansionTile(
         onExpansionChanged: (opened) {
-          if (opened) {
+          if (opened && Platform.isAndroid) {
             ///开启详情延时滚动底部-Android有效
-            Future.delayed(Duration(milliseconds: Platform.isIOS ? 1 : 200),
-                () {
+            Future.delayed(Duration(milliseconds: 200), () {
               scrollController.animateTo(
                 MediaQuery.of(context).size.height,
                 duration: Duration(

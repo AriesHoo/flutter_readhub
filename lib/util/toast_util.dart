@@ -13,16 +13,21 @@ class ToastUtil {
   }) {
     position ??= ToastPosition.bottom;
     duration ??= Duration(
-      milliseconds: 2000,
+      milliseconds: text.length > 5 ? 3500 : 2000,
     );
 
+    Color textColor = ThemeViewModel.darkMode ? Colors.black : Colors.white;
+    Color bgColor = !ThemeViewModel.darkMode ? Colors.black : Colors.white;
     showToast(
       text,
       textStyle: TextStyle(
         fontSize: 14,
         fontFamily: ThemeViewModel.fontFamily(),
+        color: textColor,
       ),
-      backgroundColor: Color(0xA0000000),
+      // backgroundColor:
+      //     Color(ThemeViewModel.platformDarkMode ? 0xA0FFFFFF : 0xA0000000),
+      backgroundColor: bgColor.withAlpha(200),
       dismissOtherToast: true,
       radius: 6,
       textPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
