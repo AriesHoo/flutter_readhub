@@ -134,10 +134,10 @@ class TopRoundWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async => launch(
-                'https://github.com/AriesHoo',
+                'https://github.com/AriesHoo/flutter_readhub',
               ),
               child: Text(
-                "AriesHoo",
+                "开源地址",
                 textScaleFactor: ThemeViewModel.textScaleFactor,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                       fontSize: 16,
