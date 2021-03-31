@@ -76,17 +76,22 @@ class ShareDialog extends Dialog {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ///最上边白色圆角开始--需要截图区域Widget
-          ShotImageWidget(
-            title,
-            summary,
-            notice,
-            url,
-            bottomNotice,
-            _globalKey,
-            summaryWidget: summaryWidget,
+          Flexible(
+            child: SingleChildScrollView(
+              child: ShotImageWidget(
+                title,
+                summary,
+                notice,
+                url,
+                bottomNotice,
+                _globalKey,
+                summaryWidget: summaryWidget,
+              ),
+            ),
           ),
 
           ///最上边白色圆角结束
@@ -246,7 +251,10 @@ class ShotImageWidget extends StatelessWidget {
                                   height: textLineHeight,
                                   leading: leading),
                               maxLines: 12,
-                              style: Theme.of(context).textTheme.headline6 .copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  .copyWith(
                                     fontSize: 13,
                                     letterSpacing: letterSpacing,
                                     color: Theme.of(context)

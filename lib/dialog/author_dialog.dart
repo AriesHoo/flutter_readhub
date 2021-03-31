@@ -23,10 +23,7 @@ Future<void> showAuthorDialog(BuildContext context) async {
     builder: (BuildContext context) {
       ///部分手机调试模式出错增加居中及滚动
       return Center(
-        child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: AuthorDialog(),
-        ),
+        child: AuthorDialog(),
       );
     },
   );
@@ -51,49 +48,56 @@ class AuthorDialog extends Dialog {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+      child:
+
           ///圆角
           ClipRRect(
-            borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(6),
 
-            ///整体背景
-            child: Container(
-              color: Theme.of(context).cardColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ///顶部信息
-                  TopRoundWidget(),
+        ///整体背景
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ///顶部信息
+            TopRoundWidget(),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Container(
+                  color: Theme.of(context).cardColor,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ///意见反馈-发送邮件
+                      FeedbackWidget(),
 
-                  ///意见反馈-发送邮件
-                  FeedbackWidget(),
+                      ///检查更新
+                      UpdateWidget(),
 
-                  ///检查更新
-                  UpdateWidget(),
+                      ///应用分享
+                      ShareAppWidget(),
 
-                  ///应用分享
-                  ShareAppWidget(),
+                      ///选择颜色主题
+                      ThemeWidget(),
 
-                  ///选择颜色主题
-                  ThemeWidget(),
+                      ///文字尺寸设置
+                      FontSizeWidget(),
 
-                  ///文字尺寸设置
-                  FontSizeWidget(),
+                      ///赞赏开发者
+                      AppreciateWidget(),
 
-                  ///赞赏开发者
-                  AppreciateWidget(),
-
-                  ///版权申明
-                  CopyrightWidget(
-                    scrollController: _scrollController,
+                      ///版权申明
+                      CopyrightWidget(
+                        scrollController: _scrollController,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -103,54 +107,57 @@ class AuthorDialog extends Dialog {
 class TopRoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.topCenter,
-      children: <Widget>[
-        ClipPath(
-          clipper: BottomClipper(),
-          child: Container(
-            height: 80,
-            color: Theme.of(context).accentColor.withOpacity(0.8),
+    return Container(
+      color: Theme.of(context).cardColor,
+      child: Stack(
+        alignment: AlignmentDirectional.topCenter,
+        children: <Widget>[
+          ClipPath(
+            clipper: BottomClipper(),
+            child: Container(
+              height: 80,
+              color: Theme.of(context).accentColor.withOpacity(0.8),
+            ),
           ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 32,
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(32),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Image.asset(
-                'assets/images/user.jpg',
-                width: 56,
-                height: 56,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 32,
               ),
-            ),
-            SizedBox(
-              height: 6,
-            ),
-            GestureDetector(
-              onTap: () async => launch(
-                'https://github.com/AriesHoo/flutter_readhub',
+              ClipRRect(
+                borderRadius: BorderRadius.circular(32),
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                child: Image.asset(
+                  'assets/images/user.jpg',
+                  width: 56,
+                  height: 56,
+                ),
               ),
-              child: Text(
-                "开源地址",
-                textScaleFactor: ThemeViewModel.textScaleFactor,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      fontSize: 16,
-                      decoration: TextDecoration.underline,
-                    ),
+              SizedBox(
+                height: 6,
               ),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-          ],
-        ),
-      ],
+              GestureDetector(
+                onTap: () async => launch(
+                  'https://github.com/AriesHoo/flutter_readhub',
+                ),
+                child: Text(
+                  "开源地址",
+                  textScaleFactor: ThemeViewModel.textScaleFactor,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        fontSize: 16,
+                        decoration: TextDecoration.underline,
+                      ),
+                ),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
