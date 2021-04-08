@@ -54,44 +54,49 @@ class AuthorDialog extends Dialog {
         borderRadius: BorderRadius.circular(6),
 
         ///整体背景
-        child: Flexible(
-          child: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
-            child: Container(
-              color: Theme.of(context).cardColor,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ///顶部信息
-                  TopRoundWidget(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: SingleChildScrollView(
+                physics: ClampingScrollPhysics(),
+                child: Container(
+                  color: Theme.of(context).cardColor,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ///顶部信息
+                      TopRoundWidget(),
 
-                  ///意见反馈-发送邮件
-                  FeedbackWidget(),
+                      ///意见反馈-发送邮件
+                      FeedbackWidget(),
 
-                  ///检查更新
-                  UpdateWidget(),
+                      ///检查更新
+                      UpdateWidget(),
 
-                  ///应用分享
-                  ShareAppWidget(),
+                      ///应用分享
+                      ShareAppWidget(),
 
-                  ///选择颜色主题
-                  ThemeWidget(),
+                      ///选择颜色主题
+                      ThemeWidget(),
 
-                  ///文字尺寸设置
-                  FontSizeWidget(),
+                      ///文字尺寸设置
+                      FontSizeWidget(),
 
-                  ///赞赏开发者
-                  AppreciateWidget(),
+                      ///赞赏开发者
+                      AppreciateWidget(),
 
-                  ///版权申明
-                  CopyrightWidget(
-                    scrollController: _scrollController,
+                      ///版权申明
+                      CopyrightWidget(
+                        scrollController: _scrollController,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
