@@ -40,9 +40,8 @@ Future<void> showThemeDialog(BuildContext context) async {
 }
 
 ///用户信息Dialog
-// ignore: must_be_immutable
 class AuthorDialog extends Dialog {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,48 +54,44 @@ class AuthorDialog extends Dialog {
         borderRadius: BorderRadius.circular(6),
 
         ///整体背景
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ///顶部信息
-            TopRoundWidget(),
-            Flexible(
-              child: SingleChildScrollView(
-                child: Container(
-                  color: Theme.of(context).cardColor,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ///意见反馈-发送邮件
-                      FeedbackWidget(),
+        child: Flexible(
+          child: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Container(
+              color: Theme.of(context).cardColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ///顶部信息
+                  TopRoundWidget(),
 
-                      ///检查更新
-                      UpdateWidget(),
+                  ///意见反馈-发送邮件
+                  FeedbackWidget(),
 
-                      ///应用分享
-                      ShareAppWidget(),
+                  ///检查更新
+                  UpdateWidget(),
 
-                      ///选择颜色主题
-                      ThemeWidget(),
+                  ///应用分享
+                  ShareAppWidget(),
 
-                      ///文字尺寸设置
-                      FontSizeWidget(),
+                  ///选择颜色主题
+                  ThemeWidget(),
 
-                      ///赞赏开发者
-                      AppreciateWidget(),
+                  ///文字尺寸设置
+                  FontSizeWidget(),
 
-                      ///版权申明
-                      CopyrightWidget(
-                        scrollController: _scrollController,
-                      ),
-                    ],
+                  ///赞赏开发者
+                  AppreciateWidget(),
+
+                  ///版权申明
+                  CopyrightWidget(
+                    scrollController: _scrollController,
                   ),
-                ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
