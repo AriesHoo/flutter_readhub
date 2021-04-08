@@ -31,14 +31,9 @@ class ArticleHttp extends BasisHttp {
 
 class ApiInterceptor extends InterceptorsWrapper {
   @override
-  onRequest(RequestOptions options) async {
+  onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     LogUtil.v('---article-request--->url--> ${options.baseUrl}${options.path}' +
         ' queryParameters: ${options.queryParameters}');
-    return options;
-  }
-
-  @override
-  Future onResponse(Response response) {
-    return super.onResponse(response);
+    super.onRequest(options, handler);
   }
 }

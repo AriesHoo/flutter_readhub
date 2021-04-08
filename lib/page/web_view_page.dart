@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
-import 'package:flutter_share_plugin/flutter_share_plugin.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -92,7 +92,7 @@ class _WebViewPageState extends State<WebViewPage> {
               icon: Icon(Icons.share),
               tooltip: StringHelper.getS().share,
               onPressed: () async {
-                await FlutterShare.shareText(
+                await Share.share(
                     StringHelper.getS().saveImageShareTip + "   " + widget.url);
               },
             ),

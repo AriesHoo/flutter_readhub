@@ -14,7 +14,7 @@ description: A new Flutter Readhub application.
 version: 1.2.3+7
 
 environment:
-  sdk: ">=2.9.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -35,29 +35,30 @@ dependencies:
   # WebView
   webview_flutter: ^2.0.4
   #  网络请求相关dio
-  dio: ^3.0.10
+  dio: ^4.0.0
   #  加载网络图片
-  cached_network_image: ^2.5.1
+  cached_network_image: ^3.0.0
   synchronized: ^3.0.0
   #  下拉刷新
   pull_to_refresh: ^1.6.4
   #  本地缓存sp
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.5
   #用于做骨架屏-闪光效果
-  shimmer: ^1.1.2
+  shimmer: ^2.0.0-nullsafety.0
   #跳转系统浏览器/打电话等
   url_launcher: ^6.0.3
   #二维码-生成
   qr_flutter: ^4.0.0
   #工具类
-  flustars: ^0.3.3
+  flustars: ^2.0.1
   #动态权限申请
-  permission_handler: ^5.0.1
+  permission_handler: ^6.1.1
   #文件路径
-  path_provider: ^1.6.28
+  path_provider: ^2.0.1
   #分享文字及文件-注意保存文件位置
   #注意0.1.2以后的版本分享图片微信提示获取资源失败，分享到其它平台正常
-  flutter_share_plugin: 0.1.2
+#  flutter_share_plugin: 0.1.2
+  share: ^2.0.1
 
 dev_dependencies:
   flutter_test:

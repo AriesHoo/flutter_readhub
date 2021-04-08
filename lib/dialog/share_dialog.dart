@@ -14,9 +14,9 @@ import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
-import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
 
 ///弹出分享提示框
 Future<void> showShareArticleDialog(
@@ -341,12 +341,7 @@ class SaveImageToGallery {
       {bool share: false}) async {
     if (fileImage != null && fileImage.isNotEmpty) {
       if (share) {
-//        ShareExtend.share(fileImage, 'image',
-//            subject: StringHelper.getS().saveImageShareTip);
-        FlutterShare.shareFileWithText(
-          filePath: fileImage,
-          textContent: StringHelper.getS().saveImageShareTip,
-        );
+        Share.shareFiles([fileImage], text: 'text', subject: 'subject');
       } else {
         ToastUtil.show(
           StringHelper.getS().saveImageSucceedInGallery,
