@@ -19,7 +19,7 @@ class RouterManager {
           builder: (context) => HomePage(),
         );
       case RouteName.web_view_page:
-        var model = settings.arguments as String;
+        var model = settings.arguments as String?;
         return MaterialPageRoute(
 //          fullscreenDialog: true,
           builder: (context) => WebViewPage(

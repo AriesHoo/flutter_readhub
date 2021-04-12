@@ -4,14 +4,14 @@ import 'package:flutter_readhub/view_model/theme_view_model.dart';
 ///TabBar效果
 class TabBarWidget extends StatelessWidget {
   const TabBarWidget({
-    Key key,
+    Key? key,
     this.labels,
     this.controller,
     this.onTap,
   }) : super(key: key);
-  final List labels;
-  final TabController controller;
-  final ValueChanged<int> onTap;
+  final List? labels;
+  final TabController? controller;
+  final ValueChanged<int>? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ class TabBarWidget extends StatelessWidget {
       controller: controller,
       onTap: onTap,
       tabs: List.generate(
-          labels.length,
+          labels!.length,
               (i) => Tab(
               child: Text(
-                labels[i],
+                labels![i],
                 softWrap: false,
                 overflow: TextOverflow.fade,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
@@ -41,11 +41,11 @@ class TabBarWidget extends StatelessWidget {
       indicatorSize: TabBarIndicatorSize.label,
 
       ///选中label颜色
-      labelColor: Theme.of(context).textTheme.headline6.color,
+      labelColor: Theme.of(context).textTheme.headline6!.color,
 
       ///未选择label颜色
       unselectedLabelColor:
-      Theme.of(context).textTheme.headline6.color.withOpacity(0.6),
+      Theme.of(context).textTheme.headline6!.color!.withOpacity(0.6),
     );
   }
 }

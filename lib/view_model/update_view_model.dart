@@ -11,19 +11,19 @@ import 'package:url_launcher/url_launcher.dart';
 
 ///检查更新
 class UpdateViewModel extends BasisViewModel {
-  static String _appVersion;
+  static String? _appVersion;
 
-  static String get appVersion => _appVersion != null ? _appVersion : "";
+  static String? get appVersion => _appVersion != null ? _appVersion : "";
 
-  static String _appVersionCode;
+  static String? _appVersionCode;
 
-  static String get appVersionCode =>
+  static String? get appVersionCode =>
       _appVersionCode != null ? _appVersionCode : '-1';
 
   ///检查新版本
-  Future<AppUpdateModel> checkUpdate(BuildContext context,
+  Future<AppUpdateModel?> checkUpdate(BuildContext context,
       {bool showError = false}) async {
-    AppUpdateModel appModel;
+    AppUpdateModel? appModel;
     setLoading();
     try {
       appModel = await UpdateRepository.checkUpdate();
@@ -53,11 +53,11 @@ class UpdateViewModel extends BasisViewModel {
   }
 
   ///弹出升级新版本Dialog
-  Future<void> showUpdateDialog(BuildContext context, AppUpdateModel info,
+  Future<void> showUpdateDialog(BuildContext context, AppUpdateModel? info,
       {bool background = true}) async {
-    if (info == null || !info.buildHaveNewVersion) {
+    if (info == null || !info.buildHaveNewVersion!) {
       if (!background) {
-        ToastUtil.show(StringHelper.getS().currentIsNew);
+        ToastUtil.show(StringHelper.getS()!.currentIsNew);
       }
       return;
     }
@@ -71,18 +71,18 @@ class UpdateViewModel extends BasisViewModel {
             children: [
               TextSpan(
                   text: '\n系统自带浏览器打开',
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
                         color: Theme.of(context).accentColor,
                         fontSize: 13,
                       ))
             ]),
       ),
       content: info.buildUpdateDescription,
-      cancel: StringHelper.getS().updateNextTime,
-      ensure: StringHelper.getS().updateNow,
+      cancel: StringHelper.getS()!.updateNextTime,
+      ensure: StringHelper.getS()!.updateNow,
     ).then((index) {
       if (index == 1) {
-        launch(info.downloadURL);
+        launch(info.downloadURL!);
       }
     });
   }

@@ -30,11 +30,11 @@ abstract class BasisHttp extends DioForNative {
 /// 添加常用Header
 class HeaderInterceptor extends InterceptorsWrapper {
   @override
-  onRequest(RequestOptions options) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.connectTimeout = 1000 * 15;
     options.receiveTimeout = 1000 * 15;
     options.responseType = ResponseType.json;
     options.contentType = Headers.jsonContentType;
-    return options;
+    super.onRequest(options, handler);
   }
 }

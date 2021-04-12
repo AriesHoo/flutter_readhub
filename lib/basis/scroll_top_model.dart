@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ScrollTopModel with ChangeNotifier {
   ScrollController _scrollController;
 
-  double _height;
+  late double _height;
 
   bool _showTopBtn = false;
 
@@ -17,6 +17,7 @@ class ScrollTopModel with ChangeNotifier {
     _height = height;
   }
 
+  static  ScrollTopModel defaultTopModel() =>ScrollTopModel(ScrollController(), height: 400);
   ///初始化滚动监听-一般在initState
   initListener() {
     _scrollController.addListener(() {
@@ -29,7 +30,7 @@ class ScrollTopModel with ChangeNotifier {
   }
 
   ///滚动到某个位置
-  scrollTo({double offset, Duration duration, Curve curve}) {
+  scrollTo({double? offset, Duration? duration, Curve? curve}) {
    LogUtil.v("_scrollController.hasClients${_scrollController.hasClients}");
     if (!_scrollController.hasClients) {
       return;

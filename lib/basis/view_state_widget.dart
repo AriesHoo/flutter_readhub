@@ -12,8 +12,6 @@ class LoadingStateWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(6),
         child: Container(
-//          color: Theme.of(context).hintColor.withOpacity(0.5),
-          color: Color(0x60000000),
           padding: EdgeInsets.all(20),
           child: CupertinoActivityIndicator(
             radius: 12,
@@ -26,31 +24,31 @@ class LoadingStateWidget extends StatelessWidget {
 
 /// 基础Widget
 class ViewStateWidget extends StatelessWidget {
-  final String title;
-  final String message;
-  final Widget image;
-  final Widget buttonText;
-  final String buttonTextData;
+  final String? title;
+  final String? message;
+  final Widget? image;
+  final Widget? buttonText;
+  final String? buttonTextData;
   final VoidCallback onPressed;
 
   ViewStateWidget(
-      {Key key,
+      {Key? key,
       this.image,
       this.title,
       this.message,
       this.buttonText,
-      @required this.onPressed,
+      required this.onPressed,
       this.buttonTextData})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var titleStyle = Theme.of(context).textTheme.subhead.copyWith(
+    var titleStyle = Theme.of(context).textTheme.subhead!.copyWith(
           color: Colors.grey,
           fontSize: 14,
         );
     var messageStyle = titleStyle.copyWith(
-        color: titleStyle.color.withOpacity(0.7), fontSize: 14);
+        color: titleStyle.color!.withOpacity(0.7), fontSize: 14);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +61,7 @@ class ViewStateWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                title ?? StringHelper.getS().viewStateError,
+                title ?? StringHelper.getS()!.viewStateError,
                 style: titleStyle,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
               ),
@@ -96,41 +94,41 @@ class ViewStateWidget extends StatelessWidget {
 
 ///错误视图
 class ErrorStateWidget extends StatelessWidget {
-  final ViewStateError error;
-  final String title;
-  final String message;
-  final Widget image;
-  final Widget buttonText;
-  final String buttonTextData;
+  final ViewStateError? error;
+  final String? title;
+  final String? message;
+  final Widget? image;
+  final Widget? buttonText;
+  final String? buttonTextData;
   final VoidCallback onPressed;
 
   const ErrorStateWidget({
-    Key key,
-    @required this.error,
+    Key? key,
+    required this.error,
     this.image,
     this.title,
     this.message,
     this.buttonText,
     this.buttonTextData,
-    @required this.onPressed,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var defaultImage;
     var defaultTitle;
-    var errorMessage = error.message;
-    String defaultTextData = StringHelper.getS().viewStateRetry;
-    switch (error.errorType) {
+    var errorMessage = error!.message;
+    String defaultTextData = StringHelper.getS()!.viewStateRetry;
+    switch (error!.errorType) {
       case ErrorType.network:
         defaultImage =
             const Icon(Icons.network_check, size: 80, color: Colors.grey);
-        defaultTitle = StringHelper.getS().viewStateNetworkError;
+        defaultTitle = StringHelper.getS()!.viewStateNetworkError;
         errorMessage = ''; // 网络异常移除message提示
         break;
       case ErrorType.normal:
         defaultImage = const Icon(Icons.error, size: 80, color: Colors.grey);
-        defaultTitle = StringHelper.getS().viewStateError;
+        defaultTitle = StringHelper.getS()!.viewStateError;
         break;
     }
 
@@ -147,17 +145,17 @@ class ErrorStateWidget extends StatelessWidget {
 
 /// 页面无数据
 class EmptyStateWidget extends StatelessWidget {
-  final String message;
-  final Widget image;
-  final Widget buttonText;
+  final String? message;
+  final Widget? image;
+  final Widget? buttonText;
   final VoidCallback onPressed;
 
   const EmptyStateWidget(
-      {Key key,
+      {Key? key,
       this.image,
       this.message,
       this.buttonText,
-      @required this.onPressed})
+      required this.onPressed})
       : super(key: key);
 
   @override
@@ -166,9 +164,9 @@ class EmptyStateWidget extends StatelessWidget {
       onPressed: this.onPressed,
       image: image ??
           const Icon(Icons.hourglass_empty, size: 100, color: Colors.grey),
-      title: message ?? StringHelper.getS().viewStateEmpty,
+      title: message ?? StringHelper.getS()!.viewStateEmpty,
       buttonText: buttonText,
-      buttonTextData: StringHelper.getS().viewStateRefresh,
+      buttonTextData: StringHelper.getS()!.viewStateRefresh,
     );
   }
 }
@@ -176,10 +174,10 @@ class EmptyStateWidget extends StatelessWidget {
 /// 公用Button
 class ViewStateButton extends StatelessWidget {
   final VoidCallback onPressed;
-  final Widget child;
-  final String textData;
+  final Widget? child;
+  final String? textData;
 
-  const ViewStateButton({@required this.onPressed, this.child, this.textData})
+  const ViewStateButton({required this.onPressed, this.child, this.textData})
       : assert(child == null || textData == null);
 
   @override
@@ -187,9 +185,9 @@ class ViewStateButton extends StatelessWidget {
     return OutlineButton(
       child: child ??
           Text(
-            textData ?? StringHelper.getS().viewStateRetry,
+            textData ?? StringHelper.getS()!.viewStateRetry,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
+            style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
           ),
       textColor: Colors.grey,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),

@@ -7,14 +7,14 @@ class SkeletonBox extends StatelessWidget {
   final double width;
   final double height;
   final bool isCircle;
-  final BorderRadiusGeometry borderRadius;
+  final BorderRadiusGeometry? borderRadius;
 
   final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry padding;
 
   SkeletonBox({
-    @required this.width,
-    @required this.height,
+    required this.width,
+    required this.height,
     this.isCircle: false,
     this.borderRadius,
     this.margin: const EdgeInsets.all(0),
@@ -45,7 +45,7 @@ class SkeletonDecoration extends BoxDecoration {
     isDark: false,
 
     ///圆角
-    BorderRadiusGeometry borderRadius,
+    BorderRadiusGeometry? borderRadius,
   }) : super(
     color: !isDark ? Colors.grey[350] : Colors.grey[700],
     borderRadius: borderRadius ?? BorderRadius.circular(0),
@@ -65,13 +65,13 @@ class SkeletonList extends StatelessWidget {
   final IndexedWidgetBuilder builder;
 
   ///基础颜色
-  final Color baseColor;
+  final Color? baseColor;
 
   ///高亮颜色
-  final Color highlightColor;
+  final Color? highlightColor;
 
   SkeletonList({
-    @required this.builder,
+    required this.builder,
     this.length: 10,
     this.horizontal: false,
     this.baseColor,
@@ -85,9 +85,9 @@ class SkeletonList extends StatelessWidget {
     return Shimmer.fromColors(
       period: Duration(milliseconds: 1000),
       baseColor:
-      baseColor ?? (ThemeViewModel.darkMode ? color[700] : color[350]),
+      baseColor ?? (ThemeViewModel.darkMode ? color[700]! : color[350]!),
       highlightColor: highlightColor ??
-          (ThemeViewModel.darkMode ? color[500] : color[200]),
+          (ThemeViewModel.darkMode ? color[500]! : color[200]!),
       child: ListView.builder(
         padding: padding,
         itemBuilder: builder,

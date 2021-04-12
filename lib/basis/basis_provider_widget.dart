@@ -16,13 +16,13 @@ import 'view_state_widget.dart';
 class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   final ValueWidgetBuilder<T> builder;
   final T model;
-  final Widget child;
-  final Function(T) onModelReady;
+  final Widget? child;
+  final Function(T)? onModelReady;
 
   BasisProviderWidget({
-    Key key,
-    @required this.builder,
-    @required this.model,
+    Key? key,
+    required this.builder,
+    required this.model,
     this.child,
     this.onModelReady,
   }) : super(key: key);
@@ -32,7 +32,7 @@ class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
 
 class _BasisProviderWidgetState<T extends ChangeNotifier>
     extends State<BasisProviderWidget<T>> {
-  T model;
+  late T model;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _BasisProviderWidgetState<T extends ChangeNotifier>
 
   @override
   void dispose() {
-    model?.dispose();
+    model.dispose();
     super.dispose();
   }
 
@@ -63,14 +63,14 @@ class _BasisProviderWidgetState<T extends ChangeNotifier>
 class BasisListProviderWidget<T extends BasisListViewModel>
     extends BasisProviderWidget<T> {
   BasisListProviderWidget({
-    Key key,
-    @required ValueWidgetBuilder<T> builder,
-    @required T model,
-    Function(T) onModelReady,
-    ValueWidgetBuilder<T> loadingBuilder,
-    ValueWidgetBuilder<T> emptyBuilder,
-    ValueWidgetBuilder<T> errorBuilder,
-    Widget child,
+    Key? key,
+    required ValueWidgetBuilder<T> builder,
+    required T model,
+    Function(T)? onModelReady,
+    ValueWidgetBuilder<T>? loadingBuilder,
+    ValueWidgetBuilder<T>? emptyBuilder,
+    ValueWidgetBuilder<T>? errorBuilder,
+    Widget? child,
   }) : super(
             key: key,
             model: model,
@@ -87,7 +87,9 @@ class BasisListProviderWidget<T extends BasisListViewModel>
               } else if (model.empty) {
                 return emptyBuilder != null
                     ? emptyBuilder(context, model, child)
-                    : EmptyStateWidget();
+                    : EmptyStateWidget(
+                        onPressed: model.initData,
+                      );
               } else if (model.error && model.list.isEmpty) {
                 return errorBuilder != null
                     ? errorBuilder(context, model, child)
@@ -102,23 +104,24 @@ class BasisListProviderWidget<T extends BasisListViewModel>
 class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
     B extends ScrollTopModel> extends BasisProviderWidget2<A, B> {
   BasisRefreshListProviderWidget({
-    Key key,
-    @required
-        Widget Function(BuildContext context, A model, int index) itemBuilder,
-    @required A model1,
-    @required B model2,
-    Function(A, B) onModelReady,
-    Function(BuildContext context, A model1, B model2, Widget child)
+    Key? key,
+    required Widget Function(BuildContext context, A model, int index)
+        itemBuilder,
+    required A model1,
+    required B model2,
+    Function(A, B)? onModelReady,
+    Widget Function(BuildContext context, A model1, B model2, Widget? child)?
         loadingBuilder,
-    Function(BuildContext context, A model1, B model2, Widget child)
+    Widget Function(BuildContext context, A model1, B model2, Widget? child)?
         emptyBuilder,
-    Function(BuildContext context, A model1, B model2, Widget child)
+    Widget Function(BuildContext context, A model1, B model2, Widget? child)?
         errorBuilder,
-    Widget child,
+    Widget? child,
   }) : super(
             key: key,
             model1: model1,
-            model2: model2 ?? ScrollTopModel(ScrollController(), height: 400),
+            // model2: model2 ?? ScrollTopModel(ScrollController(), height: 400),
+            model2: model2,
             child: child,
             onModelReady: (model1, model2) {
               ///加载数据
@@ -130,20 +133,24 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
               ///初始化完成回调
               onModelReady?.call(model1, model2);
             },
-            builder: (context, model, model2, child) {
-              if (model.loading) {
+            builder: (context, m1, m2, child) {
+              if (m1.loading) {
                 return loadingBuilder != null
-                    ? loadingBuilder(context, model, model2, child)
+                    ? loadingBuilder(context, m1, m2, child)
                     : LoadingStateWidget();
-              } else if (model.empty) {
+              } else if (m1.empty) {
                 return emptyBuilder != null
-                    ? emptyBuilder(context, model, model2, child)
-                    : EmptyStateWidget();
-              } else if (model.error && model.list.isEmpty) {
+                    ? emptyBuilder(context, m1, m2, child!)
+                    : EmptyStateWidget(
+                        onPressed: m1.initData,
+                      );
+              } else if (m1.error && m1.list.isEmpty) {
                 return errorBuilder != null
-                    ? errorBuilder(context, model, model2, child)
+                    ? errorBuilder(context, m1, m2, child!)
                     : ErrorStateWidget(
-                        error: model.viewStateError, onPressed: model.initData);
+                        error: m1.viewStateError,
+                        onPressed: m1.initData,
+                      );
               }
 
               ///加载成功后
@@ -160,13 +167,13 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   footer: SmartLoadFooterWidget(),
 
                   ///下拉刷新监听
-                  onRefresh: model.refresh,
+                  onRefresh: m1.refresh,
 
                   ///上拉加载更多监听
-                  onLoading: model.loadMore,
+                  onLoading: m1.loadMore,
 
                   ///刷新控制器
-                  controller: model.refreshController,
+                  controller: m1.refreshController,
 
                   ///子控件ListView
                   child: ListView.builder(
@@ -176,9 +183,9 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                     ///内容适配
                     shrinkWrap: true,
 //                    physics: ClampingScrollPhysics(),
-                    itemCount: model.list.length,
+                    itemCount: m1.list.length,
                     itemBuilder: (context, index) {
-                      return itemBuilder(context, model, index);
+                      return itemBuilder(context, m1, index);
                     },
                   ),
                 ),
@@ -186,12 +193,14 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                     !model2.showTopBtn || ThemeViewModel.hideFloatingButton
                         ? null
                         : FloatingActionButton(
-                            tooltip: StringHelper.getS().tooltipScrollTop,
+                            tooltip: StringHelper.getS()!.tooltipScrollTop,
                             child: Icon(
                               Icons.vertical_align_top,
                               color: Colors.white,
                             ),
-                            onPressed: () => model2?.scrollTo(),
+                            onPressed: () {
+                              model2.scrollTo();
+                            },
                           ),
               );
             });
@@ -199,18 +208,18 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
 
 class BasisProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
     extends StatefulWidget {
-  final Widget Function(BuildContext context, A model1, B model2, Widget child)
+  final Widget Function(BuildContext context, A model1, B model2, Widget? child)
       builder;
   final A model1;
   final B model2;
-  final Widget child;
-  final Function(A, B) onModelReady;
+  final Widget? child;
+  final Function(A, B)? onModelReady;
 
   BasisProviderWidget2({
-    Key key,
-    @required this.builder,
-    @required this.model1,
-    @required this.model2,
+    Key? key,
+    required this.builder,
+    required this.model1,
+    required this.model2,
     this.child,
     this.onModelReady,
   }) : super(key: key);
@@ -221,8 +230,8 @@ class BasisProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
 
 class _BasisProviderWidgetState2<A extends ChangeNotifier,
     B extends ChangeNotifier> extends State<BasisProviderWidget2<A, B>> {
-  A model1;
-  B model2;
+  late A model1;
+  late B model2;
 
   @override
   void initState() {
@@ -234,8 +243,8 @@ class _BasisProviderWidgetState2<A extends ChangeNotifier,
 
   @override
   void dispose() {
-    model1?.dispose();
-    model2?.dispose();
+    model1.dispose();
+    model2.dispose();
     super.dispose();
   }
 
@@ -259,11 +268,11 @@ class SmartLoadFooterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomFooter(
       height: 50,
-      builder: (BuildContext context, LoadStatus mode) {
+      builder: (BuildContext context, LoadStatus? mode) {
         Widget body;
         if (mode == LoadStatus.idle) {
           body = Text(
-            StringHelper.getS().loadIdle,
+            StringHelper.getS()!.loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
@@ -271,19 +280,19 @@ class SmartLoadFooterWidget extends StatelessWidget {
           body = CupertinoActivityIndicator();
         } else if (mode == LoadStatus.failed) {
           body = Text(
-            StringHelper.getS().loadFailed,
+            StringHelper.getS()!.loadFailed,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.canLoading) {
           body = Text(
-            StringHelper.getS().loadIdle,
+            StringHelper.getS()!.loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else {
           body = Text(
-            StringHelper.getS().loadNoMore,
+            StringHelper.getS()!.loadNoMore,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );

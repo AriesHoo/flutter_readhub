@@ -19,7 +19,7 @@ import 'package:oktoast/oktoast.dart';
 
 ///主页面
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,11 +37,11 @@ class _HomePageState extends State<HomePage>
 
   ///tab栏
   var _listTab = ["热门话题", "科技动态", "开发者资讯", "区块链"];
-  TabController _tabController;
-  ValueChanged<int> _onTabTap;
+  TabController? _tabController;
+  ValueChanged<int>? _onTabTap;
 
   ///上次点击时间
-  DateTime _lastPressedAt;
+  DateTime? _lastPressedAt;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage>
   ///深色浅色模式切换
   void switchDarkMode(BuildContext context) {
     if (ThemeViewModel.platformDarkMode) {
-      ToastUtil.show(StringHelper.getS().tipSwitchThemeWhenPlatformDark);
+      ToastUtil.show(StringHelper.getS()!.tipSwitchThemeWhenPlatformDark);
     } else {
       ProviderHelper.of<ThemeViewModel>(context).switchTheme(
           userDarkMode: Theme.of(context).brightness == Brightness.light);
@@ -80,11 +80,11 @@ class _HomePageState extends State<HomePage>
     return WillPopScope(
       onWillPop: () async {
         if (_lastPressedAt == null ||
-            DateTime.now().difference(_lastPressedAt) >
+            DateTime.now().difference(_lastPressedAt!) >
                 Duration(milliseconds: 1500)) {
           ///两次点击间隔超过阈值则重新计时
           _lastPressedAt = DateTime.now();
-          ToastUtil.show(StringHelper.getS().quitApp,
+          ToastUtil.show(StringHelper.getS()!.quitApp,
               position: ToastPosition.bottom,
               duration: Duration(milliseconds: 1500));
           return false;
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>
             title: Image.asset(
               'assets/images/title.png',
               width: 108,
-              color: Theme.of(context).appBarTheme.iconTheme.color,
+              color: Theme.of(context).appBarTheme.iconTheme!.color,
               fit: BoxFit.fill,
               filterQuality: FilterQuality.high,
               colorBlendMode: BlendMode.srcIn,
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage>
               AnimatedSwitcherIconWidget(
                 defaultIcon: Icons.info,
                 switchIcon: Icons.info_outline,
-                tooltip: StringHelper.getS().moreSetting,
+                tooltip: StringHelper.getS()!.moreSetting,
                 onPressed: () => showAuthorDialog(context),
                 checkTheme: true,
               ),
@@ -121,8 +121,8 @@ class _HomePageState extends State<HomePage>
                 defaultIcon: Icons.brightness_2,
                 switchIcon: Icons.brightness_5,
                 tooltip: ThemeViewModel.darkMode
-                    ? StringHelper.getS().lightMode
-                    : StringHelper.getS().darkMode,
+                    ? StringHelper.getS()!.lightMode
+                    : StringHelper.getS()!.darkMode,
                 onPressed: () => switchDarkMode(context),
               ),
             ],

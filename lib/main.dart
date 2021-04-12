@@ -133,7 +133,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
     super.initState();
 
     ///添加监听用于监控前后台转换
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -187,7 +187,7 @@ class _SplashPageState extends State<SplashPage> {
             'assets/images/ic_slogan.webp',
             width: 205,
             height: 205 * 140 / 815,
-            color: Theme.of(context).textTheme.title.color,
+            color: Theme.of(context).textTheme.title!.color,
           ),
           SizedBox(
             height: 160,
@@ -205,7 +205,7 @@ class _SplashPageState extends State<SplashPage> {
               'assets/images/ic_powered.webp',
               width: 110,
               height: 110 * 100 / 436,
-              color: Theme.of(context).textTheme.headline6.color,
+              color: Theme.of(context).textTheme.headline6!.color,
             ),
           ),
           SizedBox(

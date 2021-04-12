@@ -5,16 +5,16 @@ import 'package:flutter_readhub/model/article_model.dart';
 
 ///获取资讯列表Model
 class ArticleViewModel extends BasisRefreshListViewModel<ArticleItemModel> {
-  String lastCursor;
-  String url;
+  String? lastCursor;
+  String? url;
 
   ArticleViewModel(this.url);
 
   @override
-  Future<List<ArticleItemModel>> loadData({int pageNum}) async {
+  Future<List<ArticleItemModel>?> loadData({int? pageNum}) async {
     ///第一页将游标重置
     lastCursor = pageNum == 0 ? null : lastCursor;
-    ArticleModel model = await ArticleRepository.getArticleList(url,
+    ArticleModel model = await ArticleRepository.getArticleList(url!,
         lastCursor: lastCursor, pageSize: pageSize);
     lastCursor = model.getLastCursor();
 

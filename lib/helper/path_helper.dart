@@ -24,7 +24,7 @@ class PathHelper {
     final directory = Platform.isAndroid
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();
-    return directory.path;
+    return directory!.path;
   }
 
   /// 斜杠'/'打头

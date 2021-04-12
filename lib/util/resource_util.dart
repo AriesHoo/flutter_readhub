@@ -16,8 +16,8 @@ class Decorations {
   ///添加边缘线
   static BoxBorder lineBoxBorder(
     BuildContext context, {
-    double width,
-    Color color,
+    double? width,
+    Color? color,
     bool left: false,
     bool top: false,
     bool right: false,

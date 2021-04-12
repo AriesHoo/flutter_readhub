@@ -1,15 +1,15 @@
 /// CheckApp更新接口
 class AppUpdateModel {
-  String buildBuildVersion;
-  bool buildHaveNewVersion;
-  String buildShortcutUrl;
-  String buildUpdateDescription;
-  String buildVersion;
-  String buildVersionNo;
-  String downloadURL;
-  String forceUpdateVersion;
-  String forceUpdateVersionNo;
-  bool needForceUpdate;
+  String? buildBuildVersion;
+  bool? buildHaveNewVersion;
+  String? buildShortcutUrl;
+  String? buildUpdateDescription;
+  String? buildVersion;
+  String? buildVersionNo;
+  String? downloadURL;
+  String? forceUpdateVersion;
+  String? forceUpdateVersionNo;
+  bool? needForceUpdate;
 
   AppUpdateModel(
       {this.buildBuildVersion,

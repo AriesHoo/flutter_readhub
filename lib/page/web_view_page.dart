@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
-import 'package:flutter_share_plugin/flutter_share_plugin.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -11,21 +11,21 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebViewPage extends StatefulWidget {
   const WebViewPage(
     this.url, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  final String url;
+  final String? url;
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   ValueNotifier _getTitle = ValueNotifier("...");
   ValueNotifier _getProgress = ValueNotifier(true);
-  String _currentUrl;
-  String _title;
+  String? _currentUrl;
+  String? _title;
 
   _launchURL(String url) async {
     try {
@@ -33,26 +33,26 @@ class _WebViewPageState extends State<WebViewPage> {
       if (can) {
         await launch(url);
       } else {
-        await launch(await _webViewController.currentUrl());
+        await launch((await _webViewController.currentUrl())!);
       }
     } catch (e) {
      LogUtil.v('_launchURL:$e');
-      await launch(await _webViewController.currentUrl());
+      await launch((await _webViewController.currentUrl())!);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _title = _title == null || _title.isEmpty
-        ? StringHelper.getS().loadingWebTitle
+    _title = _title == null || _title!.isEmpty
+        ? StringHelper.getS()!.loadingWebTitle
         : _title;
     return WillPopScope(
       onWillPop: () async {
-        String currentUrl = await _webViewController.currentUrl();
+        String? currentUrl = await _webViewController.currentUrl();
         bool canGoBack = await _webViewController.canGoBack();
         if (canGoBack) {
           _webViewController.goBack();
-          String current = await _webViewController.currentUrl();
+          String? current = await _webViewController.currentUrl();
 
           ///回退后当前url和回退前url一致直接退出页面
           if (currentUrl == current) {
@@ -74,8 +74,8 @@ class _WebViewPageState extends State<WebViewPage> {
           ),
           title: ValueListenableBuilder(
             valueListenable: _getTitle,
-            builder: (context, title, child) => Text(
-              _title,
+            builder: (context, dynamic title, child) => Text(
+              _title!,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -83,17 +83,17 @@ class _WebViewPageState extends State<WebViewPage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.language),
-              tooltip: StringHelper.getS().openBySystemBrowser,
+              tooltip: StringHelper.getS()!.openBySystemBrowser,
               onPressed: () async {
-                await launch(widget.url);
+                await launch(widget.url!);
               },
             ),
             IconButton(
               icon: Icon(Icons.share),
-              tooltip: StringHelper.getS().share,
+              tooltip: StringHelper.getS()!.share,
               onPressed: () async {
-                await FlutterShare.shareText(
-                    StringHelper.getS().saveImageShareTip + "   " + widget.url);
+                await Share.share(
+                    StringHelper.getS()!.saveImageShareTip + "   " + widget.url!);
               },
             ),
           ],
@@ -103,7 +103,7 @@ class _WebViewPageState extends State<WebViewPage> {
             /// 模糊进度条(会执行一个动画)
             ValueListenableBuilder(
               valueListenable: _getProgress,
-              builder: (context, loading, child) {
+              builder: (context, dynamic loading, child) {
                 return Container(
                   height: loading ? 2 : 0,
                   child: LinearProgressIndicator(
@@ -145,7 +145,7 @@ class _WebViewPageState extends State<WebViewPage> {
                     web.currentUrl().then((url) {
                       ///返回当前url
                       _currentUrl = url;
-                      debugPrint("_currentUrl:" + _currentUrl);
+                      debugPrint("_currentUrl:" + _currentUrl!);
                     });
                   },
                   onPageFinished: (String value) async {
@@ -170,7 +170,7 @@ class _WebViewPageState extends State<WebViewPage> {
   void refreshNavigator() {
     _webViewController.getTitle().then((title) {
       _getProgress.value = title == null || title.isEmpty;
-     LogUtil.v("getTitle:" + title);
+     LogUtil.v("getTitle:" + title!);
       _title = title != null && title.isNotEmpty ? title : _title;
       return _getTitle.value = title;
     });

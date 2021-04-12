@@ -14,9 +14,9 @@ import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
-import 'package:flutter_share_plugin/flutter_share_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
 
 ///弹出分享提示框
 Future<void> showShareArticleDialog(
@@ -29,7 +29,7 @@ Future<void> showShareArticleDialog(
           data.getSummary(),
           data.getScanNote(),
           data.getUrl(),
-          StringHelper.getS().saveImageShareTip,
+          StringHelper.getS()!.saveImageShareTip,
           data.getFileName());
     },
   );
@@ -47,13 +47,13 @@ Future<void> showShareAppDialog(BuildContext context, Dialog dialog) async {
 
 ///分享Dialog
 class ShareDialog extends Dialog {
-  final String title;
+  final String? title;
   final String summary;
   final String notice;
-  final String url;
+  final String? url;
   final String bottomNotice;
-  final String fileName;
-  final Widget summaryWidget;
+  final String? fileName;
+  final Widget? summaryWidget;
 
   ShareDialog(
     this.title,
@@ -109,7 +109,7 @@ class ShareDialog extends Dialog {
                 hoverElevation: 0,
                 focusElevation: 0,
                 disabledElevation: 0,
-                tooltip: StringHelper.getS().share,
+                tooltip: StringHelper.getS()!.share,
                 backgroundColor: Colors.blue,
                 splashColor: Colors.white.withAlpha(50),
                 child: Icon(
@@ -136,7 +136,7 @@ class ShareDialog extends Dialog {
                       hoverElevation: 0,
                       focusElevation: 0,
                       disabledElevation: 0,
-                      tooltip: StringHelper.getS().downloadImage,
+                      tooltip: StringHelper.getS()!.downloadImage,
                       backgroundColor: Colors.red,
                       splashColor: Colors.white.withAlpha(50),
                       child: Icon(
@@ -160,13 +160,13 @@ class ShareDialog extends Dialog {
 ///https://blog.csdn.net/u014449046/article/details/98471268
 ///https://www.cnblogs.com/wupeng88/p/10797667.html
 class ShotImageWidget extends StatelessWidget {
-  final String title;
+  final String? title;
   final String summary;
   final String notice;
-  final String url;
+  final String? url;
   final String bottomNotice;
   final GlobalKey globalKey;
-  final Widget summaryWidget;
+  final Widget? summaryWidget;
 
   ShotImageWidget(this.title, this.summary, this.notice, this.url,
       this.bottomNotice, this.globalKey,
@@ -196,10 +196,10 @@ class ShotImageWidget extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Text(
-                      title,
+                      title!,
                       textScaleFactor: ThemeViewModel.textScaleFactor,
                       textAlign: TextAlign.justify,
-                      style: Theme.of(context).textTheme.headline6.copyWith(
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
                             fontWeight: FontWeight.bold,
                             letterSpacing: prefix0.letterSpacing,
                             fontSize: 17,
@@ -253,14 +253,14 @@ class ShotImageWidget extends StatelessWidget {
                               maxLines: 12,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline6
+                                  .headline6!
                                   .copyWith(
                                     fontSize: 13,
                                     letterSpacing: letterSpacing,
                                     color: Theme.of(context)
                                         .textTheme
-                                        .headline6
-                                        .color
+                                        .headline6!
+                                        .color!
                                         .withOpacity(0.8),
                                   ),
                             ),
@@ -280,7 +280,7 @@ class ShotImageWidget extends StatelessWidget {
                             textScaleFactor: ThemeViewModel.textScaleFactor,
                             textAlign: TextAlign.start,
                             style:
-                                Theme.of(context).textTheme.headline6.copyWith(
+                                Theme.of(context).textTheme.headline6!.copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                     ),
@@ -289,12 +289,12 @@ class ShotImageWidget extends StatelessWidget {
 
                         ///右侧二维码
                         QrImage(
-                          data: url,
+                          data: url!,
                           padding: EdgeInsets.all(2),
                           version: QrVersions.auto,
                           size: 64,
                           foregroundColor:
-                              Theme.of(context).textTheme.headline6.color,
+                              Theme.of(context).textTheme.headline6!.color,
                           backgroundColor: Theme.of(context).cardColor,
                         ),
                       ],
@@ -312,7 +312,7 @@ class ShotImageWidget extends StatelessWidget {
                 bottomNotice,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.caption.copyWith(
+                style: Theme.of(context).textTheme.caption!.copyWith(
                       fontSize: 10,
                     ),
               )
@@ -327,8 +327,8 @@ class ShotImageWidget extends StatelessWidget {
 ///保存图片到系统相册
 class SaveImageToGallery {
   ///已保存图片的路径
-  String fileImage;
-  Uint8List pngBytes;
+  String? fileImage;
+  late Uint8List pngBytes;
 
   Future<String> getImagePath(String imageName) async {
     File fileImage = await PathHelper.getImagePath()
@@ -339,17 +339,15 @@ class SaveImageToGallery {
   ///保存图片
   void saveImage(BuildContext context, GlobalKey globalKey, String imageName,
       {bool share: false}) async {
-    if (fileImage != null && fileImage.isNotEmpty) {
+    if (fileImage != null && fileImage!.isNotEmpty) {
       if (share) {
-//        ShareExtend.share(fileImage, 'image',
-//            subject: StringHelper.getS().saveImageShareTip);
-        FlutterShare.shareFileWithText(
-          filePath: fileImage,
-          textContent: StringHelper.getS().saveImageShareTip,
+        await Share.shareFiles(
+          [fileImage!],
+          subject: StringHelper.getS()!.saveImageShareTip,
         );
       } else {
         ToastUtil.show(
-          StringHelper.getS().saveImageSucceedInGallery,
+          StringHelper.getS()!.saveImageSucceedInGallery,
         );
       }
       return;
@@ -357,7 +355,7 @@ class SaveImageToGallery {
 
     ///直接获取读写文件权限
     if (!await PermissionHelper.checkStoragePermission()) {
-      ToastUtil.show(StringHelper.getS().saveImagePermissionFailed);
+      ToastUtil.show(StringHelper.getS()!.saveImagePermissionFailed);
       await DialogUtil.showAlertDialog(context,
               title: Platform.isIOS ? 'Freadhub提示' : null,
               content: '分享功能需使用访问您的${Platform.isIOS ? '照片' : '文件读写'}权限',
@@ -371,7 +369,7 @@ class SaveImageToGallery {
       return;
     }
     RenderRepaintBoundary boundary =
-        globalKey.currentContext.findRenderObject();
+        globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
     ///弹框宽度与屏幕宽度比值避免截图出来比预览更大
     ///分辨率通过获取设备的devicePixelRatio以达到清晰度良好
@@ -379,7 +377,7 @@ class SaveImageToGallery {
         pixelRatio: (MediaQuery.of(context).devicePixelRatio));
 
     ///转二进制
-    ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+    ByteData byteData = (await image.toByteData(format: ImageByteFormat.png))!;
 
     ///图片数据
     pngBytes = byteData.buffer.asUint8List();
@@ -399,6 +397,6 @@ class SaveImageToGallery {
       saveImage(context, globalKey, imageName, share: share);
       return;
     }
-    ToastUtil.show(StringHelper.getS().saveImageFailed);
+    ToastUtil.show(StringHelper.getS()!.saveImageFailed);
   }
 }

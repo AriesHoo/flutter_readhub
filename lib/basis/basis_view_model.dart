@@ -14,7 +14,7 @@ class BasisViewModel with ChangeNotifier {
 
   /// 根据状态构造
   /// 子类可以在构造函数指定需要的页面状态
-  BasisViewModel({ViewState viewState})
+  BasisViewModel({ViewState? viewState})
       : _viewState = viewState ?? ViewState.success;
 
   ViewState get viewState => _viewState;
@@ -26,11 +26,11 @@ class BasisViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  ViewStateError _viewStateError;
+  ViewStateError? _viewStateError;
 
-  ViewStateError get viewStateError => _viewStateError;
+  ViewStateError? get viewStateError => _viewStateError;
 
-  String get errorMessage => _viewStateError?.message;
+  String? get errorMessage => _viewStateError?.message;
 
   /// 以下变量是为了代码书写方便,加入的get方法.严格意义上讲,并不严谨
 
@@ -58,7 +58,7 @@ class BasisViewModel with ChangeNotifier {
   void onUnAuthorizedException() {}
 
   /// [e]分类Error和Exception两种
-  void setError(e, stackTrace, {String message}) {
+  void setError(e, stackTrace, {String? message}) {
     ErrorType errorType = ErrorType.normal;
     if (e is DioError) {
       e = e.error;
@@ -79,15 +79,15 @@ class BasisViewModel with ChangeNotifier {
   }
 
   /// 显示错误消息
-  showErrorMessage(context, {String message}) {
+  showErrorMessage(context, {String? message}) {
     if (viewStateError != null && message != null) {
-      if (viewStateError.isNetworkError) {
-        message ??= StringHelper.getS().viewStateNetworkError;
+      if (viewStateError!.isNetworkError) {
+        message = StringHelper.getS()!.viewStateNetworkError;
       } else {
-        message ??= viewStateError.message;
+        message = viewStateError!.message;
       }
       Future.microtask(() {
-        showToast(message, context: context);
+        showToast(message!, context: context);
       });
     }
   }
