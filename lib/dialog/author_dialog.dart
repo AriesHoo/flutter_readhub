@@ -10,7 +10,9 @@ import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
+import 'package:flutter_readhub/page/card_share_page.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
@@ -280,17 +282,17 @@ class ShareAppWidget extends StatelessWidget {
           Icons.chevron_right,
           color: Theme.of(context).textTheme.caption!.color,
         ),
-        onTap: () => showShareAppDialog(
-            context,
-            ShareDialog(
-              '分享一个还不错的 Readhub 三方客户端-Freadhub',
-              'Freadhub',
-              'AriesHoo开发\n扫码查看详情',
-              'https://www.pgyer.com/ntMA',
-              StringHelper.getS()!.saveImageShareTip,
-              'shareApp',
-              summaryWidget: ShareAppSummaryWidget(),
-            )),
+        onTap: () => CardSharePage.show(
+          context,
+          CardShareModel(
+            title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
+            summary: StringHelper.getS()!.appName,
+            url: 'https://www.pgyer.com/ntMA',
+            notice: 'AriesHoo开发\n扫码查看详情',
+            bottomNotice: StringHelper.getS()!.saveImageShareTip,
+            summaryWidget: ShareAppSummaryWidget(),
+          ),
+        ),
       ),
     );
   }

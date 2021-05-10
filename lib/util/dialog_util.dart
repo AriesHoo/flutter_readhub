@@ -123,4 +123,42 @@ class DialogUtil {
       },
     );
   }
+
+  /// 底部BottomSheetDialog-少量
+  static Future showModalBottomSheetDialog(
+    BuildContext context, {
+    Widget? child,
+    IndexedWidgetBuilder? itemBuilder,
+    int count: 1,
+    Color? barrierColor,
+    Color? backgroundColor,
+    RouteSettings? settings,
+    ShapeBorder? shape,
+  }) async {
+    return await showModalBottomSheet(
+        context: context,
+        routeSettings: settings,
+        shape: shape,
+        isScrollControlled: true,
+        useRootNavigator: true,
+
+        ///背景色默认设置
+        backgroundColor: backgroundColor ?? Theme.of(context).cardColor,
+
+        ///背景蒙层颜色
+        barrierColor: barrierColor ?? Colors.black54,
+
+        ///itemBuilder
+        builder: (BuildContext context) {
+          return child ??
+              ListView.builder(
+                itemCount: count,
+                shrinkWrap: true,
+
+                ///通过控制滚动用于手指跟随
+                physics: BouncingScrollPhysics(),
+                itemBuilder: itemBuilder!,
+              );
+        });
+  }
 }

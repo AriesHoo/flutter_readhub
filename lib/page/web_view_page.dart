@@ -1,20 +1,23 @@
+import 'dart:io';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
-import 'package:share/share.dart';
+import 'package:flutter_readhub/model/share_model.dart';
+import 'package:flutter_readhub/util/share_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 ///加载网页
 class WebViewPage extends StatefulWidget {
   const WebViewPage(
-    this.url, {
+    this.model, {
     Key? key,
   }) : super(key: key);
 
-  final String? url;
+  final CardShareModel model;
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
@@ -36,16 +39,22 @@ class _WebViewPageState extends State<WebViewPage> {
         await launch((await _webViewController.currentUrl())!);
       }
     } catch (e) {
-     LogUtil.v('_launchURL:$e');
+      LogUtil.v('_launchURL:$e');
       await launch((await _webViewController.currentUrl())!);
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+    _title = widget.model.title;
+    // Enable hybrid composition.
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _title = _title == null || _title!.isEmpty
-        ? StringHelper.getS()!.loadingWebTitle
-        : _title;
+    _title = _title ?? StringHelper.getS()!.loadingWebTitle;
     return WillPopScope(
       onWillPop: () async {
         String? currentUrl = await _webViewController.currentUrl();
@@ -59,8 +68,8 @@ class _WebViewPageState extends State<WebViewPage> {
             return true;
           }
         }
-       LogUtil.v(
-            'canGoBack:$canGoBack;currentUrl:$currentUrl;url:${widget.url}');
+        LogUtil.v(
+            'canGoBack:$canGoBack;currentUrl:$currentUrl;url:${widget.model.url}');
         return !canGoBack;
 //        return true;
       },
@@ -82,19 +91,9 @@ class _WebViewPageState extends State<WebViewPage> {
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.language),
-              tooltip: StringHelper.getS()!.openBySystemBrowser,
-              onPressed: () async {
-                await launch(widget.url!);
-              },
-            ),
-            IconButton(
               icon: Icon(Icons.share),
               tooltip: StringHelper.getS()!.share,
-              onPressed: () async {
-                await Share.share(
-                    StringHelper.getS()!.saveImageShareTip + "   " + widget.url!);
-              },
+              onPressed: () => _showShare(),
             ),
           ],
         ),
@@ -118,7 +117,7 @@ class _WebViewPageState extends State<WebViewPage> {
               flex: 1,
               child: SafeArea(
                 child: WebView(
-                  initialUrl: widget.url,
+                  initialUrl: widget.model.url,
                   debuggingEnabled: false,
                   javascriptMode: JavascriptMode.unrestricted,
                   initialMediaPlaybackPolicy:
@@ -157,6 +156,10 @@ class _WebViewPageState extends State<WebViewPage> {
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.share),
+          onPressed: () => _showShare(),
+        ),
       ),
     );
   }
@@ -170,9 +173,17 @@ class _WebViewPageState extends State<WebViewPage> {
   void refreshNavigator() {
     _webViewController.getTitle().then((title) {
       _getProgress.value = title == null || title.isEmpty;
-     LogUtil.v("getTitle:" + title!);
-      _title = title != null && title.isNotEmpty ? title : _title;
+      LogUtil.v("getTitle:" + title!);
+      _title = !TextUtil.isEmpty(title) ? title : _title;
       return _getTitle.value = title;
     });
+  }
+
+  ///弹出分享选择
+  _showShare() {
+    ShareUtil.shareUrlBottomSheet(
+      "${StringHelper.getS()!.saveImageShareTip}  '$_title'  ${widget.model.url}",
+      widget.model,
+    );
   }
 }

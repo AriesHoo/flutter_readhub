@@ -58,8 +58,15 @@ dependencies:
   #分享文字及文件-注意保存文件位置
   #注意0.1.2以后的版本分享图片微信提示获取资源失败，分享到其它平台正常
 #  flutter_share_plugin: 0.1.2
-  share: ^2.0.1
-
+#  share: ^2.0.1
+  # 使用官网分支增加分享特定App/App某个方法 增加判断App是否安装方法-Android
+  # 参考官网 https://flutter.dev/docs/development/packages-and-plugins/using-packages
+  share:
+    git:
+      url: git://github.com/AriesHoo/plugins.git
+      path: packages/share
+      ref: change_share
+      version: 2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -82,6 +89,7 @@ flutter:
         - asset: assets/fonts/iconfont.ttf
   assets:
     - assets/images/
+    - assets/images/share/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

@@ -5,12 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/util/router_manger.dart';
+import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'generated/l10n.dart';
+import 'observer/app_router_observer.dart';
 import 'view_model/locale_view_model.dart';
 import 'view_model/theme_view_model.dart';
 
@@ -35,7 +36,11 @@ void main() async {
   );
 }
 
+///全局获取context
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
+///全局路由监听-这里要设置Route基类
+AppRouteObserver appRouteObserver = AppRouteObserver();
 
 class MyApp extends StatelessWidget {
   @override
@@ -122,6 +127,12 @@ class _MaterialAppPageState extends State<MaterialAppPage>
         //     child: child,
         //   ),
         // ),
+        ///路由监听
+        navigatorObservers: [
+          ///App本身的路由监听
+          appRouteObserver,
+        ],
+
         ///启动页显示slogan
         home: SplashPage(),
       ),
@@ -187,7 +198,7 @@ class _SplashPageState extends State<SplashPage> {
             'assets/images/ic_slogan.webp',
             width: 205,
             height: 205 * 140 / 815,
-            color: Theme.of(context).textTheme.title!.color,
+            color: Theme.of(context).textTheme.headline6!.color,
           ),
           SizedBox(
             height: 160,

@@ -47,4 +47,9 @@ class PathHelper {
   static Future<String> getImagePath() async {
     return getFilePath('/ShareScreenShots');
   }
+
+  ///获取分享图片路径-保存图片分享
+  static Future<String> getShareImage() async {
+    return getFilePath('/ShareImage');
+  }
 }

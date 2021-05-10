@@ -35,4 +35,20 @@ class Decorations {
       bottom: bottom ? side : BorderSide.none,
     );
   }
+
+  ///添加边缘线
+  static ShapeBorder lineShapeBorder(
+    BuildContext context, {
+    Color? color,
+    double? lineWidth,
+    BorderRadiusGeometry borderRadius: BorderRadius.zero,
+  }) {
+    return BeveledRectangleBorder(
+        borderRadius: borderRadius,
+        side: BorderSide(
+          width: lineWidth ?? 0.2,
+          color: color ?? Theme.of(context).hintColor.withOpacity(0.075),
+          style: BorderStyle.solid,
+        ));
+  }
 }

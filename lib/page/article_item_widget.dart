@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/basis/scroll_top_model.dart';
-import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/article_model.dart';
+import 'package:flutter_readhub/model/share_model.dart';
+import 'package:flutter_readhub/page/card_share_page.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
-import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/view_model/article_view_model.dart';
 import 'package:flutter_readhub/view_model/locale_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
@@ -134,6 +136,7 @@ class ArticleAdapter extends StatelessWidget {
     await showModalBottomSheet<int>(
         context: context,
         isScrollControlled: true,
+        backgroundColor: Theme.of(context).cardColor,
         builder: (BuildContext context) {
           return ListView.builder(
               itemCount: item.newsArray!.length,
@@ -159,7 +162,17 @@ class ArticleAdapter extends StatelessWidget {
           item.switchMaxLine();
           ProviderHelper.of<LocaleViewModel>(context).switchLocale(0);
         },
-        onLongPress: () => showShareArticleDialog(context, item),
+        onLongPress: () => CardSharePage.show(
+          context,
+          CardShareModel(
+            title: item.title,
+            summary: item.getSummary(),
+            notice: item.getScanNote(),
+            url: item.getUrl(),
+            bottomNotice: StringHelper.getS()!.saveImageShareTip,
+          ),
+        ),
+        // onLongPress: () => showShareArticleDialog(context, item),
 
         ///Container 包裹以便设置padding margin及边界线
         child: Container(
@@ -207,7 +220,7 @@ class ArticleAdapter extends StatelessWidget {
                     letterSpacing: letterSpacing,
                     color: Theme.of(context)
                         .textTheme
-                        .title!
+                        .headline6!
                         .color!
                         .withOpacity(0.8)),
               ),
@@ -239,9 +252,16 @@ class ArticleAdapter extends StatelessWidget {
 
                   ///查看详情web
                   SmallButtonWidget(
-                    onTap: () => Navigator.of(context).pushNamed(
-                        RouteName.web_view_page,
-                        arguments: item.getUrl()),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(RouteName.web_view_page,
+                            arguments: CardShareModel(
+                              title: item.title,
+                              summary: item.getSummary(),
+                              notice: item.getScanNote(),
+                              url: item.getUrl(),
+                              bottomNotice:
+                                  StringHelper.getS()!.saveImageShareTip,
+                            )),
                     child: Icon(IconFonts.ic_glass),
                   ),
                 ],
@@ -286,8 +306,14 @@ class NewsAdapter extends StatelessWidget {
     return Material(
       color: Theme.of(context).cardColor,
       child: InkWell(
-        onTap: () => Navigator.of(context)
-            .pushNamed(RouteName.web_view_page, arguments: item.getUrl()),
+        onTap: () => Navigator.of(context).pushNamed(RouteName.web_view_page,
+            arguments: CardShareModel(
+              title: item.title,
+              summary: item.getSummary(),
+              notice: item.getScanNote(),
+              url: item.getUrl(),
+              bottomNotice: StringHelper.getS()!.saveImageShareTip,
+            )),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10),
           margin: EdgeInsets.symmetric(horizontal: 12),
