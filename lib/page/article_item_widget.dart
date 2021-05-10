@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/basis/scroll_top_model.dart';
-import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/article_model.dart';
+import 'package:flutter_readhub/model/share_model.dart';
+import 'package:flutter_readhub/page/card_share_page.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
-import 'package:flutter_readhub/util/router_manger.dart';
 import 'package:flutter_readhub/view_model/article_view_model.dart';
 import 'package:flutter_readhub/view_model/locale_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
@@ -17,10 +19,10 @@ final letterSpacing = 1.0;
 
 ///文章item页--最终展示效果
 class ArticleItemWidget extends StatefulWidget {
-  final String url;
+  final String? url;
 
   const ArticleItemWidget({
-    Key key,
+    Key? key,
     this.url,
   }) : super(key: key);
 
@@ -41,6 +43,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
     return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
+      model2: ScrollTopModel(ScrollController(), height: 400),
 
       ///加载中占位-骨架屏-默认菊花loading
       loadingBuilder: (context, model, model2, child) {
@@ -125,7 +128,7 @@ class ArticleSkeleton extends StatelessWidget {
 
 ///文章适配器
 class ArticleAdapter extends StatelessWidget {
-  const ArticleAdapter(this.item, {Key key}) : super(key: key);
+  const ArticleAdapter(this.item, {Key? key}) : super(key: key);
   final ArticleItemModel item;
 
   /// 弹出其它媒体报道
@@ -133,17 +136,18 @@ class ArticleAdapter extends StatelessWidget {
     await showModalBottomSheet<int>(
         context: context,
         isScrollControlled: true,
+        backgroundColor: Theme.of(context).cardColor,
         builder: (BuildContext context) {
           return ListView.builder(
-              itemCount: item.newsArray.length,
+              itemCount: item.newsArray!.length,
               shrinkWrap: true,
 
               ///通过控制滚动用于手指跟随
-              physics: item.newsArray.length > 10
+              physics: item.newsArray!.length > 10
                   ? ClampingScrollPhysics()
                   : BouncingScrollPhysics(),
               itemBuilder: (context, index) => NewsAdapter(
-                    item: item.newsArray[index],
+                    item: item.newsArray![index],
                   ));
         });
   }
@@ -158,7 +162,17 @@ class ArticleAdapter extends StatelessWidget {
           item.switchMaxLine();
           ProviderHelper.of<LocaleViewModel>(context).switchLocale(0);
         },
-        onLongPress: () => showShareArticleDialog(context, item),
+        onLongPress: () => CardSharePage.show(
+          context,
+          CardShareModel(
+            title: item.title,
+            summary: item.getSummary(),
+            notice: item.getScanNote(),
+            url: item.getUrl(),
+            bottomNotice: StringHelper.getS()!.saveImageShareTip,
+          ),
+        ),
+        // onLongPress: () => showShareArticleDialog(context, item),
 
         ///Container 包裹以便设置padding margin及边界线
         child: Container(
@@ -175,7 +189,7 @@ class ArticleAdapter extends StatelessWidget {
             children: <Widget>[
               ///标题
               Text(
-                item.title,
+                item.title!,
                 textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                 maxLines: 2,
                 strutStyle: StrutStyle(
@@ -183,7 +197,7 @@ class ArticleAdapter extends StatelessWidget {
                     height: textLineHeight,
                     leading: leading),
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
                       fontWeight: FontWeight.bold,
                       letterSpacing: letterSpacing,
                     ),
@@ -202,12 +216,12 @@ class ArticleAdapter extends StatelessWidget {
                     forceStrutHeight: true,
                     height: textLineHeight,
                     leading: leading),
-                style: Theme.of(context).textTheme.caption.copyWith(
+                style: Theme.of(context).textTheme.caption!.copyWith(
                     letterSpacing: letterSpacing,
                     color: Theme.of(context)
                         .textTheme
-                        .title
-                        .color
+                        .headline6!
+                        .color!
                         .withOpacity(0.8)),
               ),
               Row(
@@ -219,7 +233,7 @@ class ArticleAdapter extends StatelessWidget {
                       textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption.copyWith(
+                      style: Theme.of(context).textTheme.caption!.copyWith(
                             fontSize: 12,
                           ),
                     ),
@@ -238,9 +252,16 @@ class ArticleAdapter extends StatelessWidget {
 
                   ///查看详情web
                   SmallButtonWidget(
-                    onTap: () => Navigator.of(context).pushNamed(
-                        RouteName.web_view_page,
-                        arguments: item.getUrl()),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(RouteName.web_view_page,
+                            arguments: CardShareModel(
+                              title: item.title,
+                              summary: item.getSummary(),
+                              notice: item.getScanNote(),
+                              url: item.getUrl(),
+                              bottomNotice:
+                                  StringHelper.getS()!.saveImageShareTip,
+                            )),
                     child: Icon(IconFonts.ic_glass),
                   ),
                 ],
@@ -258,7 +279,7 @@ class SmallButtonWidget extends StatelessWidget {
   final GestureTapCallback onTap;
   final Widget child;
 
-  const SmallButtonWidget({Key key, @required this.onTap, @required this.child})
+  const SmallButtonWidget({Key? key, required this.onTap, required this.child})
       : super(key: key);
 
   @override
@@ -278,15 +299,21 @@ class SmallButtonWidget extends StatelessWidget {
 class NewsAdapter extends StatelessWidget {
   final NewsArray item;
 
-  const NewsAdapter({Key key, @required this.item}) : super(key: key);
+  const NewsAdapter({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).cardColor,
       child: InkWell(
-        onTap: () => Navigator.of(context)
-            .pushNamed(RouteName.web_view_page, arguments: item.getUrl()),
+        onTap: () => Navigator.of(context).pushNamed(RouteName.web_view_page,
+            arguments: CardShareModel(
+              title: item.title,
+              summary: item.getSummary(),
+              notice: item.getScanNote(),
+              url: item.getUrl(),
+              bottomNotice: StringHelper.getS()!.saveImageShareTip,
+            )),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10),
           margin: EdgeInsets.symmetric(horizontal: 12),
@@ -298,9 +325,9 @@ class NewsAdapter extends StatelessWidget {
             children: <Widget>[
               ///顶部标题
               Text(
-                item.title,
+                item.title!,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
-                style: Theme.of(context).textTheme.title.copyWith(
+                style: Theme.of(context).textTheme.title!.copyWith(
                       fontSize: 14,
                     ),
               ),
@@ -315,18 +342,18 @@ class NewsAdapter extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Text(
-                      item.siteName,
+                      item.siteName!,
                       textScaleFactor: ThemeViewModel.textScaleFactor,
-                      style: Theme.of(context).textTheme.title.copyWith(
+                      style: Theme.of(context).textTheme.title!.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
                           ),
                     ),
                   ),
                   Text(
-                    item.parseTimeLong(),
+                    item.parseTimeLong()!,
                     textScaleFactor: ThemeViewModel.textScaleFactor,
-                    style: Theme.of(context).textTheme.caption.copyWith(
+                    style: Theme.of(context).textTheme.caption!.copyWith(
                           fontSize: 10,
                         ),
                   ),

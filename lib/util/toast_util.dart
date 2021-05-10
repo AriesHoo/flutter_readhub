@@ -4,12 +4,12 @@ import 'package:oktoast/oktoast.dart';
 
 ///Toast工具类
 class ToastUtil {
-  static BuildContext get context => null;
+  static BuildContext? get context => null;
 
   static show(
     String text, {
-    ToastPosition position,
-    Duration duration,
+    ToastPosition? position,
+    Duration? duration,
   }) {
     position ??= ToastPosition.bottom;
     duration ??= Duration(

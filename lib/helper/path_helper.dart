@@ -24,7 +24,7 @@ class PathHelper {
     final directory = Platform.isAndroid
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();
-    return directory.path;
+    return directory!.path;
   }
 
   /// 斜杠'/'打头
@@ -46,5 +46,10 @@ class PathHelper {
   ///获取分享图片截图
   static Future<String> getImagePath() async {
     return getFilePath('/ShareScreenShots');
+  }
+
+  ///获取分享图片路径-保存图片分享
+  static Future<String> getShareImage() async {
+    return getFilePath('/ShareImage');
   }
 }

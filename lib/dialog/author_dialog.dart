@@ -10,7 +10,9 @@ import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
+import 'package:flutter_readhub/page/card_share_page.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
@@ -145,7 +147,7 @@ class TopRoundWidget extends StatelessWidget {
                 child: Text(
                   "开源地址",
                   textScaleFactor: ThemeViewModel.textScaleFactor,
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 16,
                         decoration: TextDecoration.underline,
                       ),
@@ -196,7 +198,7 @@ class FeedbackWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          StringHelper.getS().feedback,
+          StringHelper.getS()!.feedback,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1,
         ),
@@ -213,7 +215,7 @@ class FeedbackWidget extends StatelessWidget {
 
           ///发送邮件
           if (!await canLaunch(_emailLaunchUri.toString())) {
-            ToastUtil.show(StringHelper.getS().tipNoEmailApp);
+            ToastUtil.show(StringHelper.getS()!.tipNoEmailApp);
             return;
           }
           launch(_emailLaunchUri.toString());
@@ -236,9 +238,9 @@ class UpdateWidget extends StatelessWidget {
             color: Theme.of(context).accentColor,
           ),
           title: Text(
-            StringHelper.getS().checkUpdate,
+            StringHelper.getS()!.checkUpdate,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.bodyText1.copyWith(),
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(),
           ),
           trailing: model.loading
               ? CupertinoActivityIndicator(
@@ -272,25 +274,25 @@ class ShareAppWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          StringHelper.getS().shareApp,
+          StringHelper.getS()!.shareApp,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),
         trailing: Icon(
           Icons.chevron_right,
-          color: Theme.of(context).textTheme.caption.color,
+          color: Theme.of(context).textTheme.caption!.color,
         ),
-        onTap: () => showShareAppDialog(
-            context,
-            ShareDialog(
-              '分享一个还不错的 Readhub 三方客户端-Freadhub',
-              'Freadhub',
-              'AriesHoo开发\n扫码查看详情',
-              'https://www.pgyer.com/ntMA',
-              StringHelper.getS().saveImageShareTip,
-              'shareApp',
-              summaryWidget: ShareAppSummaryWidget(),
-            )),
+        onTap: () => CardSharePage.show(
+          context,
+          CardShareModel(
+            title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
+            summary: StringHelper.getS()!.appName,
+            url: 'https://www.pgyer.com/ntMA',
+            notice: 'AriesHoo开发\n扫码查看详情',
+            bottomNotice: StringHelper.getS()!.saveImageShareTip,
+            summaryWidget: ShareAppSummaryWidget(),
+          ),
+        ),
       ),
     );
   }
@@ -303,22 +305,25 @@ class ShareAppSummaryWidget extends StatelessWidget {
     return RichText(
       textScaleFactor: ThemeViewModel.textScaleFactor,
       text: TextSpan(
-        style: Theme.of(context).textTheme.headline6.copyWith(
+        style: Theme.of(context).textTheme.headline6!.copyWith(
               fontSize: 13,
-              color:
-                  Theme.of(context).textTheme.headline6.color.withOpacity(0.8),
+              color: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .color!
+                  .withOpacity(0.8),
             ),
         text:
             'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。'
             '\n囊括以下功能：',
         children: [
           TextSpan(
-            style: Theme.of(context).textTheme.headline6.copyWith(
+            style: Theme.of(context).textTheme.headline6!.copyWith(
                   fontSize: 12,
                   color: Theme.of(context)
                       .textTheme
-                      .headline6
-                      .color
+                      .headline6!
+                      .color!
                       .withOpacity(0.8),
                   fontWeight: FontWeight.w900,
                 ),
@@ -344,10 +349,11 @@ class ChoiceThemeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        StringHelper.getS().choiceTheme,
+        StringHelper.getS()!.choiceTheme,
         textScaleFactor: ThemeViewModel.textScaleFactor,
         style: Theme.of(context).textTheme.bodyText1,
       ),
+      trailing: Text('trailing'),
       initiallyExpanded: false,
       children: <Widget>[
         Padding(
@@ -405,13 +411,14 @@ class ThemeWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          StringHelper.getS().choiceTheme,
+          StringHelper.getS()!.choiceTheme,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1,
         ),
         children: [
           ThemeBody(),
         ],
+        // trailing: Text(ThemeViewModel.themeName()),
       ),
     );
   }
@@ -433,7 +440,7 @@ class ThemeBody extends StatelessWidget {
   final bool dialog;
 
   const ThemeBody({
-    Key key,
+    Key? key,
     this.dialog: false,
   }) : super(key: key);
 
@@ -445,7 +452,7 @@ class ThemeBody extends StatelessWidget {
         vertical: dialog ? 10 : 0,
       ),
 
-      ///所有颜色按钮垂直排列Ω
+      ///所有颜色按钮垂直排列
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -530,7 +537,7 @@ class FontSizeWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          StringHelper.getS().fontSize,
+          StringHelper.getS()!.fontSize,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1,
         ),
@@ -551,7 +558,7 @@ class FontSizeWidget extends StatelessWidget {
                       height: textLineHeight,
                       leading: leading),
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontWeight: FontWeight.bold,
                         letterSpacing: letterSpacing,
                       ),
@@ -569,12 +576,12 @@ class FontSizeWidget extends StatelessWidget {
                       forceStrutHeight: true,
                       height: textLineHeight,
                       leading: leading),
-                  style: Theme.of(context).textTheme.caption.copyWith(
+                  style: Theme.of(context).textTheme.caption!.copyWith(
                       letterSpacing: letterSpacing,
                       color: Theme.of(context)
                           .textTheme
-                          .headline6
-                          .color
+                          .headline6!
+                          .color!
                           .withOpacity(0.8)),
                 ),
                 SliderTheme(
@@ -610,9 +617,9 @@ class FontSizeWidget extends StatelessWidget {
                   child: Slider(
                     min: 8,
                     max: 12,
-                    value: ThemeViewModel.articleTextScaleFactor * 10,
+                    value: ThemeViewModel.articleTextScaleFactor! * 10,
                     divisions: 8,
-                    label: '${ThemeViewModel.articleTextScaleFactor * 10}',
+                    label: '${ThemeViewModel.articleTextScaleFactor! * 10}',
                     onChanged: (value) {
                       ProviderHelper.of<ThemeViewModel>(context)
                           .switchFontTextSize(value / 10);
@@ -644,7 +651,7 @@ class AppreciateWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          StringHelper.getS().appreciateDeveloper,
+          StringHelper.getS()!.appreciateDeveloper,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1,
         ),
@@ -679,14 +686,15 @@ class AppreciateWidget extends StatelessWidget {
                           height: textLineHeight,
                           leading: leading),
                       text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                fontSize: 13,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline6
-                                    .color
-                                    .withOpacity(0.8),
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    fontSize: 13,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline6!
+                                        .color!
+                                        .withOpacity(0.8),
+                                  ),
                           children: [
                             TextSpan(
                                 text: '←   长按图片保存,微信扫码',
@@ -712,9 +720,9 @@ class AppreciateWidget extends StatelessWidget {
 
 ///版本声明
 class CopyrightWidget extends StatelessWidget {
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
-  const CopyrightWidget({Key key, this.scrollController}) : super(key: key);
+  const CopyrightWidget({Key? key, this.scrollController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -725,7 +733,7 @@ class CopyrightWidget extends StatelessWidget {
           if (opened && Platform.isAndroid) {
             ///开启详情延时滚动底部-Android有效
             Future.delayed(Duration(milliseconds: 200), () {
-              scrollController.animateTo(
+              scrollController!.animateTo(
                 MediaQuery.of(context).size.height,
                 duration: Duration(
                   milliseconds: 10,
@@ -740,21 +748,21 @@ class CopyrightWidget extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          StringHelper.getS().appCopyright,
+          StringHelper.getS()!.appCopyright,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1.copyWith(),
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
             child: RichText(
               text: TextSpan(
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 12,
                         color: Theme.of(context)
                             .textTheme
-                            .headline6
-                            .color
+                            .headline6!
+                            .color!
                             .withOpacity(0.8),
                       ),
                   text:
@@ -762,13 +770,13 @@ class CopyrightWidget extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: '所有数据来源于无码科技 Readhub ,版权归无码科技 Readhub 所有。',
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             fontSize: 12,
                             fontWeight: FontWeight.w900,
                             color: Theme.of(context)
                                 .textTheme
-                                .headline6
-                                .color
+                                .headline6!
+                                .color!
                                 .withOpacity(0.8),
                           ),
                     ),
@@ -777,7 +785,7 @@ class CopyrightWidget extends StatelessWidget {
                     ),
                     TextSpan(
                         text: ' readhub.cn ',
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               color: Theme.of(context).accentColor,
                               fontStyle: FontStyle.italic,
                               decoration: TextDecoration.underline,

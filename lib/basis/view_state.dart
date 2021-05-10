@@ -24,11 +24,11 @@ enum ErrorType {
 
 class ViewStateError {
   ErrorType errorType;
-  String message;
-  String errorMessage;
+  String? message;
+  String? errorMessage;
 
   ViewStateError(this.errorType, {this.message, this.errorMessage}) {
-    errorType ??= ErrorType.normal;
+    errorType = ErrorType.normal;
     message ??= errorMessage;
   }
 

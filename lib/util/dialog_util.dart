@@ -8,21 +8,24 @@ import 'package:flutter/material.dart';
 ///dialog提示
 class DialogUtil {
   /// 弹出对话框
-  static Future<int> showAlertDialog(
+  static Future<int?> showAlertDialog(
     BuildContext context, {
-    String title,
-    Widget titleWidget,
-    String content,
-    Widget contentWidget,
-    String cancel,
-    Widget cancelWidget,
-    String ensure,
-    Widget ensureWidget,
+    String? title,
+    Widget? titleWidget,
+    String? content,
+    Widget? contentWidget,
+    String? cancel,
+    Widget? cancelWidget,
+    String? ensure,
+    Widget? ensureWidget,
     bool barrierDismissible = true,
   }) async {
-    Widget widgetTitle =
-        titleWidget != null ? titleWidget : title != null ? Text(title) : null;
-    Widget widgetContent = contentWidget != null
+    Widget? widgetTitle = titleWidget != null
+        ? titleWidget
+        : title != null
+            ? Text(title)
+            : null;
+    Widget? widgetContent = contentWidget != null
         ? contentWidget
         : content != null
             ? Text(
@@ -30,14 +33,14 @@ class DialogUtil {
                 textAlign: TextAlign.left,
               )
             : null;
-    Widget widgetCancel = cancelWidget != null
+    Widget? widgetCancel = cancelWidget != null
         ? cancelWidget
         : !TextUtil.isEmpty(cancel)
             ? Platform.isIOS
                 ? CupertinoButton(
                     child: Text(
-                      cancel,
-                      style: Theme.of(context).textTheme.caption.copyWith(
+                      cancel!,
+                      style: Theme.of(context).textTheme.caption!.copyWith(
                             fontSize: 14,
                           ),
                     ),
@@ -48,8 +51,8 @@ class DialogUtil {
                   )
                 : FlatButton(
                     child: Text(
-                      cancel,
-                      style: Theme.of(context).textTheme.caption.copyWith(
+                      cancel!,
+                      style: Theme.of(context).textTheme.caption!.copyWith(
                             fontSize: 14,
                           ),
                     ),
@@ -59,14 +62,14 @@ class DialogUtil {
                     },
                   )
             : null;
-    Widget widgetEnsure = ensureWidget != null
+    Widget? widgetEnsure = ensureWidget != null
         ? ensureWidget
         : !TextUtil.isEmpty(ensure)
             ? Platform.isIOS
                 ? CupertinoButton(
                     child: Text(
-                      ensure,
-                      style: Theme.of(context).textTheme.caption.copyWith(
+                      ensure!,
+                      style: Theme.of(context).textTheme.caption!.copyWith(
                             color: Theme.of(context).accentColor,
                             fontSize: 14,
                           ),
@@ -78,8 +81,8 @@ class DialogUtil {
                   )
                 : FlatButton(
                     child: Text(
-                      ensure,
-                      style: Theme.of(context).textTheme.caption.copyWith(
+                      ensure!,
+                      style: Theme.of(context).textTheme.caption!.copyWith(
                             color: Theme.of(context).accentColor,
                             fontSize: 14,
                           ),
@@ -99,8 +102,8 @@ class DialogUtil {
                 title: widgetTitle,
                 content: widgetContent,
                 actions: [
-                  widgetCancel,
-                  widgetEnsure,
+                  widgetCancel!,
+                  widgetEnsure!,
                 ],
               )
             : AlertDialog(
@@ -112,12 +115,50 @@ class DialogUtil {
                 title: widgetTitle,
                 content: widgetContent,
                 elevation: 0,
-                actions: <Widget>[
-                  widgetCancel,
-                  widgetEnsure,
+                actions: [
+                  widgetCancel!,
+                  widgetEnsure!,
                 ],
               );
       },
     );
+  }
+
+  /// 底部BottomSheetDialog-少量
+  static Future showModalBottomSheetDialog(
+    BuildContext context, {
+    Widget? child,
+    IndexedWidgetBuilder? itemBuilder,
+    int count: 1,
+    Color? barrierColor,
+    Color? backgroundColor,
+    RouteSettings? settings,
+    ShapeBorder? shape,
+  }) async {
+    return await showModalBottomSheet(
+        context: context,
+        routeSettings: settings,
+        shape: shape,
+        isScrollControlled: true,
+        useRootNavigator: true,
+
+        ///背景色默认设置
+        backgroundColor: backgroundColor ?? Theme.of(context).cardColor,
+
+        ///背景蒙层颜色
+        barrierColor: barrierColor ?? Colors.black54,
+
+        ///itemBuilder
+        builder: (BuildContext context) {
+          return child ??
+              ListView.builder(
+                itemCount: count,
+                shrinkWrap: true,
+
+                ///通过控制滚动用于手指跟随
+                physics: BouncingScrollPhysics(),
+                itemBuilder: itemBuilder!,
+              );
+        });
   }
 }

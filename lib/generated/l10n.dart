@@ -11,28 +11,43 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
-  
-  static S current;
-  
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+
+  static S? _current;
+
+  static S get current {
+    assert(_current != null,
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    return _current!;
+  }
+
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      S.current = S();
-      
-      return S.current;
+      final instance = S();
+      S._current = instance;
+
+      return instance;
     });
-  } 
+  }
 
   static S of(BuildContext context) {
+    final instance = S.maybeOf(context);
+    assert(instance != null,
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    return instance!;
+  }
+
+  static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
 
@@ -41,6 +56,26 @@ class S {
     return Intl.message(
       'Freadhub',
       name: 'appName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Be lightweight aggregate information`
+  String get slogan {
+    return Intl.message(
+      'Be lightweight aggregate information',
+      name: 'slogan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reminder`
+  String get dialogTitle {
+    return Intl.message(
+      'Reminder',
+      name: 'dialogTitle',
       desc: '',
       args: [],
     );
@@ -575,6 +610,216 @@ class S {
       args: [],
     );
   }
+
+  /// `copy success`
+  String get copyToClipboardSucceed {
+    return Intl.message(
+      'copy success',
+      name: 'copyToClipboardSucceed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `card share`
+  String get cardShare {
+    return Intl.message(
+      'card share',
+      name: 'cardShare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `WeChat`
+  String get weChatFriend {
+    return Intl.message(
+      'WeChat',
+      name: 'weChatFriend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `WeChatTimeline`
+  String get weChatTimeLine {
+    return Intl.message(
+      'WeChatTimeline',
+      name: 'weChatTimeLine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `QQ`
+  String get qqFriend {
+    return Intl.message(
+      'QQ',
+      name: 'qqFriend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SinaWeiBo`
+  String get weiBoTimeLine {
+    return Intl.message(
+      'SinaWeiBo',
+      name: 'weiBoTimeLine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `copy link`
+  String get copyLink {
+    return Intl.message(
+      'copy link',
+      name: 'copyLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `open by browser`
+  String get openByBrowser {
+    return Intl.message(
+      'open by browser',
+      name: 'openByBrowser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `more`
+  String get more {
+    return Intl.message(
+      'more',
+      name: 'more',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `share you a nice app`
+  String get aboutUsShareTitle {
+    return Intl.message(
+      'share you a nice app',
+      name: 'aboutUsShareTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `scan qr code for detail`
+  String get scanOrCodeForDetail {
+    return Intl.message(
+      'scan qr code for detail',
+      name: 'scanOrCodeForDetail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `share from`
+  String get shareForm {
+    return Intl.message(
+      'share from',
+      name: 'shareForm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `share image need invite your`
+  String get shareImageNeedInvite {
+    return Intl.message(
+      'share image need invite your',
+      name: 'shareImageNeedInvite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `photo`
+  String get photo {
+    return Intl.message(
+      'photo',
+      name: 'photo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `file storage`
+  String get fileStorage {
+    return Intl.message(
+      'file storage',
+      name: 'fileStorage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `no now`
+  String get noPermission {
+    return Intl.message(
+      'no now',
+      name: 'noPermission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `right now`
+  String get goPermission {
+    return Intl.message(
+      'right now',
+      name: 'goPermission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `card type`
+  String get shareCarStyle {
+    return Intl.message(
+      'card type',
+      name: 'shareCarStyle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Freadhub style`
+  String get shareCarStyleApp {
+    return Intl.message(
+      'Freadhub style',
+      name: 'shareCarStyleApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `juejin style`
+  String get shareCarStyleJueJin {
+    return Intl.message(
+      'juejin style',
+      name: 'shareCarStyleJueJin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Screenshot failed, please open access to storage`
+  String get shotFailed {
+    return Intl.message(
+      'Screenshot failed, please open access to storage',
+      name: 'shotFailed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -595,11 +840,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   bool shouldReload(AppLocalizationDelegate old) => false;
 
   bool _isSupported(Locale locale) {
-    if (locale != null) {
-      for (var supportedLocale in supportedLocales) {
-        if (supportedLocale.languageCode == locale.languageCode) {
-          return true;
-        }
+    for (var supportedLocale in supportedLocales) {
+      if (supportedLocale.languageCode == locale.languageCode) {
+        return true;
       }
     }
     return false;

@@ -7,13 +7,13 @@ class LocaleViewModel extends ChangeNotifier {
 
   static const SP_KEY_LOCALE_INDEX = 'SP_KEY_LOCALE_INDEX';
 
-  int _localeIndex;
+  int? _localeIndex;
 
-  int get localeIndex => _localeIndex;
+  int? get localeIndex => _localeIndex;
 
-  Locale get locale {
-    if (_localeIndex > 0) {
-      var value = localeValueList[_localeIndex].split("-");
+  Locale? get locale {
+    if (_localeIndex! > 0) {
+      var value = localeValueList[_localeIndex!].split("-");
       return Locale(value[0], value.length == 2 ? value[1] : '');
     }
     // 跟随系统
@@ -25,9 +25,9 @@ class LocaleViewModel extends ChangeNotifier {
     switchLocale(_localeIndex);
   }
 
-  switchLocale(int index) {
+  switchLocale(int? index) {
     _localeIndex = index;
-    SpUtil.putInt(SP_KEY_LOCALE_INDEX, _localeIndex);
+    SpUtil.putInt(SP_KEY_LOCALE_INDEX, _localeIndex!);
     notifyListeners();
   }
 

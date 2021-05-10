@@ -27,11 +27,11 @@ abstract class BasisRefreshListViewModel<T> extends BasisListViewModel<T> {
   /// [init] 是否是第一次加载
   /// true:  Error时,需要跳转页面
   /// false: Error时,不需要跳转页面,直接给出提示
-  Future<List<T>> refresh({bool init = false}) async {
+  Future<List<T>?> refresh({bool init = false}) async {
     try {
       _currentPage = pageNumFirst;
       var data = await loadData(pageNum: pageNumFirst);
-      if (data.isEmpty) {
+      if (data!.isEmpty) {
         refreshController.refreshCompleted(resetFooterState: true);
         list.clear();
         setEmpty();
@@ -61,10 +61,10 @@ abstract class BasisRefreshListViewModel<T> extends BasisListViewModel<T> {
   }
 
   /// 上拉加载更多
-  Future<List<T>> loadMore() async {
+  Future<List<T>?> loadMore() async {
     try {
       var data = await loadData(pageNum: ++_currentPage);
-      if (data.isEmpty) {
+      if (data!.isEmpty) {
         _currentPage--;
         refreshController.loadNoData();
       } else {
@@ -88,7 +88,7 @@ abstract class BasisRefreshListViewModel<T> extends BasisListViewModel<T> {
   }
 
   /// 加载数据
-  Future<List<T>> loadData({int pageNum});
+  Future<List<T>?> loadData({int? pageNum});
 
   @override
   void dispose() {

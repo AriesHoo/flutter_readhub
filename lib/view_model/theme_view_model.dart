@@ -30,21 +30,21 @@ class ThemeViewModel with ChangeNotifier {
 
   /// 当前主题颜色
   static MaterialColor _themeColor = Colors.blue;
-  static Color _accentColor = _themeColor;
+  static Color? _accentColor = _themeColor;
 
   /// 用户选择的明暗模式
-  static bool _userDarkMode = false;
+  static bool? _userDarkMode = false;
 
   static bool get platformDarkMode =>
       navigatorKey.currentContext != null &&
           MediaQuery
-              .of(navigatorKey.currentContext)
+              .of(navigatorKey.currentContext!)
               .platformBrightness ==
               Brightness.dark;
 
-  static bool get userDarkMode => _userDarkMode;
+  static bool? get userDarkMode => _userDarkMode;
 
-  static bool get darkMode => userDarkMode || platformDarkMode;
+  static bool get darkMode => userDarkMode! || platformDarkMode;
 
   ///是否隐藏悬浮按钮-用于回到顶部
   static bool _hideFloatingButton = false;
@@ -52,14 +52,14 @@ class ThemeViewModel with ChangeNotifier {
   static bool get hideFloatingButton => _hideFloatingButton;
 
   /// 当前字体索引
-  static int _fontIndex = 0;
+  static int? _fontIndex = 0;
 
-  int get fontIndex => _fontIndex;
+  int? get fontIndex => _fontIndex;
 
   /// 当前主题索引
-  static int _themeIndex = 7;
+  static int? _themeIndex = 7;
 
-  int get themeIndex => _themeIndex;
+  int? get themeIndex => _themeIndex;
 
   static MaterialColor get themeColor => _themeColor;
 
@@ -68,19 +68,19 @@ class ThemeViewModel with ChangeNotifier {
 
 //  Color colorWhiteTheme = Colors.transparent;
 
-  static Color colorBlackTheme = Colors.grey[900];
+  static Color? colorBlackTheme = Colors.grey[900];
 
-  static Color get accentColor => _accentColor;
+  static Color? get accentColor => _accentColor;
 
-  static Color get themeAccentColor =>
-      _userDarkMode ? colorBlackTheme : accentColor;
+  static Color? get themeAccentColor =>
+      _userDarkMode! ? colorBlackTheme : accentColor;
 
   static double get textScaleFactor => 1;
 
   /// 当前主size textScaleFactor
-  static double _articleTextScaleFactor = 1.0;
+  static double? _articleTextScaleFactor = 1.0;
 
-  static double get articleTextScaleFactor => _articleTextScaleFactor;
+  static double? get articleTextScaleFactor => _articleTextScaleFactor;
 
   ThemeViewModel() {
     /// 用户选择的明暗模式
@@ -89,7 +89,7 @@ class ThemeViewModel with ChangeNotifier {
     /// 获取主题色
     _themeIndex =
         SpUtil.getInt(SP_KEY_THEME_COLOR_INDEX, defValue: _themeIndex);
-    _themeColor = themeValueList[_themeIndex];
+    _themeColor = themeValueList[_themeIndex!];
     _accentColor = _themeColor;
 
     /// 获取本地字体
@@ -115,27 +115,27 @@ class ThemeViewModel with ChangeNotifier {
   switchFont(int index) {
     _fontIndex = index;
     switchTheme();
-    SpUtil.putInt(SP_KEY_FONT_INDEX, _fontIndex);
+    SpUtil.putInt(SP_KEY_FONT_INDEX, _fontIndex!);
   }
 
   /// 切换文字字号缩放
   switchFontTextSize(double textScaleFactor) {
     _articleTextScaleFactor = textScaleFactor;
     switchTheme();
-    SpUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _articleTextScaleFactor);
+    SpUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _articleTextScaleFactor!);
   }
 
   static String fontFamily() {
-    return fontValueList[_fontIndex];
+    return fontValueList[_fontIndex!];
   }
 
-  String fontFamilyIndex({int index}) {
-    return fontValueList[index ?? _fontIndex];
+  String fontFamilyIndex({int? index}) {
+    return fontValueList[index ?? _fontIndex!];
   }
 
   /// 切换指定色彩；没有传[brightness]就不改变brightness,color同理
   void switchTheme(
-      {bool userDarkMode, int themeIndex, MaterialColor color}) async {
+      {bool? userDarkMode, int? themeIndex, MaterialColor? color}) async {
     if (themeIndex != null && themeIndex != _themeIndex) {
       SpUtil.putInt(SP_KEY_THEME_COLOR_INDEX, themeIndex);
     }
@@ -144,7 +144,7 @@ class ThemeViewModel with ChangeNotifier {
     _themeColor = color ?? getThemeColor();
 
     ///存入缓存
-    SpUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode);
+    SpUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode!);
     notifyListeners();
   }
 
@@ -178,7 +178,7 @@ class ThemeViewModel with ChangeNotifier {
   ///根据主题 明暗 和 颜色 生成对应的主题[dark]系统的Dark Mode
   themeData({bool platformDarkMode: false}) {
    LogUtil.v('themeData_platform:$platformDarkMode');
-    var isDark = platformDarkMode || _userDarkMode;
+    var isDark = platformDarkMode || _userDarkMode!;
     var themeColor = _themeColor;
     _accentColor = isDark ? themeColor[600] : _themeColor;
     Brightness brightness = isDark ? Brightness.dark : Brightness.light;
@@ -203,7 +203,7 @@ class ThemeViewModel with ChangeNotifier {
       cursorColor: accentColor,
 
       ///字体
-      fontFamily: fontValueList[_fontIndex],
+      fontFamily: fontValueList[_fontIndex!],
     );
 
     themeData = themeData.copyWith(
@@ -228,7 +228,7 @@ class ThemeViewModel with ChangeNotifier {
               fontWeight: FontWeight.w500,
 
               ///字体
-              fontFamily: fontValueList[_fontIndex],
+              fontFamily: fontValueList[_fontIndex!],
             ),
 
             ///action及leading Text样式 原body1废弃
@@ -238,7 +238,7 @@ class ThemeViewModel with ChangeNotifier {
               fontWeight: FontWeight.w500,
 
               ///字体
-              fontFamily: fontValueList[_fontIndex],
+              fontFamily: fontValueList[_fontIndex!],
             ),
           ),
 
@@ -273,7 +273,7 @@ class ThemeViewModel with ChangeNotifier {
             fontSize: 14,
 
             ///字体
-            fontFamily: fontValueList[_fontIndex],
+            fontFamily: fontValueList[_fontIndex!],
           ),
 
           ///未选择样式
@@ -282,7 +282,7 @@ class ThemeViewModel with ChangeNotifier {
             fontSize: 13,
 
             ///字体
-            fontFamily: fontValueList[_fontIndex],
+            fontFamily: fontValueList[_fontIndex!],
           ),
         ),
         floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
@@ -292,7 +292,7 @@ class ThemeViewModel with ChangeNotifier {
         ///dialog主题
         dialogTheme: DialogTheme(
           titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-          contentTextStyle: themeData.textTheme.subtitle1.copyWith(
+          contentTextStyle: themeData.textTheme.subtitle1!.copyWith(
             fontSize: 14,
           ),
         ));
@@ -301,36 +301,36 @@ class ThemeViewModel with ChangeNotifier {
   }
 
   /// 根据索引获取颜色名称,这里牵涉到国际化
-  static String themeName({int i}) {
-    int index = i ?? _themeIndex;
+  static String themeName({int? i}) {
+    int? index = i ?? _themeIndex;
     switch (index) {
       case 0:
         return StringHelper
-            .getS()
+            .getS()!
             .red;
       case 1:
         return StringHelper
-            .getS()
+            .getS()!
             .orange;
       case 2:
         return StringHelper
-            .getS()
+            .getS()!
             .yellow;
       case 3:
         return StringHelper
-            .getS()
+            .getS()!
             .green;
       case 4:
         return StringHelper
-            .getS()
+            .getS()!
             .cyan;
       case 5:
         return StringHelper
-            .getS()
+            .getS()!
             .blue;
       case 6:
         return StringHelper
-            .getS()
+            .getS()!
             .purple;
       case 7:
         return '${getWeekStr()}-${themeName(i: DateTime
@@ -341,13 +341,13 @@ class ThemeViewModel with ChangeNotifier {
     }
   }
 
-  static MaterialColor getThemeColor({int i}) {
-    int index = i ?? _themeIndex;
+  static MaterialColor getThemeColor({int? i}) {
+    int? index = i ?? _themeIndex;
     return index == themeValueList.length - 1
         ? themeValueList[DateTime
         .now()
         .weekday - 1]
-        : themeValueList[index];
+        : themeValueList[index!];
   }
 
   ///获取周
@@ -358,31 +358,31 @@ class ThemeViewModel with ChangeNotifier {
     switch (week) {
       case 1:
         return StringHelper
-            .getS()
+            .getS()!
             .monday;
       case 2:
         return StringHelper
-            .getS()
+            .getS()!
             .tuesday;
       case 3:
         return StringHelper
-            .getS()
+            .getS()!
             .wednesday;
       case 4:
         return StringHelper
-            .getS()
+            .getS()!
             .thursday;
       case 5:
         return StringHelper
-            .getS()
+            .getS()!
             .friday;
       case 6:
         return StringHelper
-            .getS()
+            .getS()!
             .saturday;
       case 7:
         return StringHelper
-            .getS()
+            .getS()!
             .sunday;
       default:
         return '';

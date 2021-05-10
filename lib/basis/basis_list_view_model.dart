@@ -14,7 +14,7 @@ abstract class BasisListViewModel<T> extends BasisViewModel {
   /// 下拉刷新
   refresh({bool init = false}) async {
     try {
-      List<T> data = await loadData();
+      List<T> data = (await loadData())!;
       if (data.isEmpty) {
         list.clear();
         setEmpty();
@@ -31,7 +31,7 @@ abstract class BasisListViewModel<T> extends BasisViewModel {
   }
 
   /// 加载数据
-  Future<List<T>> loadData();
+  Future<List<T>?> loadData();
 
   onCompleted(List<T> data) {}
 }

@@ -20,7 +20,8 @@ class UpdateHttp extends BasisHttp {
 /// App相关 API
 class UpdateInterceptor extends InterceptorsWrapper {
   @override
-  onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     options.queryParameters['_api_key'] = 'f4d7dae2132cf8715c99ca79043deefb';
     options.queryParameters['appKey'] = Platform.isAndroid
         ? '9d5adc8a82bdcf48a905d8d5aa7f19e3'
@@ -41,16 +42,16 @@ class UpdateInterceptor extends InterceptorsWrapper {
     LogUtil.v('UpdateHttp-UpdateInterceptor-onResponse:$respData');
     if (respData.success) {
       response.data = respData.data;
-      return handler.next(response);
+      return handler.resolve(response);
     } else {
-      throw DioError();
+      handler.reject(DioError(requestOptions: response.requestOptions));
     }
   }
 }
 
 class ResponseData {
-  int code = 0;
-  String message;
+  int? code = 0;
+  String? message;
   dynamic data;
 
   bool get success => code == 0;

@@ -4,15 +4,15 @@ import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 ///添加切换动画IconButton
 class AnimatedSwitcherIconWidget extends StatefulWidget {
-  final IconData defaultIcon;
-  final IconData switchIcon;
-  final String tooltip;
-  final VoidCallback onPressed;
+  final IconData? defaultIcon;
+  final IconData? switchIcon;
+  final String? tooltip;
+  final VoidCallback? onPressed;
   final Duration duration;
   final bool checkTheme;
 
   const AnimatedSwitcherIconWidget({
-    Key key,
+    Key? key,
     this.defaultIcon,
     this.switchIcon,
     this.tooltip,
@@ -28,7 +28,7 @@ class AnimatedSwitcherIconWidget extends StatefulWidget {
 
 class _AnimatedSwitcherIconWidgetState
     extends State<AnimatedSwitcherIconWidget> {
-  IconData _actionIcon;
+  IconData? _actionIcon;
 
   _AnimatedSwitcherIconWidgetState();
 
@@ -38,7 +38,7 @@ class _AnimatedSwitcherIconWidgetState
     _actionIcon = widget.defaultIcon;
   }
 
-  DateTime _lastSetSystemUiAt;
+  DateTime? _lastSetSystemUiAt;
 
   @override
   void didUpdateWidget(AnimatedSwitcherIconWidget oldWidget) {
@@ -49,7 +49,7 @@ class _AnimatedSwitcherIconWidgetState
 
     ///更新UI--在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
     if (_lastSetSystemUiAt == null ||
-        DateTime.now().difference(_lastSetSystemUiAt) >
+        DateTime.now().difference(_lastSetSystemUiAt!) >
             Duration(milliseconds: 1000)) {
       ///两次点击间隔超过阈值则重新计时
       _lastSetSystemUiAt = DateTime.now();

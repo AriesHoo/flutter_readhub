@@ -65,6 +65,15 @@ android {
             }
         }
     }
+    //打包重命名
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            if (variant.name != "release") {
+                return
+            }
+            outputFileName = "FreadhubV${defaultConfig.versionName}.apk"
+        }
+    }
 }
 
 flutter {
