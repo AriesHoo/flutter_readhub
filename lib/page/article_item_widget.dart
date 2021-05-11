@@ -166,6 +166,8 @@ class ArticleAdapter extends StatelessWidget {
           context,
           CardShareModel(
             title: item.title,
+            text:
+                "${StringHelper.getS()!.saveImageShareTip} 资讯 「${item.title}」链接: ${item.getUrl()}",
             summary: item.getSummary(),
             notice: item.getScanNote(),
             url: item.getUrl(),
@@ -256,6 +258,8 @@ class ArticleAdapter extends StatelessWidget {
                         Navigator.of(context).pushNamed(RouteName.web_view_page,
                             arguments: CardShareModel(
                               title: item.title,
+                              text:
+                                  "${StringHelper.getS()!.saveImageShareTip} 资讯「${item.title} 链接: ${item.getUrl()}",
                               summary: item.getSummary(),
                               notice: item.getScanNote(),
                               url: item.getUrl(),
@@ -309,6 +313,8 @@ class NewsAdapter extends StatelessWidget {
         onTap: () => Navigator.of(context).pushNamed(RouteName.web_view_page,
             arguments: CardShareModel(
               title: item.title,
+              text:
+              "${StringHelper.getS()!.saveImageShareTip} 资讯 「${item.title}」 链接：  ${item.getUrl()}",
               summary: item.getSummary(),
               notice: item.getScanNote(),
               url: item.getUrl(),
@@ -327,7 +333,7 @@ class NewsAdapter extends StatelessWidget {
               Text(
                 item.title!,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
-                style: Theme.of(context).textTheme.title!.copyWith(
+                style: Theme.of(context).textTheme.headline6!.copyWith(
                       fontSize: 14,
                     ),
               ),

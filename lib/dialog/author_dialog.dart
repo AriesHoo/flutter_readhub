@@ -286,6 +286,8 @@ class ShareAppWidget extends StatelessWidget {
           context,
           CardShareModel(
             title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
+              text:
+              "${StringHelper.getS()!.saveImageShareTip} App 「Readhub 三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
             summary: StringHelper.getS()!.appName,
             url: 'https://www.pgyer.com/ntMA',
             notice: 'AriesHoo开发\n扫码查看详情',

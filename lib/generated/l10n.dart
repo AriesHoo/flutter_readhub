@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -61,590 +60,600 @@ class S {
     );
   }
 
-  /// `Be lightweight aggregate information`
+  /// `做轻便的聚合资讯`
   String get slogan {
     return Intl.message(
-      'Be lightweight aggregate information',
+      '做轻便的聚合资讯',
       name: 'slogan',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reminder`
+  /// `温馨提示`
   String get dialogTitle {
     return Intl.message(
-      'Reminder',
+      '温馨提示',
       name: 'dialogTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Choice theme`
+  /// `选择主题`
   String get choiceTheme {
     return Intl.message(
-      'Choice theme',
+      '选择主题',
       name: 'choiceTheme',
       desc: '',
       args: [],
     );
   }
 
-  /// `Red`
+  /// `网易红`
   String get red {
     return Intl.message(
-      'Red',
+      '网易红',
       name: 'red',
       desc: '',
       args: [],
     );
   }
 
-  /// `Orange`
+  /// `滴滴橙`
   String get orange {
     return Intl.message(
-      'Orange',
+      '滴滴橙',
       name: 'orange',
       desc: '',
       args: [],
     );
   }
 
-  /// `Yellow`
+  /// `闲鱼黄`
   String get yellow {
     return Intl.message(
-      'Yellow',
+      '闲鱼黄',
       name: 'yellow',
       desc: '',
       args: [],
     );
   }
 
-  /// `Green`
+  /// `微信绿`
   String get green {
     return Intl.message(
-      'Green',
+      '微信绿',
       name: 'green',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cyan`
+  /// `青桔青`
   String get cyan {
     return Intl.message(
-      'Cyan',
+      '青桔青',
       name: 'cyan',
       desc: '',
       args: [],
     );
   }
 
-  /// `Blue`
+  /// `掘金蓝`
   String get blue {
     return Intl.message(
-      'Blue',
+      '掘金蓝',
       name: 'blue',
       desc: '',
       args: [],
     );
   }
 
-  /// `Purple`
+  /// `夸克紫`
   String get purple {
     return Intl.message(
-      'Purple',
+      '夸克紫',
       name: 'purple',
       desc: '',
       args: [],
     );
   }
 
-  /// `Monday`
+  /// `周一`
   String get monday {
     return Intl.message(
-      'Monday',
+      '周一',
       name: 'monday',
       desc: '',
       args: [],
     );
   }
 
-  /// `Tuesday`
+  /// `周二`
   String get tuesday {
     return Intl.message(
-      'Tuesday',
+      '周二',
       name: 'tuesday',
       desc: '',
       args: [],
     );
   }
 
-  /// `Wednesday`
+  /// `周三`
   String get wednesday {
     return Intl.message(
-      'Wednesday',
+      '周三',
       name: 'wednesday',
       desc: '',
       args: [],
     );
   }
 
-  /// `Thursday`
+  /// `周四`
   String get thursday {
     return Intl.message(
-      'Thursday',
+      '周四',
       name: 'thursday',
       desc: '',
       args: [],
     );
   }
 
-  /// `Friday`
+  /// `周五`
   String get friday {
     return Intl.message(
-      'Friday',
+      '周五',
       name: 'friday',
       desc: '',
       args: [],
     );
   }
 
-  /// `Saturday`
+  /// `周六`
   String get saturday {
     return Intl.message(
-      'Saturday',
+      '周六',
       name: 'saturday',
       desc: '',
       args: [],
     );
   }
 
-  /// `Sunday`
+  /// `周日`
   String get sunday {
     return Intl.message(
-      'Sunday',
+      '周日',
       name: 'sunday',
       desc: '',
       args: [],
     );
   }
 
-  /// `Dark theme`
+  /// `深色主题`
   String get darkMode {
     return Intl.message(
-      'Dark theme',
+      '深色主题',
       name: 'darkMode',
       desc: '',
       args: [],
     );
   }
 
-  /// `Light theme`
+  /// `浅色主题`
   String get lightMode {
     return Intl.message(
-      'Light theme',
+      '浅色主题',
       name: 'lightMode',
       desc: '',
       args: [],
     );
   }
 
-  /// `More settings`
+  /// `更多信息`
   String get moreSetting {
     return Intl.message(
-      'More settings',
+      '更多信息',
       name: 'moreSetting',
       desc: '',
       args: [],
     );
   }
 
-  /// `Loading...`
+  /// `加载中...`
   String get loadingWebTitle {
     return Intl.message(
-      'Loading...',
+      '加载中...',
       name: 'loadingWebTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Back`
+  /// `后退`
   String get back {
     return Intl.message(
-      'Back',
+      '后退',
       name: 'back',
       desc: '',
       args: [],
     );
   }
 
-  /// `Forward`
+  /// `前进`
   String get forward {
     return Intl.message(
-      'Forward',
+      '前进',
       name: 'forward',
       desc: '',
       args: [],
     );
   }
 
-  /// `Refresh`
+  /// `刷新`
   String get refresh {
     return Intl.message(
-      'Refresh',
+      '刷新',
       name: 'refresh',
       desc: '',
       args: [],
     );
   }
 
-  /// `Share`
+  /// `分享`
   String get share {
     return Intl.message(
-      'Share',
+      '分享',
       name: 'share',
       desc: '',
       args: [],
     );
   }
 
-  /// `Pull up`
+  /// `上拉加载更多`
   String get loadIdle {
     return Intl.message(
-      'Pull up',
+      '上拉加载更多',
       name: 'loadIdle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Load failed`
+  /// `加载失败`
   String get loadFailed {
     return Intl.message(
-      'Load failed',
+      '加载失败',
       name: 'loadFailed',
       desc: '',
       args: [],
     );
   }
 
-  /// `No more data`
+  /// `我也是有底线的`
   String get loadNoMore {
     return Intl.message(
-      'No more data',
+      '我也是有底线的',
       name: 'loadNoMore',
       desc: '',
       args: [],
     );
   }
 
-  /// `Click again to exit the app`
+  /// `再点击一次退出程序`
   String get quitApp {
     return Intl.message(
-      'Click again to exit the app',
+      '再点击一次退出程序',
       name: 'quitApp',
       desc: '',
       args: [],
     );
   }
 
-  /// `Load failed`
+  /// `加载失败`
   String get viewStateError {
     return Intl.message(
-      'Load failed',
+      '加载失败',
       name: 'viewStateError',
       desc: '',
       args: [],
     );
   }
 
-  /// `Load failed,check network `
+  /// `网络好像不给力哟！`
   String get viewStateNetworkError {
     return Intl.message(
-      'Load failed,check network ',
+      '网络好像不给力哟！',
       name: 'viewStateNetworkError',
       desc: '',
       args: [],
     );
   }
 
-  /// `Nothing at all`
+  /// `空空如也`
   String get viewStateEmpty {
     return Intl.message(
-      'Nothing at all',
+      '空空如也',
       name: 'viewStateEmpty',
       desc: '',
       args: [],
     );
   }
 
-  /// `Refresh`
+  /// `刷新一下`
   String get viewStateRefresh {
     return Intl.message(
-      'Refresh',
+      '刷新一下',
       name: 'viewStateRefresh',
       desc: '',
       args: [],
     );
   }
 
-  /// `Retry`
+  /// `重试`
   String get viewStateRetry {
     return Intl.message(
-      'Retry',
+      '重试',
       name: 'viewStateRetry',
       desc: '',
       args: [],
     );
   }
 
-  /// `Hide floating button`
+  /// `隐藏悬浮按钮`
   String get settingHideFloatingButton {
     return Intl.message(
-      'Hide floating button',
+      '隐藏悬浮按钮',
       name: 'settingHideFloatingButton',
       desc: '',
       args: [],
     );
   }
 
-  /// `Style`
+  /// `样式`
   String get settingStyle {
     return Intl.message(
-      'Style',
+      '样式',
       name: 'settingStyle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Download image`
+  /// `保存图片到本地`
   String get downloadImage {
     return Intl.message(
-      'Download image',
+      '保存图片到本地',
       name: 'downloadImage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save succeed in user phone`
+  /// `已保存至手机`
   String get saveImageSucceedInGallery {
     return Intl.message(
-      'Save succeed in user phone',
+      '已保存至手机',
       name: 'saveImageSucceedInGallery',
       desc: '',
       args: [],
     );
   }
 
-  /// `Failed to get read / write file permission`
+  /// `文件读写权限获取失败`
   String get saveImagePermissionFailed {
     return Intl.message(
-      'Failed to get read / write file permission',
+      '文件读写权限获取失败',
       name: 'saveImagePermissionFailed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save image failed`
+  /// `保存文件失败`
   String get saveImageFailed {
     return Intl.message(
-      'Save image failed',
+      '保存文件失败',
       name: 'saveImageFailed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Shared by Freadhub app`
+  /// `来自「Freadhub」 App 的分享`
   String get saveImageShareTip {
     return Intl.message(
-      'Shared by Freadhub app',
+      '来自「Freadhub」 App 的分享',
       name: 'saveImageShareTip',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cancel`
+  /// `取消`
   String get cancel {
     return Intl.message(
-      'Cancel',
+      '取消',
       name: 'cancel',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open by system browser`
+  /// `浏览器打开-推荐Chrome`
   String get openBySystemBrowser {
     return Intl.message(
-      'Open by system browser',
+      '浏览器打开-推荐Chrome',
       name: 'openBySystemBrowser',
       desc: '',
       args: [],
     );
   }
 
-  /// `App copyright`
+  /// `软件说明`
   String get appCopyright {
     return Intl.message(
-      'App copyright',
+      '软件说明',
       name: 'appCopyright',
       desc: '',
       args: [],
     );
   }
 
-  /// `Feedback`
+  /// `意见反馈`
   String get feedback {
     return Intl.message(
-      'Feedback',
+      '意见反馈',
       name: 'feedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `Check update`
+  /// `检查版本`
   String get checkUpdate {
     return Intl.message(
-      'Check update',
+      '检查版本',
       name: 'checkUpdate',
       desc: '',
       args: [],
     );
   }
 
-  /// `Share app`
+  /// `分享软件`
   String get shareApp {
     return Intl.message(
-      'Share app',
+      '分享软件',
       name: 'shareApp',
       desc: '',
       args: [],
     );
   }
 
-  /// `Current version is the latest`
+  /// `当前已是最新版本`
   String get currentIsNew {
     return Intl.message(
-      'Current version is the latest',
+      '当前已是最新版本',
       name: 'currentIsNew',
       desc: '',
       args: [],
     );
   }
 
-  /// `Update now`
+  /// `立即更新`
   String get updateNow {
     return Intl.message(
-      'Update now',
+      '立即更新',
       name: 'updateNow',
       desc: '',
       args: [],
     );
   }
 
-  /// `Next time`
+  /// `下次再说`
   String get updateNextTime {
     return Intl.message(
-      'Next time',
+      '下次再说',
       name: 'updateNextTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `Font size`
+  /// `文字大小`
   String get fontSize {
     return Intl.message(
-      'Font size',
+      '文字大小',
       name: 'fontSize',
       desc: '',
       args: [],
     );
   }
 
-  /// `Appreciate`
+  /// `赞赏开发`
   String get appreciateDeveloper {
     return Intl.message(
-      'Appreciate',
+      '赞赏开发',
       name: 'appreciateDeveloper',
       desc: '',
       args: [],
     );
   }
 
-  /// `The current system is in dark mode`
+  /// `英语`
+  String get english {
+    return Intl.message(
+      '英语',
+      name: 'english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `当前系统为深色主题`
   String get tipSwitchThemeWhenPlatformDark {
     return Intl.message(
-      'The current system is in dark mode',
+      '当前系统为深色主题',
       name: 'tipSwitchThemeWhenPlatformDark',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please install email app and try again！`
+  /// `请安装邮箱app后重试！`
   String get tipNoEmailApp {
     return Intl.message(
-      'Please install email app and try again！',
+      '请安装邮箱app后重试！',
       name: 'tipNoEmailApp',
       desc: '',
       args: [],
     );
   }
 
-  /// `To top`
+  /// `回到顶部`
   String get tooltipScrollTop {
     return Intl.message(
-      'To top',
+      '回到顶部',
       name: 'tooltipScrollTop',
       desc: '',
       args: [],
     );
   }
 
-  /// `copy success`
+  /// `复制成功`
   String get copyToClipboardSucceed {
     return Intl.message(
-      'copy success',
+      '复制成功',
       name: 'copyToClipboardSucceed',
       desc: '',
       args: [],
     );
   }
 
-  /// `card share`
+  /// `卡片分享`
   String get cardShare {
     return Intl.message(
-      'card share',
+      '卡片分享',
       name: 'cardShare',
       desc: '',
       args: [],
     );
   }
 
-  /// `WeChat`
+  /// `微信`
   String get weChatFriend {
     return Intl.message(
-      'WeChat',
+      '微信',
       name: 'weChatFriend',
       desc: '',
       args: [],
     );
   }
 
-  /// `WeChatTimeline`
+  /// `朋友圈`
   String get weChatTimeLine {
     return Intl.message(
-      'WeChatTimeline',
+      '朋友圈',
       name: 'weChatTimeLine',
       desc: '',
       args: [],
@@ -661,160 +670,180 @@ class S {
     );
   }
 
-  /// `SinaWeiBo`
+  /// `微博`
   String get weiBoTimeLine {
     return Intl.message(
-      'SinaWeiBo',
+      '微博',
       name: 'weiBoTimeLine',
       desc: '',
       args: [],
     );
   }
 
-  /// `copy link`
+  /// `钉钉`
+  String get dingTalk {
+    return Intl.message(
+      '钉钉',
+      name: 'dingTalk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `企业微信`
+  String get weWork {
+    return Intl.message(
+      '企业微信',
+      name: 'weWork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `复制链接`
   String get copyLink {
     return Intl.message(
-      'copy link',
+      '复制链接',
       name: 'copyLink',
       desc: '',
       args: [],
     );
   }
 
-  /// `open by browser`
+  /// `浏览器打开`
   String get openByBrowser {
     return Intl.message(
-      'open by browser',
+      '浏览器打开',
       name: 'openByBrowser',
       desc: '',
       args: [],
     );
   }
 
-  /// `more`
+  /// `更多`
   String get more {
     return Intl.message(
-      'more',
+      '更多',
       name: 'more',
       desc: '',
       args: [],
     );
   }
 
-  /// `share you a nice app`
+  /// `分享您一个不错的App`
   String get aboutUsShareTitle {
     return Intl.message(
-      'share you a nice app',
+      '分享您一个不错的App',
       name: 'aboutUsShareTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `scan qr code for detail`
+  /// `识别二维码查看详情`
   String get scanOrCodeForDetail {
     return Intl.message(
-      'scan qr code for detail',
+      '识别二维码查看详情',
       name: 'scanOrCodeForDetail',
       desc: '',
       args: [],
     );
   }
 
-  /// `share from`
+  /// `分享自`
   String get shareForm {
     return Intl.message(
-      'share from',
+      '分享自',
       name: 'shareForm',
       desc: '',
       args: [],
     );
   }
 
-  /// `share image need invite your`
+  /// `分享功能需使用访问您的`
   String get shareImageNeedInvite {
     return Intl.message(
-      'share image need invite your',
+      '分享功能需使用访问您的',
       name: 'shareImageNeedInvite',
       desc: '',
       args: [],
     );
   }
 
-  /// `photo`
+  /// `照片`
   String get photo {
     return Intl.message(
-      'photo',
+      '照片',
       name: 'photo',
       desc: '',
       args: [],
     );
   }
 
-  /// `file storage`
+  /// `文件存储`
   String get fileStorage {
     return Intl.message(
-      'file storage',
+      '文件存储',
       name: 'fileStorage',
       desc: '',
       args: [],
     );
   }
 
-  /// `no now`
+  /// `暂不授权`
   String get noPermission {
     return Intl.message(
-      'no now',
+      '暂不授权',
       name: 'noPermission',
       desc: '',
       args: [],
     );
   }
 
-  /// `right now`
+  /// `去授权`
   String get goPermission {
     return Intl.message(
-      'right now',
+      '去授权',
       name: 'goPermission',
       desc: '',
       args: [],
     );
   }
 
-  /// `card type`
+  /// `卡片样式`
   String get shareCarStyle {
     return Intl.message(
-      'card type',
+      '卡片样式',
       name: 'shareCarStyle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Freadhub style`
+  /// `Freadhub样式`
   String get shareCarStyleApp {
     return Intl.message(
-      'Freadhub style',
+      'Freadhub样式',
       name: 'shareCarStyleApp',
       desc: '',
       args: [],
     );
   }
 
-  /// `juejin style`
+  /// `掘金样式`
   String get shareCarStyleJueJin {
     return Intl.message(
-      'juejin style',
+      '掘金样式',
       name: 'shareCarStyleJueJin',
       desc: '',
       args: [],
     );
   }
 
-  /// `Screenshot failed, please open access to storage`
+  /// `截图失败,请开启访问存储权限`
   String get shotFailed {
     return Intl.message(
-      'Screenshot failed, please open access to storage',
+      '截图失败,请开启访问存储权限',
       name: 'shotFailed',
       desc: '',
       args: [],
