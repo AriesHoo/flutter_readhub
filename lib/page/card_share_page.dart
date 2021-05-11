@@ -28,6 +28,7 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
   static show(BuildContext context, CardShareModel model) {
     DialogUtil.showModalBottomSheetDialog(
       context,
+      childOutside: true,
       child: CardSharePage(model),
     );
     return;

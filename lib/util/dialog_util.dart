@@ -134,6 +134,7 @@ class DialogUtil {
     Color? backgroundColor,
     RouteSettings? settings,
     ShapeBorder? shape,
+    bool childOutside: false,
   }) async {
     return await showModalBottomSheet(
         context: context,
@@ -150,15 +151,16 @@ class DialogUtil {
 
         ///itemBuilder
         builder: (BuildContext context) {
-          return child ??
-              ListView.builder(
-                itemCount: count,
-                shrinkWrap: true,
+          return child != null && childOutside
+              ? child
+              : ListView.builder(
+                  itemCount: count,
+                  shrinkWrap: true,
 
-                ///通过控制滚动用于手指跟随
-                physics: BouncingScrollPhysics(),
-                itemBuilder: itemBuilder!,
-              );
+                  ///通过控制滚动用于手指跟随
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: itemBuilder!,
+                );
         });
   }
 }

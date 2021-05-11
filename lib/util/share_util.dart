@@ -148,7 +148,7 @@ class ShareUtil {
     shareText(
       text,
       subject: subject,
-      title: title ?? 'shareTextToDingTalk',
+      title: title,
       packageName: dingTalkPackageName,
       rect: rect,
     );
@@ -164,7 +164,7 @@ class ShareUtil {
     shareText(
       text,
       subject: subject,
-      title: title ?? 'shareTextToWeWork',
+      title: title,
       packageName: weWorkPackageName,
       rect: rect,
     );

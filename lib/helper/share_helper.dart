@@ -47,6 +47,7 @@ class ShareHelper {
     DialogUtil.showModalBottomSheetDialog(
       navigatorKey.currentContext!,
       settings: RouteSettings(name: 'share_url_bottom_sheet'),
+      childOutside: true,
       child: ShareBottomWidget<ShareTextViewModel>(
         model: ShareTextViewModel(),
         onClick: (type) {
@@ -118,6 +119,7 @@ class ShareHelper {
     DialogUtil.showModalBottomSheetDialog(
       navigatorKey.currentContext!,
       settings: RouteSettings(name: 'share_image_bottom_sheet'),
+      childOutside: true,
       child: ShareBottomWidget<ShareImageViewModel>(
         model: ShareImageViewModel(),
         onClick: (type) {
