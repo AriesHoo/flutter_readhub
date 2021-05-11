@@ -4,13 +4,13 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_readhub/basis/basis_highlight_view_model.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/enum/share_card_style.dart';
 import 'package:flutter_readhub/enum/share_type.dart';
 import 'package:flutter_readhub/helper/path_helper.dart';
 import 'package:flutter_readhub/helper/save_image_helper.dart';
+import 'package:flutter_readhub/helper/share_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
@@ -20,6 +20,7 @@ import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/share_view_model.dart';
 import 'package:flutter_readhub/widget/capture_image_widget.dart';
 import 'package:flutter_readhub/widget/lifecycle_widget.dart';
+import 'package:flutter_readhub/widget/share_widget.dart';
 
 ///卡片分享页面-链接
 class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
@@ -83,32 +84,36 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
         ),
         bottomNavigationBar: ShareBottomWidget(
           model: ShareBottomViewModel(),
-          onClick: (type) => _share(
-              type,
-              styleModel.shareCardStyle == ShareCardStyle.gold
-                  ? _globalJueJinKey
-                  : _globalKey),
-          styleViewModel: styleModel,
+          onClick: (type) => _share(type, styleModel),
         ),
       ),
     );
   }
 
   ///开始分享
-  _share(ShareType type, GlobalKey key) async {
+  _share(ShareType type, ShareCardStyleViewModel styleModel) async {
     ///复制链接
     if (type == ShareType.copyLink) {
-      ShareUtil.shareTextToClipboard(model.url);
+      ShareHelper.singleton.shareTextToClipboard(model.url);
       return;
 
       ///浏览器打开
     } else if (type == ShareType.browser) {
-      ShareUtil.shareTextOpenByBrowser(model.url);
+      ShareHelper.singleton.shareTextOpenByBrowser(model.url);
+      return;
+
+      ///卡片模式
+    } else if (type == ShareType.icon) {
+      _chooseCardStyle(styleModel);
       return;
     }
     String _imageName = '${DateTime.now().millisecondsSinceEpoch}.png';
     String? _filePath = await _saveImageHelper.saveImage(
-        navigatorKey.currentContext!, key, _imageName);
+        navigatorKey.currentContext!,
+        styleModel.shareCardStyle == ShareCardStyle.gold
+            ? _globalJueJinKey
+            : _globalKey,
+        _imageName);
 
     LogUtil.v('CardSharePage_filePath:$_filePath');
     if (TextUtil.isEmpty(_filePath)) {
@@ -134,14 +139,69 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
 
       ///微博内容
       case ShareType.weiBoTimeLine:
-        ShareUtil.shareImagesToWeiBoTimeLine([_filePath!]);
+        ShareUtil.shareImagesToWeiBoTimeLine(
+          [_filePath!],
+          text: model.text,
+          subject: StringHelper.getS()!.saveImageShareTip,
+        );
+        break;
+
+      ///钉钉
+      case ShareType.dingTalk:
+        ShareUtil.shareImagesToDingTalk([_filePath!]);
+        break;
+
+      ///企业微信
+      case ShareType.weWork:
+        ShareUtil.shareImagesToWeWork([_filePath!]);
         break;
 
       ///所有可选
       case ShareType.more:
-        ShareUtil.shareImagesToAllApps([_filePath!]);
+        ShareUtil.shareImages(
+          [_filePath!],
+          text: model.text,
+          subject: StringHelper.getS()!.saveImageShareTip,
+        );
         break;
     }
+  }
+
+  ///切换卡片模式
+  _chooseCardStyle(ShareCardStyleViewModel styleModel) async {
+    int checkIndex = styleModel.shareCardStyle == ShareCardStyle.app ? 0 : 1;
+    await styleModel.setShareCardStyle(
+      checkIndex == 1 ? ShareCardStyle.app : ShareCardStyle.gold,
+    );
+    ToastUtil.show(
+      styleModel.shareCardStyle == ShareCardStyle.app
+          ? StringHelper.getS()!.shareCarStyleApp
+          : StringHelper.getS()!.shareCarStyleJueJin,
+    );
+    ///两个就没必要切换了
+    // DialogUtil.showModalBottomSheetDialog(
+    //   navigatorKey.currentContext!,
+    //   count: 2,
+    //   itemBuilder: (context, index) => ListTile(
+    //     title: Text(
+    //       index == 0
+    //           ? StringHelper.getS()!.shareCarStyleApp
+    //           : StringHelper.getS()!.shareCarStyleJueJin,
+    //     ),
+    //     trailing: Icon(
+    //       Icons.check,
+    //       color: index == checkIndex
+    //           ? Theme.of(context).accentColor
+    //           : Colors.transparent,
+    //     ),
+    //     onTap: () {
+    //       styleModel.setShareCardStyle(
+    //         index == 0 ? ShareCardStyle.app : ShareCardStyle.gold,
+    //       );
+    //       Navigator.of(context).pop();
+    //     },
+    //   ),
+    // );
   }
 
   @override
@@ -156,151 +216,5 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
         directory.deleteSync(recursive: true);
       }
     }
-  }
-}
-
-///分享底部
-class ShareBottomWidget<A extends ShareBottomViewModel>
-    extends StatelessWidget {
-  final Function(ShareType)? onClick;
-  final A model;
-  final ShareCardStyleViewModel? styleViewModel;
-
-  const ShareBottomWidget({
-    Key? key,
-    required this.model,
-    this.onClick,
-    this.styleViewModel,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BasisListProviderWidget<ShareBottomViewModel>(
-      model: model,
-      builder: (context, model, child) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            styleViewModel != null
-                ? ListTile(
-                    title: Text(StringHelper.getS()!.shareCarStyle),
-                    trailing: Text(
-                      styleViewModel!.shareCardStyle == ShareCardStyle.gold
-                          ? StringHelper.getS()!.shareCarStyleJueJin
-                          : StringHelper.getS()!.shareCarStyleApp,
-                    ),
-                    onTap: () => styleViewModel!.setShareCardStyle(
-                        styleViewModel!.shareCardStyle == ShareCardStyle.gold
-                            ? ShareCardStyle.app
-                            : ShareCardStyle.gold),
-                  )
-                : SizedBox(),
-            ShareGridWidget(
-              model.list,
-              onClick: onClick,
-            ),
-            Divider(
-              height: 0,
-            ),
-            CancelShare(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-///分享网格布局
-class ShareGridWidget extends StatelessWidget {
-  final List<ShareModel> listShare;
-  final Function(ShareType)? onClick;
-
-  const ShareGridWidget(this.listShare, {Key? key, this.onClick})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(
-        vertical: 8,
-      ),
-      shrinkWrap: true,
-      addAutomaticKeepAlives: true,
-      physics: ClampingScrollPhysics(),
-      itemCount: listShare.length,
-      itemBuilder: (BuildContext context, int index) {
-        return BasisProviderWidget<BasisHighlightViewModel>(
-          model: BasisHighlightViewModel(),
-          builder: (context, highlightModel, child) => Opacity(
-            opacity: highlightModel.highlight ? 0.5 : 1,
-            child: InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onHighlightChanged: highlightModel.onHighlightChanged,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/share/${listShare[index].image}.png',
-                    width: 52,
-                    height: 52,
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text(listShare[index].text),
-                ],
-              ),
-              onTap: () => onClick?.call(listShare[index].type),
-            ),
-          ),
-        );
-      },
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        ///纵向数量
-        crossAxisCount: 4,
-
-        ///水平单个子Widget之间间距
-        mainAxisSpacing: 0.0,
-
-        ///垂直单个子Widget之间间距
-        crossAxisSpacing: 0.0,
-      ),
-    );
-  }
-}
-
-class CancelShare extends StatelessWidget {
-  const CancelShare({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BasisProviderWidget<BasisHighlightViewModel>(
-      model: BasisHighlightViewModel(),
-      builder: (context, model, child) => Opacity(
-        opacity: model.highlight ? 0.5 : 1,
-        child: MaterialButton(
-          onHighlightChanged: model.onHighlightChanged,
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            }
-          },
-          color: Colors.transparent,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          elevation: 0,
-          highlightElevation: 0,
-          focusElevation: 0,
-          disabledElevation: 0,
-          hoverElevation: 0,
-          child: Text(
-            StringHelper.getS()!.cancel,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-        ),
-      ),
-    );
   }
 }

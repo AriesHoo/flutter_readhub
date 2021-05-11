@@ -15,6 +15,12 @@ enum ShareType {
   ///微博内容
   weiBoTimeLine,
 
+  ///钉钉
+  dingTalk,
+
+  ///企业微信
+  weWork,
+
   ///复制链接
   copyLink,
 
@@ -23,4 +29,7 @@ enum ShareType {
 
   ///更多
   more,
+
+  ///icon
+  icon,
 }

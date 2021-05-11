@@ -4,9 +4,9 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/helper/share_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
-import 'package:flutter_readhub/util/share_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -181,8 +181,8 @@ class _WebViewPageState extends State<WebViewPage> {
 
   ///弹出分享选择
   _showShare() {
-    ShareUtil.shareUrlBottomSheet(
-      "${StringHelper.getS()!.saveImageShareTip}  '$_title'  ${widget.model.url}",
+    ShareHelper.singleton.shareUrlBottomSheet(
+      "${StringHelper.getS()!.saveImageShareTip} 资讯 「$_title」 链接：  ${widget.model.url}",
       widget.model,
     );
   }

@@ -1,15 +1,5 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_readhub/enum/share_type.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
-import 'package:flutter_readhub/main.dart';
-import 'package:flutter_readhub/model/share_model.dart';
-import 'package:flutter_readhub/page/card_share_page.dart';
-import 'package:flutter_readhub/util/toast_util.dart';
-import 'package:flutter_readhub/view_model/share_view_model.dart';
 import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 ///分享帮助类
 class ShareUtil {
@@ -38,8 +28,23 @@ class ShareUtil {
   static String get weiBoTimeLineActivityName =>
       'com.sina.weibo.composerinde.ComposerDispatchActivity';
 
+  ///钉钉包名
+  static String get dingTalkPackageName => "com.alibaba.android.rimet";
+
+  /// 企业微信包名
+  static String get weWorkPackageName => "com.tencent.wework";
+
   ///图片分享类型
   static String get shareImageType => 'image/*';
+
+  ///视频分享类型
+  static String get shareVideoType => 'video/*';
+
+  ///音频分享类型
+  static String get shareAudioType => 'audio/*';
+
+  ///文件分享类型
+  static String get shareFileType => '*/*';
 
   ///QQ是否安装
   static Future<bool> isQQInstall() {
@@ -56,237 +61,310 @@ class ShareUtil {
     return Share.isAppInstall(weiBoPackageName);
   }
 
-  ///分享文本到粘贴板
-  static void shareTextToClipboard(String text) {
-    Clipboard.setData(ClipboardData(text: text)).then(
-        (value) => ToastUtil.show(StringHelper.getS()!.copyToClipboardSucceed));
+  ///钉钉是否安装
+  static Future<bool> isDingTalkInstall() {
+    return Share.isAppInstall(dingTalkPackageName);
   }
 
-  ///分享网址-通过系统浏览器打开
-  static void shareTextOpenByBrowser(String url) async {
-    try {
-      await launch(url);
-    } catch (e) {
-      LogUtil.v('e:$e}', tag: 'shareTextOpenByBrowser');
-    }
+  ///企业微信是否安装
+  static Future<bool> isWeWorkInstall() {
+    return Share.isAppInstall(weWorkPackageName);
   }
 
-  ///分享文本到QQ
-  static void shareTextToQQ(String text) {
-    Share.share(
+  ///分享文本到QQ-好友、我的电脑、收藏夹
+  static void shareTextToQQ(
+    String text, {
+    String? subject,
+    String? title,
+    Rect? rect,
+  }) {
+    shareText(
       text,
+      subject: subject,
+      title: title,
       packageName: qqPackageName,
-      subject: 'shareTextToQQ',
+      rect: rect,
     );
   }
 
   ///分享文本到QQ好友
-  static void shareTextToQQFriend(String text) {
-    Share.share(
+  static void shareTextToQQFriend(
+    String text, {
+    String? subject,
+    String? title,
+    Rect? rect,
+  }) {
+    shareText(
       text,
+      subject: subject,
+      title: title,
       packageName: qqPackageName,
       activityName: qqFriendActivityName,
-      subject: 'shareTextToQQFriend',
+      rect: rect,
     );
   }
 
   ///分享文本到微信好友
-  static void shareTextToWeChatFriend(String text) {
-    Share.share(
+  static void shareTextToWeChatFriend(
+    String text, {
+    String? subject,
+    String? title,
+    Rect? rect,
+  }) {
+    shareText(
       text,
+      subject: subject,
+      title: title,
       packageName: weChatPackageName,
       activityName: weChatFriendActivityName,
-      subject: 'shareTextToWeChatFriend',
+      rect: rect,
     );
   }
 
   ///分享文本到微博内容
-  static void shareTextToWeiBoTimeLine(String text) {
-    Share.share(
+  static void shareTextToWeiBoTimeLine(
+    String text, {
+    String? subject,
+    String? title,
+    Rect? rect,
+  }) {
+    shareText(
       text,
+      subject: subject,
+      title: title,
       packageName: weiBoPackageName,
       activityName: weiBoTimeLineActivityName,
-      subject: 'shareTextToWeiBoTimeLine',
+      rect: rect,
+    );
+  }
+
+  ///分享文本到钉钉-只会出现弹框选择好友/ding
+  static void shareTextToDingTalk(
+    String text, {
+    String? subject,
+    String? title,
+    Rect? rect,
+  }) {
+    shareText(
+      text,
+      subject: subject,
+      title: title ?? 'shareTextToDingTalk',
+      packageName: dingTalkPackageName,
+      rect: rect,
+    );
+  }
+
+  ///分享文本到企业微信
+  static void shareTextToWeWork(
+    String text, {
+    String? subject,
+    String? title,
+    Rect? rect,
+  }) {
+    shareText(
+      text,
+      subject: subject,
+      title: title ?? 'shareTextToWeWork',
+      packageName: weWorkPackageName,
+      rect: rect,
     );
   }
 
   ///分享文本到所有可选
-  static void shareTextToAllApps(String text) {
+  static void shareText(
+    String text, {
+    String? subject,
+    String? title,
+    String? packageName,
+    String? activityName,
+    Rect? rect,
+  }) {
     Share.share(
       text,
-      subject: 'shareTextToAllApps',
-    );
-  }
-
-  ///分享图片到QQ
-  static void shareImagesToQQ(List<String> listImages) {
-    Share.shareFiles(
-      listImages,
-      mimeTypes: [shareImageType],
-      packageName: qqPackageName,
-      subject: 'shareImagesToQQ',
+      subject: subject,
+      title: title,
+      packageName: packageName,
+      activityName: activityName,
+      sharePositionOrigin: rect,
     );
   }
 
   ///分享图片到QQ好友
-  static void shareImagesToQQFriend(List<String> listImages) {
-    Share.shareFiles(
-      listImages,
-      mimeTypes: [shareImageType],
+  static void shareImagesToQQ(
+    List<String> paths, {
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
+      packageName: qqPackageName,
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
+    );
+  }
+
+  ///分享图片到QQ好友
+  static void shareImagesToQQFriend(
+    List<String> paths, {
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
       packageName: qqPackageName,
       activityName: qqFriendActivityName,
-      subject: 'shareImagesToQQFriend',
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
     );
   }
 
   ///分享图片到微信好友
-  static void shareImagesToWeChatFriend(List<String> listImages) {
-    Share.shareFiles(
-      listImages,
-      mimeTypes: [shareImageType],
+  static void shareImagesToWeChatFriend(
+    List<String> paths, {
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
       packageName: weChatPackageName,
       activityName: weChatFriendActivityName,
-      subject: 'shareImagesToWeChatFriend',
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
     );
   }
 
   ///分享图片到微信朋友圈
-  static void shareImagesToWeChatTimeLine(List<String> listImages) {
-    Share.shareFiles(
-      listImages,
-      mimeTypes: [shareImageType],
+  static void shareImagesToWeChatTimeLine(
+    List<String> paths, {
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
       packageName: weChatPackageName,
       activityName: weChatTimeLineActivityName,
-      subject: 'shareImagesToWeChatTimeLine',
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
     );
   }
 
   ///分享图片到微博内容
-  static void shareImagesToWeiBoTimeLine(List<String> listImages) {
-    Share.shareFiles(
-      listImages,
-      mimeTypes: [shareImageType],
+  static void shareImagesToWeiBoTimeLine(
+    List<String> paths, {
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
       packageName: weiBoPackageName,
       activityName: weiBoTimeLineActivityName,
-      subject: 'shareImagesToWeChatTimeLine',
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
     );
   }
 
-  ///分享图片到所有可选
-  static void shareImagesToAllApps(List<String> listImages) {
+  ///分享图片到钉钉
+  static void shareImagesToDingTalk(
+    List<String> paths, {
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
+      packageName: dingTalkPackageName,
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
+    );
+  }
+
+  ///分享图片到企业微信
+  static void shareImagesToWeWork(
+    List<String> paths, {
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
+      packageName: weWorkPackageName,
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
+    );
+  }
+
+  ///分享图片到
+  static void shareImages(
+    List<String> paths, {
+    List<String>? mimeTypes,
+    String? packageName,
+    String? activityName,
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
+    shareFiles(
+      paths,
+      mimeTypes: mimeTypes ?? [shareImageType],
+      packageName: packageName,
+      activityName: activityName,
+      title: title,
+      subject: subject,
+      text: text,
+      rect: rect,
+    );
+  }
+
+  ///分享文件
+  ///title 为创建分享标题
+  ///subject 如邮件的主题
+  ///text 如邮件、微博内容的正文
+  static void shareFiles(
+    List<String> paths, {
+    List<String>? mimeTypes,
+    String? packageName,
+    String? activityName,
+    String? title,
+    String? subject,
+    String? text,
+    Rect? rect,
+  }) {
     Share.shareFiles(
-      listImages,
-      mimeTypes: [shareImageType],
-      subject: 'shareImagesToAllApps',
+      paths,
+      mimeTypes: mimeTypes,
+      packageName: packageName,
+      activityName: activityName,
+      title: title,
+      subject: subject,
+      text: text,
+      sharePositionOrigin: rect,
     );
-  }
-
-  ///分享url信息底部Dialog
-  static void shareUrlBottomSheet(String text, CardShareModel model) async {
-    return await showModalBottomSheet(
-        context: (navigatorKey.currentContext)!,
-        isScrollControlled: true,
-        useRootNavigator: true,
-        backgroundColor: Theme.of((navigatorKey.currentContext)!).cardColor,
-
-        ///itemBuilder
-        builder: (BuildContext context) {
-          return ShareBottomWidget<ShareTextViewModel>(
-            model: ShareTextViewModel(),
-            onClick: (type) {
-              Navigator.of(context).pop();
-              switch (type) {
-
-                ///卡片分享
-                case ShareType.card:
-                  CardSharePage.show(context, model);
-                  break;
-
-                ///微信好友
-                case ShareType.weChatFriend:
-                  ShareUtil.shareTextToWeChatFriend(text);
-                  break;
-
-                ///QQ好友
-                case ShareType.qqFriend:
-                  ShareUtil.shareTextToQQFriend(text);
-                  break;
-
-                ///微博内容
-                case ShareType.weiBoTimeLine:
-                  ShareUtil.shareTextToWeiBoTimeLine(text);
-                  break;
-
-                ///复制链接
-                case ShareType.copyLink:
-                  ShareUtil.shareTextToClipboard(text);
-                  break;
-
-                ///浏览器打开
-                case ShareType.browser:
-                  ShareUtil.shareTextOpenByBrowser(model.url);
-                  break;
-
-                ///所有可选
-                case ShareType.more:
-                  ShareUtil.shareTextToAllApps(text);
-                  break;
-              }
-            },
-          );
-        });
-  }
-
-  ///分享Image底部Dialog
-  static void shareImageBottomSheet(String path) async {
-    List<ShareModel> list = await ShareImageViewModel().loadData();
-
-    ///只有一个
-    if (list.isEmpty || list.length == 1) {
-      ShareUtil.shareImagesToAllApps([path]);
-      return;
-    }
-    return await showModalBottomSheet(
-        context: (navigatorKey.currentContext)!,
-        isScrollControlled: true,
-        useRootNavigator: true,
-        backgroundColor: Theme.of((navigatorKey.currentContext)!).cardColor,
-
-        ///itemBuilder
-        builder: (BuildContext context) {
-          return ShareBottomWidget<ShareImageViewModel>(
-            model: ShareImageViewModel(),
-            onClick: (type) {
-              Navigator.of(context).pop();
-              switch (type) {
-
-                ///微信好友
-                case ShareType.weChatFriend:
-                  ShareUtil.shareImagesToWeChatFriend([path]);
-                  break;
-
-                ///微信朋友圈
-                case ShareType.weChatTimeLine:
-                  ShareUtil.shareImagesToWeChatTimeLine([path]);
-                  break;
-
-                ///QQ好友
-                case ShareType.qqFriend:
-                  ShareUtil.shareImagesToQQFriend([path]);
-                  break;
-
-                ///微博内容
-                case ShareType.weiBoTimeLine:
-                  ShareUtil.shareImagesToWeiBoTimeLine([path]);
-                  break;
-
-                ///所有可选
-                case ShareType.more:
-                  ShareUtil.shareImagesToAllApps([path]);
-                  break;
-              }
-            },
-          );
-        });
   }
 }

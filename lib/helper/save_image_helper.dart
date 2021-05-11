@@ -9,6 +9,7 @@ import 'package:flutter_readhub/helper/path_helper.dart';
 import 'package:flutter_readhub/helper/permission_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 ///保存图片到本地存储
@@ -17,6 +18,7 @@ class SaveImageHelper {
   String? _fileImage;
   Uint8List? _pngBytes;
   GlobalKey? _globalKey;
+  bool? _darkModel;
 
   Future<String> getImagePath(String imageName) async {
     File fileImage = await PathHelper.getShareImage()
@@ -27,7 +29,10 @@ class SaveImageHelper {
   ///保存图片
   Future<String?> saveImage(
       BuildContext context, GlobalKey globalKey, String imageName) async {
+    ///key相等才有可能是同一图像
+    ///明暗主题相同
     if (globalKey == _globalKey &&
+        ThemeViewModel.darkMode == _darkModel &&
         _fileImage != null &&
         _fileImage!.isNotEmpty &&
         File(_fileImage!).existsSync()) {
@@ -35,6 +40,7 @@ class SaveImageHelper {
       return _fileImage!;
     }
     _globalKey = globalKey;
+    _darkModel = ThemeViewModel.darkMode;
     _fileImage = null;
 
     ///直接获取读写文件权限

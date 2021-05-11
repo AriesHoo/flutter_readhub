@@ -40,7 +40,7 @@ dependencies:
   cached_network_image: ^3.0.0
   synchronized: ^3.0.0
   #  下拉刷新
-  pull_to_refresh: 1.6.4-nullsafety.1
+  pull_to_refresh: ^2.0.0
   #  本地缓存sp
   shared_preferences: ^2.0.5
   #用于做骨架屏-闪光效果
@@ -52,7 +52,7 @@ dependencies:
   #工具类
   flustars: ^2.0.1
   #动态权限申请
-  permission_handler: ^6.1.1
+  permission_handler: ^7.1.0
   #文件路径
   path_provider: ^2.0.1
   #分享文字及文件-注意保存文件位置
