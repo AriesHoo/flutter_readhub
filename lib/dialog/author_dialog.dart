@@ -234,7 +234,7 @@ class UpdateWidget extends StatelessWidget {
         color: Theme.of(context).cardColor,
         child: ListTile(
           leading: Icon(
-            Icons.system_update_alt,
+            Icons.system_update_tv_outlined,
             color: Theme.of(context).accentColor,
           ),
           title: Text(
