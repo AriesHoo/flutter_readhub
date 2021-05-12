@@ -37,10 +37,8 @@ class ThemeViewModel with ChangeNotifier {
 
   static bool get platformDarkMode =>
       navigatorKey.currentContext != null &&
-          MediaQuery
-              .of(navigatorKey.currentContext!)
-              .platformBrightness ==
-              Brightness.dark;
+      MediaQuery.of(navigatorKey.currentContext!).platformBrightness ==
+          Brightness.dark;
 
   static bool? get userDarkMode => _userDarkMode;
 
@@ -152,12 +150,11 @@ class ThemeViewModel with ChangeNotifier {
   static Future setSystemBarTheme() async {
     LogUtil.v('platformDarkMode:$platformDarkMode;userDarkMode:$userDarkMode');
     bool statusEnable =
-    Platform.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
+        Platform.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
     bool navigationEnable = Platform.isAndroid
         ? await PlatformUtil.isNavigationColorChange()
         : true;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-
       ///状态栏背景色
       statusBarColor: darkMode || statusEnable ? Colors.transparent : null,
 
@@ -167,23 +164,24 @@ class ThemeViewModel with ChangeNotifier {
       ///导航栏颜色
       systemNavigationBarColor: darkMode
           ? colorBlackTheme
-          : navigationEnable ? Colors.transparent : null,
+          : navigationEnable
+              ? Colors.transparent
+              : null,
 
       ///导航栏icon（浅色/深色）
       systemNavigationBarIconBrightness:
-      darkMode ? Brightness.light : Brightness.dark,
+          darkMode ? Brightness.light : Brightness.dark,
     ));
   }
 
   ///根据主题 明暗 和 颜色 生成对应的主题[dark]系统的Dark Mode
   themeData({bool platformDarkMode: false}) {
-   LogUtil.v('themeData_platform:$platformDarkMode');
+    LogUtil.v('themeData_platform:$platformDarkMode');
     var isDark = platformDarkMode || _userDarkMode!;
     var themeColor = _themeColor;
     _accentColor = isDark ? themeColor[600] : _themeColor;
     Brightness brightness = isDark ? Brightness.dark : Brightness.light;
     var themeData = ThemeData(
-
       ///主题浅色或深色-
       brightness: brightness,
       primaryColorBrightness: brightness,
@@ -213,14 +211,12 @@ class ThemeViewModel with ChangeNotifier {
 
         ///主题设置Appbar样式背景
         appBarTheme: themeData.appBarTheme.copyWith(
-
           ///根据主题设置Appbar样式背景
           color: isDark ? colorBlackTheme : Colors.white,
 
           ///去掉海拔高度
           elevation: 0,
           textTheme: TextTheme(
-
             ///title Text样式 原title 被废弃
             headline6: TextStyle(
               color: isDark ? Colors.white : accentColor,
@@ -259,11 +255,10 @@ class ThemeViewModel with ChangeNotifier {
             textStyle: TextStyle(
                 fontSize: 13,
                 color:
-                (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
+                    (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
 
         ///TabBar样式设置
         tabBarTheme: themeData.tabBarTheme.copyWith(
-
           ///标签内边距
           labelPadding: EdgeInsets.symmetric(horizontal: 8),
 
@@ -285,8 +280,13 @@ class ThemeViewModel with ChangeNotifier {
             fontFamily: fontValueList[_fontIndex!],
           ),
         ),
+
+        ///floatingActionButton
         floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
-          backgroundColor: themeAccentColor,
+          foregroundColor: accentColor,
+          backgroundColor: themeData.cardColor,
+          elevation: 10,
+          splashColor: themeColor.withAlpha(50),
         ),
 
         ///dialog主题
@@ -305,37 +305,21 @@ class ThemeViewModel with ChangeNotifier {
     int? index = i ?? _themeIndex;
     switch (index) {
       case 0:
-        return StringHelper
-            .getS()!
-            .red;
+        return StringHelper.getS()!.red;
       case 1:
-        return StringHelper
-            .getS()!
-            .orange;
+        return StringHelper.getS()!.orange;
       case 2:
-        return StringHelper
-            .getS()!
-            .yellow;
+        return StringHelper.getS()!.yellow;
       case 3:
-        return StringHelper
-            .getS()!
-            .green;
+        return StringHelper.getS()!.green;
       case 4:
-        return StringHelper
-            .getS()!
-            .cyan;
+        return StringHelper.getS()!.cyan;
       case 5:
-        return StringHelper
-            .getS()!
-            .blue;
+        return StringHelper.getS()!.blue;
       case 6:
-        return StringHelper
-            .getS()!
-            .purple;
+        return StringHelper.getS()!.purple;
       case 7:
-        return '${getWeekStr()}-${themeName(i: DateTime
-            .now()
-            .weekday - 1)}';
+        return '${getWeekStr()}-${themeName(i: DateTime.now().weekday - 1)}';
       default:
         return '';
     }
@@ -344,46 +328,28 @@ class ThemeViewModel with ChangeNotifier {
   static MaterialColor getThemeColor({int? i}) {
     int? index = i ?? _themeIndex;
     return index == themeValueList.length - 1
-        ? themeValueList[DateTime
-        .now()
-        .weekday - 1]
+        ? themeValueList[DateTime.now().weekday - 1]
         : themeValueList[index!];
   }
 
   ///获取周
   static String getWeekStr() {
-    int week = DateTime
-        .now()
-        .weekday;
+    int week = DateTime.now().weekday;
     switch (week) {
       case 1:
-        return StringHelper
-            .getS()!
-            .monday;
+        return StringHelper.getS()!.monday;
       case 2:
-        return StringHelper
-            .getS()!
-            .tuesday;
+        return StringHelper.getS()!.tuesday;
       case 3:
-        return StringHelper
-            .getS()!
-            .wednesday;
+        return StringHelper.getS()!.wednesday;
       case 4:
-        return StringHelper
-            .getS()!
-            .thursday;
+        return StringHelper.getS()!.thursday;
       case 5:
-        return StringHelper
-            .getS()!
-            .friday;
+        return StringHelper.getS()!.friday;
       case 6:
-        return StringHelper
-            .getS()!
-            .saturday;
+        return StringHelper.getS()!.saturday;
       case 7:
-        return StringHelper
-            .getS()!
-            .sunday;
+        return StringHelper.getS()!.sunday;
       default:
         return '';
     }

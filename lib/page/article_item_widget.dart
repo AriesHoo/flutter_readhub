@@ -43,7 +43,6 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
     return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
-      model2: ScrollTopModel(ScrollController(), height: 400),
 
       ///加载中占位-骨架屏-默认菊花loading
       loadingBuilder: (context, model, model2, child) {
@@ -314,7 +313,7 @@ class NewsAdapter extends StatelessWidget {
             arguments: CardShareModel(
               title: item.title,
               text:
-              "${StringHelper.getS()!.saveImageShareTip} 资讯 「${item.title}」 链接：  ${item.getUrl()}",
+                  "${StringHelper.getS()!.saveImageShareTip} 资讯 「${item.title}」 链接：  ${item.getUrl()}",
               summary: item.getSummary(),
               notice: item.getScanNote(),
               url: item.getUrl(),

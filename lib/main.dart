@@ -1,13 +1,12 @@
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'generated/l10n.dart';
@@ -42,21 +41,19 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 ///全局路由监听-这里要设置Route基类
 AppRouteObserver appRouteObserver = AppRouteObserver();
 
+///全局toast
+final botToastBuilder = BotToastInit();
+
+///清空所有Toast
+clearToast() {
+  BotToast.closeAllLoading();
+  BotToast.cleanAll();
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ///OKToast初始化以便全局使用context
-    return OKToast(
-      ///Provider 以便主题及国际化语言
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<ThemeViewModel>.value(value: ThemeViewModel()),
-          ChangeNotifierProvider<LocaleViewModel>.value(
-              value: LocaleViewModel()),
-        ],
-        child: MaterialAppPage(),
-      ),
-    );
+    return MaterialAppPage();
   }
 }
 
@@ -127,10 +124,15 @@ class _MaterialAppPageState extends State<MaterialAppPage>
         //     child: child,
         //   ),
         // ),
+        builder: (context, child) => botToastBuilder(context, child),
+
         ///路由监听
         navigatorObservers: [
           ///App本身的路由监听
           appRouteObserver,
+
+          ///BotToast监听
+          BotToastNavigatorObserver(),
         ],
 
         ///启动页显示slogan

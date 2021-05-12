@@ -460,10 +460,10 @@ class S {
     );
   }
 
-  /// `来自「Freadhub」 App 的分享`
+  /// `分享自「Freadhub」App `
   String get saveImageShareTip {
     return Intl.message(
-      '来自「Freadhub」 App 的分享',
+      '分享自「Freadhub」App ',
       name: 'saveImageShareTip',
       desc: '',
       args: [],

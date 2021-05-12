@@ -108,7 +108,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
     required Widget Function(BuildContext context, A model, int index)
         itemBuilder,
     required A model1,
-    required B model2,
+    B? model2,
     Function(A, B)? onModelReady,
     Widget Function(BuildContext context, A model1, B model2, Widget? child)?
         loadingBuilder,
@@ -120,18 +120,17 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
   }) : super(
             key: key,
             model1: model1,
-            // model2: model2 ?? ScrollTopModel(ScrollController(), height: 400),
-            model2: model2,
+            model2: model2 ?? ScrollTopModel.defaultTopModel() as B,
             child: child,
-            onModelReady: (model1, model2) {
+            onModelReady: (m1, m2) {
               ///加载数据
-              model1.initData();
+              m1.initData();
 
               ///初始化滚动监听
-              model2.initListener();
+              m2.initListener();
 
               ///初始化完成回调
-              onModelReady?.call(model1, model2);
+              onModelReady?.call(m1, m2);
             },
             builder: (context, m1, m2, child) {
               if (m1.loading) {
@@ -178,30 +177,29 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   ///子控件ListView
                   child: ListView.builder(
                     ///滚动监听-用于控制直达顶部功能
-                    controller: model2.scrollController,
+                    controller: m2.scrollController,
 
                     ///内容适配
                     shrinkWrap: true,
-//                    physics: ClampingScrollPhysics(),
+                    physics: ClampingScrollPhysics(),
                     itemCount: m1.list.length,
                     itemBuilder: (context, index) {
                       return itemBuilder(context, m1, index);
                     },
                   ),
                 ),
-                floatingActionButton:
-                    !model2.showTopBtn || ThemeViewModel.hideFloatingButton
-                        ? null
-                        : FloatingActionButton(
-                            tooltip: StringHelper.getS()!.tooltipScrollTop,
-                            child: Icon(
-                              Icons.vertical_align_top,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              model2.scrollTo();
-                            },
-                          ),
+                floatingActionButton: Visibility(
+                  visible: m2.showTopBtn && !ThemeViewModel.hideFloatingButton,
+                  child: FloatingActionButton(
+                    tooltip: StringHelper.getS()!.tooltipScrollTop,
+                    child: Icon(
+                      Icons.vertical_align_top,
+                    ),
+                    onPressed: () {
+                      m2.scrollTo();
+                    },
+                  ),
+                ),
               );
             });
 }

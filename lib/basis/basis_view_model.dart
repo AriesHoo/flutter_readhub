@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:flutter_readhub/util/toast_util.dart';
 
 import 'view_state.dart';
 
@@ -22,6 +22,7 @@ class BasisViewModel with ChangeNotifier {
   set viewState(ViewState viewState) {
     _viewStateError = null;
     _viewState = viewState;
+
     ///状态改变通知页面刷新
     notifyListeners();
   }
@@ -87,7 +88,7 @@ class BasisViewModel with ChangeNotifier {
         message = viewStateError!.message;
       }
       Future.microtask(() {
-        showToast(message!, context: context);
+        ToastUtil.show(message!);
       });
     }
   }
@@ -96,7 +97,6 @@ class BasisViewModel with ChangeNotifier {
   String toString() {
     return 'BaseModel{_viewState: $viewState, _viewStateError: $_viewStateError}';
   }
-
 }
 
 /// [e]为错误类型 :可能为 Error , Exception ,String

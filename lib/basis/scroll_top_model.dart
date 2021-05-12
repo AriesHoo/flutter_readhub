@@ -9,15 +9,35 @@ class ScrollTopModel with ChangeNotifier {
 
   bool _showTopBtn = false;
 
+  ///是否显示滚动到顶部
+  bool _canScrollToTop = true;
+
   ScrollController get scrollController => _scrollController;
 
-  bool get showTopBtn => _showTopBtn;
+  bool get showTopBtn => _showTopBtn && _canScrollToTop;
 
-  ScrollTopModel(this._scrollController, {double height: 400}) {
+  ///是否显示
+  bool get canScrollToTop => _canScrollToTop;
+
+  ScrollTopModel(
+    this._scrollController, {
+    double height: double.infinity,
+    bool canScrollToTop: true,
+  }) {
     _height = height;
+    _canScrollToTop = canScrollToTop;
   }
 
-  static  ScrollTopModel defaultTopModel() =>ScrollTopModel(ScrollController(), height: 400);
+  static ScrollTopModel defaultTopModel() => ScrollTopModel(
+        ScrollController(),
+        height: 2000,
+      );
+
+  setCanScrollTop(bool can) {
+    _canScrollToTop = can;
+    notifyListeners();
+  }
+
   ///初始化滚动监听-一般在initState
   initListener() {
     _scrollController.addListener(() {
@@ -31,7 +51,7 @@ class ScrollTopModel with ChangeNotifier {
 
   ///滚动到某个位置
   scrollTo({double? offset, Duration? duration, Curve? curve}) {
-   LogUtil.v("_scrollController.hasClients${_scrollController.hasClients}");
+    LogUtil.v("_scrollController.hasClients${_scrollController.hasClients}");
     if (!_scrollController.hasClients) {
       return;
     }

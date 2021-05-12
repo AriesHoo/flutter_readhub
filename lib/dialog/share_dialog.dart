@@ -325,15 +325,19 @@ class ShotImageWidget extends StatelessWidget {
                 SizedBox(
                   height: !TextUtil.isEmpty(bottomNotice) ? 6 : 0,
                 ),
-                Visibility(
-                  visible: !TextUtil.isEmpty(bottomNotice),
-                  child: Text(
-                    '$bottomNotice',
-                    textScaleFactor: ThemeViewModel.textScaleFactor,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption!.copyWith(
-                          fontSize: 10,
-                        ),
+                RichText(
+                  text: TextSpan(
+                    text: StringHelper.getS()!.shareForm,
+                    style: Theme.of(context).textTheme.bodyText2,
+                    children: [
+                      TextSpan(
+                        text: '「${StringHelper.getS()!.appName}」',
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              color: Theme.of(context).accentColor,
+                            ),
+                      ),
+                      TextSpan(text: 'App'),
+                    ],
                   ),
                 ),
               ],

@@ -19,14 +19,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.3
   #  国际化支持
   flutter_localizations:
     sdk: flutter
   # 状态管理State
   provider: ^5.0.0
   #  吐司toast
-  oktoast: ^3.0.0
+  bot_toast: ^4.0.1
   #  设备信息
   device_info: ^2.0.0
   #  应用包信息

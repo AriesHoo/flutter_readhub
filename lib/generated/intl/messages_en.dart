@@ -72,7 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveImagePermissionFailed":
             MessageLookupByLibrary.simpleMessage("文件读写权限获取失败"),
         "saveImageShareTip":
-            MessageLookupByLibrary.simpleMessage("来自「Freadhub」 App 的分享"),
+            MessageLookupByLibrary.simpleMessage("分享自「Freadhub」App "),
         "saveImageSucceedInGallery":
             MessageLookupByLibrary.simpleMessage("已保存至手机"),
         "scanOrCodeForDetail":

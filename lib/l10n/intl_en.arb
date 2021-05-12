@@ -40,7 +40,7 @@
   "saveImageSucceedInGallery": "已保存至手机",
   "saveImagePermissionFailed": "文件读写权限获取失败",
   "saveImageFailed": "保存文件失败",
-  "saveImageShareTip": "来自「Freadhub」 App 的分享",
+  "saveImageShareTip": "分享自「Freadhub」App ",
   "cancel": "取消",
   "openBySystemBrowser": "浏览器打开-推荐Chrome",
   "appCopyright": "软件说明",

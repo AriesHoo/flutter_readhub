@@ -15,7 +15,6 @@ import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/animated_switcher_icon_widget.dart';
 import 'package:flutter_readhub/widget/tab_bar_widget.dart';
-import 'package:oktoast/oktoast.dart';
 
 ///主页面
 class HomePage extends StatefulWidget {
@@ -71,7 +70,7 @@ class _HomePageState extends State<HomePage>
   @override
   void didUpdateWidget(HomePage oldWidget) {
     super.didUpdateWidget(oldWidget);
-   LogUtil.v('home_page_didUpdateWidget');
+    LogUtil.v('home_page_didUpdateWidget');
   }
 
   @override
@@ -84,9 +83,11 @@ class _HomePageState extends State<HomePage>
                 Duration(milliseconds: 1500)) {
           ///两次点击间隔超过阈值则重新计时
           _lastPressedAt = DateTime.now();
-          ToastUtil.show(StringHelper.getS()!.quitApp,
-              position: ToastPosition.bottom,
-              duration: Duration(milliseconds: 1500));
+          ToastUtil.show(
+            StringHelper.getS()!.quitApp,
+            duration: Duration(milliseconds: 1500),
+            notification: false,
+          );
           return false;
         }
         exit(0);
