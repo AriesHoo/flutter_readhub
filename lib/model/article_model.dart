@@ -73,8 +73,9 @@ class ArticleItemModel {
             : "");
   }
 
+  ///大于1才显示
   bool showLink() {
-    return newsArray != null && newsArray!.length > 0;
+    return newsArray != null && newsArray!.length > 1;
   }
 
   String? getFileName() {
@@ -187,7 +188,7 @@ class ArticleItemModel {
     if (order != null) {
       return order.toString();
     }
-    return publishTime != null ? publishTime.toString() : "";
+    return publishTime.toString();
   }
 
   switchMaxLine() {
@@ -217,36 +218,24 @@ class ArticleItemModel {
         newsArray!.add(new NewsArray.fromJson(v));
       });
     }
-    createdAt = json['createdAt'];
+    createdAt = json['createdAt']?.trim();
     if (json['eventData'] != null) {
       eventData = [];
       json['eventData'].forEach((v) {
         eventData!.add(new EventData.fromJson(v));
       });
     }
-    if (json['siteName'] != null) {
-      siteName = json['siteName'];
-    }
-    if (json['authorName'] != null) {
-      authorName = json['authorName'];
-    }
-    if (json['url'] != null) {
-      url = json['url'];
-    }
-    if (json['mobileUrl'] != null) {
-      mobileUrl = json['mobileUrl'];
-    }
-    if (json['summaryAuto'] != null) {
-      summaryAuto = json['summaryAuto'];
-    }
-    if (json['language'] != null) {
-      language = json['language'];
-    }
-    publishDate = json['publishDate'];
-    summary = json['summary'];
-    title = json['title'];
-    updatedAt = json['updatedAt'];
-    timeline = json['timeline'];
+    siteName = json['siteName']?.trim();
+    authorName = json['authorName']?.trim();
+    url = json['url']?.trim();
+    mobileUrl = json['mobileUrl']?.trim();
+    summaryAuto = json['summaryAuto']?.trim();
+    language = json['language']?.trim();
+    publishDate = json['publishDate']?.trim();
+    summary = json['summary']?.trim();
+    title = json['title']?.trim();
+    updatedAt = json['updatedAt']?.trim();
+    timeline = json['timeline']?.trim();
     order = json['order'];
     hasInstantView = json['hasInstantView'];
     extra = json['extra'] != null ? new Extra.fromJson(json['extra']) : null;
@@ -355,14 +344,14 @@ class NewsArray {
 
   NewsArray.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    url = json['url'];
-    title = json['title'];
-    siteName = json['siteName'];
-    mobileUrl = json['mobileUrl'];
-    autherName = json['autherName'];
+    url = json['url']?.trim();
+    title = json['title']?.trim();
+    siteName = json['siteName']?.trim();
+    mobileUrl = json['mobileUrl']?.trim();
+    autherName = json['autherName']?.trim();
     duplicateId = json['duplicateId'];
     publishDate = json['publishDate'];
-    language = json['language'];
+    language = json['language']?.trim();
     statementType = json['statementType'];
   }
 

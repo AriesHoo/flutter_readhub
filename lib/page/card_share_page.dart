@@ -179,6 +179,7 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
           ? StringHelper.getS()!.shareCarStyleApp
           : StringHelper.getS()!.shareCarStyleJueJin,
     );
+
     ///两个就没必要切换了
     // DialogUtil.showModalBottomSheetDialog(
     //   navigatorKey.currentContext!,

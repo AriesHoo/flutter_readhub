@@ -205,97 +205,103 @@ class ThemeViewModel with ChangeNotifier {
     );
 
     themeData = themeData.copyWith(
-        cupertinoOverrideTheme: CupertinoThemeData(
-          primaryColor: themeColor,
-        ),
+      cupertinoOverrideTheme: CupertinoThemeData(
+        primaryColor: themeColor,
+      ),
 
-        ///主题设置Appbar样式背景
-        appBarTheme: themeData.appBarTheme.copyWith(
-          ///根据主题设置Appbar样式背景
-          color: isDark ? colorBlackTheme : Colors.white,
+      ///主题设置Appbar样式背景
+      appBarTheme: themeData.appBarTheme.copyWith(
+        ///根据主题设置Appbar样式背景
+        color: isDark ? colorBlackTheme : Colors.white,
 
-          ///去掉海拔高度
-          elevation: 0,
-          textTheme: TextTheme(
-            ///title Text样式 原title 被废弃
-            headline6: TextStyle(
-              color: isDark ? Colors.white : accentColor,
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-
-              ///字体
-              fontFamily: fontValueList[_fontIndex!],
-            ),
-
-            ///action及leading Text样式 原body1废弃
-            bodyText2: TextStyle(
-              color: isDark ? Colors.white : accentColor,
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-
-              ///字体
-              fontFamily: fontValueList[_fontIndex!],
-            ),
-          ),
-
-          ///icon样式
-          iconTheme: IconThemeData(
+        ///去掉海拔高度
+        elevation: 0,
+        textTheme: TextTheme(
+          ///title Text样式 原title 被废弃
+          headline6: TextStyle(
             color: isDark ? Colors.white : accentColor,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+
+            ///字体
+            fontFamily: fontValueList[_fontIndex!],
+          ),
+
+          ///action及leading Text样式 原body1废弃
+          bodyText2: TextStyle(
+            color: isDark ? Colors.white : accentColor,
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+
+            ///字体
+            fontFamily: fontValueList[_fontIndex!],
           ),
         ),
-        iconTheme: themeData.iconTheme.copyWith(
-          color: accentColor,
+
+        ///icon样式
+        iconTheme: IconThemeData(
+          color: isDark ? Colors.white : accentColor,
+        ),
+      ),
+      iconTheme: themeData.iconTheme.copyWith(
+        color: accentColor,
+      ),
+
+      ///水波纹
+      splashColor: themeColor.withAlpha(50),
+
+      ///长按提示文本样式
+      tooltipTheme: themeData.tooltipTheme.copyWith(
+          textStyle: TextStyle(
+              fontSize: 13,
+              color:
+                  (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
+
+      ///TabBar样式设置
+      tabBarTheme: themeData.tabBarTheme.copyWith(
+        ///标签内边距
+        labelPadding: EdgeInsets.symmetric(horizontal: 8),
+
+        ///选中文字样式
+        labelStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+
+          ///字体
+          fontFamily: fontValueList[_fontIndex!],
         ),
 
-        ///水波纹
+        ///未选择样式
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 13,
+
+          ///字体
+          fontFamily: fontValueList[_fontIndex!],
+        ),
+      ),
+
+      ///floatingActionButton
+      floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
+        foregroundColor: accentColor,
+        backgroundColor: themeData.cardColor,
+        elevation: 10,
         splashColor: themeColor.withAlpha(50),
+      ),
 
-        ///长按提示文本样式
-        tooltipTheme: themeData.tooltipTheme.copyWith(
-            textStyle: TextStyle(
-                fontSize: 13,
-                color:
-                    (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
-
-        ///TabBar样式设置
-        tabBarTheme: themeData.tabBarTheme.copyWith(
-          ///标签内边距
-          labelPadding: EdgeInsets.symmetric(horizontal: 8),
-
-          ///选中文字样式
-          labelStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-
-            ///字体
-            fontFamily: fontValueList[_fontIndex!],
-          ),
-
-          ///未选择样式
-          unselectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 13,
-
-            ///字体
-            fontFamily: fontValueList[_fontIndex!],
-          ),
+      ///dialog主题
+      dialogTheme: DialogTheme(
+        titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+        contentTextStyle: themeData.textTheme.subtitle1!.copyWith(
+          fontSize: 14,
         ),
 
-        ///floatingActionButton
-        floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
-          foregroundColor: accentColor,
-          backgroundColor: themeData.cardColor,
-          elevation: 10,
-          splashColor: themeColor.withAlpha(50),
+        ///背景圆角
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
         ),
-
-        ///dialog主题
-        dialogTheme: DialogTheme(
-          titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-          contentTextStyle: themeData.textTheme.subtitle1!.copyWith(
-            fontSize: 14,
-          ),
-        ));
+      ),
+    );
     setSystemBarTheme();
     return themeData;
   }

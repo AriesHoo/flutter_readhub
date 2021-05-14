@@ -49,12 +49,19 @@ class DialogUtil {
                       Navigator.of(context).pop(0);
                     },
                   )
-                : FlatButton(
+                : TextButton(
                     child: Text(
                       cancel!,
                       style: Theme.of(context).textTheme.caption!.copyWith(
                             fontSize: 14,
                           ),
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     ),
                     onPressed: () {
                       ///关闭对话框并返回
@@ -79,13 +86,20 @@ class DialogUtil {
                       Navigator.of(context).pop(1);
                     },
                   )
-                : FlatButton(
+                : TextButton(
                     child: Text(
                       ensure!,
                       style: Theme.of(context).textTheme.caption!.copyWith(
                             color: Theme.of(context).accentColor,
                             fontSize: 14,
                           ),
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     ),
                     onPressed: () {
                       ///关闭对话框并返回
@@ -134,6 +148,7 @@ class DialogUtil {
     Color? backgroundColor,
     RouteSettings? settings,
     ShapeBorder? shape,
+    Clip? clipBehavior,
     bool childOutside: false,
   }) async {
     return await showModalBottomSheet(
@@ -142,6 +157,7 @@ class DialogUtil {
         shape: shape,
         isScrollControlled: true,
         useRootNavigator: true,
+        clipBehavior: clipBehavior,
 
         ///背景色默认设置
         backgroundColor: backgroundColor ?? Theme.of(context).cardColor,

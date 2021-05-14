@@ -53,7 +53,7 @@ class AuthorDialog extends Dialog {
 
           ///圆角
           ClipRRect(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(12),
 
         ///整体背景
         child: Column(

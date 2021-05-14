@@ -32,11 +32,11 @@ class AppRouteObserver<R extends Route<dynamic>> extends RouteObserver<R> {
     }
 
     ///有从底部到顶部的Route会出现修改导航栏颜色问题-猜测是动画引起的
-    if (Platform.isAndroid) {
-      LogUtil.v('pop底部弹框', tag: _tag);
-      Future.delayed(Duration(milliseconds: 320),
-          () => ThemeViewModel.setSystemBarTheme());
-    }
+    // if (Platform.isAndroid) {
+    //   LogUtil.v('pop底部弹框', tag: _tag);
+    //   Future.delayed(Duration(milliseconds: 320),
+    //       () => ThemeViewModel.setSystemBarTheme());
+    // }
   }
 
   @override

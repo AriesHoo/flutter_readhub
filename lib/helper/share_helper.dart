@@ -48,6 +48,12 @@ class ShareHelper {
       navigatorKey.currentContext!,
       settings: RouteSettings(name: 'share_url_bottom_sheet'),
       childOutside: true,
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(12),
+        ),
+      ),
       child: ShareBottomWidget<ShareTextViewModel>(
         model: ShareTextViewModel(),
         onClick: (type) {

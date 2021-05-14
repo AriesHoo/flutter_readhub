@@ -181,167 +181,161 @@ class ShotImageWidget extends StatelessWidget {
       physics: ClampingScrollPhysics(),
       child: RepaintBoundary(
         key: globalKey,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: Container(
-            color: Theme.of(context).cardColor,
-            padding: EdgeInsets.only(
-              left: 20,
-              top: 20,
-              right: 20,
-              bottom: 10,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                ///统一分享头部
-                ShareSlogan(),
-                SizedBox(
-                  height: 8,
+        child: Container(
+          color: Theme.of(context).cardColor,
+          padding: EdgeInsets.only(
+            left: 20,
+            top: 20,
+            right: 20,
+            bottom: 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              ///统一分享头部
+              ShareSlogan(),
+              SizedBox(
+                height: 8,
+              ),
+
+              ///圆角分割线包裹内容开始
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                  top: 8,
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 10,
                 ),
 
-                ///圆角分割线包裹内容开始
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    top: 8,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 10,
-                  ),
+                ///圆角线装修器
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Decorations.lineBoxBorder(
+                      context,
+                      left: true,
+                      top: true,
+                      right: true,
+                      bottom: true,
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ///资讯标题
+                    Visibility(
+                      visible: !TextUtil.isEmpty(title),
+                      child: Text(
+                        '$title',
+                        textScaleFactor: ThemeViewModel.textScaleFactor,
+                        textAlign: TextAlign.justify,
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: prefix0.letterSpacing,
+                              fontSize: 17,
+                            ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: !TextUtil.isEmpty(title) ? 12 : 0,
+                    ),
 
-                  ///圆角线装修器
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      border: Decorations.lineBoxBorder(
-                        context,
-                        left: true,
-                        top: true,
-                        right: true,
-                        bottom: true,
-                      )),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ///资讯标题
-                      Visibility(
-                        visible: !TextUtil.isEmpty(title),
-                        child: Text(
-                          '$title',
-                          textScaleFactor: ThemeViewModel.textScaleFactor,
-                          textAlign: TextAlign.justify,
-                          style:
-                              Theme.of(context).textTheme.headline6!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: prefix0.letterSpacing,
-                                    fontSize: 17,
-                                  ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: !TextUtil.isEmpty(title) ? 12 : 0,
-                      ),
-
-                      ///文章摘要
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                            maxHeight:
-                                MediaQuery.of(context).size.height * 0.5),
-                        child: SingleChildScrollView(
-                          child: summaryWidget ??
-                              Visibility(
-                                visible: !TextUtil.isEmpty(summary),
-                                child: Text(
-                                  '$summary',
-                                  textScaleFactor:
-                                      ThemeViewModel.textScaleFactor,
-                                  overflow: TextOverflow.visible,
-                                  strutStyle: StrutStyle(
-                                      forceStrutHeight: true,
-                                      height: textLineHeight,
-                                      leading: leading),
-                                  maxLines: 20,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(
-                                        fontSize: 13,
-                                        letterSpacing: letterSpacing,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline6!
-                                            .color!
-                                            .withOpacity(0.8),
-                                      ),
-                                ),
-                              ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          ///扫码提示语
-                          Expanded(
-                            flex: 1,
-                            child: Visibility(
-                              visible: !TextUtil.isEmpty(notice),
+                    ///文章摘要
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.5),
+                      child: SingleChildScrollView(
+                        child: summaryWidget ??
+                            Visibility(
+                              visible: !TextUtil.isEmpty(summary),
                               child: Text(
-                                '$notice',
+                                '$summary',
                                 textScaleFactor: ThemeViewModel.textScaleFactor,
-                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.visible,
+                                strutStyle: StrutStyle(
+                                    forceStrutHeight: true,
+                                    height: textLineHeight,
+                                    leading: leading),
+                                maxLines: 20,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6!
                                     .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
+                                      fontSize: 13,
+                                      letterSpacing: letterSpacing,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .color!
+                                          .withOpacity(0.8),
                                     ),
                               ),
                             ),
-                          ),
-
-                          ///右侧二维码
-                          QrImage(
-                            data: url,
-                            padding: EdgeInsets.all(2),
-                            version: QrVersions.auto,
-                            size: 64,
-                            foregroundColor:
-                                Theme.of(context).textTheme.headline6!.color,
-                            backgroundColor: Theme.of(context).cardColor,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-
-                ///圆角分割线包裹内容结束
-
-                SizedBox(
-                  height: !TextUtil.isEmpty(bottomNotice) ? 6 : 0,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: StringHelper.getS()!.shareForm,
-                    style: Theme.of(context).textTheme.bodyText2,
-                    children: [
-                      TextSpan(
-                        text: '「${StringHelper.getS()!.appName}」',
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                              color: Theme.of(context).accentColor,
-                            ),
                       ),
-                      TextSpan(text: 'App'),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        ///扫码提示语
+                        Expanded(
+                          flex: 1,
+                          child: Visibility(
+                            visible: !TextUtil.isEmpty(notice),
+                            child: Text(
+                              '$notice',
+                              textScaleFactor: ThemeViewModel.textScaleFactor,
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                            ),
+                          ),
+                        ),
+
+                        ///右侧二维码
+                        QrImage(
+                          data: url,
+                          padding: EdgeInsets.all(2),
+                          version: QrVersions.auto,
+                          size: 64,
+                          foregroundColor:
+                              Theme.of(context).textTheme.headline6!.color,
+                          backgroundColor: Theme.of(context).cardColor,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+
+              ///圆角分割线包裹内容结束
+
+              SizedBox(
+                height: !TextUtil.isEmpty(bottomNotice) ? 6 : 0,
+              ),
+              RichText(
+                text: TextSpan(
+                  text: StringHelper.getS()!.shareForm,
+                  style: Theme.of(context).textTheme.bodyText2,
+                  children: [
+                    TextSpan(
+                      text: '「${StringHelper.getS()!.appName}」',
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            color: Theme.of(context).accentColor,
+                          ),
+                    ),
+                    TextSpan(text: 'App'),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -104,10 +104,15 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                 borderOnForeground: false,
                 color: Theme.of(context).cardColor,
                 elevation: ThemeViewModel.darkMode ? 0 : 20,
-                shape: Decorations.lineShapeBorder(
-                  context,
-                  lineWidth: ThemeViewModel.darkMode ? 0.5 : 0.000001,
-                  borderRadius: BorderRadius.circular(2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: ThemeViewModel.darkMode
+                      ? BorderSide(
+                          width: 0.5,
+                          color: Theme.of(context).hintColor.withOpacity(0.2),
+                          style: BorderStyle.solid,
+                        )
+                      : BorderSide.none,
                 ),
               ),
               SizedBox(
