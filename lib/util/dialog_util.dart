@@ -175,7 +175,8 @@ class DialogUtil {
 
                   ///通过控制滚动用于手指跟随
                   physics: BouncingScrollPhysics(),
-                  itemBuilder: itemBuilder!,
+                  itemBuilder:
+                      itemBuilder ?? (context, index) => child ?? SizedBox(),
                 );
         });
   }

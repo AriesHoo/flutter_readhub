@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/enum/share_card_style.dart';
 import 'package:flutter_readhub/enum/share_type.dart';
 import 'package:flutter_readhub/helper/path_helper.dart';
@@ -63,7 +62,7 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
           child: Center(
             child: LifecycleWidget(
               child: styleModel.shareCardStyle == ShareCardStyle.app
-                  ? ShotImageWidget(
+                  ? CaptureImageAppStyleWidget(
                       model.title,
                       model.summary,
                       model.notice,

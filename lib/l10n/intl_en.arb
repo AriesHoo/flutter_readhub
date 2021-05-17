@@ -78,5 +78,6 @@
   "shareCarStyle": "卡片样式",
   "shareCarStyleApp": "Freadhub样式",
   "shareCarStyleJueJin": "掘金样式",
-  "shotFailed": "截图失败,请开启访问存储权限"
+  "shotFailed": "截图失败,请开启访问存储权限",
+  "weChatNotInstall": "您还未安装微信"
 }

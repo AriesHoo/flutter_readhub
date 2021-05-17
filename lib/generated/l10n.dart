@@ -849,6 +849,16 @@ class S {
       args: [],
     );
   }
+
+  /// `您还未安装微信`
+  String get weChatNotInstall {
+    return Intl.message(
+      '您还未安装微信',
+      name: 'weChatNotInstall',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

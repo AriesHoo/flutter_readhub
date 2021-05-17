@@ -106,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewStateRefresh": MessageLookupByLibrary.simpleMessage("刷新一下"),
         "viewStateRetry": MessageLookupByLibrary.simpleMessage("重试"),
         "weChatFriend": MessageLookupByLibrary.simpleMessage("微信"),
+        "weChatNotInstall": MessageLookupByLibrary.simpleMessage("您还未安装微信"),
         "weChatTimeLine": MessageLookupByLibrary.simpleMessage("朋友圈"),
         "weWork": MessageLookupByLibrary.simpleMessage("企业微信"),
         "wednesday": MessageLookupByLibrary.simpleMessage("周三"),

@@ -1,6 +1,7 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/page/article_item_widget.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -185,6 +186,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
   }
 }
 
+///分享截图slogan
 class ShareSlogan extends StatelessWidget {
   const ShareSlogan({Key? key}) : super(key: key);
 
@@ -221,11 +223,7 @@ class ShareSlogan extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .color!
-                          .withOpacity(0.5),
+                      color: Colors.black.withOpacity(0.5),
                       fontSize: 14,
                     ),
               ),
@@ -234,6 +232,195 @@ class ShareSlogan extends StatelessWidget {
           flex: 1,
         ),
       ],
+    );
+  }
+}
+
+///需要进行截图-RepaintBoundary包裹部分参考
+///https://www.codercto.com/a/46348.html
+///https://blog.csdn.net/u014449046/article/details/98471268
+///https://www.cnblogs.com/wupeng88/p/10797667.html
+class CaptureImageAppStyleWidget extends StatelessWidget {
+  final String? title;
+  final String? summary;
+  final String? notice;
+  final String url;
+  final String? bottomNotice;
+  final GlobalKey globalKey;
+  final Widget? summaryWidget;
+
+  CaptureImageAppStyleWidget(this.title, this.summary, this.notice, this.url,
+      this.bottomNotice, this.globalKey,
+      {this.summaryWidget});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
+      child: RepaintBoundary(
+        key: globalKey,
+        child: Container(
+          color: Theme.of(context).cardColor,
+          padding: EdgeInsets.only(
+            left: 20,
+            top: 20,
+            right: 20,
+            bottom: 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              ///统一分享头部
+              ShareSlogan(),
+              SizedBox(
+                height: 8,
+              ),
+
+              ///圆角分割线包裹内容开始
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                  top: 8,
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 10,
+                ),
+
+                ///圆角线装修器
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Decorations.lineBoxBorder(
+                      context,
+                      left: true,
+                      top: true,
+                      right: true,
+                      bottom: true,
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ///资讯标题
+                    Visibility(
+                      visible: !TextUtil.isEmpty(title),
+                      child: Text(
+                        '$title',
+                        textScaleFactor: ThemeViewModel.textScaleFactor,
+                        textAlign: TextAlign.justify,
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: letterSpacing,
+                              fontSize: 17,
+                            ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: !TextUtil.isEmpty(title) ? 12 : 0,
+                    ),
+
+                    ///文章摘要
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.5),
+                      child: SingleChildScrollView(
+                        child: summaryWidget ??
+                            Visibility(
+                              visible: !TextUtil.isEmpty(summary),
+                              child: Text(
+                                '$summary',
+                                textScaleFactor: ThemeViewModel.textScaleFactor,
+                                overflow: TextOverflow.visible,
+                                strutStyle: StrutStyle(
+                                    forceStrutHeight: true,
+                                    height: textLineHeight,
+                                    leading: leading),
+                                maxLines: 20,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(
+                                      fontSize: 13,
+                                      letterSpacing: letterSpacing,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .color!
+                                          .withOpacity(0.8),
+                                    ),
+                              ),
+                            ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        ///扫码提示语
+                        Expanded(
+                          flex: 1,
+                          child: Visibility(
+                            visible: !TextUtil.isEmpty(notice),
+                            child: Text(
+                              '$notice',
+                              textScaleFactor: ThemeViewModel.textScaleFactor,
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                            ),
+                          ),
+                        ),
+
+                        ///右侧二维码
+                        QrImage(
+                          data: url,
+                          padding: EdgeInsets.all(2),
+                          version: QrVersions.auto,
+                          size: 64,
+                          foregroundColor:
+                              Theme.of(context).textTheme.headline6!.color,
+                          backgroundColor: Theme.of(context).cardColor,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+              ///圆角分割线包裹内容结束
+
+              SizedBox(
+                height: !TextUtil.isEmpty(bottomNotice) ? 6 : 0,
+              ),
+              RichText(
+                text: TextSpan(
+                  text: StringHelper.getS()!.shareForm,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        fontSize: 12,
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                  children: [
+                    TextSpan(
+                      text: '「${StringHelper.getS()!.appName}」',
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            color: Theme.of(context).accentColor,
+                            fontSize: 12,
+                          ),
+                    ),
+                    TextSpan(text: 'App'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

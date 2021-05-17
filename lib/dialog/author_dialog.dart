@@ -7,12 +7,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/dialog/share_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
+import 'package:flutter_readhub/helper/save_image_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
 import 'package:flutter_readhub/page/card_share_page.dart';
+import 'package:flutter_readhub/util/dialog_util.dart';
+import 'package:flutter_readhub/util/share_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
@@ -33,11 +35,15 @@ Future<void> showAuthorDialog(BuildContext context) async {
 
 ///弹出颜色选择框
 Future<void> showThemeDialog(BuildContext context) async {
-  await showDialog<int>(
-    context: context,
-    builder: (BuildContext context) {
-      return ThemeDialog();
-    },
+  DialogUtil.showModalBottomSheetDialog(
+    context,
+    clipBehavior: Clip.hardEdge,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(12),
+      ),
+    ),
+    child: ThemeBody(didPop: true),
   );
 }
 
@@ -54,6 +60,7 @@ class AuthorDialog extends Dialog {
           ///圆角
           ClipRRect(
         borderRadius: BorderRadius.circular(12),
+        clipBehavior: Clip.hardEdge,
 
         ///整体背景
         child: Column(
@@ -145,11 +152,13 @@ class TopRoundWidget extends StatelessWidget {
                   'https://github.com/AriesHoo/flutter_readhub',
                 ),
                 child: Text(
-                  "开源地址",
+                  "开源「flutter_readhub」",
                   textScaleFactor: ThemeViewModel.textScaleFactor,
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16,
+                        fontSize: 15,
                         decoration: TextDecoration.underline,
+                        color: Theme.of(context).accentColor,
+                        fontWeight: FontWeight.bold,
                       ),
                 ),
               ),
@@ -286,8 +295,8 @@ class ShareAppWidget extends StatelessWidget {
           context,
           CardShareModel(
             title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
-              text:
-              "${StringHelper.getS()!.saveImageShareTip} App 「Readhub 三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
+            text:
+                "${StringHelper.getS()!.saveImageShareTip} App 「Readhub 三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
             summary: StringHelper.getS()!.appName,
             url: 'https://www.pgyer.com/ntMA',
             notice: 'AriesHoo开发\n扫码查看详情',
@@ -406,8 +415,7 @@ class ThemeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).cardColor,
-      elevation: 0,
-      child: ExpansionTile(
+      child: ListTile(
         leading: Icon(
           Icons.color_lens,
           color: Theme.of(context).accentColor,
@@ -415,13 +423,29 @@ class ThemeWidget extends StatelessWidget {
         title: Text(
           StringHelper.getS()!.choiceTheme,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),
-        children: [
-          ThemeBody(),
-        ],
-        // trailing: Text(ThemeViewModel.themeName()),
+        trailing: Icon(
+          Icons.chevron_right,
+          color: Theme.of(context).textTheme.caption!.color,
+        ),
+        onTap: () => showThemeDialog(context),
       ),
+      // child: ExpansionTile(
+      //   leading: Icon(
+      //     Icons.color_lens,
+      //     color: Theme.of(context).accentColor,
+      //   ),
+      //   title: Text(
+      //     StringHelper.getS()!.choiceTheme,
+      //     textScaleFactor: ThemeViewModel.textScaleFactor,
+      //     style: Theme.of(context).textTheme.bodyText1,
+      //   ),
+      //   children: [
+      //     ThemeBody(),
+      //   ],
+      //   // trailing: Text(ThemeViewModel.themeName()),
+      // ),
     );
   }
 }
@@ -441,9 +465,13 @@ class ThemeBody extends StatelessWidget {
   ///是否dialog
   final bool dialog;
 
+  ///点击后是否pop页面
+  final bool didPop;
+
   const ThemeBody({
     Key? key,
     this.dialog: false,
+    this.didPop: false,
   }) : super(key: key);
 
   @override
@@ -458,69 +486,66 @@ class ThemeBody extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Container(
-                color: Theme.of(context).cardColor,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: dialog ? 24 : 12,
-                ),
-                child: Wrap(
-                  runSpacing: 8,
-                  children: ThemeViewModel.themeValueList.map((color) {
-                    int index = ThemeViewModel.themeValueList.indexOf(color);
-                    return Material(
-                      borderRadius: BorderRadius.circular(4),
-                      color: ThemeViewModel.getThemeColor(i: index),
-                      child: InkWell(
-                        onTap: () {
-                          var model =
-                              ProviderHelper.of<ThemeViewModel>(context);
-                          model.switchTheme(themeIndex: index);
-                          if (dialog) {
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        splashColor: Colors.black.withAlpha(50),
-                        child: Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: <Widget>[
-                            Container(
-                              width: double.infinity,
-                              height: 40,
-                              child: Center(
-                                child: Text(
-                                  ThemeViewModel.themeName(i: index),
-                                  textScaleFactor:
-                                      ThemeViewModel.textScaleFactor,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
+          Container(
+            color: Theme.of(context).cardColor,
+            margin: EdgeInsets.only(top: 12),
+            padding: EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: dialog ? 24 : 16,
+            ),
+            child: Wrap(
+              runSpacing: 12,
+              children: ThemeViewModel.themeValueList.map((color) {
+                int index = ThemeViewModel.themeValueList.indexOf(color);
+                return Material(
+                  borderRadius: BorderRadius.circular(12),
+                  clipBehavior: Clip.hardEdge,
+                  color: ThemeViewModel.getThemeColor(i: index),
+                  child: InkWell(
+                    onTap: () {
+                      var model = ProviderHelper.of<ThemeViewModel>(context);
+                      model.switchTheme(themeIndex: index);
+                      if (dialog || didPop) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    splashColor: Colors.black.withAlpha(50),
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          height: 46,
+                          child: Center(
+                            child: Text(
+                              ThemeViewModel.themeName(i: index),
+                              textScaleFactor: ThemeViewModel.textScaleFactor,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 124),
-                              child: Icon(
-                                Icons.check,
-                                size: 22,
-                                color: index ==
-                                        ProviderHelper.of<ThemeViewModel>(
-                                                context)
-                                            .themeIndex
-                                    ? Colors.white
-                                    : Colors.transparent,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ))
+                        Padding(
+                          padding: EdgeInsets.only(left: 124),
+                          child: Icon(
+                            Icons.check,
+                            size: 22,
+                            color: index ==
+                                    ProviderHelper.of<ThemeViewModel>(context)
+                                        .themeIndex
+                                ? Colors.white
+                                : Colors.transparent,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
         ],
       ),
     );
@@ -640,7 +665,7 @@ class FontSizeWidget extends StatelessWidget {
 ///赞赏开发
 class AppreciateWidget extends StatelessWidget {
   final GlobalKey _globalKey = GlobalKey();
-  final SaveImageToGallery _saveImageToGallery = SaveImageToGallery();
+  final SaveImageHelper _saveImageHelper = SaveImageHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -664,9 +689,19 @@ class AppreciateWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 GestureDetector(
-                  onLongPress: () => _saveImageToGallery.saveImage(
-                      context, _globalKey, '/pay',
-                      share: Platform.isIOS),
+                  onLongPress: () async {
+                    String? _path = await _saveImageHelper.saveImage(
+                        context, _globalKey, '/pay.png');
+                    if (_path == null) {
+                      ToastUtil.show(StringHelper.getS()!.shotFailed);
+                    } else {
+                      if (!await ShareUtil.isWeChatInstall()) {
+                        ToastUtil.show(StringHelper.getS()!.weChatNotInstall);
+                      } else {
+                        ShareUtil.shareImagesToWeChatFriend([_path]);
+                      }
+                    }
+                  },
                   child: RepaintBoundary(
                     key: _globalKey,
                     child: Image.asset(

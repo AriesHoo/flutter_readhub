@@ -44,7 +44,7 @@ dependencies:
   #  本地缓存sp
   shared_preferences: ^2.0.5
   #用于做骨架屏-闪光效果
-  shimmer: ^2.0.0-nullsafety.0
+  shimmer: ^2.0.0
   #跳转系统浏览器/打电话等
   url_launcher: ^6.0.3
   #二维码-生成

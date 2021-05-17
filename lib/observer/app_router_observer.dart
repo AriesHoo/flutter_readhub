@@ -1,8 +1,6 @@
-import 'dart:io';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 ///应用路由监听
 class AppRouteObserver<R extends Route<dynamic>> extends RouteObserver<R> {
