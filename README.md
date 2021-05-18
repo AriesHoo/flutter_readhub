@@ -25,8 +25,11 @@
 ## 前言
 
 Flutter 在 `2021.03.04` 发布了 `Flutter 2.0`版本 正式进入 `全平台Stable时代` 具体可见
+
 [【译】Flutter 2.0 正式版发布，全平台 Stable](https://juejin.cn/post/6935621027116531720)  
+
 [【译】Flutter 2 正式版的新功能，一睹为快](https://juejin.cn/post/6935642154853203982)
+
 [Flutter 升级 2.0 填坑指导，带你原地起飞](https://juejin.cn/post/6938342360833064974)
 
 `Freadhub`没有第一时间升级,但是也在`4月`进行了`Flutter 2.0`及`空安全`的升级并在 `2021-04-12` 发布了 `1.2.4`版本,后期陆陆续续做了一些小调整，直到最近 公司的项目做了个卡片分享的功能，效果还不错就同步移植，在此做一个简单的记录。---当前最新版本`1.2.6`
@@ -34,6 +37,7 @@ Flutter 在 `2021.03.04` 发布了 `Flutter 2.0`版本 正式进入 `全平台St
 ![扫码下载](https://upload-images.jianshu.io/upload_images/2828782-7e167a7701fa7497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
 
 注:还是只支持Android手机下载，iOS请自行下载运行。
+
 [开源地址-flutter_readhub](https://github.com/AriesHoo/flutter_readhub)
 
 ## 升级Flutter2.0
@@ -41,9 +45,11 @@ Flutter 在 `2021.03.04` 发布了 `Flutter 2.0`版本 正式进入 `全平台St
 大家都知道执行`flutter upgrade` 或者 `Tools --> Flutter --> Flutter Upgrade`即可升级`Flutter`到最新版本。
 
 ![Flutter升级](https://upload-images.jianshu.io/upload_images/2828782-7265e2ed349aab89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
+
 但是在升级前还是建议copy 一份 以免出现意外情况--当然还有其它方式可以复原，自己习惯的即可。
 
 ## 迁移空安全
+
 [官网文档](https://dart.dev/null-safety/unsound-null-safety)、[中文文档](https://dart.cn/null-safety/migration-guide) ，`空安全` 迁移大概有下面几个步骤：
 
 1、  执行`flutter pub outdated --mode=null-safety` ，检查自己项目依赖的库是否都支持空安全
