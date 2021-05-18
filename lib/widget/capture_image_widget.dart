@@ -223,7 +223,11 @@ class ShareSlogan extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      color: Colors.black.withOpacity(0.5),
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .color!
+                          .withOpacity(0.5),
                       fontSize: 14,
                     ),
               ),
@@ -403,7 +407,11 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
                   text: StringHelper.getS()!.shareForm,
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(
                         fontSize: 12,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .color!
+                            .withOpacity(0.6),
                       ),
                   children: [
                     TextSpan(
