@@ -28,9 +28,9 @@ dependencies:
   #  吐司toast
   bot_toast: ^4.0.1
   #  设备信息
-  device_info: ^2.0.0
+  device_info_plus: ^1.0.1
   #  应用包信息
-  package_info: ^2.0.0
+  package_info_plus: ^1.0.1
 
   # WebView
   webview_flutter: ^2.0.4
@@ -52,7 +52,7 @@ dependencies:
   #工具类
   flustars: ^2.0.1
   #动态权限申请
-  permission_handler: ^7.1.0
+  permission_handler: ^8.0.0+1
   #文件路径
   path_provider: ^2.0.1
   #分享文字及文件-注意保存文件位置

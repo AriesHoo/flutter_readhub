@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -14,6 +13,7 @@ import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
 import 'package:flutter_readhub/page/card_share_page.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/share_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
@@ -81,8 +81,11 @@ class AuthorDialog extends Dialog {
                       ///意见反馈-发送邮件
                       FeedbackWidget(),
 
-                      ///检查更新
-                      UpdateWidget(),
+                      ///检查更新--手机系统才有
+                      Visibility(
+                        child: UpdateWidget(),
+                        visible: PlatformUtil.isMobile,
+                      ),
 
                       ///应用分享
                       ShareAppWidget(),
@@ -767,7 +770,7 @@ class CopyrightWidget extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: ExpansionTile(
         onExpansionChanged: (opened) {
-          if (opened && Platform.isAndroid) {
+          if (opened && PlatformUtil.isAndroid) {
             ///开启详情延时滚动底部-Android有效
             Future.delayed(Duration(milliseconds: 200), () {
               scrollController!.animateTo(

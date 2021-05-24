@@ -14,7 +14,7 @@ class AppRouteObserver<R extends Route<dynamic>> extends RouteObserver<R> {
         tag: _tag);
 
     ///底部弹框不知为何会影响底部导航栏颜色
-    // if (Platform.isAndroid) {
+    // if (PlatformUtil.isAndroid) {
     //   LogUtil.v('push底部弹框', tag: _tag);
     //   Future.delayed(Duration(milliseconds: 500),
     //       () => ThemeViewModel.setSystemBarTheme());
@@ -30,7 +30,7 @@ class AppRouteObserver<R extends Route<dynamic>> extends RouteObserver<R> {
     }
 
     ///有从底部到顶部的Route会出现修改导航栏颜色问题-猜测是动画引起的
-    // if (Platform.isAndroid) {
+    // if (PlatformUtil.isAndroid) {
     //   LogUtil.v('pop底部弹框', tag: _tag);
     //   Future.delayed(Duration(milliseconds: 320),
     //       () => ThemeViewModel.setSystemBarTheme());

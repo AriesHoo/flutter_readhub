@@ -51,6 +51,11 @@ class _HomePageState extends State<HomePage>
       LogUtil.v('TabController:$i');
     };
 
+    ///非手机系统不做检测版本更新
+    if (!PlatformUtil.isMobile) {
+      return;
+    }
+
     ///5s后进行版本检测
     Future.delayed(Duration(seconds: 5), () {
       UpdateViewModel().checkUpdate(context);

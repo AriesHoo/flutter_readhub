@@ -1,8 +1,11 @@
+import 'dart:collection';
 import 'dart:convert';
 
+import 'package:dio/adapter.dart';
+import 'package:dio/adapter_browser.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/native_imp.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 
 export 'package:dio/dio.dart';
 
@@ -16,10 +19,17 @@ parseJson(String text) {
 }
 
 ///网络请求基类
-abstract class BasisHttp extends DioForNative {
+abstract class BasisHttp with DioMixin implements Dio {
   BasisHttp() {
+    options = BaseOptions();
+    httpClientAdapter = PlatformUtil.isBrowser()
+        ? BrowserHttpClientAdapter()
+        : DefaultHttpClientAdapter();
+
     /// 初始化 加入app通用处理
-    (transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
+    if (PlatformUtil.isMobile) {
+      (transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
+    }
     interceptors..add(HeaderInterceptor());
     init();
   }
@@ -35,6 +45,16 @@ class HeaderInterceptor extends InterceptorsWrapper {
     options.receiveTimeout = 1000 * 15;
     options.responseType = ResponseType.json;
     options.contentType = Headers.jsonContentType;
+    if (PlatformUtil.isBrowser()) {
+      Map<String, dynamic> headers = HashMap();
+      headers.putIfAbsent("Access-Control-Allow-Origin", () => "*");
+      headers.putIfAbsent("Access-Control-Allow-Headers", () => "*");
+      headers.putIfAbsent("Access-Control-Allow-Methods", () => "*");
+      headers.putIfAbsent("Access-Control-Allow-Credentials", () => true);
+      headers.putIfAbsent('Access-Control-Allow-Origin', () => '*');
+      headers.putIfAbsent('X-Requested-With', () => 'XMLHttpRequest');
+      options.headers = headers;
+    }
     super.onRequest(options, handler);
   }
 }

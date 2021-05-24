@@ -148,10 +148,14 @@ class ThemeViewModel with ChangeNotifier {
 
   ///设置系统Bar主题
   static Future setSystemBarTheme() async {
+    ///非手机系统不做处理
+    if (!PlatformUtil.isMobile) {
+      return;
+    }
     LogUtil.v('platformDarkMode:$platformDarkMode;userDarkMode:$userDarkMode');
     bool statusEnable =
-        Platform.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
-    bool navigationEnable = Platform.isAndroid
+        PlatformUtil.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
+    bool navigationEnable = PlatformUtil.isAndroid
         ? await PlatformUtil.isNavigationColorChange()
         : true;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

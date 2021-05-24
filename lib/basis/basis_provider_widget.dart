@@ -1,8 +1,8 @@
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -157,7 +157,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                 body: SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: true,
-                  header: Platform.isAndroid
+                  header: PlatformUtil.isAndroid
                       ? MaterialClassicHeader(
                           backgroundColor: Colors.white,
                           color: ThemeViewModel.accentColor,

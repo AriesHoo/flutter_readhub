@@ -1,9 +1,9 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 
 ///dialog提示
 class DialogUtil {
@@ -36,7 +36,7 @@ class DialogUtil {
     Widget? widgetCancel = cancelWidget != null
         ? cancelWidget
         : !TextUtil.isEmpty(cancel)
-            ? Platform.isIOS
+            ? PlatformUtil.isIOS
                 ? CupertinoButton(
                     child: Text(
                       cancel!,
@@ -72,7 +72,7 @@ class DialogUtil {
     Widget? widgetEnsure = ensureWidget != null
         ? ensureWidget
         : !TextUtil.isEmpty(ensure)
-            ? Platform.isIOS
+            ? PlatformUtil.isIOS
                 ? CupertinoButton(
                     child: Text(
                       ensure!,
@@ -111,7 +111,7 @@ class DialogUtil {
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (context) {
-        return Platform.isIOS
+        return PlatformUtil.isIOS
             ? CupertinoAlertDialog(
                 title: widgetTitle,
                 content: widgetContent,

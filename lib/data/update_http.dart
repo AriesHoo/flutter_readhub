@@ -22,14 +22,16 @@ class UpdateInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    options.queryParameters['_api_key'] = 'f4d7dae2132cf8715c99ca79043deefb';
-    options.queryParameters['appKey'] = Platform.isAndroid
-        ? '9d5adc8a82bdcf48a905d8d5aa7f19e3'
-        : '430e714ebb8fb7c3f2ab72fa5c5009dc';
-    options.queryParameters['buildVersion'] =
-        await PlatformUtil.getAppVersion();
-    options.queryParameters['buildBuildVersion'] =
-        await PlatformUtil.getBuildNumber();
+    if (PlatformUtil.isMobile) {
+      options.queryParameters['_api_key'] = 'f4d7dae2132cf8715c99ca79043deefb';
+      options.queryParameters['appKey'] = PlatformUtil.isAndroid
+          ? '9d5adc8a82bdcf48a905d8d5aa7f19e3'
+          : '430e714ebb8fb7c3f2ab72fa5c5009dc';
+      options.queryParameters['buildVersion'] =
+          await PlatformUtil.getAppVersion();
+      options.queryParameters['buildBuildVersion'] =
+          await PlatformUtil.getBuildNumber();
+    }
     LogUtil.v(
         '---UpdateHttp-UpdateInterceptor-request--->url--> ${options.baseUrl}${options.path}' +
             ' queryParameters: ${options.queryParameters}');

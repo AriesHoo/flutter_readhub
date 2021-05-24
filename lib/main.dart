@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flustars/flustars.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'generated/l10n.dart';
@@ -46,8 +46,8 @@ final botToastBuilder = BotToastInit();
 
 ///清空所有Toast
 clearToast() {
-  BotToast.closeAllLoading();
-  BotToast.cleanAll();
+  // BotToast.closeAllLoading();
+  // BotToast.cleanAll();
 }
 
 class MyApp extends StatelessWidget {
@@ -70,74 +70,77 @@ class _MaterialAppPageState extends State<MaterialAppPage>
     return BasisProviderWidget2<ThemeViewModel, LocaleViewModel>(
       model1: ThemeViewModel(),
       model2: LocaleViewModel(),
-      builder: (context, theme, locale, child) => MaterialApp(
-        ///后台管理器查看到标题
-        title: 'Freadhub',
+      builder: (context, theme, locale, child) =>
+          MaterialApp(
 
-        ///用于全局获取Context
-        navigatorKey: navigatorKey,
+            ///后台管理器查看到标题
+            title: 'Freadhub',
 
-        ///全局常规主题配置
-        theme: theme.themeData(),
+            ///用于全局获取Context
+            navigatorKey: navigatorKey,
 
-        ///全局配置深色主题
-        darkTheme: theme.themeData(platformDarkMode: true),
+            ///全局常规主题配置
+            theme: theme.themeData(),
 
-        ///是否显示右上顶部debug标签
-        debugShowCheckedModeBanner: false,
+            ///全局配置深色主题
+            darkTheme: theme.themeData(platformDarkMode: true),
 
-        ///国际化语言
-        locale: locale.locale,
-        localizationsDelegates: [
-          S.delegate,
+            ///是否显示右上顶部debug标签
+            debugShowCheckedModeBanner: false,
 
-          ///下拉刷新库国际化配置
-          RefreshLocalizations.delegate,
+            ///国际化语言
+            locale: locale.locale,
+            localizationsDelegates: [
+              S.delegate,
 
-          ///不配置该项会在EditField点击弹出复制粘贴工具时抛异常 The getter 'cutButtonLabel' was called on null.
-          GlobalCupertinoLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
-        supportedLocales: S.delegate.supportedLocales,
+              ///下拉刷新库国际化配置
+              RefreshLocalizations.delegate,
 
-        ///配置页面路由
-        onGenerateRoute: RouterManager.generateRoute,
+              ///不配置该项会在EditField点击弹出复制粘贴工具时抛异常 The getter 'cutButtonLabel' was called on null.
+              GlobalCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate
+            ],
+            supportedLocales: S.delegate.supportedLocales,
 
-        ///增加全局点击非输入框关闭软键盘--本项目不涉及软键盘,只做记录
-        ///参考http://laomengit.com/blog/20200909/DismissKeyboard.html
-        // builder: (context, child) => Scaffold(
-        //   body: GestureDetector(
-        //     onTap: () {
-        //       FocusScopeNode currentFocus = FocusScope.of(context);
-        //
-        //       ///当前有获取焦点的控件
-        //       if (!currentFocus.hasPrimaryFocus &&
-        //           currentFocus.focusedChild != null) {
-        //         ///关闭软键盘方式一
-        //         FocusManager.instance.primaryFocus.unfocus();
-        //
-        //         ///关闭软键方式二-模拟器会关掉软键盘输入模式(模拟器不再弹出软键盘)除非重新在模拟器设置打开
-        //         // SystemChannels.textInput.invokeMethod('TextInput.hide');
-        //       }
-        //     },
-        //     child: child,
-        //   ),
-        // ),
-        builder: (context, child) => botToastBuilder(context, child),
+            ///配置页面路由
+            onGenerateRoute: RouterManager.generateRoute,
 
-        ///路由监听
-        navigatorObservers: [
-          ///App本身的路由监听
-          appRouteObserver,
+            ///增加全局点击非输入框关闭软键盘--本项目不涉及软键盘,只做记录
+            ///参考http://laomengit.com/blog/20200909/DismissKeyboard.html
+            // builder: (context, child) => Scaffold(
+            //   body: GestureDetector(
+            //     onTap: () {
+            //       FocusScopeNode currentFocus = FocusScope.of(context);
+            //
+            //       ///当前有获取焦点的控件
+            //       if (!currentFocus.hasPrimaryFocus &&
+            //           currentFocus.focusedChild != null) {
+            //         ///关闭软键盘方式一
+            //         FocusManager.instance.primaryFocus.unfocus();
+            //
+            //         ///关闭软键方式二-模拟器会关掉软键盘输入模式(模拟器不再弹出软键盘)除非重新在模拟器设置打开
+            //         // SystemChannels.textInput.invokeMethod('TextInput.hide');
+            //       }
+            //     },
+            //     child: child,
+            //   ),
+            // ),
+            builder: (context, child) => botToastBuilder(context, child),
 
-          ///BotToast监听
-          BotToastNavigatorObserver(),
-        ],
+            ///路由监听
+            navigatorObservers: [
 
-        ///启动页显示slogan
-        home: SplashPage(),
-      ),
+              ///App本身的路由监听
+              appRouteObserver,
+
+              ///BotToast监听
+              BotToastNavigatorObserver(),
+            ],
+
+            ///启动页显示slogan
+            home: SplashPage(),
+          ),
     );
   }
 
@@ -171,7 +174,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-
     Future.delayed(Duration(milliseconds: 1500), () {
       Navigator.of(context).pushReplacementNamed(RouteName.tab);
     });
@@ -180,7 +182,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).cardColor,
+      color: Theme
+          .of(context)
+          .cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -200,7 +204,7 @@ class _SplashPageState extends State<SplashPage> {
             'assets/images/ic_slogan.webp',
             width: 205,
             height: 205 * 140 / 815,
-            color: Theme.of(context).textTheme.headline6!.color,
+            // color: Theme.of(context).textTheme.headline6!.color,
           ),
           SizedBox(
             height: 160,
@@ -210,15 +214,12 @@ class _SplashPageState extends State<SplashPage> {
             child: SizedBox(),
           ),
           SafeArea(
-            left: Platform.isIOS,
-            top: Platform.isIOS,
-            right: Platform.isIOS,
-            bottom: Platform.isIOS,
+            bottom: PlatformUtil.isIOS,
             child: Image.asset(
               'assets/images/ic_powered.webp',
               width: 110,
               height: 110 * 100 / 436,
-              color: Theme.of(context).textTheme.headline6!.color,
+              // color: Theme.of(context).textTheme.headline6!.color,
             ),
           ),
           SizedBox(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:path_provider/path_provider.dart';
 
 ///文件路径帮助类
@@ -9,7 +10,7 @@ class PathHelper {
 //     /// 因为Apple没有外置存储，所以第一步我们需要先对所在平台进行判断
 //     /// 如果是android，使用getExternalStorageDirectory
 //     /// 如果是iOS，使用getApplicationSupportDirectory
-// //    final directory = Platform.isAndroid
+// //    final directory = PlatformUtil.isAndroid
 // //        ? await getExternalStorageDirectory()
 // //        : await getApplicationSupportDirectory();
 //     final directory = await getTemporaryDirectory();
@@ -21,7 +22,7 @@ class PathHelper {
     /// 因为Apple没有外置存储，所以第一步我们需要先对所在平台进行判断
     /// 如果是android，使用getExternalStorageDirectory
     /// 如果是iOS，使用getApplicationDocumentsDirectory
-    final directory = Platform.isAndroid
+    final directory = PlatformUtil.isAndroid
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();
     return directory!.path;

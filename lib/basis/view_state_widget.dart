@@ -80,6 +80,9 @@ class ViewStateWidget extends StatelessWidget {
             ],
           ),
         ),
+        SizedBox(
+          height: 20,
+        ),
         Center(
           child: ViewStateButton(
             child: buttonText,

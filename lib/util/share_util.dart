@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:share/share.dart';
 
 ///分享帮助类
@@ -48,26 +49,41 @@ class ShareUtil {
 
   ///QQ是否安装
   static Future<bool> isQQInstall() {
+    if (!PlatformUtil.isMobile) {
+      return Future.value(false);
+    }
     return Share.isAppInstall(qqPackageName);
   }
 
   ///微信是否安装
   static Future<bool> isWeChatInstall() {
+    if (!PlatformUtil.isMobile) {
+      return Future.value(false);
+    }
     return Share.isAppInstall(weChatPackageName);
   }
 
   ///微博是否安装
   static Future<bool> isWeiBoInstall() {
+    if (!PlatformUtil.isMobile) {
+      return Future.value(false);
+    }
     return Share.isAppInstall(weiBoPackageName);
   }
 
   ///钉钉是否安装
   static Future<bool> isDingTalkInstall() {
+    if (!PlatformUtil.isMobile) {
+      return Future.value(false);
+    }
     return Share.isAppInstall(dingTalkPackageName);
   }
 
   ///企业微信是否安装
   static Future<bool> isWeWorkInstall() {
+    if (!PlatformUtil.isMobile) {
+      return Future.value(false);
+    }
     return Share.isAppInstall(weWorkPackageName);
   }
 

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/share_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -49,7 +49,7 @@ class _WebViewPageState extends State<WebViewPage> {
     super.initState();
     _title = widget.model.title;
     // Enable hybrid composition.
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    if (PlatformUtil.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
