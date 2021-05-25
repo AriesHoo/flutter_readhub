@@ -20,8 +20,8 @@ class TabBarWidget extends StatelessWidget {
       onTap: onTap,
       tabs: List.generate(
           labels!.length,
-              (i) => Tab(
-              child: Text(
+          (i) => Tab(
+                  child: Text(
                 labels![i],
                 softWrap: false,
                 overflow: TextOverflow.fade,
@@ -45,7 +45,7 @@ class TabBarWidget extends StatelessWidget {
 
       ///未选择label颜色
       unselectedLabelColor:
-      Theme.of(context).textTheme.headline6!.color!.withOpacity(0.6),
+          Theme.of(context).textTheme.headline6!.color!.withOpacity(0.6),
     );
   }
 }

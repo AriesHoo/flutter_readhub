@@ -1,6 +1,7 @@
 import 'package:flutter_readhub/data/article_http.dart';
 import 'package:flutter_readhub/data/basis_http.dart';
 import 'package:flutter_readhub/model/article_model.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 
 ///Readhub 文章接口调用
 class ArticleRepository {
@@ -13,10 +14,16 @@ class ArticleRepository {
             "pageSize": pageSize,
           }
         : null;
-    Response response = await http.get(
-      url,
-      queryParameters: param,
-    );
+    Response response;
+    if (PlatformUtil.isMobile) {
+      response = await http.get(
+        url,
+        queryParameters: param,
+      );
+    } else {
+      response = await Dio()
+          .get('https://api.readhub.me/$url', queryParameters: param);
+    }
     return ArticleModel.fromJson(response.data);
   }
 }

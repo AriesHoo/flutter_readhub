@@ -71,6 +71,11 @@ class AuthorDialog extends Dialog {
                 physics: ClampingScrollPhysics(),
                 child: Container(
                   color: Theme.of(context).cardColor,
+
+                  ///设置最大宽度
+                  constraints: BoxConstraints(
+                    maxWidth: 360,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,

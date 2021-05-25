@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/adapter.dart';
-import 'package:dio/adapter_browser.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -18,13 +17,11 @@ parseJson(String text) {
   return compute(_parseAndDecode, text);
 }
 
-///网络请求基类
+///网络请求基类--mobile使用
 abstract class BasisHttp with DioMixin implements Dio {
   BasisHttp() {
     options = BaseOptions();
-    httpClientAdapter = PlatformUtil.isBrowser()
-        ? BrowserHttpClientAdapter()
-        : DefaultHttpClientAdapter();
+    httpClientAdapter =  DefaultHttpClientAdapter();
 
     /// 初始化 加入app通用处理
     if (PlatformUtil.isMobile) {

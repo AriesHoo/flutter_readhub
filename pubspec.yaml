@@ -34,6 +34,7 @@ dependencies:
 
   # WebView
   webview_flutter: ^2.0.4
+  flutter_webview_plugin: ^0.4.0
   #  网络请求相关dio
   dio: ^4.0.0
   #  加载网络图片

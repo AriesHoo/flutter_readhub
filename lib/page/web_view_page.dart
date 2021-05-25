@@ -1,4 +1,3 @@
-
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -97,64 +96,67 @@ class _WebViewPageState extends State<WebViewPage> {
             ),
           ],
         ),
-        body: Column(
-          children: <Widget>[
-            /// 模糊进度条(会执行一个动画)
-            ValueListenableBuilder(
-              valueListenable: _getProgress,
-              builder: (context, dynamic loading, child) {
-                return Container(
-                  height: loading ? 2 : 0,
-                  child: LinearProgressIndicator(
-                    backgroundColor: Theme.of(context).appBarTheme.color,
-                    valueColor:
-                        AlwaysStoppedAnimation(Theme.of(context).accentColor),
-                  ),
-                );
-              },
-            ),
-            Expanded(
-              flex: 1,
-              child: SafeArea(
-                child: WebView(
-                  initialUrl: widget.model.url,
-                  debuggingEnabled: false,
-                  javascriptMode: JavascriptMode.unrestricted,
-                  initialMediaPlaybackPolicy:
-                      AutoMediaPlaybackPolicy.always_allow,
-                  navigationDelegate: (NavigationRequest request) {
-                    debugPrint('导航$request');
-                    refreshNavigator();
-                    if (!request.url.startsWith('http')) {
-//                      _launchURL(request.url);
-                      return NavigationDecision.prevent;
-                    } else {
-                      if (request.url.contains(".apk")) {
-//                        _launchURL(request.url);
-                        return NavigationDecision.prevent;
-                      }
-                      return NavigationDecision.navigate;
-                    }
-                  },
-                  onWebViewCreated: (WebViewController web) {
-                    debugPrint("onWebViewCreated");
-                    _webViewController = web;
-
-                    ///webView 创建调用，
-                    web.currentUrl().then((url) {
-                      ///返回当前url
-                      _currentUrl = url;
-                      debugPrint("_currentUrl:" + _currentUrl!);
-                    });
-                  },
-                  onPageFinished: (String value) async {
-                    debugPrint("onPageFinished:" + value);
-                    refreshNavigator();
-                  },
-                ),
+        body: Hero(
+          tag: widget.model.url,
+          child: Column(
+            children: <Widget>[
+              /// 模糊进度条(会执行一个动画)
+              ValueListenableBuilder(
+                valueListenable: _getProgress,
+                builder: (context, dynamic loading, child) {
+                  return Container(
+                    height: loading ? 2 : 0,
+                    child: LinearProgressIndicator(
+                      backgroundColor: Theme.of(context).appBarTheme.color,
+                      valueColor:
+                          AlwaysStoppedAnimation(Theme.of(context).accentColor),
+                    ),
+                  );
+                },
               ),
-            )
-          ],
+              Expanded(
+                flex: 1,
+                child: SafeArea(
+                  child: WebView(
+                    initialUrl: widget.model.url,
+                    debuggingEnabled: false,
+                    javascriptMode: JavascriptMode.unrestricted,
+                    initialMediaPlaybackPolicy:
+                        AutoMediaPlaybackPolicy.always_allow,
+                    navigationDelegate: (NavigationRequest request) {
+                      debugPrint('导航$request');
+                      refreshNavigator();
+                      if (!request.url.startsWith('http')) {
+//                      _launchURL(request.url);
+                        return NavigationDecision.prevent;
+                      } else {
+                        if (request.url.contains(".apk")) {
+//                        _launchURL(request.url);
+                          return NavigationDecision.prevent;
+                        }
+                        return NavigationDecision.navigate;
+                      }
+                    },
+                    onWebViewCreated: (WebViewController web) {
+                      debugPrint("onWebViewCreated");
+                      _webViewController = web;
+
+                      ///webView 创建调用，
+                      web.currentUrl().then((url) {
+                        ///返回当前url
+                        _currentUrl = url;
+                        debugPrint("_currentUrl:" + _currentUrl!);
+                      });
+                    },
+                    onPageFinished: (String value) async {
+                      debugPrint("onPageFinished:" + value);
+                      refreshNavigator();
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.share),

@@ -52,7 +52,10 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
       },
 
       ///列表适配器
-      itemBuilder: (context, model, index) => ArticleAdapter(model.list[index]),
+      itemBuilder: (context, model, index) => Hero(
+        tag: model.list[index].getUrl(),
+        child: ArticleAdapter(model.list[index]),
+      ),
     );
   }
 
