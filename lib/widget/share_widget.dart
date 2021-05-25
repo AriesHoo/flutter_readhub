@@ -148,24 +148,31 @@ class CancelShare extends StatelessWidget {
       model: BasisHighlightViewModel(),
       builder: (context, model, child) => Opacity(
         opacity: model.highlight ? 0.5 : 1,
-        child: MaterialButton(
-          onHighlightChanged: model.onHighlightChanged,
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            }
-          },
-          color: Colors.transparent,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          elevation: 0,
-          highlightElevation: 0,
-          focusElevation: 0,
-          disabledElevation: 0,
-          hoverElevation: 0,
-          child: Text(
-            StringHelper.getS()!.cancel,
-            style: Theme.of(context).textTheme.subtitle1,
+        child: Container(
+          width: double.infinity,
+          constraints: BoxConstraints(
+            minHeight: 48,
+          ),
+          child: MaterialButton(
+            onHighlightChanged: model.onHighlightChanged,
+            onPressed: () {
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
+            },
+            color: Colors.transparent,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            elevation: 0,
+            highlightElevation: 0,
+            focusElevation: 0,
+            disabledElevation: 0,
+            hoverElevation: 0,
+            child: Text(
+              StringHelper.getS()!.cancel,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
           ),
         ),
       ),
