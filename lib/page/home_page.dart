@@ -75,6 +75,10 @@ class _HomePageState extends State<HomePage>
     ///返回键控制
     return WillPopScope(
       onWillPop: () async {
+        ///非手机不做拦截
+        if (!PlatformUtil.isMobile) {
+          return true;
+        }
         if (_lastPressedAt == null ||
             DateTime.now().difference(_lastPressedAt!) >
                 Duration(milliseconds: 1500)) {
@@ -106,12 +110,13 @@ class _HomePageState extends State<HomePage>
 
 ///主页面主体
 class HomeBody extends StatelessWidget {
-  const HomeBody(this.labels,
-      this.urls, {
-        Key? key,
-        @required this.controller,
-        this.onTap,
-      }) : super(key: key);
+  const HomeBody(
+    this.labels,
+    this.urls, {
+    Key? key,
+    @required this.controller,
+    this.onTap,
+  }) : super(key: key);
   final List urls;
   final List labels;
   final TabController? controller;
@@ -120,22 +125,15 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme
-          .of(context)
-          .cardColor,
+      backgroundColor: Theme.of(context).cardColor,
       appBar: PreferredSize(
-
         ///设置AppBar高度
         preferredSize: Size.fromHeight(40),
         child: AppBar(
           title: Image.asset(
             'assets/images/title.png',
             width: 108,
-            color: Theme
-                .of(context)
-                .appBarTheme
-                .iconTheme!
-                .color,
+            color: Theme.of(context).appBarTheme.iconTheme!.color,
             fit: BoxFit.fill,
             filterQuality: FilterQuality.high,
             colorBlendMode: BlendMode.srcIn,
@@ -167,17 +165,13 @@ class HomeBody extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-
           ///tab栏
           Container(
             height: 36,
             width: double.infinity,
 
             ///添加该属性去掉Tab按下水波纹效果
-            color: Theme
-                .of(context)
-                .appBarTheme
-                .color,
+            color: Theme.of(context).appBarTheme.color,
 
             ///TabBar
             child: TabBarWidget(
@@ -200,10 +194,9 @@ class HomeBody extends StatelessWidget {
               controller: controller,
               children: List.generate(
                 labels.length,
-                    (i) =>
-                    ArticleItemWidget(
-                      url: urls[i],
-                    ),
+                (i) => ArticleItemWidget(
+                  url: urls[i],
+                ),
               ),
             ),
           )
@@ -218,9 +211,7 @@ class HomeBody extends StatelessWidget {
       ToastUtil.show(StringHelper.getS()!.tipSwitchThemeWhenPlatformDark);
     } else {
       ProviderHelper.of<ThemeViewModel>(context).switchTheme(
-          userDarkMode: Theme
-              .of(context)
-              .brightness == Brightness.light);
+          userDarkMode: Theme.of(context).brightness == Brightness.light);
     }
   }
 }
