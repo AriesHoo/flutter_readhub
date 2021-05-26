@@ -123,17 +123,17 @@ class ShareGridWidget extends StatelessWidget {
         );
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        ///纵向数量
+        crossAxisCount: sizeMax ? 5 : 4,
 
-          ///纵向数量
-          crossAxisCount: sizeMax ? 5 : 4,
+        ///主轴单个子Widget之间间距
+        mainAxisSpacing: 2,
 
-          ///主轴单个子Widget之间间距
-          mainAxisSpacing: 2,
-
-          ///交叉轴单个子Widget之间间距
-          crossAxisSpacing: 2,
-          childAspectRatio: 3 / 4,
-          mainAxisExtent: 100),
+        ///交叉轴单个子Widget之间间距
+        crossAxisSpacing: 2,
+        childAspectRatio: 3 / 4,
+        mainAxisExtent: 100,
+      ),
     );
   }
 }
@@ -148,31 +148,28 @@ class CancelShare extends StatelessWidget {
       model: BasisHighlightViewModel(),
       builder: (context, model, child) => Opacity(
         opacity: model.highlight ? 0.5 : 1,
-        child: Container(
-          width: double.infinity,
-          constraints: BoxConstraints(
-            minHeight: 48,
-          ),
-          child: MaterialButton(
-            onHighlightChanged: model.onHighlightChanged,
-            onPressed: () {
-              if (Navigator.of(context).canPop()) {
-                Navigator.of(context).pop();
-              }
-            },
-            color: Colors.transparent,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            elevation: 0,
-            highlightElevation: 0,
-            focusElevation: 0,
-            disabledElevation: 0,
-            hoverElevation: 0,
-            child: Text(
-              StringHelper.getS()!.cancel,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
+        child: MaterialButton(
+          height: 50,
+          minWidth: double.infinity,
+          onHighlightChanged: model.onHighlightChanged,
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          },
+          color: Colors.transparent,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          elevation: 0,
+          highlightElevation: 0,
+          focusElevation: 0,
+          disabledElevation: 0,
+          hoverElevation: 0,
+          child: Text(
+            StringHelper.getS()!.cancel,
+            style: Theme.of(context).textTheme.subtitle1,
           ),
         ),
       ),

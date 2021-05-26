@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
@@ -105,9 +104,9 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
     B extends ScrollTopModel> extends BasisProviderWidget2<A, B> {
   BasisRefreshListProviderWidget({
     Key? key,
-    required Widget Function(BuildContext context, A model, int index)
-        itemBuilder,
+    Widget Function(BuildContext context, A model, int index)? itemBuilder,
     required A model1,
+    Widget Function(BuildContext context, A model, B model2)? childBuilder,
     B? model2,
     Function(A, B)? onModelReady,
     Widget Function(BuildContext context, A model1, B model2, Widget? child)?
@@ -175,18 +174,22 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   controller: m1.refreshController,
 
                   ///子控件ListView
-                  child: ListView.builder(
-                    ///滚动监听-用于控制直达顶部功能
-                    controller: m2.scrollController,
+                  child: childBuilder != null
+                      ? childBuilder(context, m1, m2)
+                      : ListView.builder(
+                          ///滚动监听-用于控制直达顶部功能
+                          controller: m2.scrollController,
 
-                    ///内容适配
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: m1.list.length,
-                    itemBuilder: (context, index) {
-                      return itemBuilder(context, m1, index);
-                    },
-                  ),
+                          ///内容适配
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          itemCount: m1.list.length,
+                          itemBuilder: (context, index) {
+                            return itemBuilder != null
+                                ? itemBuilder(context, m1, index)
+                                : SizedBox();
+                          },
+                        ),
                 ),
                 floatingActionButton: Visibility(
                   visible: m2.showTopBtn && !ThemeViewModel.hideFloatingButton,

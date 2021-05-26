@@ -40,6 +40,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    double width = MediaQuery.of(context).size.width;
     return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
@@ -50,6 +51,33 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
           builder: (context, index) => ArticleSkeleton(),
         );
       },
+      childBuilder: width > 1000
+          ? (context, m1, m2) => GridView.builder(
+                controller: m2.scrollController,
+                addAutomaticKeepAlives: true,
+                physics: ClampingScrollPhysics(),
+                itemCount: m1.list.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  ///纵向数量
+                  crossAxisCount: 2,
+
+                  ///水平单个子Widget之间间距
+                  mainAxisSpacing: 0.0,
+
+                  ///垂直单个子Widget之间间距
+                  crossAxisSpacing: 0.0,
+                  mainAxisExtent: 150,
+                ),
+                itemBuilder: (context, index) => InkWell(
+                  child: Material(
+                    child: Hero(
+                      tag: m1.list[index].getUrl(),
+                      child: ArticleAdapter(m1.list[index]),
+                    ),
+                  ),
+                ),
+              )
+          : null,
 
       ///列表适配器
       itemBuilder: (context, model, index) => Hero(
@@ -160,6 +188,8 @@ class ArticleAdapter extends StatelessWidget {
     return Material(
       color: Theme.of(context).cardColor,
       child: InkWell(
+        ///鼠标悬浮事件
+        hoverColor: Theme.of(context).splashColor.withOpacity(0.1),
         onTap: () async {
           item.switchMaxLine();
           ProviderHelper.of<LocaleViewModel>(context).switchLocale(0);
@@ -195,11 +225,12 @@ class ArticleAdapter extends StatelessWidget {
               Text(
                 item.title!,
                 textScaleFactor: ThemeViewModel.articleTextScaleFactor,
-                maxLines: 2,
+                maxLines: 1,
                 strutStyle: StrutStyle(
-                    forceStrutHeight: true,
-                    height: textLineHeight,
-                    leading: leading),
+                  forceStrutHeight: true,
+                  height: textLineHeight,
+                  leading: leading,
+                ),
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
                       fontWeight: FontWeight.bold,
@@ -294,7 +325,12 @@ class SmallButtonWidget extends StatelessWidget {
       onTap: onTap,
       onLongPress: () {},
       child: Padding(
-        padding: EdgeInsets.only(left: 7, top: 10, right: 7, bottom: 10),
+        padding: EdgeInsets.only(
+          left: 7,
+          top: 10,
+          right: 7,
+          bottom: 10,
+        ),
         child: child,
       ),
     );

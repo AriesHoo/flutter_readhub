@@ -179,6 +179,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    _timeLength = PlatformUtil.isBrowser() ? 3500 : 1000;
     _timer = Timer.periodic(
       Duration(
         milliseconds: _timeDur,

@@ -290,7 +290,7 @@ class ThemeViewModel with ChangeNotifier {
         foregroundColor: accentColor,
         backgroundColor: themeData.cardColor,
         elevation: 10,
-        splashColor: themeColor.withAlpha(50),
+        splashColor: themeColor.withOpacity(0.5),
       ),
 
       ///dialog主题
