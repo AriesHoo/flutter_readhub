@@ -1,3 +1,4 @@
+import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/basis/scroll_top_model.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/card_share_page.dart';
+import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/article_view_model.dart';
 import 'package:flutter_readhub/view_model/locale_view_model.dart';
@@ -51,7 +53,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
           builder: (context, index) => ArticleSkeleton(),
         );
       },
-      childBuilder: width > 1000
+      childBuilder: isDisplayDesktop
           ? (context, m1, m2) => GridView.builder(
                 controller: m2.scrollController,
                 addAutomaticKeepAlives: true,
@@ -59,7 +61,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
                 itemCount: m1.list.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   ///纵向数量
-                  crossAxisCount: 2,
+                  crossAxisCount:
+                      windowType >= AdaptiveWindowType.large ? 3 : 2,
 
                   ///水平单个子Widget之间间距
                   mainAxisSpacing: 0.0,
@@ -189,7 +192,7 @@ class ArticleAdapter extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: InkWell(
         ///鼠标悬浮事件
-        hoverColor: Theme.of(context).splashColor.withOpacity(0.1),
+        hoverColor: Theme.of(context).splashColor.withOpacity(0.05),
         onTap: () async {
           item.switchMaxLine();
           ProviderHelper.of<LocaleViewModel>(context).switchLocale(0);

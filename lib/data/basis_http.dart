@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/adapter.dart';
@@ -42,16 +41,6 @@ class HeaderInterceptor extends InterceptorsWrapper {
     options.receiveTimeout = 1000 * 15;
     options.responseType = ResponseType.json;
     options.contentType = Headers.jsonContentType;
-    if (PlatformUtil.isBrowser()) {
-      Map<String, dynamic> headers = HashMap();
-      headers.putIfAbsent("Access-Control-Allow-Origin", () => "*");
-      headers.putIfAbsent("Access-Control-Allow-Headers", () => "*");
-      headers.putIfAbsent("Access-Control-Allow-Methods", () => "*");
-      headers.putIfAbsent("Access-Control-Allow-Credentials", () => true);
-      headers.putIfAbsent('Access-Control-Allow-Origin', () => '*');
-      headers.putIfAbsent('X-Requested-With', () => 'XMLHttpRequest');
-      options.headers = headers;
-    }
     super.onRequest(options, handler);
   }
 }

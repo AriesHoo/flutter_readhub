@@ -1,5 +1,6 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 ///添加切换动画IconButton
@@ -43,11 +44,12 @@ class _AnimatedSwitcherIconWidgetState
   @override
   void didUpdateWidget(AnimatedSwitcherIconWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!widget.checkTheme) {
+    if (!widget.checkTheme || !PlatformUtil.isAndroid) {
       return;
     }
 
-    ///更新UI--在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
+    ///更新UI--Android系统
+    ///在深色暗色模式切换时候也会触发因ThemeData无NavigationBar相关主题配置故采用该方法迂回处理
     if (_lastSetSystemUiAt == null ||
         DateTime.now().difference(_lastSetSystemUiAt!) >
             Duration(milliseconds: 1000)) {

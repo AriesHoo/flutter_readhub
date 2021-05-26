@@ -48,8 +48,8 @@ final botToastBuilder = BotToastInit();
 
 ///清空所有Toast
 clearToast() {
-  // BotToast.closeAllLoading();
-  // BotToast.cleanAll();
+  BotToast.closeAllLoading();
+  BotToast.cleanAll();
 }
 
 class MyApp extends StatelessWidget {
@@ -73,8 +73,9 @@ class _MaterialAppPageState extends State<MaterialAppPage>
       model1: ThemeViewModel(),
       model2: LocaleViewModel(),
       builder: (context, theme, locale, child) => MaterialApp(
-        ///后台管理器查看到标题
-        title: 'Freadhub',
+        ///Android-后台任务title
+        ///Web-标题栏title
+        title: 'Freadhub-聚合资讯',
 
         ///用于全局获取Context
         navigatorKey: navigatorKey,
@@ -179,7 +180,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _timeLength = PlatformUtil.isBrowser() ? 3500 : 1000;
+    _timeLength = PlatformUtil.isBrowser ? 3500 : 1000;
     _timer = Timer.periodic(
       Duration(
         milliseconds: _timeDur,
