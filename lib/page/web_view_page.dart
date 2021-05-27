@@ -46,6 +46,11 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
+    if (!PlatformUtil.isMobile) {
+      _launchURL(widget.model.url);
+      Navigator.of(context).pop();
+      return;
+    }
     _title = widget.model.title;
     // Enable hybrid composition.
     if (PlatformUtil.isAndroid) WebView.platform = SurfaceAndroidWebView();

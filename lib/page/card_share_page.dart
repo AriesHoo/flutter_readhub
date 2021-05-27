@@ -14,6 +14,7 @@ import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/share_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/share_view_model.dart';
@@ -25,6 +26,10 @@ import 'package:flutter_readhub/widget/share_widget.dart';
 class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
   ///展示卡片分享
   static show(BuildContext context, CardShareModel model) {
+    if(PlatformUtil.isWindows){
+      ShareHelper.singleton.shareTextToClipboard(model.text!);
+      return;
+    }
     DialogUtil.showModalBottomSheetDialog(
       context,
       childOutside: true,
