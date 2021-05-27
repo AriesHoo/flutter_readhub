@@ -162,7 +162,9 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                           color: ThemeViewModel.accentColor,
                         )
                       : ClassicHeader(),
-                  footer: SmartLoadFooterWidget(),
+                  footer: SmartLoadFooterWidget(
+                    controller: m1.refreshController,
+                  ),
 
                   ///下拉刷新监听
                   onRefresh: m1.refresh,
@@ -265,6 +267,13 @@ class _BasisProviderWidgetState2<A extends ChangeNotifier,
 
 ///刷新脚
 class SmartLoadFooterWidget extends StatelessWidget {
+  final RefreshController? controller;
+
+  const SmartLoadFooterWidget({
+    Key? key,
+    this.controller,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CustomFooter(
@@ -300,7 +309,12 @@ class SmartLoadFooterWidget extends StatelessWidget {
         }
         return Container(
           height: 50,
-          child: Center(child: body),
+          child: Center(
+            child: GestureDetector(
+              onTap: () => controller?.requestLoading(),
+              child: body,
+            ),
+          ),
         );
       },
     );

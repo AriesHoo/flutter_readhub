@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart' as SharePlus;
 
 ///分享帮助类
 class ShareUtil {
@@ -195,6 +196,10 @@ class ShareUtil {
     String? activityName,
     Rect? rect,
   }) {
+    if (!PlatformUtil.isMobile) {
+      SharePlus.Share.share(text, subject: subject);
+      return;
+    }
     Share.share(
       text,
       subject: subject,
@@ -372,6 +377,16 @@ class ShareUtil {
     String? text,
     Rect? rect,
   }) {
+    if (!PlatformUtil.isMobile) {
+      SharePlus.Share.shareFiles(
+        paths,
+        mimeTypes: mimeTypes,
+        subject: subject,
+        text: text,
+        sharePositionOrigin: rect,
+      );
+      return;
+    }
     Share.shareFiles(
       paths,
       mimeTypes: mimeTypes,

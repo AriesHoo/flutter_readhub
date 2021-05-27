@@ -9,13 +9,16 @@ import 'package:flutter_readhub/dialog/author_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
+import 'package:flutter_readhub/model/tab_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
+import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/animated_switcher_icon_widget.dart';
+import 'package:flutter_readhub/widget/keep_alive_widget.dart';
 import 'package:flutter_readhub/widget/tab_bar_widget.dart';
 
 ///主页面
@@ -28,18 +31,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  ///api
-  var _listUrls = [
-    ArticleHttp.API_TOPIC,
-    ArticleHttp.API_NEWS,
-    ArticleHttp.API_TECH_NEWS,
-    ArticleHttp.API_BLOCK_CHAIN
-  ];
-
-  ///tab栏
-  var _listLabel = ["热门话题", "科技动态", "开发者资讯", "区块链"];
+  ///tab标签
+  List<TabModel> _listTab = [];
   TabController? _tabController;
-  ValueChanged<int>? _onTabTap;
 
   ///上次点击时间
   DateTime? _lastPressedAt;
@@ -47,11 +41,32 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+    _listTab.add(
+      TabModel(
+        '热门话题',
+        ArticleItemWidget(ArticleHttp.API_TOPIC),
+      ),
+    );
+    _listTab.add(
+      TabModel(
+        '科技动态',
+        ArticleItemWidget(ArticleHttp.API_NEWS),
+      ),
+    );
+    _listTab.add(
+      TabModel(
+        '技术资讯',
+        ArticleItemWidget(ArticleHttp.API_TECH_NEWS),
+      ),
+    );
+    _listTab.add(
+      TabModel(
+        '区块链',
+        ArticleItemWidget(ArticleHttp.API_BLOCK_CHAIN),
+      ),
+    );
     _tabController =
-        TabController(initialIndex: 0, length: _listLabel.length, vsync: this);
-    _onTabTap = (i) {
-      LogUtil.v('TabController:$i');
-    };
+        TabController(initialIndex: 0, length: _listTab.length, vsync: this);
 
     ///非手机系统不做检测版本更新
     if (!PlatformUtil.isMobile) {
@@ -96,9 +111,18 @@ class _HomePageState extends State<HomePage>
       },
       child: Stack(
         children: [
+          // LayoutBuilder(
+          //   builder: (context, constraints) {
+          //     return KeepAliveWidget(
+          //       child: HomeDesktopBody(
+          //         _listTab,
+          //         controller: _tabController,
+          //       ),
+          //     );
+          //   },
+          // ),
           HomeBody(
-            _listLabel,
-            _listUrls,
+            _listTab,
             controller: _tabController,
           ),
           SplashPage(),
@@ -111,14 +135,12 @@ class _HomePageState extends State<HomePage>
 ///主页面主体
 class HomeBody extends StatelessWidget {
   const HomeBody(
-    this.labels,
-    this.urls, {
+    this.tabs, {
     Key? key,
     @required this.controller,
     this.onTap,
   }) : super(key: key);
-  final List urls;
-  final List labels;
+  final List<TabModel> tabs;
   final TabController? controller;
   final ValueChanged<int>? onTap;
 
@@ -175,7 +197,7 @@ class HomeBody extends StatelessWidget {
 
             ///TabBar
             child: TabBarWidget(
-              labels: labels,
+              labels: tabs.map((e) => e.label).toList(),
               controller: controller,
             ),
           ),
@@ -193,10 +215,8 @@ class HomeBody extends StatelessWidget {
             child: TabBarView(
               controller: controller,
               children: List.generate(
-                labels.length,
-                (i) => ArticleItemWidget(
-                  url: urls[i],
-                ),
+                tabs.length,
+                (i) => tabs[i].page,
               ),
             ),
           )
@@ -213,5 +233,40 @@ class HomeBody extends StatelessWidget {
       ProviderHelper.of<ThemeViewModel>(context).switchTheme(
           userDarkMode: Theme.of(context).brightness == Brightness.light);
     }
+  }
+}
+
+///大屏主页面
+class HomeDesktopBody extends StatelessWidget {
+  final List<TabModel> tabs;
+  final TabController? controller;
+  final ValueChanged<int>? onTap;
+
+  const HomeDesktopBody(
+    this.tabs, {
+    Key? key,
+    @required this.controller,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          color: Colors.pink,
+          width: 200,
+        ),
+        Expanded(
+          child: Expanded(
+            flex: 1,
+            child: HomeBody(
+              tabs,
+              controller: controller,
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

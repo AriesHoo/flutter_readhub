@@ -50,7 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "green": MessageLookupByLibrary.simpleMessage("微信绿"),
         "lightMode": MessageLookupByLibrary.simpleMessage("浅色主题"),
         "loadFailed": MessageLookupByLibrary.simpleMessage("加载失败"),
-        "loadIdle": MessageLookupByLibrary.simpleMessage("上拉加载更多"),
+        "loadIdle": MessageLookupByLibrary.simpleMessage("上拉或点击加载更多"),
         "loadNoMore": MessageLookupByLibrary.simpleMessage("我也是有底线的"),
         "loadingWebTitle": MessageLookupByLibrary.simpleMessage("加载中..."),
         "monday": MessageLookupByLibrary.simpleMessage("周一"),

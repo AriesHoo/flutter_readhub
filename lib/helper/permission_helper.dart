@@ -1,4 +1,3 @@
-
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -17,6 +16,9 @@ class PermissionHelper {
 
   ///文件读写android storage iOS photos
   static Future<bool> checkStoragePermission() async {
+    if (!PlatformUtil.isMobile) {
+      return Future.value(true);
+    }
     return checkPermission(
         PlatformUtil.isAndroid ? Permission.storage : Permission.photos);
   }

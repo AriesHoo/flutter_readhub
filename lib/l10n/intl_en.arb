@@ -25,7 +25,7 @@
   "forward": "前进",
   "refresh": "刷新",
   "share": "分享",
-  "loadIdle": "上拉加载更多",
+  "loadIdle": "上拉或点击加载更多",
   "loadFailed": "加载失败",
   "loadNoMore": "我也是有底线的",
   "quitApp": "再点击一次退出程序",

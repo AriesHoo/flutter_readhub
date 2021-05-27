@@ -310,10 +310,10 @@ class S {
     );
   }
 
-  /// `上拉加载更多`
+  /// `上拉或点击加载更多`
   String get loadIdle {
     return Intl.message(
-      '上拉加载更多',
+      '上拉或点击加载更多',
       name: 'loadIdle',
       desc: '',
       args: [],

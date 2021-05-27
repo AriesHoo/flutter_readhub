@@ -10,7 +10,7 @@ AdaptiveWindowType get windowType =>
     getWindowType(navigatorKey.currentContext!);
 
 ///大屏幕-宽度大于1024-按照web布局
-bool get isDisplayDesktop => windowType >= AdaptiveWindowType.medium;
+bool get isDisplayDesktop => windowType >= AdaptiveWindowType.small;
 
-///中屏幕-宽度等于1024--按照手机布局
-bool get isDisplaySmallDesktop => windowType == AdaptiveWindowType.medium;
+///中屏幕-宽度600-1023--按照手机布局
+bool get isDisplaySmallDesktop => windowType == AdaptiveWindowType.small;

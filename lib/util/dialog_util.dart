@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_readhub/dialog/basis_dialog.dart';
+import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 
 ///dialog提示
@@ -151,6 +153,16 @@ class DialogUtil {
     Clip? clipBehavior,
     bool childOutside: false,
   }) async {
+    // if (isDisplayDesktop) {
+    //   return await showDialog(
+    //     context: context,
+    //     builder: (context) => BasisDialog(
+    //       kid: Container(
+    //         child: child,
+    //       ),
+    //     ),
+    //   );
+    // }
     return await showModalBottomSheet(
         context: context,
         routeSettings: settings,

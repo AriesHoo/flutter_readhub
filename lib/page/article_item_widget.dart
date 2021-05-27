@@ -1,4 +1,5 @@
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/basis/scroll_top_model.dart';
@@ -21,11 +22,10 @@ final letterSpacing = 1.0;
 
 ///文章item页--最终展示效果
 class ArticleItemWidget extends StatefulWidget {
-  final String? url;
+  final String url;
 
-  const ArticleItemWidget({
+  const ArticleItemWidget(this.url,{
     Key? key,
-    this.url,
   }) : super(key: key);
 
   @override
@@ -43,6 +43,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   Widget build(BuildContext context) {
     super.build(context);
     double width = MediaQuery.of(context).size.width;
+    LogUtil.v('width:$width');
     return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
@@ -62,7 +63,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   ///纵向数量
                   crossAxisCount:
-                      windowType >= AdaptiveWindowType.large ? 3 : 2,
+                      windowType >= AdaptiveWindowType.medium ? 3 : 2,
 
                   ///水平单个子Widget之间间距
                   mainAxisSpacing: 0.0,

@@ -68,6 +68,7 @@ dependencies:
       path: packages/share
       ref: change_share
       version: 2.0.1
+  share_plus: ^2.1.2
   #  自适应断点？---响应式
   adaptive_breakpoints: ^0.0.4
 dev_dependencies:

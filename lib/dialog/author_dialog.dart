@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
+import 'package:flutter_readhub/dialog/basis_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/save_image_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
@@ -25,10 +26,7 @@ Future<void> showAuthorDialog(BuildContext context) async {
   await showDialog<int>(
     context: context,
     builder: (BuildContext context) {
-      ///部分手机调试模式出错增加居中及滚动
-      return Center(
-        child: AuthorDialog(),
-      );
+      return AuthorDialog();
     },
   );
 }
@@ -48,76 +46,44 @@ Future<void> showThemeDialog(BuildContext context) async {
 }
 
 ///用户信息Dialog
-class AuthorDialog extends Dialog {
+class AuthorDialog extends BasisDialog {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child:
+  Widget? get kid => Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ///顶部信息
+          TopRoundWidget(),
 
-          ///圆角
-          ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        clipBehavior: Clip.hardEdge,
+          ///意见反馈-发送邮件
+          FeedbackWidget(),
 
-        ///整体背景
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
-                child: Container(
-                  color: Theme.of(context).cardColor,
+          ///检查更新--手机系统才有
+          Visibility(
+            child: UpdateWidget(),
+            visible: PlatformUtil.isMobile,
+          ),
 
-                  ///设置最大宽度
-                  constraints: BoxConstraints(
-                    maxWidth: 360,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ///顶部信息
-                      TopRoundWidget(),
+          ///应用分享
+          ShareAppWidget(),
 
-                      ///意见反馈-发送邮件
-                      FeedbackWidget(),
+          ///选择颜色主题
+          ThemeWidget(),
 
-                      ///检查更新--手机系统才有
-                      Visibility(
-                        child: UpdateWidget(),
-                        visible: PlatformUtil.isMobile,
-                      ),
+          ///文字尺寸设置
+          FontSizeWidget(),
 
-                      ///应用分享
-                      ShareAppWidget(),
+          ///赞赏开发者
+          AppreciateWidget(),
 
-                      ///选择颜色主题
-                      ThemeWidget(),
-
-                      ///文字尺寸设置
-                      FontSizeWidget(),
-
-                      ///赞赏开发者
-                      AppreciateWidget(),
-
-                      ///版权申明
-                      CopyrightWidget(
-                        scrollController: _scrollController,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+          ///版权申明
+          CopyrightWidget(
+            scrollController: _scrollController,
+          ),
+        ],
+      );
 }
 
 ///顶部个人信息介绍

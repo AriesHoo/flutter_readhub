@@ -20,12 +20,8 @@ parseJson(String text) {
 abstract class BasisHttp with DioMixin implements Dio {
   BasisHttp() {
     options = BaseOptions();
-    httpClientAdapter =  DefaultHttpClientAdapter();
-
-    /// 初始化 加入app通用处理
-    if (PlatformUtil.isMobile) {
-      (transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
-    }
+    httpClientAdapter = DefaultHttpClientAdapter();
+    (transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
     interceptors..add(HeaderInterceptor());
     init();
   }

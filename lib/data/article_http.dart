@@ -9,10 +9,10 @@ class ArticleHttp extends BasisHttp {
   ///热门话题
   static const String API_TOPIC = "topic";
 
-  ///科技动态
+  ///科技动态--news lab
   static const String API_NEWS = "news";
 
-  ///开发者资讯
+  ///技术资讯
   static const String API_TECH_NEWS = "technews";
 
   ///区块链

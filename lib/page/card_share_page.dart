@@ -55,36 +55,42 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
   Widget build(BuildContext context) {
     return BasisProviderWidget<ShareCardStyleViewModel>(
       model: ShareCardStyleViewModel(),
-      builder: (context, styleModel, child) => Scaffold(
-        backgroundColor: Theme.of(context).cardColor,
-        body: Padding(
-          padding: EdgeInsets.only(top: kToolbarHeight * 0.5),
-          child: Center(
-            child: LifecycleWidget(
-              child: styleModel.shareCardStyle == ShareCardStyle.app
-                  ? CaptureImageAppStyleWidget(
-                      model.title,
-                      model.summary,
-                      model.notice,
-                      model.url,
-                      model.bottomNotice,
-                      _globalKey,
-                      summaryWidget: model.summaryWidget,
-                    )
-                  : CaptureImageWidget(
-                      model.url,
-                      _globalJueJinKey,
-                      title: model.title,
-                      summary: model.summary,
-                      summaryWidget: model.summaryWidget,
-                    ),
-              observer: this,
+      builder: (context, styleModel, child) => ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 300,
+
+        ),
+        child: Scaffold(
+          backgroundColor: Theme.of(context).cardColor,
+          body: Padding(
+            padding: EdgeInsets.only(top: kToolbarHeight * 0.5),
+            child: Center(
+              child: LifecycleWidget(
+                child: styleModel.shareCardStyle == ShareCardStyle.app
+                    ? CaptureImageAppStyleWidget(
+                  model.title,
+                  model.summary,
+                  model.notice,
+                  model.url,
+                  model.bottomNotice,
+                  _globalKey,
+                  summaryWidget: model.summaryWidget,
+                )
+                    : CaptureImageWidget(
+                  model.url,
+                  _globalJueJinKey,
+                  title: model.title,
+                  summary: model.summary,
+                  summaryWidget: model.summaryWidget,
+                ),
+                observer: this,
+              ),
             ),
           ),
-        ),
-        bottomNavigationBar: ShareBottomWidget(
-          model: ShareBottomViewModel(),
-          onClick: (type) => _share(type, styleModel),
+          bottomNavigationBar: ShareBottomWidget(
+            model: ShareBottomViewModel(),
+            onClick: (type) => _share(type, styleModel),
+          ),
         ),
       ),
     );
