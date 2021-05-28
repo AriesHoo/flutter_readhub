@@ -11,14 +11,12 @@ import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/tab_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
-import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/animated_switcher_icon_widget.dart';
-import 'package:flutter_readhub/widget/keep_alive_widget.dart';
 import 'package:flutter_readhub/widget/tab_bar_widget.dart';
 
 ///主页面

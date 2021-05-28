@@ -42,9 +42,9 @@
 	<key>NSMotionUsageDescription</key>
 	<string>是否允许App访问您的运动健康</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>保存图片到设备，需要调用你的照片功能</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>是否允许App访问您的语音识别</string>
+	<string>是否允许App访问您的本地图库</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>是否允许App访问您的语音识别</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

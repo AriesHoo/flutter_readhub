@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_readhub/util/platform_util.dart';
 
 export 'package:dio/dio.dart';
 

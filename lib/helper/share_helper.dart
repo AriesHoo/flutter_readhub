@@ -56,8 +56,10 @@ class ShareHelper {
       ),
       child: ShareBottomWidget<ShareTextViewModel>(
         model: ShareTextViewModel(),
-        onClick: (type) {
+        onClick: (type, ctx) {
           Navigator.of(navigatorKey.currentContext!).pop();
+          final box = ctx.findRenderObject() as RenderBox?;
+          final rect = box!.localToGlobal(Offset.zero) & box.size;
           switch (type) {
 
             ///卡片分享
@@ -67,27 +69,27 @@ class ShareHelper {
 
             ///微信好友
             case ShareType.weChatFriend:
-              ShareUtil.shareTextToWeChatFriend(text);
+              ShareUtil.shareTextToWeChatFriend(text, rect: rect);
               break;
 
             ///QQ好友
             case ShareType.qqFriend:
-              ShareUtil.shareTextToQQFriend(text);
+              ShareUtil.shareTextToQQFriend(text, rect: rect);
               break;
 
             ///微博内容
             case ShareType.weiBoTimeLine:
-              ShareUtil.shareTextToWeiBoTimeLine(text);
+              ShareUtil.shareTextToWeiBoTimeLine(text, rect: rect);
               break;
 
             ///钉钉
             case ShareType.dingTalk:
-              ShareUtil.shareTextToDingTalk(text);
+              ShareUtil.shareTextToDingTalk(text, rect: rect);
               break;
 
             ///企业微信
             case ShareType.weWork:
-              ShareUtil.shareTextToWeWork(text);
+              ShareUtil.shareTextToWeWork(text, rect: rect);
               break;
 
             ///复制链接
@@ -105,6 +107,7 @@ class ShareHelper {
               ShareUtil.shareText(
                 text,
                 subject: StringHelper.getS()!.saveImageShareTip,
+                rect: rect,
               );
               break;
           }
@@ -128,23 +131,26 @@ class ShareHelper {
       childOutside: true,
       child: ShareBottomWidget<ShareImageViewModel>(
         model: ShareImageViewModel(),
-        onClick: (type) {
+        onClick: (type, ctx) {
           Navigator.of(navigatorKey.currentContext!).pop();
+
+          final box = ctx.findRenderObject() as RenderBox?;
+          final rect = box!.localToGlobal(Offset.zero) & box.size;
           switch (type) {
 
             ///微信好友
             case ShareType.weChatFriend:
-              ShareUtil.shareImagesToWeChatFriend([path]);
+              ShareUtil.shareImagesToWeChatFriend([path], rect: rect);
               break;
 
             ///微信朋友圈
             case ShareType.weChatTimeLine:
-              ShareUtil.shareImagesToWeChatTimeLine([path]);
+              ShareUtil.shareImagesToWeChatTimeLine([path], rect: rect);
               break;
 
             ///QQ好友
             case ShareType.qqFriend:
-              ShareUtil.shareImagesToQQFriend([path]);
+              ShareUtil.shareImagesToQQFriend([path], rect: rect);
               break;
 
             ///微博内容
@@ -153,17 +159,18 @@ class ShareHelper {
                 [path],
                 text: StringHelper.getS()!.saveImageShareTip,
                 subject: StringHelper.getS()!.saveImageShareTip,
+                rect: rect,
               );
               break;
 
             ///钉钉
             case ShareType.dingTalk:
-              ShareUtil.shareImagesToDingTalk([path]);
+              ShareUtil.shareImagesToDingTalk([path], rect: rect);
               break;
 
             ///企业微信
             case ShareType.weWork:
-              ShareUtil.shareImagesToWeWork([path]);
+              ShareUtil.shareImagesToWeWork([path], rect: rect);
               break;
 
             ///所有可选
@@ -172,6 +179,7 @@ class ShareHelper {
                 [path],
                 text: StringHelper.getS()!.saveImageShareTip,
                 subject: StringHelper.getS()!.saveImageShareTip,
+                rect: rect,
               );
               break;
           }

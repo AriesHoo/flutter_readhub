@@ -20,6 +20,6 @@ class PermissionHelper {
       return Future.value(true);
     }
     return checkPermission(
-        PlatformUtil.isAndroid ? Permission.storage : Permission.photos);
+        PlatformUtil.isAndroid ? Permission.storage : Permission.storage);
   }
 }

@@ -713,7 +713,7 @@ packages:
       name: webview_flutter
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.7"
+    version: "2.0.8"
   win32:
     dependency: transitive
     description:

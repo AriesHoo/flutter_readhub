@@ -10,7 +10,7 @@ import 'package:flutter_readhub/view_model/share_view_model.dart';
 ///分享底部
 class ShareBottomWidget<A extends ShareBottomViewModel>
     extends StatelessWidget {
-  final Function(ShareType) onClick;
+  final Function(ShareType,BuildContext context) onClick;
   final A model;
 
   const ShareBottomWidget({
@@ -50,7 +50,7 @@ class ShareBottomWidget<A extends ShareBottomViewModel>
 ///分享网格布局
 class ShareGridWidget extends StatelessWidget {
   final List<ShareModel> listShare;
-  final Function(ShareType)? onClick;
+  final Function(ShareType,BuildContext context)? onClick;
 
   const ShareGridWidget(
     this.listShare, {
@@ -74,50 +74,52 @@ class ShareGridWidget extends StatelessWidget {
           model: BasisHighlightViewModel(),
           builder: (context, highlightModel, child) => Opacity(
             opacity: highlightModel.highlight ? 0.5 : 1,
-            child: InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onHighlightChanged: highlightModel.onHighlightChanged,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  listShare[index].icon == null
-                      ? Image.asset(
-                          'assets/images/share/${listShare[index].image}.png',
-                          width: sizeMax ? 50 : 60,
-                          height: sizeMax ? 50 : 60,
-                        )
-                      : Container(
-                          width: sizeMax ? 50 : 60,
-                          height: sizeMax ? 50 : 60,
-                          child: Icon(
-                            listShare[index].icon,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          decoration: BoxDecoration(
-                            ///背景
-                            color: Theme.of(context).accentColor,
+            child: Builder(
+              builder: (BuildContext buildContext) => InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onHighlightChanged: highlightModel.onHighlightChanged,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    listShare[index].icon == null
+                        ? Image.asset(
+                            'assets/images/share/${listShare[index].image}.png',
+                            width: sizeMax ? 50 : 60,
+                            height: sizeMax ? 50 : 60,
+                          )
+                        : Container(
+                            width: sizeMax ? 50 : 60,
+                            height: sizeMax ? 50 : 60,
+                            child: Icon(
+                              listShare[index].icon,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            decoration: BoxDecoration(
+                              ///背景
+                              color: Theme.of(context).accentColor,
 
-                            ///设置四周圆角 角度
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100)),
+                              ///设置四周圆角 角度
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100)),
+                            ),
                           ),
-                        ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  Text(
-                    listShare[index].text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(fontSize: sizeMax ? 12 : 14),
-                  ),
-                ],
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      listShare[index].text,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontSize: sizeMax ? 12 : 14),
+                    ),
+                  ],
+                ),
+                onTap: () => onClick?.call(listShare[index].type,buildContext),
               ),
-              onTap: () => onClick?.call(listShare[index].type),
             ),
           ),
         );

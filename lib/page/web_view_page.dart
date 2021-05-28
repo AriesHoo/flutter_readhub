@@ -48,7 +48,8 @@ class _WebViewPageState extends State<WebViewPage> {
     super.initState();
     if (!PlatformUtil.isMobile) {
       _launchURL(widget.model.url);
-      Navigator.of(context).pop();
+      Future.delayed(
+          Duration(milliseconds: 300), () => Navigator.of(context).pop());
       return;
     }
     _title = widget.model.title;

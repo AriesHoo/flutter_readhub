@@ -26,7 +26,7 @@ import 'package:flutter_readhub/widget/share_widget.dart';
 class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
   ///展示卡片分享
   static show(BuildContext context, CardShareModel model) {
-    if(PlatformUtil.isWindows){
+    if (PlatformUtil.isWindows) {
       ShareHelper.singleton.shareTextToClipboard(model.text!);
       return;
     }
@@ -63,7 +63,6 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
       builder: (context, styleModel, child) => ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: 300,
-
         ),
         child: Scaffold(
           backgroundColor: Theme.of(context).cardColor,
@@ -73,28 +72,28 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
               child: LifecycleWidget(
                 child: styleModel.shareCardStyle == ShareCardStyle.app
                     ? CaptureImageAppStyleWidget(
-                  model.title,
-                  model.summary,
-                  model.notice,
-                  model.url,
-                  model.bottomNotice,
-                  _globalKey,
-                  summaryWidget: model.summaryWidget,
-                )
+                        model.title,
+                        model.summary,
+                        model.notice,
+                        model.url,
+                        model.bottomNotice,
+                        _globalKey,
+                        summaryWidget: model.summaryWidget,
+                      )
                     : CaptureImageWidget(
-                  model.url,
-                  _globalJueJinKey,
-                  title: model.title,
-                  summary: model.summary,
-                  summaryWidget: model.summaryWidget,
-                ),
+                        model.url,
+                        _globalJueJinKey,
+                        title: model.title,
+                        summary: model.summary,
+                        summaryWidget: model.summaryWidget,
+                      ),
                 observer: this,
               ),
             ),
           ),
           bottomNavigationBar: ShareBottomWidget(
             model: ShareBottomViewModel(),
-            onClick: (type) => _share(type, styleModel),
+            onClick: (type, ctx) => _share(type, styleModel, ctx),
           ),
         ),
       ),
@@ -102,7 +101,8 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
   }
 
   ///开始分享
-  _share(ShareType type, ShareCardStyleViewModel styleModel) async {
+  _share(ShareType type, ShareCardStyleViewModel styleModel,
+      BuildContext context) async {
     ///复制链接
     if (type == ShareType.copyLink) {
       ShareHelper.singleton.shareTextToClipboard(model.url);
@@ -131,21 +131,23 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
       ToastUtil.show(StringHelper.getS()!.shotFailed);
       return;
     }
+    final box = context.findRenderObject() as RenderBox?;
+    final rect = box!.localToGlobal(Offset.zero) & box.size;
     switch (type) {
 
       ///微信好友
       case ShareType.weChatFriend:
-        ShareUtil.shareImagesToWeChatFriend([_filePath!]);
+        ShareUtil.shareImagesToWeChatFriend([_filePath!], rect: rect);
         break;
 
       ///微信朋友圈
       case ShareType.weChatTimeLine:
-        ShareUtil.shareImagesToWeChatTimeLine([_filePath!]);
+        ShareUtil.shareImagesToWeChatTimeLine([_filePath!], rect: rect);
         break;
 
       ///QQ好友
       case ShareType.qqFriend:
-        ShareUtil.shareImagesToQQFriend([_filePath!]);
+        ShareUtil.shareImagesToQQFriend([_filePath!], rect: rect);
         break;
 
       ///微博内容
@@ -154,17 +156,18 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
           [_filePath!],
           text: model.text,
           subject: StringHelper.getS()!.saveImageShareTip,
+          rect: rect,
         );
         break;
 
       ///钉钉
       case ShareType.dingTalk:
-        ShareUtil.shareImagesToDingTalk([_filePath!]);
+        ShareUtil.shareImagesToDingTalk([_filePath!], rect: rect);
         break;
 
       ///企业微信
       case ShareType.weWork:
-        ShareUtil.shareImagesToWeWork([_filePath!]);
+        ShareUtil.shareImagesToWeWork([_filePath!], rect: rect);
         break;
 
       ///所有可选
@@ -173,6 +176,7 @@ class CardSharePage extends StatelessWidget implements WidgetLifecycleObserver {
           [_filePath!],
           text: model.text,
           subject: StringHelper.getS()!.saveImageShareTip,
+          rect: rect,
         );
         break;
     }

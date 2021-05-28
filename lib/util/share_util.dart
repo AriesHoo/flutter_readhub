@@ -197,7 +197,11 @@ class ShareUtil {
     Rect? rect,
   }) {
     if (!PlatformUtil.isMobile) {
-      SharePlus.Share.share(text, subject: subject);
+      SharePlus.Share.share(
+        text,
+        subject: subject,
+        sharePositionOrigin: rect,
+      );
       return;
     }
     Share.share(
