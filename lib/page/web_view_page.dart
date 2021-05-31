@@ -1,9 +1,12 @@
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_macos_webview/flutter_macos_webview.dart';
 import 'package:flutter_readhub/helper/share_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,6 +14,50 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 ///加载网页
 class WebViewPage extends StatefulWidget {
+  ///开启网页
+  static start(
+    BuildContext context,
+    CardShareModel shareModel,
+  ) async {
+    if (PlatformUtil.isMobile) {
+      await Navigator.push(
+        context,
+        PageRouteBuilder(
+          settings: RouteSettings(name: RouteName.web_view_page),
+          pageBuilder: (BuildContext context, Animation<double> animation,
+              Animation secondaryAnimation) {
+            return FadeTransition(
+              opacity: animation,
+              alwaysIncludeSemantics: true,
+              child: WebViewPage(shareModel),
+            );
+          },
+          fullscreenDialog: Platform.isIOS,
+        ),
+      );
+    } else if (Platform.isMacOS) {
+      final webview = FlutterMacOSWebView(
+        onOpen: () => print('Opened'),
+        onClose: () => print('Closed'),
+        onPageStarted: (url) => print('Page started: $url'),
+        onPageFinished: (url) => print('Page finished: $url'),
+        onWebResourceError: (err) {
+          print(
+            'Error: ${err.errorCode}, ${err.errorType}, ${err.domain}, ${err.description}',
+          );
+        },
+      );
+      Size size = await DesktopWindow.getWindowSize();
+      await webview.open(
+        url: shareModel.url,
+        presentationStyle: PresentationStyle.modal,
+        size: size,
+      );
+    } else {
+      await launch(shareModel.url);
+    }
+  }
+
   const WebViewPage(
     this.model, {
     Key? key,
@@ -29,7 +76,7 @@ class _WebViewPageState extends State<WebViewPage> {
   String? _currentUrl;
   String? _title;
 
-  _launchURL(String url) async {
+  launchURL(String url) async {
     try {
       bool can = await canLaunch(url);
       if (can) {
@@ -46,12 +93,6 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
-    if (!PlatformUtil.isMobile) {
-      _launchURL(widget.model.url);
-      Future.delayed(
-          Duration(milliseconds: 300), () => Navigator.of(context).pop());
-      return;
-    }
     _title = widget.model.title;
     // Enable hybrid composition.
     if (PlatformUtil.isAndroid) WebView.platform = SurfaceAndroidWebView();

@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 ///tab实体
 class TabModel {
   late String label;
-  late Widget page;
-  Icon? icon;
+  late String url;
+  IconData? icon;
 
-  TabModel(this.label, this.page, {this.icon});
+  TabModel(this.label, this.url, {this.icon});
 }

@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "openByBrowser": MessageLookupByLibrary.simpleMessage("浏览器打开"),
         "openBySystemBrowser":
             MessageLookupByLibrary.simpleMessage("浏览器打开-推荐Chrome"),
+        "openDetail": MessageLookupByLibrary.simpleMessage("查看详情"),
         "orange": MessageLookupByLibrary.simpleMessage("滴滴橙"),
         "photo": MessageLookupByLibrary.simpleMessage("照片"),
         "purple": MessageLookupByLibrary.simpleMessage("夸克紫"),

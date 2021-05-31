@@ -7,9 +7,6 @@ class BasisDialog extends Dialog {
 
   BasisDialog({this.kid});
 
-  // @override
-  // Curve get insetAnimationCurve => Curves.easeIn;
-
   @override
   Duration get insetAnimationDuration => Duration(milliseconds: 2000);
 
@@ -32,4 +29,12 @@ class BasisDialog extends Dialog {
 
   @override
   Clip get clipBehavior => Clip.antiAliasWithSaveLayer;
+
+  @override
+  Widget build(BuildContext context) {
+    // if (isDisplayDesktop) {
+    //   Navigator.of(context).pop();
+    // }
+    return super.build(context);
+  }
 }

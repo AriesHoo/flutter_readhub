@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -150,6 +151,19 @@ class _MaterialAppPageState extends State<MaterialAppPage>
 
     ///添加监听用于监控前后台转换
     WidgetsBinding.instance!.addObserver(this);
+
+    ///桌面系统
+    if (PlatformUtil.isDesktop) {
+      ///获取窗口尺寸
+      DesktopWindow.getWindowSize().then(
+          (value) => LogUtil.v('width:${value.width};height:${value.height}'));
+
+      ///设置最小窗口尺寸
+      DesktopWindow.setMinWindowSize(Size(480, 480));
+
+      ///设置最大窗口尺寸
+      DesktopWindow.setMaxWindowSize(Size(1024, 768));
+    }
   }
 
   @override

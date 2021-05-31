@@ -265,19 +265,28 @@ class ShareAppWidget extends StatelessWidget {
           Icons.chevron_right,
           color: Theme.of(context).textTheme.caption!.color,
         ),
-        onTap: () => CardSharePage.show(
-          context,
-          CardShareModel(
-            title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
-            text:
-                "${StringHelper.getS()!.saveImageShareTip} App 「Readhub 三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
-            summary: StringHelper.getS()!.appName,
-            url: 'https://www.pgyer.com/ntMA',
-            notice: 'AriesHoo开发\n扫码查看详情',
-            bottomNotice: StringHelper.getS()!.saveImageShareTip,
-            summaryWidget: ShareAppSummaryWidget(),
-          ),
-        ),
+        onTap: () => _shareApp(context),
+      ),
+    );
+  }
+
+  ///分享App
+  _shareApp(BuildContext context) async {
+    if (!PlatformUtil.isMobile) {
+      await launch('https://www.pgyer.com/ntMA');
+      return;
+    }
+    CardSharePage.show(
+      context,
+      CardShareModel(
+        title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
+        text:
+            "${StringHelper.getS()!.saveImageShareTip} App 「Readhub 三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
+        summary: StringHelper.getS()!.appName,
+        url: 'https://www.pgyer.com/ntMA',
+        notice: 'AriesHoo开发\n扫码查看详情',
+        bottomNotice: StringHelper.getS()!.saveImageShareTip,
+        summaryWidget: ShareAppSummaryWidget(),
       ),
     );
   }
@@ -663,26 +672,29 @@ class AppreciateWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 GestureDetector(
-                  onLongPress: () async {
-                    String? _path = await _saveImageHelper.saveImage(
-                        context, _globalKey, '/pay.png');
-                    if (_path == null) {
-                      ToastUtil.show(StringHelper.getS()!.shotFailed);
-                    } else {
-                      if (!await ShareUtil.isWeChatInstall()) {
-                        ToastUtil.show(StringHelper.getS()!.weChatNotInstall);
-                      } else {
-                        ShareUtil.shareImagesToWeChatFriend([_path]);
-                      }
-                    }
-                  },
+                  onLongPress: PlatformUtil.isMobile
+                      ? () async {
+                          String? _path = await _saveImageHelper.saveImage(
+                              context, _globalKey, '/pay.png');
+                          if (_path == null) {
+                            ToastUtil.show(StringHelper.getS()!.shotFailed);
+                          } else {
+                            if (!await ShareUtil.isWeChatInstall()) {
+                              ToastUtil.show(
+                                  StringHelper.getS()!.weChatNotInstall);
+                            } else {
+                              ShareUtil.shareImagesToWeChatFriend([_path]);
+                            }
+                          }
+                        }
+                      : null,
                   child: RepaintBoundary(
                     key: _globalKey,
                     child: Image.asset(
                       'assets/images/pay.png',
                       fit: BoxFit.fitWidth,
-                      width: 80,
-                      height: 80,
+                      width: PlatformUtil.isMobile ? 80 : 100,
+                      height: PlatformUtil.isMobile ? 80 : 100,
                       colorBlendMode: BlendMode.srcIn,
                     ),
                   ),
@@ -708,10 +720,12 @@ class AppreciateWidget extends StatelessWidget {
                                   ),
                           children: [
                             TextSpan(
-                                text: '←   长按图片保存,微信扫码',
+                                text: PlatformUtil.isMobile
+                                    ? '←   长按图片保存,微信扫码'
+                                    : '微信扫码',
                                 style: TextStyle(
                                   color: Theme.of(context).accentColor,
-                                  fontSize: 12,
+                                  fontSize: PlatformUtil.isMobile ? 12 : 16,
                                 )),
                             TextSpan(
                                 text:
@@ -777,7 +791,7 @@ class CopyrightWidget extends StatelessWidget {
                             .withOpacity(0.8),
                       ),
                   text:
-                      '1、本软件为 AriesHoo 通过 Flutter 开发而成的 Readhub 三方客户端，非无码科技 Readhub 官方应用。',
+                      '本软件为 AriesHoo 通过 Flutter 开发而成的 Readhub 三方客户端，非无码科技 Readhub 官方应用。',
                   children: [
                     TextSpan(
                       text: '所有数据来源于无码科技 Readhub ,版权归无码科技 Readhub 所有。',
@@ -808,9 +822,6 @@ class CopyrightWidget extends StatelessWidget {
                             await launch('https://www.readhub.cn/');
                           }),
                     TextSpan(text: '了解更多。'),
-                    TextSpan(
-                        text:
-                            '\n2、本软件开发过程中UI部分参(chao)考(xi)了 Marno 的 Kotlin 版本 Readhub+ 应用；Flutter 功能实现上借(zhao)鉴(ban)了 phoenixsky 的 Flutter 版本 玩android 应用 Fun Android ，在此由衷感谢！'),
                   ]),
             ),
           )

@@ -52,7 +52,7 @@ dependencies:
   qr_flutter: ^4.0.0
   #工具类
   flustars: ^2.0.1
-  #动态权限申请
+  #动态权限申请-8.0.0版本需在Profile申请需要启用的权限 https://github.com/Baseflow/flutter-permission-handler/blob/master/permission_handler/example/ios/Podfile
   permission_handler: ^8.0.0+1
   #文件路径
   path_provider: ^2.0.1
@@ -72,6 +72,11 @@ dependencies:
   share_plus: ^2.1.2
   #  自适应断点？---响应式
   adaptive_breakpoints: ^0.0.4
+  #  desktop窗口控制
+  desktop_window: ^0.4.0
+  #  macos webView
+  flutter_macos_webview:
+    path: ./plugins/flutter_macos_webview
 dev_dependencies:
   flutter_test:
     sdk: flutter

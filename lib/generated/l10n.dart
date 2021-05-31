@@ -860,6 +860,16 @@ class S {
       args: [],
     );
   }
+
+  /// `查看详情`
+  String get openDetail {
+    return Intl.message(
+      '查看详情',
+      name: 'openDetail',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

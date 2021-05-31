@@ -1,4 +1,6 @@
 import 'package:flustars/flustars.dart';
+import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/model/share_model.dart';
 
 ///Readhub 文章item model
 class ArticleModel {
@@ -65,7 +67,13 @@ class ArticleItemModel {
   String? language = '';
   String timeFormatStr = '';
 
+  ///热点新闻
+  bool isTopic = false;
+
   String getUrl() {
+    if (isTopic) {
+      return 'https://readhub.cn/topic/$id';
+    }
     return mobileUrl ??
         url ??
         (newsArray != null && newsArray!.length > 0
@@ -75,11 +83,24 @@ class ArticleItemModel {
 
   ///大于1才显示
   bool showLink() {
+    return false;
     return newsArray != null && newsArray!.length > 1;
   }
 
   String? getFileName() {
     return TextUtil.isEmpty(id) ? publishTime.toString().trim() : id;
+  }
+
+  CardShareModel getCardShareModel() {
+    return CardShareModel(
+      title: title,
+      text:
+          "${StringHelper.getS()!.saveImageShareTip} 资讯「$title」 链接: ${getUrl()}",
+      summary: getSummary(),
+      notice: getScanNote(),
+      url: getUrl(),
+      bottomNotice: StringHelper.getS()!.saveImageShareTip,
+    );
   }
 
   ///扫码提示
@@ -245,6 +266,11 @@ class ArticleItemModel {
         item.summary = summary;
         item.summaryAuto = summaryAuto;
       });
+    }
+    try {
+      int.parse(id!);
+    } catch (e) {
+      isTopic = true;
     }
   }
 

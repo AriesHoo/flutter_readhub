@@ -72,6 +72,8 @@ class _AnimatedSwitcherIconWidgetState
         key: ValueKey(_actionIcon =
             ThemeViewModel.darkMode ? widget.switchIcon : widget.defaultIcon),
         icon: Icon(_actionIcon),
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
         onPressed: widget.onPressed,
       ),
     );

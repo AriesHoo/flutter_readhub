@@ -86,4 +86,7 @@ class PlatformUtil {
 
   ///是否手机系统
   static bool get isMobile => isAndroid || isIOS;
+
+  ///是否桌面系统
+  static bool get isDesktop => isLinux || isMacOS || isWindows;
 }

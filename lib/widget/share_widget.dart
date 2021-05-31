@@ -10,7 +10,7 @@ import 'package:flutter_readhub/view_model/share_view_model.dart';
 ///分享底部
 class ShareBottomWidget<A extends ShareBottomViewModel>
     extends StatelessWidget {
-  final Function(ShareType,BuildContext context) onClick;
+  final Function(ShareType, BuildContext context) onClick;
   final A model;
 
   const ShareBottomWidget({
@@ -50,7 +50,7 @@ class ShareBottomWidget<A extends ShareBottomViewModel>
 ///分享网格布局
 class ShareGridWidget extends StatelessWidget {
   final List<ShareModel> listShare;
-  final Function(ShareType,BuildContext context)? onClick;
+  final Function(ShareType, BuildContext context)? onClick;
 
   const ShareGridWidget(
     this.listShare, {
@@ -79,6 +79,7 @@ class ShareGridWidget extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onHighlightChanged: highlightModel.onHighlightChanged,
+                onHover: highlightModel.onHighlightChanged,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -118,7 +119,7 @@ class ShareGridWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () => onClick?.call(listShare[index].type,buildContext),
+                onTap: () => onClick?.call(listShare[index].type, buildContext),
               ),
             ),
           ),
@@ -162,7 +163,7 @@ class CancelShare extends StatelessWidget {
           color: Colors.transparent,
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          hoverColor: Colors.transparent,
+          hoverColor: Colors.black.withOpacity(0.025),
           focusColor: Colors.transparent,
           elevation: 0,
           highlightElevation: 0,

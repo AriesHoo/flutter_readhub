@@ -106,6 +106,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.0"
+  desktop_window:
+    dependency: "direct main"
+    description:
+      name: desktop_window
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -201,12 +208,19 @@ packages:
       name: flutter_cache_manager
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_macos_webview:
+    dependency: "direct main"
+    description:
+      path: "plugins/flutter_macos_webview"
+      relative: true
+    source: path
+    version: "0.0.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -461,14 +475,14 @@ packages:
       name: rational
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0+1"
+    version: "1.2.1"
   rxdart:
     dependency: transitive
     description:
       name: rxdart
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.27.0"
+    version: "0.27.1"
   share:
     dependency: "direct main"
     description:

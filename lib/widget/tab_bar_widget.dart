@@ -5,11 +5,13 @@ import 'package:flutter_readhub/view_model/theme_view_model.dart';
 class TabBarWidget extends StatelessWidget {
   const TabBarWidget({
     Key? key,
-    this.labels,
+    required this.labels,
     this.controller,
     this.onTap,
+    this.physics,
   }) : super(key: key);
   final List? labels;
+  final ScrollPhysics? physics;
   final TabController? controller;
   final ValueChanged<int>? onTap;
 
@@ -17,6 +19,7 @@ class TabBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       controller: controller,
+      physics: physics,
       onTap: onTap,
       tabs: List.generate(
           labels!.length,
@@ -42,6 +45,8 @@ class TabBarWidget extends StatelessWidget {
 
       ///选中label颜色
       labelColor: Theme.of(context).textTheme.headline6!.color,
+
+      enableFeedback: false,
 
       ///未选择label颜色
       unselectedLabelColor:

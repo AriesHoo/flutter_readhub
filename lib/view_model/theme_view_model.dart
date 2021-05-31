@@ -153,8 +153,9 @@ class ThemeViewModel with ChangeNotifier {
       return;
     }
     LogUtil.v('platformDarkMode:$platformDarkMode;userDarkMode:$userDarkMode');
-    bool statusEnable =
-        PlatformUtil.isAndroid ? await PlatformUtil.isStatusColorChange() : true;
+    bool statusEnable = PlatformUtil.isAndroid
+        ? await PlatformUtil.isStatusColorChange()
+        : true;
     bool navigationEnable = PlatformUtil.isAndroid
         ? await PlatformUtil.isNavigationColorChange()
         : true;
@@ -253,6 +254,9 @@ class ThemeViewModel with ChangeNotifier {
 
       ///水波纹
       splashColor: themeColor.withAlpha(50),
+
+      ///鼠标悬浮颜色
+      hoverColor: themeColor.withAlpha(50),
 
       ///长按提示文本样式
       tooltipTheme: themeData.tooltipTheme.copyWith(

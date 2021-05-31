@@ -9,6 +9,9 @@ import 'view_state.dart';
 
 ///基础ViewModel
 class BasisViewModel with ChangeNotifier {
+  ///是否销毁
+  bool isDisposed = false;
+
   /// 当前的页面状态,默认为loading,可在viewModel的构造方法中指定;
   ViewState _viewState;
 
@@ -96,6 +99,20 @@ class BasisViewModel with ChangeNotifier {
   @override
   String toString() {
     return 'BaseModel{_viewState: $viewState, _viewStateError: $_viewStateError}';
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    isDisposed = true;
+  }
+
+  @override
+  void notifyListeners() {
+    if (isDisposed) {
+      return;
+    }
+    super.notifyListeners();
   }
 }
 
