@@ -33,9 +33,7 @@ class ShareBottomWidget<A extends ShareBottomViewModel>
                 model.list,
                 onClick: onClick,
               ),
-              Divider(
-                height: 0,
-              ),
+              Divider(),
 
               ///取消按钮
               CancelShare(),
@@ -152,7 +150,7 @@ class CancelShare extends StatelessWidget {
       builder: (context, model, child) => Opacity(
         opacity: model.highlight ? 0.5 : 1,
         child: MaterialButton(
-          height: 50,
+          height: 48,
           minWidth: double.infinity,
           onHighlightChanged: model.onHighlightChanged,
           onPressed: () {

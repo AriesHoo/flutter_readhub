@@ -309,6 +309,21 @@ class ThemeViewModel with ChangeNotifier {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
+
+      ///Divider分割线组件样式添加一个间隔线
+      dividerTheme: DividerThemeData(
+        ///线颜色
+        color: themeData.hintColor.withOpacity(0.1),
+
+        ///线粗细
+        thickness: 0.75,
+
+        ///前间隔
+        indent: 12,
+
+        ///后间隔
+        endIndent: 12,
+      ),
     );
     setSystemBarTheme();
     return themeData;

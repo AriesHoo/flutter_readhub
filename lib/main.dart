@@ -18,8 +18,9 @@ import 'view_model/locale_view_model.dart';
 import 'view_model/theme_view_model.dart';
 
 void main() async {
-  ///设置全屏
   WidgetsFlutterBinding.ensureInitialized();
+
+  ///初始化sp
   await SpUtil.getInstance();
 
   ///黑白化效果-缅怀
@@ -76,7 +77,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
       builder: (context, theme, locale, child) => MaterialApp(
         ///Android-后台任务title
         ///Web-标题栏title
-        title: 'Freadhub-聚合资讯',
+        onGenerateTitle: (context) => S.of(context).appTitle,
 
         ///用于全局获取Context
         navigatorKey: navigatorKey,

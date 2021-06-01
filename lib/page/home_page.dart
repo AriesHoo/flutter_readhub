@@ -13,6 +13,7 @@ import 'package:flutter_readhub/model/tab_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
+import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
@@ -181,9 +182,6 @@ class HomeBody extends StatelessWidget {
           height: displayDesktop ? 0 : 36,
           width: double.infinity,
 
-          ///添加该属性去掉Tab按下水波纹效果
-          color: Theme.of(context).appBarTheme.color,
-
           ///TabBar
           child: TabBarWidget(
             labels: tabs.map((e) => e.label).toList(),
@@ -194,10 +192,17 @@ class HomeBody extends StatelessWidget {
                 ? NeverScrollableScrollPhysics()
                 : null,
           ),
-        ),
-        Visibility(
-          child: Divider(),
-          visible: !displayDesktop,
+
+          ///添加下划线装饰
+          decoration: BoxDecoration(
+            border: Decorations.lineBoxBorder(
+              context,
+              bottom: !displayDesktop,
+            ),
+
+            ///添加该属性去掉Tab按下水波纹效果
+            color: Theme.of(context).appBarTheme.color,
+          ),
         ),
         Expanded(
           flex: 1,
@@ -235,6 +240,7 @@ class HomeBody extends StatelessWidget {
         ///设置AppBar高度--大屏幕另外一种显示模式
         preferredSize: Size.fromHeight(displayDesktop ? 0 : 40),
         child: AppBar(
+          backgroundColor: displayDesktop ? Theme.of(context).cardColor : null,
           title: AppIcon(),
           actions: <Widget>[
             ///更多信息
@@ -351,25 +357,31 @@ class TabIconNav extends StatelessWidget {
       children: tabs
           .map(
             (e) => SizedBox(
-              width: 120,
-              height: 44,
+              // width: 120,
+              // height: 44,
               child: ValueListenableBuilder<int>(
                 valueListenable: tabIndex,
                 builder: (context, index, child) {
                   bool isSelected = index == tabs.indexOf(e);
                   return TextButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(isSelected
-                            ? Theme.of(context).accentColor
-                            : Colors.transparent),
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
+                      backgroundColor: MaterialStateProperty.all(isSelected
+                          ? Theme.of(context).accentColor
+                          : Colors.transparent),
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        padding: MaterialStateProperty.all(EdgeInsets.zero)),
+                      ),
+                      padding: MaterialStateProperty.all(
+                        EdgeInsets.symmetric(
+                          vertical: PlatformUtil.isMobile ? 10 : 15,
+                          horizontal: 25,
+                        ),
+                      ),
+                    ),
                     onPressed: () {
                       onTabChanged?.call(tabs.indexOf(e));
                       tabIndex.value = tabs.indexOf(e);
@@ -383,6 +395,7 @@ class TabIconNav extends StatelessWidget {
                                 ? Colors.white.withOpacity(0.6)
                                 : Colors.black.withOpacity(0.6),
                         fontWeight: FontWeight.normal,
+                        fontSize: 14,
                       ),
                     ),
                   );

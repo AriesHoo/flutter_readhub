@@ -47,10 +47,10 @@ class SkeletonDecoration extends BoxDecoration {
     ///圆角
     BorderRadiusGeometry? borderRadius,
   }) : super(
-    color: !isDark ? Colors.grey[350] : Colors.grey[700],
-    borderRadius: borderRadius ?? BorderRadius.circular(0),
-    shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
-  );
+          color: !isDark ? Colors.grey[350] : Colors.grey[700],
+          borderRadius: borderRadius ?? BorderRadius.circular(0),
+          shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+        );
 }
 
 /// 骨架屏ListView
@@ -62,21 +62,23 @@ class SkeletonList extends StatelessWidget {
   final int length;
 
   ///Item适配器
-  final IndexedWidgetBuilder builder;
+  final IndexedWidgetBuilder? builder;
 
   ///基础颜色
   final Color? baseColor;
 
   ///高亮颜色
   final Color? highlightColor;
+  final Widget? child;
 
   SkeletonList({
-    required this.builder,
+    this.builder,
     this.length: 10,
     this.horizontal: false,
     this.baseColor,
     this.highlightColor,
     this.padding = const EdgeInsets.all(0),
+    this.child,
   });
 
   @override
@@ -85,15 +87,16 @@ class SkeletonList extends StatelessWidget {
     return Shimmer.fromColors(
       period: Duration(milliseconds: 1000),
       baseColor:
-      baseColor ?? (ThemeViewModel.darkMode ? color[700]! : color[350]!),
+          baseColor ?? (ThemeViewModel.darkMode ? color[700]! : color[350]!),
       highlightColor: highlightColor ??
           (ThemeViewModel.darkMode ? color[500]! : color[200]!),
-      child: ListView.builder(
-        padding: padding,
-        itemBuilder: builder,
-        itemCount: length,
-        scrollDirection: horizontal ? Axis.horizontal : Axis.vertical,
-      ),
+      child: child ??
+          ListView.builder(
+            padding: padding,
+            itemBuilder: builder!,
+            itemCount: length,
+            scrollDirection: horizontal ? Axis.horizontal : Axis.vertical,
+          ),
     );
   }
 }

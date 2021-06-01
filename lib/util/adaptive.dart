@@ -19,3 +19,6 @@ bool get isDisplayDesktop => PlatformUtil.isMobile
 bool get isDisplaySmallDesktop => PlatformUtil.isMobile
     ? windowType == AdaptiveWindowType.medium
     : windowType == AdaptiveWindowType.small;
+
+///小屏幕--按手机处理宽度小于600
+bool get smallDisplay => windowType == AdaptiveWindowType.xsmall;

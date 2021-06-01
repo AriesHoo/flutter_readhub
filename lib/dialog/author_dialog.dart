@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/basis_dialog.dart';
+import 'package:flutter_readhub/dialog/card_share_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/save_image_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/article_item_widget.dart';
-import 'package:flutter_readhub/page/card_share_page.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/share_util.dart';
@@ -35,12 +35,13 @@ Future<void> showAuthorDialog(BuildContext context) async {
 Future<void> showThemeDialog(BuildContext context) async {
   DialogUtil.showModalBottomSheetDialog(
     context,
-    clipBehavior: Clip.hardEdge,
+    clipBehavior: Clip.antiAliasWithSaveLayer,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(12),
       ),
     ),
+    barrierColor: Colors.black54.withOpacity(0.2),
     child: ThemeBody(didPop: true),
   );
 }
@@ -276,7 +277,7 @@ class ShareAppWidget extends StatelessWidget {
       await launch('https://www.pgyer.com/ntMA');
       return;
     }
-    CardSharePage.show(
+    CardShareDialog.show(
       context,
       CardShareModel(
         title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
@@ -414,21 +415,6 @@ class ThemeWidget extends StatelessWidget {
         ),
         onTap: () => showThemeDialog(context),
       ),
-      // child: ExpansionTile(
-      //   leading: Icon(
-      //     Icons.color_lens,
-      //     color: Theme.of(context).accentColor,
-      //   ),
-      //   title: Text(
-      //     StringHelper.getS()!.choiceTheme,
-      //     textScaleFactor: ThemeViewModel.textScaleFactor,
-      //     style: Theme.of(context).textTheme.bodyText1,
-      //   ),
-      //   children: [
-      //     ThemeBody(),
-      //   ],
-      //   // trailing: Text(ThemeViewModel.themeName()),
-      // ),
     );
   }
 }
@@ -459,6 +445,26 @@ class ThemeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ///单个Button最终宽度
+    double finalWidth = 200;
+
+    ///单个Button最小宽度
+    double minWidth = 200;
+
+    ///Button间水平间距
+    double spacing = 24;
+
+    ///Button可用屏幕宽度-屏幕宽度减去 整个区域水平边界
+    double screenWidth = MediaQuery.of(context).size.width - 48;
+
+    int count = screenWidth ~/ (minWidth + spacing);
+
+    ///只够显示一个
+    if (count <= 1) {
+      finalWidth = double.infinity;
+    } else {
+      finalWidth = (screenWidth - count * spacing) / count;
+    }
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: dialog ? 40 : 0,
@@ -477,7 +483,8 @@ class ThemeBody extends StatelessWidget {
               vertical: dialog ? 24 : 16,
             ),
             child: Wrap(
-              runSpacing: 12,
+              runSpacing: count <= 1 ? 12 : 16,
+              spacing: spacing,
               children: ThemeViewModel.themeValueList.map((color) {
                 int index = ThemeViewModel.themeValueList.indexOf(color);
                 return Material(
@@ -497,21 +504,21 @@ class ThemeBody extends StatelessWidget {
                       alignment: AlignmentDirectional.center,
                       children: <Widget>[
                         Container(
-                          width: double.infinity,
-                          height: 46,
+                          width: finalWidth,
+                          height: count > 1 ? 52 : 46,
                           child: Center(
                             child: Text(
                               ThemeViewModel.themeName(i: index),
                               textScaleFactor: ThemeViewModel.textScaleFactor,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14,
+                                fontSize: 15,
                               ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 124),
+                          padding: EdgeInsets.only(left: 120),
                           child: Icon(
                             Icons.check,
                             size: 22,

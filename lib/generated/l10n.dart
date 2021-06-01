@@ -61,6 +61,16 @@ class S {
     );
   }
 
+  /// `Freadhub-聚合资讯`
+  String get appTitle {
+    return Intl.message(
+      'Freadhub-聚合资讯',
+      name: 'appTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `做轻便的聚合资讯`
   String get slogan {
     return Intl.message(

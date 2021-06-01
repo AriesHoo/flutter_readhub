@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("分享您一个不错的App"),
         "appCopyright": MessageLookupByLibrary.simpleMessage("软件说明"),
         "appName": MessageLookupByLibrary.simpleMessage("Freadhub"),
+        "appTitle": MessageLookupByLibrary.simpleMessage("Freadhub-聚合资讯"),
         "appreciateDeveloper": MessageLookupByLibrary.simpleMessage("赞赏开发"),
         "back": MessageLookupByLibrary.simpleMessage("后退"),
         "blue": MessageLookupByLibrary.simpleMessage("掘金蓝"),

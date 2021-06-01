@@ -1,11 +1,11 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_readhub/dialog/card_share_dialog.dart';
 import 'package:flutter_readhub/enum/share_type.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
-import 'package:flutter_readhub/page/card_share_page.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/share_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
@@ -64,7 +64,7 @@ class ShareHelper {
 
             ///卡片分享
             case ShareType.card:
-              CardSharePage.show(navigatorKey.currentContext!, model);
+              CardShareDialog.show(navigatorKey.currentContext!, model);
               break;
 
             ///微信好友

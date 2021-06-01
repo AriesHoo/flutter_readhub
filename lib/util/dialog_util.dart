@@ -166,7 +166,7 @@ class DialogUtil {
         routeSettings: settings,
         shape: shape,
         isScrollControlled: true,
-        useRootNavigator: true,
+        useRootNavigator: false,
         clipBehavior: clipBehavior,
 
         ///背景色默认设置

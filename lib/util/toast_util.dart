@@ -52,7 +52,7 @@ class ToastUtil {
         : BotToast.showText(
             text: '$text',
             textStyle: TextStyle(
-              fontSize: 14,
+              fontSize: 16,
               color: Colors.white,
             ),
             align: align,

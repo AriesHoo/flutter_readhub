@@ -17,6 +17,7 @@ class HighlightCardWidget extends StatelessWidget {
   final Color? shadowColor;
   final Color? shadowHighlightColor;
   final BorderRadiusGeometry? borderRadius;
+  final bool showBorder;
   final Widget Function(BuildContext context, BasisHighlightViewModel value)
       builder;
 
@@ -32,6 +33,7 @@ class HighlightCardWidget extends StatelessWidget {
     this.shadowColor,
     this.shadowHighlightColor,
     this.borderRadius,
+    this.showBorder: false,
     required this.builder,
   }) : super(key: key);
 
@@ -39,57 +41,44 @@ class HighlightCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasisProviderWidget<BasisHighlightViewModel>(
       model: BasisHighlightViewModel(),
-      builder: (context, highlightMode, widget) => InkWell(
-        onHighlightChanged: highlightMode.onHighlightChanged,
-        onHover: highlightMode.onHighlightChanged,
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-        onTap: onTap,
-        onLongPress: () {
-          onLongPress?.call();
-        },
-        child: Card(
-          margin: PlatformUtil.isMobile
-              ? null
-              : EdgeInsets.all(
-                  highlightMode.highlight
-                      ? marginHighlight ?? 12
-                      : margin ?? 12,
-                ),
-          elevation: highlightMode.highlight ? 0 : 0,
-          color: color ?? Theme.of(context).cardColor,
-          borderOnForeground: false,
-          shadowColor: highlightMode.highlight
-              ? shadowHighlightColor ?? Colors.deepPurpleAccent
-              : shadowColor ?? Theme.of(context).accentColor,
+      builder: (context, highlightMode, widget) => Card(
+        margin: PlatformUtil.isMobile && !showBorder
+            ? null
+            : EdgeInsets.all(
+                highlightMode.highlight ? marginHighlight ?? 8 : margin ?? 8,
+              ),
+        elevation: highlightMode.highlight ? 0 : 0,
+        color: Colors.transparent,
+        borderOnForeground: false,
+        shadowColor: highlightMode.highlight
+            ? shadowHighlightColor ?? Colors.deepPurpleAccent
+            : shadowColor ?? Theme.of(context).accentColor,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: PlatformUtil.isMobile && !showBorder
+            ? null
+            : Decorations.lineShapeBorder(
+                context,
+                lineWidth: highlightMode.highlight ? 1.5 : 0.5,
+                borderRadius: BorderRadius.circular(12),
+                color: highlightMode.highlight
+                    ? Theme.of(context).accentColor
+                    : Theme.of(context).hintColor.withOpacity(0.1),
+              ),
+        child: InkWell(
+          onHighlightChanged: highlightMode.onHighlightChanged,
+          onHover: highlightMode.onHighlightChanged,
+          highlightColor: PlatformUtil.isMobile ? null : Colors.transparent,
+          splashColor: PlatformUtil.isMobile ? null : Colors.transparent,
+          hoverColor: PlatformUtil.isMobile ? null : Colors.transparent,
+          onTap: () {
+            onTap?.call();
+            highlightMode.onHighlightChanged.call(!PlatformUtil.isMobile);
+          },
+          onLongPress: () {
+            onLongPress?.call();
+            highlightMode.onHighlightChanged.call(!PlatformUtil.isMobile);
+          },
           child: builder(context, highlightMode),
-          clipBehavior: Clip.antiAlias,
-          shape: PlatformUtil.isMobile
-              ? null
-              : Decorations.lineShapeBorder(
-                  context,
-                  lineWidth: highlightMode.highlight ? 1.5 : 0.5,
-                  borderRadius: BorderRadius.circular(12),
-                  color: highlightMode.highlight
-                      ? Theme.of(context).accentColor
-                      : Theme.of(context).hintColor.withOpacity(0.1),
-                ),
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: borderRadius ??
-          //       BorderRadius.circular(
-          //         12,
-          //       ),
-          //   side: BorderSide(
-          //     width: 1.5,
-          //     color: highlightMode.highlight
-          //         ? Theme.of(context).accentColor
-          //         : Theme.of(context).hintColor.withOpacity(0.1),
-          //     // color: Colors.blue,
-          //     style:
-          //         PlatformUtil.isMobile ? BorderStyle.none : BorderStyle.solid,
-          //   ),
-          // ),
         ),
       ),
     );
