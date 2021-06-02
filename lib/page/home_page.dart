@@ -10,7 +10,8 @@ import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/tab_model.dart';
-import 'package:flutter_readhub/page/article_item_widget.dart';
+import 'package:flutter_readhub/page/widget/article_item_widget.dart';
+import 'package:flutter_readhub/page/widget/poem_sentence.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
@@ -212,9 +213,7 @@ class HomeBody extends StatelessWidget {
             controller: pageController,
 
             ///桌面端且大屏禁用水平滑动切换tab
-            physics: PlatformUtil.isDesktop && displayDesktop
-                ? NeverScrollableScrollPhysics()
-                : null,
+            physics: displayDesktop ? NeverScrollableScrollPhysics() : null,
           ),
           // child: TabBarView(
           //   controller: controller,
@@ -272,7 +271,6 @@ class HomeBody extends StatelessWidget {
             // color:
             //     ThemeViewModel.darkMode ? Color(0xFF2E2F2F) : Color(0xFFE2E2E2),
             width: displayDesktop ? sideNavWidth : 0,
-            height: 10000,
             child: Column(
               children: [
                 Padding(
@@ -293,6 +291,7 @@ class HomeBody extends StatelessWidget {
                     ),
                   ),
                 ),
+                PoemSentence(),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 14),
                   child: Row(

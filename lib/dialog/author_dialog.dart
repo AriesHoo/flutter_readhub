@@ -1,19 +1,18 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/basis_dialog.dart';
 import 'package:flutter_readhub/dialog/card_share_dialog.dart';
+import 'package:flutter_readhub/dialog/theme_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/save_image_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
-import 'package:flutter_readhub/page/article_item_widget.dart';
-import 'package:flutter_readhub/util/dialog_util.dart';
+import 'package:flutter_readhub/page/widget/article_item_widget.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/share_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
@@ -31,25 +30,8 @@ Future<void> showAuthorDialog(BuildContext context) async {
   );
 }
 
-///弹出颜色选择框
-Future<void> showThemeDialog(BuildContext context) async {
-  DialogUtil.showModalBottomSheetDialog(
-    context,
-    clipBehavior: Clip.antiAliasWithSaveLayer,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(12),
-      ),
-    ),
-    barrierColor: Colors.black54.withOpacity(0.2),
-    child: ThemeBody(didPop: true),
-  );
-}
-
 ///用户信息Dialog
 class AuthorDialog extends BasisDialog {
-  final ScrollController _scrollController = ScrollController();
-
   @override
   Widget? get kid => Column(
         mainAxisSize: MainAxisSize.min,
@@ -80,9 +62,7 @@ class AuthorDialog extends BasisDialog {
           AppreciateWidget(),
 
           ///版权申明
-          CopyrightWidget(
-            scrollController: _scrollController,
-          ),
+          CopyrightWidget(),
         ],
       );
 }
@@ -148,6 +128,7 @@ class TopRoundWidget extends StatelessWidget {
   }
 }
 
+///头部用户信息背景弧形
 class BottomClipper extends CustomClipper<Path> {
   @override
   getClip(Size size) {
@@ -280,9 +261,9 @@ class ShareAppWidget extends StatelessWidget {
     CardShareDialog.show(
       context,
       CardShareModel(
-        title: '分享一个还不错的 Readhub 三方客户端-Freadhub',
+        title: '分享一个还不错的「Readhub」三方客户端-「Freadhub」',
         text:
-            "${StringHelper.getS()!.saveImageShareTip} App 「Readhub 三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
+            "${StringHelper.getS()!.saveImageShareTip} App 「Readhub三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
         summary: StringHelper.getS()!.appName,
         url: 'https://www.pgyer.com/ntMA',
         notice: 'AriesHoo开发\n扫码查看详情',
@@ -414,129 +395,6 @@ class ThemeWidget extends StatelessWidget {
           color: Theme.of(context).textTheme.caption!.color,
         ),
         onTap: () => showThemeDialog(context),
-      ),
-    );
-  }
-}
-
-///颜色选择dialog
-class ThemeDialog extends Dialog {
-  @override
-  Widget build(BuildContext context) {
-    return ThemeBody(
-      dialog: true,
-    );
-  }
-}
-
-///主题选择内容区
-class ThemeBody extends StatelessWidget {
-  ///是否dialog
-  final bool dialog;
-
-  ///点击后是否pop页面
-  final bool didPop;
-
-  const ThemeBody({
-    Key? key,
-    this.dialog: false,
-    this.didPop: false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    ///单个Button最终宽度
-    double finalWidth = 200;
-
-    ///单个Button最小宽度
-    double minWidth = 200;
-
-    ///Button间水平间距
-    double spacing = 24;
-
-    ///Button可用屏幕宽度-屏幕宽度减去 整个区域水平边界
-    double screenWidth = MediaQuery.of(context).size.width - 48;
-
-    int count = screenWidth ~/ (minWidth + spacing);
-
-    ///只够显示一个
-    if (count <= 1) {
-      finalWidth = double.infinity;
-    } else {
-      finalWidth = (screenWidth - count * spacing) / count;
-    }
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: dialog ? 40 : 0,
-        vertical: dialog ? 10 : 0,
-      ),
-
-      ///所有颜色按钮垂直排列
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            color: Theme.of(context).cardColor,
-            margin: EdgeInsets.only(top: 12),
-            padding: EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: dialog ? 24 : 16,
-            ),
-            child: Wrap(
-              runSpacing: count <= 1 ? 12 : 16,
-              spacing: spacing,
-              children: ThemeViewModel.themeValueList.map((color) {
-                int index = ThemeViewModel.themeValueList.indexOf(color);
-                return Material(
-                  borderRadius: BorderRadius.circular(12),
-                  clipBehavior: Clip.hardEdge,
-                  color: ThemeViewModel.getThemeColor(i: index),
-                  child: InkWell(
-                    onTap: () {
-                      var model = ProviderHelper.of<ThemeViewModel>(context);
-                      model.switchTheme(themeIndex: index);
-                      if (dialog || didPop) {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    splashColor: Colors.black.withAlpha(50),
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: <Widget>[
-                        Container(
-                          width: finalWidth,
-                          height: count > 1 ? 52 : 46,
-                          child: Center(
-                            child: Text(
-                              ThemeViewModel.themeName(i: index),
-                              textScaleFactor: ThemeViewModel.textScaleFactor,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 120),
-                          child: Icon(
-                            Icons.check,
-                            size: 22,
-                            color: index ==
-                                    ProviderHelper.of<ThemeViewModel>(context)
-                                        .themeIndex
-                                ? Colors.white
-                                : Colors.transparent,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -752,29 +610,11 @@ class AppreciateWidget extends StatelessWidget {
 
 ///版本声明
 class CopyrightWidget extends StatelessWidget {
-  final ScrollController? scrollController;
-
-  const CopyrightWidget({Key? key, this.scrollController}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).cardColor,
       child: ExpansionTile(
-        onExpansionChanged: (opened) {
-          if (opened && PlatformUtil.isAndroid) {
-            ///开启详情延时滚动底部-Android有效
-            Future.delayed(Duration(milliseconds: 200), () {
-              scrollController!.animateTo(
-                MediaQuery.of(context).size.height,
-                duration: Duration(
-                  milliseconds: 10,
-                ),
-                curve: Curves.easeInCirc,
-              );
-            });
-          }
-        },
         leading: Icon(
           Icons.content_copy,
           color: Theme.of(context).accentColor,

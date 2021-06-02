@@ -162,33 +162,45 @@ class _MaterialAppPageState extends State<MaterialAppPage>
     ///桌面系统
     if (PlatformUtil.isDesktop) {
       ///获取窗口尺寸
-      DesktopWindow.getWindowSize().then(
-          (value) => LogUtil.v('width:${value.width};height:${value.height}'));
+      DesktopWindow.getWindowSize().then((value) => LogUtil.v(
+          'getWindowSize_width:${value.width};height:${value.height}'));
 
       ///设置最小窗口尺寸
-      DesktopWindow.setMinWindowSize(Size(480, 480)).catchError(
+      DesktopWindow.setMinWindowSize(Size(360, 640)).catchError(
         (error) {
           LogUtil.e('setMinWindowSize_Error:$error');
 
-          ///延迟2s再设置
+          ///延迟1s再设置
           Future.delayed(
               Duration(
-                milliseconds: 2000,
+                seconds: 1,
               ),
               () => _setWindowSize());
         },
       );
 
       ///设置最大窗口尺寸
-      DesktopWindow.setMaxWindowSize(Size(1024, 768));
+      DesktopWindow.setMaxWindowSize(Size(1280, 800));
 
-      DesktopWindow.setWindowSize(Size(800, 600)).catchError(
-        (err) {
-          LogUtil.e('setWindowSize_Error:$err');
+      ///保证只设置一次屏幕宽度--后续保留用户自己习惯
+      if (!SpUtil.getBool('setWindowSize', defValue: false)!) {
+        LogUtil.v('setWindowSize');
 
-          Future.delayed(Duration(seconds: 2), () => _setWindowSize());
-        },
-      );
+        ///设置默认尺寸
+        DesktopWindow.setWindowSize(Size(1024, 768)).then(
+          (value) {
+            SpUtil.putBool('setWindowSize', true);
+            return value;
+          },
+        ).catchError(
+          (err) {
+            LogUtil.e('setWindowSize_Error:$err');
+
+            ///发生异常延迟1s再执行
+            Future.delayed(Duration(seconds: 1), () => _setWindowSize());
+          },
+        );
+      }
     }
   }
 
@@ -289,7 +301,8 @@ class SplashWidget extends StatelessWidget {
             'assets/images/ic_slogan.webp',
             width: 205,
             height: 205 * 140 / 815,
-            // color: Theme.of(context).textTheme.headline6!.color,
+            color:
+                Theme.of(context).textTheme.headline6!.color!.withOpacity(0.8),
           ),
           SizedBox(
             height: 160,
@@ -304,7 +317,11 @@ class SplashWidget extends StatelessWidget {
               'assets/images/ic_powered.webp',
               width: 110,
               height: 110 * 100 / 436,
-              // color: Theme.of(context).textTheme.headline6!.color,
+              color: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .color!
+                  .withOpacity(0.8),
             ),
           ),
           SizedBox(

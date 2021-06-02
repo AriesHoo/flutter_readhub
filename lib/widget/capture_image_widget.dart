@@ -1,7 +1,7 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
-import 'package:flutter_readhub/page/article_item_widget.dart';
+import 'package:flutter_readhub/page/widget/article_item_widget.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';

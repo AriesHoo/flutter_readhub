@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_readhub/helper/sp_helper.dart';
 
 export 'package:dio/dio.dart';
 
@@ -15,7 +17,7 @@ parseJson(String text) {
   return compute(_parseAndDecode, text);
 }
 
-///网络请求基类--mobile使用
+///网络请求基类--Native使用
 abstract class BasisHttp with DioMixin implements Dio {
   BasisHttp() {
     options = BaseOptions();
@@ -36,6 +38,11 @@ class HeaderInterceptor extends InterceptorsWrapper {
     options.receiveTimeout = 1000 * 15;
     options.responseType = ResponseType.json;
     options.contentType = Headers.jsonContentType;
+    Map<String, dynamic> headers = options.headers;
+    if (!TextUtil.isEmpty(SpHelper.getPoemToken())) {
+      headers.putIfAbsent('X-User-Token', () => SpHelper.getPoemToken());
+    }
+    options.headers = headers;
     super.onRequest(options, handler);
   }
 }

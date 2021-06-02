@@ -13,15 +13,16 @@ import 'view_state_widget.dart';
 
 /// Provider简单抽离方便数据初始化
 class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
-  final ValueWidgetBuilder<T> builder;
+
   final T model;
+  final ValueWidgetBuilder<T> builder;
   final Widget? child;
   final Function(T)? onModelReady;
 
   BasisProviderWidget({
     Key? key,
-    required this.builder,
     required this.model,
+    required this.builder,
     this.child,
     this.onModelReady,
   }) : super(key: key);

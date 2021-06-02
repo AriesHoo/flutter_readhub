@@ -1,7 +1,6 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_readhub/dialog/card_share_dialog.dart';
 
 ///基础Dialog
 class BasisDialog extends Dialog {
@@ -9,6 +8,7 @@ class BasisDialog extends Dialog {
   final double maxWidth;
   final double minWidth;
   final AlignmentGeometry alignment;
+  final bool modalBottomSheet;
 
   BasisDialog({
     Key? key,
@@ -16,6 +16,7 @@ class BasisDialog extends Dialog {
     this.maxWidth: 360.0,
     this.minWidth: 280.0,
     this.alignment: Alignment.center,
+    this.modalBottomSheet: false,
   });
 
   @override
@@ -63,7 +64,7 @@ class BasisDialog extends Dialog {
 
               ///ModalBottomSheet 特殊处理点击child部分不响应关闭事件
               ///即：点击半透明部分才关闭Dialog
-              child: context.widget is CardShareDialog
+              child: modalBottomSheet
                   ? GestureDetector(
                       onTap: () => LogUtil.v('点击child'),
                       child: child,
@@ -76,7 +77,7 @@ class BasisDialog extends Dialog {
     );
 
     ///ModalBottomSheet 特殊处理点击非child部分关闭
-    return context.widget is CardShareDialog
+    return modalBottomSheet
         ? InkWell(
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,

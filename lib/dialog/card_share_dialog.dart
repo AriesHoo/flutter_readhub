@@ -67,7 +67,20 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
       smallDisplay ? EdgeInsets.zero : super.insetPadding;
 
   @override
+  ShapeBorder? get shape => RoundedRectangleBorder(
+        borderRadius: smallDisplay
+            ? BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              )
+            : BorderRadius.circular(12),
+      );
+
+  @override
   AlignmentGeometry get alignment => Alignment.bottomRight;
+
+  @override
+  bool get modalBottomSheet => true;
 
   @override
   Widget build(BuildContext context) {

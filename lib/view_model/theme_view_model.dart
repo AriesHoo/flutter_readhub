@@ -316,13 +316,13 @@ class ThemeViewModel with ChangeNotifier {
         color: themeData.hintColor.withOpacity(0.1),
 
         ///线粗细
-        thickness: 0.75,
+        thickness: 0.6,
 
         ///前间隔
-        indent: 12,
+        indent: 0,
 
         ///后间隔
-        endIndent: 12,
+        endIndent: 0,
       ),
     );
     setSystemBarTheme();

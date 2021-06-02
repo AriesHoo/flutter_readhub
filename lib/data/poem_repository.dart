@@ -1,0 +1,44 @@
+import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
+import 'package:flutter_readhub/helper/sp_helper.dart';
+import 'package:flutter_readhub/model/poem_sentence_model.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
+import 'package:flutter_readhub/data/poem_http.dart';
+
+///诗歌
+class PoemRepository {
+  ///获取token
+  static Future<String> getPoemToken() async {
+    Response response;
+    if (!PlatformUtil.isBrowser) {
+      response = await http.get(
+        'token',
+      );
+    } else {
+      response = await Dio().get('https://v2.jinrishici.com/token');
+    }
+    String token = response.data['data'];
+    if (!TextUtil.isEmpty(token)) {
+      SpHelper.setPoemToken(token);
+    }
+    return token;
+  }
+
+  ///获取推荐诗歌
+  static Future<PoemSentenceModel> getPoemSentence() async {
+    Response response;
+
+    ///无token
+    if (TextUtil.isEmpty(SpHelper.getPoemToken())) {
+      await getPoemToken();
+    }
+    if (!PlatformUtil.isBrowser) {
+      response = await http.get(
+        'sentence',
+      );
+    } else {
+      response = await Dio().get('https://v2.jinrishici.com/sentence');
+    }
+    return PoemSentenceModel.fromJson(response.data['data']);
+  }
+}

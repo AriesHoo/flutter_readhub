@@ -1,4 +1,3 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/basis/scroll_top_model.dart';
@@ -44,11 +43,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   Widget build(BuildContext context) {
     super.build(context);
     double width = MediaQuery.of(context).size.width - sideNavWidth;
-    int crossAxisCount = isDisplayDesktop && width >= 700
-        ? width >= 1000
-            ? 3
-            : 2
-        : 1;
+    int crossAxisCount = width ~/ 350;
+    crossAxisCount = isDisplayDesktop ? crossAxisCount : 1;
     return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
@@ -93,7 +89,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
 
           ///交叉轴单个子Widget之间间距
           crossAxisSpacing: 0.0,
-          mainAxisExtent: 180,
+          mainAxisExtent: 170,
         ),
         itemBuilder: (context, index) => Hero(
           tag: m1.list[index].getUrl(),
@@ -215,6 +211,10 @@ class ArticleAdapter extends StatelessWidget {
                     .color!
                     .withOpacity(0.8)),
           ),
+          Expanded(
+            flex: 1,
+            child: SizedBox(),
+          ),
           Row(
             children: <Widget>[
               Expanded(
@@ -272,8 +272,8 @@ class ArticleAdapter extends StatelessWidget {
         ///Container 包裹以便设置padding margin及边界线
         builder: (context, model) => childWidget,
         showBorder: showBorder,
-        onLongPress: PlatformUtil.isMobile ? () => _onLongPress(context) : null,
-        onTap: () => CardShareDialog.show(context, item.getCardShareModel()),
+        onLongPress: () => _onLongPress(context),
+        onTap: () => WebViewPage.start(context, item.getCardShareModel()),
       ),
     );
   }
