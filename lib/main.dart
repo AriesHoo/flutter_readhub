@@ -166,7 +166,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
           'getWindowSize_width:${value.width};height:${value.height}'));
 
       ///设置最小窗口尺寸
-      DesktopWindow.setMinWindowSize(Size(360, 640)).catchError(
+      DesktopWindow.setMinWindowSize(Size(480, 640)).catchError(
         (error) {
           LogUtil.e('setMinWindowSize_Error:$error');
 
@@ -180,7 +180,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
       );
 
       ///设置最大窗口尺寸
-      DesktopWindow.setMaxWindowSize(Size(1280, 800));
+      // DesktopWindow.setMaxWindowSize(Size(1280, 800));
 
       ///保证只设置一次屏幕宽度--后续保留用户自己习惯
       if (!SpUtil.getBool('setWindowSize', defValue: false)!) {

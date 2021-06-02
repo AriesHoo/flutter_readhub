@@ -58,11 +58,11 @@ class HighlightCardWidget extends StatelessWidget {
             ? null
             : Decorations.lineShapeBorder(
                 context,
-                lineWidth: highlightMode.highlight ? 1.5 : 0.5,
+                lineWidth: highlightMode.highlight ? 1.5 : 0.6,
                 borderRadius: BorderRadius.circular(12),
                 color: highlightMode.highlight
                     ? Theme.of(context).accentColor
-                    : Theme.of(context).hintColor.withOpacity(0.1),
+                    : Theme.of(context).hintColor.withOpacity(0.075),
               ),
         child: InkWell(
           onHighlightChanged: highlightMode.onHighlightChanged,

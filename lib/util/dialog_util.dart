@@ -62,6 +62,7 @@ class DialogUtil {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
+                      alignment: Alignment.center,
                     ),
                     onPressed: () {
                       ///关闭对话框并返回
@@ -100,6 +101,7 @@ class DialogUtil {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
+                      alignment: Alignment.center,
                     ),
                     onPressed: () {
                       ///关闭对话框并返回

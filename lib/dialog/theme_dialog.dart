@@ -33,7 +33,7 @@ class ThemeDialog extends BasisDialog {
   double get maxWidth => double.infinity;
 
   @override
-  EdgeInsets? get insetPadding => EdgeInsets.only(top: 20);
+  EdgeInsets? get insetPadding => EdgeInsets.zero;
 
   @override
   AlignmentGeometry get alignment => Alignment.bottomLeft;
@@ -58,9 +58,13 @@ class ThemeDialog extends BasisDialog {
         double spacing = 24;
 
         ///Button可用屏幕宽度-屏幕宽度减去 整个区域水平边界
-        double screenWidth = MediaQuery.of(context).size.width - 48;
+        double screenWidth = MediaQuery.of(context).size.width - 24;
 
         int count = screenWidth ~/ (minWidth + spacing);
+
+        if (count > 4) {
+          count = 4;
+        }
 
         ///只够显示一个
         if (count <= 1) {
@@ -69,9 +73,11 @@ class ThemeDialog extends BasisDialog {
           finalWidth = (screenWidth - count * spacing) / count;
         }
         return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 24,
+          padding: EdgeInsets.only(
+            left: 24,
+            right: count <= 1 ? 24 : 0,
+            top: 24,
+            bottom: 24,
           ),
 
           ///所有颜色按钮垂直排列

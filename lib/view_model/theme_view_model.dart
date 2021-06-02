@@ -313,7 +313,7 @@ class ThemeViewModel with ChangeNotifier {
       ///Divider分割线组件样式添加一个间隔线
       dividerTheme: DividerThemeData(
         ///线颜色
-        color: themeData.hintColor.withOpacity(0.1),
+        color: themeData.hintColor.withOpacity(0.075),
 
         ///线粗细
         thickness: 0.6,
