@@ -45,7 +45,7 @@ class HighlightCardWidget extends StatelessWidget {
         margin: PlatformUtil.isMobile && !showBorder
             ? null
             : EdgeInsets.all(
-                highlightMode.highlight ? marginHighlight ?? 8 : margin ?? 8,
+                highlightMode.highlight ? marginHighlight ?? 10 : margin ?? 10,
               ),
         elevation: highlightMode.highlight ? 0 : 0,
         color: Colors.transparent,

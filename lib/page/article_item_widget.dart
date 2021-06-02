@@ -6,6 +6,7 @@ import 'package:flutter_readhub/dialog/card_share_dialog.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/model/share_model.dart';
+import 'package:flutter_readhub/page/home_page.dart';
 import 'package:flutter_readhub/page/web_view_page.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -42,8 +43,12 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    double width = MediaQuery.of(context).size.width - 200;
-    LogUtil.v('width:$width');
+    double width = MediaQuery.of(context).size.width - sideNavWidth;
+    int crossAxisCount = isDisplayDesktop && width >= 700
+        ? width >= 1000
+            ? 3
+            : 2
+        : 1;
     return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
@@ -57,70 +62,36 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
             physics: ClampingScrollPhysics(),
             itemCount: 60,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              ///纵向数量
-              crossAxisCount: isDisplayDesktop && width >= 700
-                  ? width >= 1000
-                      ? 3
-                      : 2
-                  : 1,
+              ///交叉轴数量
+              crossAxisCount: crossAxisCount,
 
-              ///水平单个子Widget之间间距
+              ///主轴单个子Widget之间间距
               mainAxisSpacing: 0.0,
 
-              ///垂直单个子Widget之间间距
+              ///交叉轴单个子Widget之间间距
               crossAxisSpacing: 0.0,
               mainAxisExtent: 180,
             ),
             itemBuilder: (context, index) => HighlightCardWidget(
+              showBorder: true,
               builder: (context, highlightModel) => ArticleSkeleton(),
             ),
           ),
         );
       },
-      // childBuilder: (context, m1, m2) => SkeletonList(
-      //   child: GridView.builder(
-      //     controller: m2.scrollController,
-      //     addAutomaticKeepAlives: true,
-      //     physics: ClampingScrollPhysics(),
-      //     itemCount: 60,
-      //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //       ///纵向数量
-      //       crossAxisCount: isDisplayDesktop && width >= 700
-      //           ? width >= 1000
-      //               ? 3
-      //               : 2
-      //           : 1,
-      //
-      //       ///水平单个子Widget之间间距
-      //       mainAxisSpacing: 0.0,
-      //
-      //       ///垂直单个子Widget之间间距
-      //       crossAxisSpacing: 0.0,
-      //       mainAxisExtent: 180,
-      //     ),
-      //     itemBuilder: (context, index) => HighlightCardWidget(
-      //       builder: (context, highlightModel) => ArticleSkeleton(),
-      //       showBorder: true,
-      //     ),
-      //   ),
-      // ),
       childBuilder: (context, m1, m2) => GridView.builder(
         controller: m2.scrollController,
         addAutomaticKeepAlives: true,
         physics: ClampingScrollPhysics(),
         itemCount: m1.list.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          ///纵向数量
-          crossAxisCount: isDisplayDesktop && width >= 700
-              ? width >= 1000
-                  ? 3
-                  : 2
-              : 1,
+          ///交叉轴数量
+          crossAxisCount: crossAxisCount,
 
-          ///水平单个子Widget之间间距
+          ///主轴单个子Widget之间间距
           mainAxisSpacing: 0.0,
 
-          ///垂直单个子Widget之间间距
+          ///交叉轴单个子Widget之间间距
           crossAxisSpacing: 0.0,
           mainAxisExtent: 180,
         ),
@@ -146,59 +117,9 @@ class ArticleSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.symmetric(vertical: 12),
-      // margin: EdgeInsets.symmetric(horizontal: 12),
-
-      ///分割线
+      ///装饰器
       decoration: BoxDecoration(
-          border: Decorations.lineBoxBorder(context, bottom: true, width: 20),
-          color: Colors.pink),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ///标题
-          SkeletonBox(
-            margin: EdgeInsets.only(top: 4, bottom: 4),
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: 16,
-          ),
-
-          ///摘要
-          SkeletonBox(
-            margin: EdgeInsets.only(bottom: 5),
-            width: MediaQuery.of(context).size.width * 0.75,
-            height: 10,
-          ),
-          SkeletonBox(
-            margin: EdgeInsets.only(bottom: 5),
-            width: MediaQuery.of(context).size.width * 0.6,
-            height: 10,
-          ),
-          SkeletonBox(
-            margin: EdgeInsets.only(bottom: 5),
-            width: MediaQuery.of(context).size.width * 0.45,
-            height: 10,
-          ),
-          Row(
-            children: <Widget>[
-              SkeletonBox(
-                margin: EdgeInsets.only(bottom: 7),
-                width: 36,
-                height: 16,
-              ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(),
-              ),
-              SkeletonBox(
-                margin: EdgeInsets.only(bottom: 7),
-                width: 40,
-                height: 20,
-              ),
-            ],
-          )
-        ],
+        color: Theme.of(context).accentColor,
       ),
     );
   }
@@ -352,6 +273,7 @@ class ArticleAdapter extends StatelessWidget {
         builder: (context, model) => childWidget,
         showBorder: showBorder,
         onLongPress: PlatformUtil.isMobile ? () => _onLongPress(context) : null,
+        onTap: () => CardShareDialog.show(context, item.getCardShareModel()),
       ),
     );
   }

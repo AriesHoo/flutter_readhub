@@ -153,6 +153,12 @@ class _MaterialAppPageState extends State<MaterialAppPage>
     ///添加监听用于监控前后台转换
     WidgetsBinding.instance!.addObserver(this);
 
+    ///设置窗口大小
+    _setWindowSize();
+  }
+
+  ///桌面系统设置窗口大小
+  _setWindowSize() {
     ///桌面系统
     if (PlatformUtil.isDesktop) {
       ///获取窗口尺寸
@@ -160,10 +166,29 @@ class _MaterialAppPageState extends State<MaterialAppPage>
           (value) => LogUtil.v('width:${value.width};height:${value.height}'));
 
       ///设置最小窗口尺寸
-      DesktopWindow.setMinWindowSize(Size(480, 480));
+      DesktopWindow.setMinWindowSize(Size(480, 480)).catchError(
+        (error) {
+          LogUtil.e('setMinWindowSize_Error:$error');
+
+          ///延迟2s再设置
+          Future.delayed(
+              Duration(
+                milliseconds: 2000,
+              ),
+              () => _setWindowSize());
+        },
+      );
 
       ///设置最大窗口尺寸
       DesktopWindow.setMaxWindowSize(Size(1024, 768));
+
+      DesktopWindow.setWindowSize(Size(800, 600)).catchError(
+        (err) {
+          LogUtil.e('setWindowSize_Error:$err');
+
+          Future.delayed(Duration(seconds: 2), () => _setWindowSize());
+        },
+      );
     }
   }
 

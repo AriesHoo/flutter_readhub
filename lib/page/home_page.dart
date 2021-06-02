@@ -171,7 +171,6 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool displayDesktop = isDisplayDesktop;
-    LogUtil.v('HomeBody:${MediaQuery.of(context).size.width}');
 
     ///分页tab
     Widget tabWidget = Column(
@@ -241,7 +240,7 @@ class HomeBody extends StatelessWidget {
         preferredSize: Size.fromHeight(displayDesktop ? 0 : 40),
         child: AppBar(
           backgroundColor: displayDesktop ? Theme.of(context).cardColor : null,
-          title: AppIcon(),
+          title: AppLogo(),
           actions: <Widget>[
             ///更多信息
             AnimatedSwitcherIconWidget(
@@ -272,20 +271,20 @@ class HomeBody extends StatelessWidget {
           Container(
             // color:
             //     ThemeViewModel.darkMode ? Color(0xFF2E2F2F) : Color(0xFFE2E2E2),
-            width: displayDesktop ? 160 : 0,
+            width: displayDesktop ? sideNavWidth : 0,
             height: 10000,
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(24),
-                  child: AppIcon(),
+                  padding: EdgeInsets.only(top: 24, bottom: 12),
+                  child: AppLogo(),
                 ),
                 Expanded(
                   flex: 1,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        TabIconNav(
+                        SideNav(
                           tabs: tabs,
                           tabIndex: ValueNotifier(controller!.index),
                           onTabChanged: (index) => controller?.animateTo(index),
@@ -324,7 +323,10 @@ class HomeBody extends StatelessWidget {
             ),
           ),
           Visibility(
-            child: VerticalDivider(),
+            child: VerticalDivider(
+              width: 1,
+              thickness: 1,
+            ),
             visible: displayDesktop,
           ),
           Expanded(
@@ -337,9 +339,11 @@ class HomeBody extends StatelessWidget {
   }
 }
 
-///侧边icon
-class TabIconNav extends StatelessWidget {
-  TabIconNav({
+double get sideNavWidth => 160;
+
+///侧边导航
+class SideNav extends StatelessWidget {
+  SideNav({
     Key? key,
     required this.tabs,
     required this.tabIndex,
@@ -356,9 +360,8 @@ class TabIconNav extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: tabs
           .map(
-            (e) => SizedBox(
-              // width: 120,
-              // height: 44,
+            (e) => Padding(
+              padding: EdgeInsets.symmetric(vertical: 6),
               child: ValueListenableBuilder<int>(
                 valueListenable: tabIndex,
                 builder: (context, index, child) {
@@ -368,6 +371,8 @@ class TabIconNav extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all(isSelected
                           ? Theme.of(context).accentColor
                           : Colors.transparent),
+
+                      ///hoverColor及splashColor
                       overlayColor:
                           MaterialStateProperty.all(Colors.transparent),
                       shape: MaterialStateProperty.all(
@@ -408,8 +413,9 @@ class TabIconNav extends StatelessWidget {
   }
 }
 
-class AppIcon extends StatelessWidget {
-  const AppIcon({Key? key}) : super(key: key);
+///AppLogo
+class AppLogo extends StatelessWidget {
+  const AppLogo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

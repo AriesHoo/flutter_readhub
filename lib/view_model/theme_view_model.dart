@@ -30,19 +30,19 @@ class ThemeViewModel with ChangeNotifier {
 
   /// 当前主题颜色
   static MaterialColor _themeColor = Colors.blue;
-  static Color? _accentColor = _themeColor;
+  static Color _accentColor = _themeColor;
 
   /// 用户选择的明暗模式
-  static bool? _userDarkMode = false;
+  static bool _userDarkMode = false;
 
   static bool get platformDarkMode =>
       navigatorKey.currentContext != null &&
       MediaQuery.of(navigatorKey.currentContext!).platformBrightness ==
           Brightness.dark;
 
-  static bool? get userDarkMode => _userDarkMode;
+  static bool get userDarkMode => _userDarkMode;
 
-  static bool get darkMode => userDarkMode! || platformDarkMode;
+  static bool get darkMode => userDarkMode || platformDarkMode;
 
   ///是否隐藏悬浮按钮-用于回到顶部
   static bool _hideFloatingButton = false;
@@ -66,12 +66,12 @@ class ThemeViewModel with ChangeNotifier {
 
 //  Color colorWhiteTheme = Colors.transparent;
 
-  static Color? colorBlackTheme = Colors.grey[900];
+  static Color colorBlackTheme = Colors.grey[900]!;
 
-  static Color? get accentColor => _accentColor;
+  static Color get accentColor => _accentColor;
 
-  static Color? get themeAccentColor =>
-      _userDarkMode! ? colorBlackTheme : accentColor;
+  static Color get themeAccentColor =>
+      _userDarkMode ? colorBlackTheme : accentColor;
 
   static double get textScaleFactor => 1;
 
@@ -82,7 +82,7 @@ class ThemeViewModel with ChangeNotifier {
 
   ThemeViewModel() {
     /// 用户选择的明暗模式
-    _userDarkMode = SpUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false);
+    _userDarkMode = SpUtil.getBool(SP_KEY_THEME_DARK_MODE, defValue: false)!;
 
     /// 获取主题色
     _themeIndex =
@@ -142,7 +142,7 @@ class ThemeViewModel with ChangeNotifier {
     _themeColor = color ?? getThemeColor();
 
     ///存入缓存
-    SpUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode!);
+    SpUtil.putBool(SP_KEY_THEME_DARK_MODE, _userDarkMode);
     notifyListeners();
   }
 
@@ -182,9 +182,9 @@ class ThemeViewModel with ChangeNotifier {
   ///根据主题 明暗 和 颜色 生成对应的主题[dark]系统的Dark Mode
   themeData({bool platformDarkMode: false}) {
     LogUtil.v('themeData_platform:$platformDarkMode');
-    var isDark = platformDarkMode || _userDarkMode!;
+    var isDark = platformDarkMode || _userDarkMode;
     var themeColor = _themeColor;
-    _accentColor = isDark ? themeColor[600] : _themeColor;
+    _accentColor = (isDark ? themeColor[600] : _themeColor)!;
     Brightness brightness = isDark ? Brightness.dark : Brightness.light;
     var themeData = ThemeData(
       ///主题浅色或深色-
