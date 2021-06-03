@@ -70,7 +70,10 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
             ),
             itemBuilder: (context, index) => HighlightCardWidget(
               showBorder: true,
-              builder: (context, highlightModel) => ArticleSkeleton(),
+              builder: (context, highlightModel) => SkeletonBox(
+                width: double.infinity,
+                height: double.infinity,
+              ),
             ),
           ),
         );
@@ -104,21 +107,6 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-///文章Item骨架屏效果
-class ArticleSkeleton extends StatelessWidget {
-  ArticleSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      ///装饰器
-      decoration: BoxDecoration(
-        color: Theme.of(context).accentColor,
-      ),
-    );
-  }
 }
 
 ///文章适配器
