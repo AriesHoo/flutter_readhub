@@ -3,6 +3,7 @@ import 'package:flutter_readhub/basis/basis_view_model.dart';
 import 'package:flutter_readhub/data/poem_repository.dart';
 import 'package:flutter_readhub/helper/sp_helper.dart';
 import 'package:flutter_readhub/model/poem_sentence_model.dart';
+import 'package:flutter_readhub/page/home_page.dart';
 
 ///推荐诗歌ViewModel
 class PoemSentenceViewModel extends BasisViewModel {
@@ -17,7 +18,16 @@ class PoemSentenceViewModel extends BasisViewModel {
     try {
       poemSentenceModel = await loadData();
       setSuccess();
+
+      ///刷新顶部
+      topViewModel?.poemSentenceModel = poemSentenceModel;
     } catch (e, s) {
+      ///初始化失败延迟再获取
+      if (init) {
+        Future.delayed(Duration(seconds: 5), () => refresh(init: true));
+      } else {
+        setError(e, s);
+      }
       LogUtil.e('e:$e;s:$s', tag: 'PoemSentenceViewModel');
     }
   }

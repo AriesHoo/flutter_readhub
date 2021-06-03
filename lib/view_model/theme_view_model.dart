@@ -203,7 +203,13 @@ class ThemeViewModel with ChangeNotifier {
       toggleableActiveColor: accentColor,
 
       ///输入框光标
-      cursorColor: accentColor,
+      // cursorColor: accentColor,
+      ///输入框光标
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: accentColor,
+        selectionColor: accentColor.withAlpha(60),
+        selectionHandleColor: accentColor.withAlpha(60),
+      ),
 
       ///字体
       fontFamily: fontValueList[_fontIndex!],
@@ -260,10 +266,22 @@ class ThemeViewModel with ChangeNotifier {
 
       ///长按提示文本样式
       tooltipTheme: themeData.tooltipTheme.copyWith(
-          textStyle: TextStyle(
-              fontSize: 13,
-              color:
-                  (darkMode ? Colors.black : Colors.white).withOpacity(0.9))),
+        textStyle: TextStyle(
+          fontSize: 14,
+          color: (darkMode ? Colors.black : Colors.white).withOpacity(0.9),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        margin: EdgeInsets.only(
+          left: 12,
+          right: 12,
+          bottom: 12,
+          top: 2,
+        ),
+        decoration: BoxDecoration(
+          color: (isDark ? Colors.white : Colors.black).withOpacity(0.75),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+      ),
 
       ///TabBar样式设置
       tabBarTheme: themeData.tabBarTheme.copyWith(
@@ -316,7 +334,7 @@ class ThemeViewModel with ChangeNotifier {
         color: themeData.hintColor.withOpacity(0.075),
 
         ///线粗细
-        thickness: 0.6,
+        thickness: 0.7,
 
         ///前间隔
         indent: 0,

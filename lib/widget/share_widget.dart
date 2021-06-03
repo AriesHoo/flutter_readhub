@@ -12,11 +12,13 @@ class ShareBottomWidget<A extends ShareBottomViewModel>
     extends StatelessWidget {
   final Function(ShareType, BuildContext context) onClick;
   final A model;
+  final bool safeAreaBottom;
 
   const ShareBottomWidget({
     Key? key,
     required this.model,
     required this.onClick,
+    this.safeAreaBottom: true,
   }) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class ShareBottomWidget<A extends ShareBottomViewModel>
       builder: (context, model, child) => Container(
         color: Theme.of(context).cardColor,
         child: SafeArea(
+          bottom: safeAreaBottom,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

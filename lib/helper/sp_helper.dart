@@ -1,6 +1,5 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter_readhub/model/poem_sentence_model.dart';
-import 'package:flutter_readhub/page/widget/poem_sentence.dart';
 
 ///SP相关帮助类
 class SpHelper {

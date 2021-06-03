@@ -1,3 +1,5 @@
+import 'package:flustars/flustars.dart';
+
 ///推荐诗歌Model
 class PoemSentenceModel {
   String? cacheAt;
@@ -46,6 +48,10 @@ class PoemSentenceModel {
     }
     return data;
   }
+
+  String getTooltip() {
+    return origin != null ? origin!.getTooltip() : '';
+  }
 }
 
 class Origin {
@@ -83,5 +89,30 @@ class Origin {
       data['translate'] = this.translate;
     }
     return data;
+  }
+
+  ///
+  String getTooltip() {
+    String result = '';
+    if (!TextUtil.isEmpty(title)) {
+      result += title!;
+    }
+    if (!TextUtil.isEmpty(author)) {
+      String authorResult =
+          TextUtil.isEmpty(dynasty) ? author! : '$dynasty-$author';
+      result += !TextUtil.isEmpty(result) ? '\n$authorResult' : authorResult;
+    }
+    if (content != null && content!.isNotEmpty) {
+      content!.forEach((element) {
+        result += !TextUtil.isEmpty(result) ? '\n$element' : element;
+      });
+    }
+    if (translate != null && translate!.isNotEmpty) {
+      result+='\n译文：';
+      translate!.forEach((element) {
+        result += !TextUtil.isEmpty(result) ? '\n$element' : element;
+      });
+    }
+    return result;
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_macos_webview/flutter_macos_webview.dart';
-import 'package:flutter_readhub/helper/share_helper.dart';
+import 'package:flutter_readhub/dialog/url_share_dialog.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/share_model.dart';
@@ -36,7 +36,7 @@ class WebViewPage extends StatefulWidget {
         ),
       );
     } else if (Platform.isMacOS) {
-      final webview = FlutterMacOSWebView(
+      final macOSWebView = FlutterMacOSWebView(
         onOpen: () => print('Opened'),
         onClose: () => print('Closed'),
         onPageStarted: (url) => print('Page started: $url'),
@@ -48,10 +48,12 @@ class WebViewPage extends StatefulWidget {
         },
       );
       Size size = await DesktopWindow.getWindowSize();
-      await webview.open(
+      await macOSWebView.open(
         url: shareModel.url,
-        presentationStyle: PresentationStyle.modal,
+        presentationStyle: PresentationStyle.sheet,
         size: size,
+        sheetCloseButtonTitle:
+            MaterialLocalizations.of(context).closeButtonTooltip,
       );
     } else {
       await launch(shareModel.url);
@@ -230,9 +232,6 @@ class _WebViewPageState extends State<WebViewPage> {
 
   ///弹出分享选择
   _showShare() {
-    ShareHelper.singleton.shareUrlBottomSheet(
-      "${StringHelper.getS()!.saveImageShareTip} 资讯 「$_title」 链接：  ${widget.model.url}",
-      widget.model,
-    );
+    UrlShareDialog.start(widget.model);
   }
 }

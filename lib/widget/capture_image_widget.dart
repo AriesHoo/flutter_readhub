@@ -104,7 +104,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                 shadowColor: Colors.purple,
                 borderOnForeground: false,
                 color: Theme.of(context).cardColor,
-                elevation: ThemeViewModel.darkMode ? 0 : 20,
+                elevation: ThemeViewModel.darkMode ? 0 : 12,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                   side: ThemeViewModel.darkMode

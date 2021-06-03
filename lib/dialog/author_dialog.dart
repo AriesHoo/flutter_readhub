@@ -255,7 +255,7 @@ class ShareAppWidget extends StatelessWidget {
   ///分享App
   _shareApp(BuildContext context) async {
     if (!PlatformUtil.isMobile) {
-      await launch('https://www.pgyer.com/ntMA');
+      await launch('https://note.youdao.com/s/NQ6sledI');
       return;
     }
     CardShareDialog.show(
@@ -290,24 +290,22 @@ class ShareAppSummaryWidget extends StatelessWidget {
                   .withOpacity(0.8),
             ),
         text:
-            'Freadhub 即 : Flutter 开发的 Readhub 客户端。由练习时长两月半的个人 Flutter 小学生 Aries Hoo 花费半月开发完成。'
+            'Freadhub 即 : Flutter 开发的 Readhub 客户端。由 Flutter 小学生 Aries Hoo 开发维护。'
             '\n囊括以下功能：',
         children: [
           TextSpan(
             style: Theme.of(context).textTheme.headline6!.copyWith(
                   fontSize: 12,
-                  color: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .color!
-                      .withOpacity(0.8),
-                  fontWeight: FontWeight.w900,
+                  color: Theme.of(context).accentColor.withOpacity(0.8),
+                  fontWeight: FontWeight.bold,
                 ),
-            text: '\n热门话题、科技动态、开发者、区块链四大模块'
-                '\n相关聚合资讯快捷查看'
+            text: '\n热门话题、科技动态、技术资讯、区块链四大模块'
+                '\n每日诗词个性化推荐'
                 '\n方便快捷的浅色/深色模式切换'
                 '\n丰富的彩虹颜色主题/每日主题切换'
                 '\n长按社会化分享预览图效果模式'
+                '\n响应式适配各种尺寸终端'
+                '\n支持Android、iOS、MacOS终端-Windows及Web已在路上'
                 '\n方便快捷的意见反馈入口',
           ),
           TextSpan(
@@ -612,6 +610,15 @@ class AppreciateWidget extends StatelessWidget {
 class CopyrightWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    TextStyle textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+          fontSize: 12,
+          color: Theme.of(context).textTheme.headline6!.color!.withOpacity(0.8),
+        );
+    TextStyle textStyleAccent = textStyle.copyWith(
+      color: Theme.of(context).accentColor,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.bold,
+    );
     return Material(
       color: Theme.of(context).cardColor,
       child: ExpansionTile(
@@ -629,47 +636,71 @@ class CopyrightWidget extends StatelessWidget {
             padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
             child: RichText(
               text: TextSpan(
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 12,
-                        color: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .color!
-                            .withOpacity(0.8),
+                style: textStyle,
+                text:
+                    '1、本软件为 AriesHoo 通过 Flutter 开发而成的 Readhub 三方客户端，非无码科技 Readhub 官方应用。',
+                children: [
+                  TextSpan(
+                    text: '所有数据来源于',
+                  ),
+                  TextSpan(
+                    text: '无码科技 Readhub ',
+                    style: textStyleAccent,
+                  ),
+                  TextSpan(
+                    text: ',版权归 ',
+                  ),
+                  TextSpan(
+                    text: '无码科技 Readhub ',
+                    style: textStyleAccent,
+                  ),
+                  TextSpan(
+                    text: ',所有。',
+                  ),
+                  TextSpan(
+                    text: '可访问',
+                  ),
+                  TextSpan(
+                      text: ' readhub.cn ',
+                      style: textStyleAccent.copyWith(
+                        decoration: TextDecoration.underline,
                       ),
-                  text:
-                      '本软件为 AriesHoo 通过 Flutter 开发而成的 Readhub 三方客户端，非无码科技 Readhub 官方应用。',
-                  children: [
-                    TextSpan(
-                      text: '所有数据来源于无码科技 Readhub ,版权归无码科技 Readhub 所有。',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w900,
-                            color: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .color!
-                                .withOpacity(0.8),
-                          ),
-                    ),
-                    TextSpan(
-                      text: '可访问',
-                    ),
-                    TextSpan(
-                        text: ' readhub.cn ',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: Theme.of(context).accentColor,
-                              fontStyle: FontStyle.italic,
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.bold,
-                            ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            ///点击跳转链接
-                            await launch('https://www.readhub.cn/');
-                          }),
-                    TextSpan(text: '了解更多。'),
-                  ]),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          ///点击跳转链接
+                          await launch('https://www.readhub.cn/');
+                        }),
+                  TextSpan(text: '了解更多。'),
+                  TextSpan(
+                    text: '\n2、本软件诗歌推荐来源于',
+                  ),
+                  TextSpan(text: ' 今日诗词 ', style: textStyleAccent),
+                  TextSpan(
+                    text: '版权归',
+                  ),
+                  TextSpan(
+                    text: ' 今日诗词 ',
+                    style: textStyleAccent,
+                  ),
+                  TextSpan(
+                    text: '所有。',
+                  ),
+                  TextSpan(
+                    text: '可访问',
+                  ),
+                  TextSpan(
+                      text: ' jinrishici.com ',
+                      style: textStyleAccent.copyWith(
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          ///点击跳转链接
+                          await launch('https://www.jinrishici.com/');
+                        }),
+                  TextSpan(text: '了解更多。'),
+                ],
+              ),
             ),
           )
         ],

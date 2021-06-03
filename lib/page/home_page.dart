@@ -16,6 +16,7 @@ import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
+import 'package:flutter_readhub/view_model/poem_sentence_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/animated_switcher_icon_widget.dart';
@@ -155,6 +156,9 @@ class _HomePageState extends State<HomePage>
   }
 }
 
+///用于侧边刷新顶部
+PoemSentenceViewModel? topViewModel;
+
 ///主页面主体
 class HomeBody extends StatelessWidget {
   const HomeBody(
@@ -198,6 +202,7 @@ class HomeBody extends StatelessWidget {
             border: Decorations.lineBoxBorder(
               context,
               bottom: !displayDesktop,
+              width: 0.7
             ),
 
             ///添加该属性去掉Tab按下水波纹效果
@@ -236,10 +241,19 @@ class HomeBody extends StatelessWidget {
       ///顶部App标题
       appBar: PreferredSize(
         ///设置AppBar高度--大屏幕另外一种显示模式
-        preferredSize: Size.fromHeight(displayDesktop ? 0 : 40),
+        preferredSize: Size.fromHeight(displayDesktop ? 0 : kToolbarHeight),
         child: AppBar(
           backgroundColor: displayDesktop ? Theme.of(context).cardColor : null,
-          title: AppLogo(),
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppLogo(width: 100),
+              PoemSentence(
+                onModelReady: (model) => topViewModel = model,
+              ),
+            ],
+          ),
           actions: <Widget>[
             ///更多信息
             AnimatedSwitcherIconWidget(
@@ -266,10 +280,8 @@ class HomeBody extends StatelessWidget {
       ///内容区域
       body: Row(
         children: [
-          ///宽屏布局
+          ///宽屏布局--宽度决定是否显示
           Container(
-            // color:
-            //     ThemeViewModel.darkMode ? Color(0xFF2E2F2F) : Color(0xFFE2E2E2),
             width: displayDesktop ? sideNavWidth : 0,
             child: Column(
               children: [
@@ -291,9 +303,13 @@ class HomeBody extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                ///侧边栏诗歌
                 PoemSentence(),
+
+                ///底部更多信息及深浅色主题切换
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -321,6 +337,8 @@ class HomeBody extends StatelessWidget {
               ],
             ),
           ),
+
+          ///侧边栏竖直分割线
           Visibility(
             child: VerticalDivider(
               width: 1,
@@ -328,6 +346,8 @@ class HomeBody extends StatelessWidget {
             ),
             visible: displayDesktop,
           ),
+
+          ///tab主区域
           Expanded(
             child: tabWidget,
             flex: 1,
@@ -372,8 +392,8 @@ class SideNav extends StatelessWidget {
                           : Colors.transparent),
 
                       ///hoverColor及splashColor
-                      overlayColor:
-                          MaterialStateProperty.all(Colors.transparent),
+                      overlayColor: MaterialStateProperty.all(
+                          Theme.of(context).accentColor.withOpacity(0.5)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
@@ -392,15 +412,17 @@ class SideNav extends StatelessWidget {
                     },
                     child: Text(
                       e.label,
-                      style: TextStyle(
-                        color: isSelected
-                            ? Colors.white
-                            : ThemeViewModel.darkMode
-                                ? Colors.white.withOpacity(0.6)
-                                : Colors.black.withOpacity(0.6),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            color: isSelected
+                                ? Colors.white
+                                : Theme.of(context)
+                                    .textTheme
+                                    .subtitle2!
+                                    .color!
+                                    .withOpacity(0.7),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                          ),
                     ),
                   );
                 },
@@ -414,13 +436,17 @@ class SideNav extends StatelessWidget {
 
 ///AppLogo
 class AppLogo extends StatelessWidget {
-  const AppLogo({Key? key}) : super(key: key);
+  const AppLogo({
+    Key? key,
+    this.width: 108.0,
+  }) : super(key: key);
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Image.asset(
       'assets/images/title.png',
-      width: 108,
+      width: width,
       color: Theme.of(context).appBarTheme.iconTheme!.color,
       fit: BoxFit.fill,
       filterQuality: FilterQuality.high,

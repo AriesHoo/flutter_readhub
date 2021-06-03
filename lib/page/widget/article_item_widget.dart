@@ -179,7 +179,11 @@ class ArticleAdapter extends StatelessWidget {
               height: textLineHeight,
               leading: leading,
             ),
-            overflow: TextOverflow.ellipsis,
+
+            ///浏览器...显示异常
+            overflow: PlatformUtil.isBrowser
+                ? TextOverflow.fade
+                : TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.subtitle2!.copyWith(
                   fontWeight: FontWeight.bold,
                   letterSpacing: letterSpacing,
@@ -198,7 +202,11 @@ class ArticleAdapter extends StatelessWidget {
                     ? 3
                     : 10000
                 : 3,
-            overflow: TextOverflow.ellipsis,
+
+            ///浏览器...显示异常
+            overflow: PlatformUtil.isBrowser
+                ? TextOverflow.fade
+                : TextOverflow.ellipsis,
             strutStyle: StrutStyle(
                 forceStrutHeight: true,
                 height: textLineHeight,
@@ -223,7 +231,11 @@ class ArticleAdapter extends StatelessWidget {
                   item.getTimeStr(),
                   textScaleFactor: ThemeViewModel.articleTextScaleFactor,
                   maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+
+                  ///浏览器...显示异常
+                  overflow: PlatformUtil.isBrowser
+                      ? TextOverflow.fade
+                      : TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         fontSize: 12,
                       ),

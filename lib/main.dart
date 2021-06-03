@@ -180,7 +180,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
       );
 
       ///设置最大窗口尺寸
-      // DesktopWindow.setMaxWindowSize(Size(1280, 800));
+      DesktopWindow.setMaxWindowSize(Size(1280, 800));
 
       ///保证只设置一次屏幕宽度--后续保留用户自己习惯
       if (!SpUtil.getBool('setWindowSize', defValue: false)!) {
@@ -232,7 +232,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _timeLength = PlatformUtil.isBrowser ? 3500 : 1000;
+
+    ///web端加载字体会有几秒时间文字异常
+    _timeLength = PlatformUtil.isBrowser ? 5000 : 1500;
     _timer = Timer.periodic(
       Duration(
         milliseconds: _timeDur,

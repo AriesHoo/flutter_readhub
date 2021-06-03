@@ -35,6 +35,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
     LogUtil.v('CardShareDialog_context:$context');
     DialogUtil.showModalBottomSheetDialog(
       context,
+      settings: RouteSettings(name: 'card_share_dialog'),
       childOutside: true,
       child: CardShareDialog(model),
       backgroundColor: Colors.transparent,
@@ -77,19 +78,11 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
       );
 
   @override
-  AlignmentGeometry get alignment => Alignment.bottomRight;
+  AlignmentGeometry get alignment =>
+      smallDisplay ? Alignment.bottomCenter : Alignment.bottomRight;
 
   @override
   bool get modalBottomSheet => true;
-
-  @override
-  Widget build(BuildContext context) {
-    LogUtil.v('CardSharePage_width:${MediaQuery.of(context).size.width}'
-        ';height:${MediaQuery.of(context).size.height}'
-        ';maxWidth:$maxWidth'
-        ';windowType:$windowType');
-    return super.build(context);
-  }
 
   @override
   Widget? get kid => BasisProviderWidget<ShareCardStyleViewModel>(
@@ -125,6 +118,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
             ),
             ShareBottomWidget(
               model: ShareBottomViewModel(),
+              safeAreaBottom: smallDisplay,
               onClick: (type, ctx) => _share(type, styleModel, ctx),
             ),
           ],
