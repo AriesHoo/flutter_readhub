@@ -109,7 +109,7 @@ class UrlShareDialog extends BasisDialog {
 
       ///复制链接
       case ShareType.copyLink:
-        ShareHelper.singleton.shareTextToClipboard(model.text!);
+        ShareHelper.singleton.shareTextToClipboard(model.url);
         break;
 
       ///浏览器打开

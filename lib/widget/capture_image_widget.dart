@@ -90,6 +90,8 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                                 strutStyle: StrutStyle(
                                   leading: 0.6,
                                 ),
+                                maxLines: 6,
+                                overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2!
@@ -333,12 +335,12 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
                               child: Text(
                                 '$summary',
                                 textScaleFactor: ThemeViewModel.textScaleFactor,
-                                overflow: TextOverflow.visible,
+                                maxLines: 6,
+                                overflow: TextOverflow.ellipsis,
                                 strutStyle: StrutStyle(
                                     forceStrutHeight: true,
                                     height: textLineHeight,
                                     leading: leading),
-                                maxLines: 20,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6!

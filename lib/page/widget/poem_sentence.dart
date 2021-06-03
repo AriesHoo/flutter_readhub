@@ -67,7 +67,7 @@ class PoemSentence extends StatelessWidget {
                         color: (ThemeViewModel.darkMode
                                 ? Colors.white
                                 : Colors.black)
-                            .withOpacity(0.75),
+                            .withOpacity(0.9),
                         borderRadius: BorderRadius.all(Radius.circular(6)),
                         ///渐变色
                         // gradient: LinearGradient(
