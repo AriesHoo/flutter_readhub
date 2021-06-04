@@ -66,8 +66,7 @@ dependencies:
     git:
       url: git://github.com/AriesHoo/plugins.git
       path: packages/share
-      ref: change_share
-      version: 2.0.1
+      ref: master
   #  mac分享才有意义web及windows无意义shareFile方法都没有实现shareText也是调用的url_launcher
   share_plus: ^2.1.2
   #  自适应断点？---响应式
