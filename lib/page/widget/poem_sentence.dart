@@ -40,8 +40,16 @@ class PoemSentence extends StatelessWidget {
               : TextOverflow.ellipsis,
           maxLines: isDisplayDesktop ? 4 : 1,
           style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: isDisplayDesktop ? null : 14,
+                fontWeight:
+                    isDisplayDesktop ? FontWeight.bold : FontWeight.normal,
+                fontSize: isDisplayDesktop ? 16 : 12,
+                color: isDisplayDesktop
+                    ? null
+                    : Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .color!
+                        .withOpacity(0.8),
               ),
         );
         return Container(
@@ -62,13 +70,16 @@ class PoemSentence extends StatelessWidget {
                           Theme.of(context).tooltipTheme.textStyle!.copyWith(
                                 fontSize: 14,
                               ),
-                      showDuration: Duration(seconds: 10),
+
+                      ///显示时间-点击其它地方消失
+                      showDuration: Duration(seconds: 30),
                       decoration: BoxDecoration(
                         color: (ThemeViewModel.darkMode
                                 ? Colors.white
                                 : Colors.black)
                             .withOpacity(0.9),
                         borderRadius: BorderRadius.all(Radius.circular(6)),
+
                         ///渐变色
                         // gradient: LinearGradient(
                         //   colors: [
