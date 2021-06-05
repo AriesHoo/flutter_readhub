@@ -68,6 +68,7 @@ class _AnimatedSwitcherIconWidgetState
       },
       duration: widget.duration,
       child: IconButton(
+        autofocus: true,
         tooltip: widget.tooltip,
         key: ValueKey(_actionIcon =
             ThemeViewModel.darkMode ? widget.switchIcon : widget.defaultIcon),

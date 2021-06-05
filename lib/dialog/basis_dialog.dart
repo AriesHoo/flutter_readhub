@@ -20,7 +20,12 @@ class BasisDialog extends Dialog {
   });
 
   @override
-  EdgeInsets? get insetPadding => EdgeInsets.all(20);
+  EdgeInsets? get insetPadding => EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 20,
+        top: kToolbarHeight,
+      );
 
   @override
   Widget? get child => SingleChildScrollView(

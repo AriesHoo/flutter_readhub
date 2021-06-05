@@ -13,7 +13,6 @@ import 'view_state_widget.dart';
 
 /// Provider简单抽离方便数据初始化
 class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
-
   final T model;
   final ValueWidgetBuilder<T> builder;
   final Widget? child;
@@ -131,6 +130,17 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
 
               ///初始化完成回调
               onModelReady?.call(m1, m2);
+
+              ///非移动端滚动到底部有未触发加载下一页操作
+              m2.scrollController.addListener(() {
+                if (m2.scrollController.position.pixels ==
+                    m2.scrollController.position.maxScrollExtent) {
+                  if (m1.refreshController.footerStatus != LoadStatus.noMore &&
+                      m1.refreshController.footerStatus != LoadStatus.loading) {
+                    m1.refreshController.requestLoading();
+                  }
+                }
+              });
             },
             builder: (context, m1, m2, child) {
               if (m1.loading) {
@@ -162,7 +172,16 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                           backgroundColor: Colors.white,
                           color: ThemeViewModel.accentColor,
                         )
-                      : ClassicHeader(),
+                      : ClassicHeader(
+                          refreshingIcon: !PlatformUtil.isAndroid
+                              ? const CupertinoActivityIndicator()
+                              : const SizedBox(
+                                  width: 18.0,
+                                  height: 18.0,
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2.0),
+                                ),
+                        ),
                   footer: SmartLoadFooterWidget(
                     controller: m1.refreshController,
                   ),
@@ -194,18 +213,18 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                           },
                         ),
                 ),
-                floatingActionButton: Visibility(
-                  visible: m2.showTopBtn && !ThemeViewModel.hideFloatingButton,
-                  child: FloatingActionButton(
-                    tooltip: StringHelper.getS()!.tooltipScrollTop,
-                    child: Icon(
-                      Icons.vertical_align_top,
-                    ),
-                    onPressed: () {
-                      m2.scrollTo();
-                    },
-                  ),
-                ),
+                floatingActionButton:
+                    m2.showTopBtn && !ThemeViewModel.hideFloatingButton
+                        ? FloatingActionButton(
+                            tooltip: StringHelper.getS()!.tooltipScrollTop,
+                            child: Icon(
+                              Icons.vertical_align_top,
+                            ),
+                            onPressed: () {
+                              m2.scrollTo();
+                            },
+                          )
+                        : null,
               );
             });
 }

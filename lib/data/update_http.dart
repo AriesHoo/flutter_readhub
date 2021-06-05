@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter_readhub/data/basis_http.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -27,11 +29,11 @@ class UpdateInterceptor extends InterceptorsWrapper {
       options.queryParameters['appKey'] = PlatformUtil.isAndroid
           ? '9d5adc8a82bdcf48a905d8d5aa7f19e3'
           : '430e714ebb8fb7c3f2ab72fa5c5009dc';
-      options.queryParameters['buildVersion'] =
-          await PlatformUtil.getAppVersion();
-      options.queryParameters['buildBuildVersion'] =
-          await PlatformUtil.getBuildNumber();
     }
+    options.queryParameters['buildVersion'] =
+        await PlatformUtil.getAppVersion();
+    options.queryParameters['buildBuildVersion'] =
+        await PlatformUtil.getBuildNumber();
     LogUtil.v(
         '---UpdateHttp-UpdateInterceptor-request--->url--> ${options.baseUrl}${options.path}' +
             ' queryParameters: ${options.queryParameters}');
@@ -40,7 +42,17 @@ class UpdateInterceptor extends InterceptorsWrapper {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    ResponseData respData = ResponseData.fromJson(response.data);
+    LogUtil.v(
+        'UpdateHttp-response:$response;${response.requestOptions.queryParameters['String']}');
+    ResponseData respData;
+    ///桌面端检查新版特殊处理
+    if (response.requestOptions.queryParameters.containsKey('String')) {
+      respData = ResponseData();
+      respData.code = 0;
+      respData.data = json.decode('$response');
+    } else {
+      respData = ResponseData.fromJson(response.data);
+    }
     LogUtil.v('UpdateHttp-UpdateInterceptor-onResponse:$respData');
     if (respData.success) {
       response.data = respData.data;
@@ -57,6 +69,8 @@ class ResponseData {
   dynamic data;
 
   bool get success => code == 0;
+
+  ResponseData();
 
   ResponseData.fromJson(Map<String, dynamic> json) {
     code = json['code'];

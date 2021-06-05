@@ -58,18 +58,20 @@ class HighlightCardWidget extends StatelessWidget {
             ? null
             : Decorations.lineShapeBorder(
                 context,
-                lineWidth: highlightMode.highlight ? 1.5 : 0.7,
+                lineWidth: highlightMode.highlight ? 1.6 : 0.8,
                 borderRadius: BorderRadius.circular(12),
                 color: highlightMode.highlight
                     ? Theme.of(context).accentColor
-                    : Theme.of(context).hintColor.withOpacity(0.075),
+                    : Theme.of(context).hintColor.withOpacity(0.1),
               ),
         child: InkWell(
+          canRequestFocus: true,
+          autofocus: true,
           onHighlightChanged: highlightMode.onHighlightChanged,
           onHover: highlightMode.onHighlightChanged,
-          highlightColor: PlatformUtil.isMobile ? null : Colors.transparent,
-          splashColor: PlatformUtil.isMobile ? null : Colors.transparent,
-          hoverColor: PlatformUtil.isMobile ? null : Colors.transparent,
+          // highlightColor: PlatformUtil.isMobile ? null : Colors.transparent,
+          // splashColor: PlatformUtil.isMobile ? null : Colors.transparent,
+          // hoverColor: PlatformUtil.isMobile ? null : Colors.transparent,
           onTap: () {
             onTap?.call();
             highlightMode.onHighlightChanged.call(!PlatformUtil.isMobile);

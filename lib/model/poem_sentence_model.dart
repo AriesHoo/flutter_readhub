@@ -98,19 +98,41 @@ class Origin {
       result += title!;
     }
     if (!TextUtil.isEmpty(author)) {
-      String authorResult =
-          TextUtil.isEmpty(dynasty) ? author! : '$dynasty-$author';
-      result += !TextUtil.isEmpty(result) ? '\n$authorResult' : authorResult;
+      result += !TextUtil.isEmpty(result) ? '\n$dynastyAuthor' : dynastyAuthor;
     }
+    result = getContentStr(result: result);
+    if (translate != null && translate!.isNotEmpty) {
+      result += '\n译文：';
+      translate!.forEach((element) {
+        result += !TextUtil.isEmpty(result) ? '\n$element' : element;
+      });
+    }
+    return result;
+  }
+
+  ///朝代+作者
+  String get dynastyAuthor => TextUtil.isEmpty(author)
+      ? ''
+      : TextUtil.isEmpty(dynasty)
+          ? author!
+          : '$dynasty-$author';
+
+  ///诗歌全文
+  String getContentStr({String result: ''}) {
     if (content != null && content!.isNotEmpty) {
       content!.forEach((element) {
         result += !TextUtil.isEmpty(result) ? '\n$element' : element;
       });
     }
+    return result;
+  }
+
+  ///译文
+  String getTranslateStr({String result: ''}) {
     if (translate != null && translate!.isNotEmpty) {
-      result+='\n译文：';
+      result += !TextUtil.isEmpty(result) ? '译文:' : '译文:';
       translate!.forEach((element) {
-        result += !TextUtil.isEmpty(result) ? '\n$element' : element;
+        result += '$element\n';
       });
     }
     return result;

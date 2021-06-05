@@ -65,7 +65,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
 
   @override
   EdgeInsets? get insetPadding =>
-      smallDisplay ? EdgeInsets.zero : super.insetPadding;
+      smallDisplay ? EdgeInsets.only(top: kToolbarHeight) : super.insetPadding;
 
   @override
   ShapeBorder? get shape => RoundedRectangleBorder(
@@ -85,43 +85,50 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   bool get modalBottomSheet => true;
 
   @override
-  Widget? get kid => BasisProviderWidget<ShareCardStyleViewModel>(
-        model: ShareCardStyleViewModel(),
-        builder: (context, styleModel, child) => Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SingleChildScrollView(
-              child: Center(
-                child: LifecycleWidget(
-                  child: styleModel.shareCardStyle == ShareCardStyle.app
-                      ? CaptureImageAppStyleWidget(
-                          model.title,
-                          model.summary,
-                          model.notice,
-                          model.url,
-                          model.bottomNotice,
-                          _globalKey,
-                          summaryWidget: model.summaryWidget,
-                        )
-                      : CaptureImageWidget(
-                          model.url,
-                          _globalJueJinKey,
-                          title: model.title,
-                          summary: model.summary,
-                          summaryWidget: model.summaryWidget,
-                        ),
-                  observer: this,
+  Widget? get child => Container(
+        child: BasisProviderWidget<ShareCardStyleViewModel>(
+          model: ShareCardStyleViewModel(),
+          builder: (context, styleModel, child) => Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: LifecycleWidget(
+                      child: styleModel.shareCardStyle == ShareCardStyle.app
+                          ? CaptureImageAppStyleWidget(
+                              model.title,
+                              model.summary,
+                              model.notice,
+                              model.url,
+                              model.bottomNotice,
+                              _globalKey,
+                              summaryWidget: model.summaryWidget,
+                            )
+                          : CaptureImageWidget(
+                              model.url,
+                              _globalJueJinKey,
+                              title: model.title,
+                              summary: model.summary,
+                              summaryWidget: model.summaryWidget,
+                            ),
+                      observer: this,
+                    ),
+                  ),
                 ),
+                flex: 1,
               ),
-              physics: ClampingScrollPhysics(),
-            ),
-            ShareBottomWidget(
-              model: ShareBottomViewModel(),
-              safeAreaBottom: smallDisplay,
-              onClick: (type, ctx) => _share(type, styleModel, ctx),
-            ),
-          ],
+
+              ///保证操作栏在最底部
+              ShareBottomWidget(
+                model: ShareBottomViewModel(),
+                safeAreaBottom: smallDisplay,
+                onClick: (type, ctx) => _share(type, styleModel, ctx),
+              ),
+            ],
+          ),
         ),
       );
 

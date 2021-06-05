@@ -33,7 +33,7 @@ Future<void> showAuthorDialog(BuildContext context) async {
 ///用户信息Dialog
 class AuthorDialog extends BasisDialog {
   @override
-  Widget? get kid => Column(
+  Widget get kid => Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -46,7 +46,7 @@ class AuthorDialog extends BasisDialog {
           ///检查更新--手机系统才有
           Visibility(
             child: UpdateWidget(),
-            visible: PlatformUtil.isMobile,
+            visible: PlatformUtil.isMobile || PlatformUtil.isMacOS,
           ),
 
           ///应用分享
@@ -102,19 +102,47 @@ class TopRoundWidget extends StatelessWidget {
               SizedBox(
                 height: 6,
               ),
-              GestureDetector(
-                onTap: () async => launch(
-                  'https://github.com/AriesHoo/flutter_readhub',
-                ),
-                child: Text(
-                  "开源「flutter_readhub」",
-                  textScaleFactor: ThemeViewModel.textScaleFactor,
+              RichText(
+                text: TextSpan(
+                  text: '开源',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 15,
-                        decoration: TextDecoration.underline,
                         color: Theme.of(context).accentColor,
-                        fontWeight: FontWeight.bold,
                       ),
+                  children: [
+                    TextSpan(text: '  '),
+                    TextSpan(
+                      text: 'Github',
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          ///点击跳转链接
+                          await launch(
+                              'https://github.com/AriesHoo/flutter_readhub');
+                        },
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 15,
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).accentColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    TextSpan(text: '  '),
+                    TextSpan(
+                      text: 'Gitee',
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          ///点击跳转链接
+                          await launch(
+                              'https://gitee.com/AriesHoo/flutter_readhub');
+                        },
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 15,
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).accentColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -661,15 +689,16 @@ class CopyrightWidget extends StatelessWidget {
                     text: '可访问',
                   ),
                   TextSpan(
-                      text: ' readhub.cn ',
-                      style: textStyleAccent.copyWith(
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          ///点击跳转链接
-                          await launch('https://www.readhub.cn/');
-                        }),
+                    text: ' readhub.cn ',
+                    style: textStyleAccent.copyWith(
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        ///点击跳转链接
+                        await launch('https://www.readhub.cn/');
+                      },
+                  ),
                   TextSpan(text: '了解更多。'),
                   TextSpan(
                     text: '\n2、本软件诗歌推荐来源于',
@@ -689,15 +718,16 @@ class CopyrightWidget extends StatelessWidget {
                     text: '可访问',
                   ),
                   TextSpan(
-                      text: ' jinrishici.com ',
-                      style: textStyleAccent.copyWith(
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          ///点击跳转链接
-                          await launch('https://www.jinrishici.com/');
-                        }),
+                    text: ' jinrishici.com ',
+                    style: textStyleAccent.copyWith(
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        ///点击跳转链接
+                        await launch('https://www.jinrishici.com/');
+                      },
+                  ),
                   TextSpan(text: '了解更多。'),
                 ],
               ),

@@ -5,8 +5,8 @@ import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/model/poem_sentence_model.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
+import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/poem_sentence_view_model.dart';
-import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 ///诗歌视图-左侧tab下
 class PoemSentence extends StatelessWidget {
@@ -40,9 +40,8 @@ class PoemSentence extends StatelessWidget {
               : TextOverflow.ellipsis,
           maxLines: isDisplayDesktop ? 4 : 1,
           style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                fontWeight:
-                    isDisplayDesktop ? FontWeight.bold : FontWeight.normal,
-                fontSize: isDisplayDesktop ? 16 : 12,
+                fontWeight: FontWeight.normal,
+                fontSize: isDisplayDesktop ? 15 : 12,
                 color: isDisplayDesktop
                     ? null
                     : Theme.of(context)
@@ -67,40 +66,58 @@ class PoemSentence extends StatelessWidget {
                       child: contentText,
                       preferBelow: !isDisplayDesktop,
                       textStyle:
-                          Theme.of(context).tooltipTheme.textStyle!.copyWith(
-                                fontSize: 14,
+                          Theme.of(context).textTheme.bodyText2!.copyWith(
+                              // fontSize: 14,
+                              // fontWeight: FontWeight.normal,
                               ),
 
                       ///显示时间-点击其它地方消失
                       showDuration: Duration(seconds: 30),
-                      decoration: BoxDecoration(
-                        color: (ThemeViewModel.darkMode
-                                ? Colors.white
-                                : Colors.black)
-                            .withOpacity(0.9),
-                        borderRadius: BorderRadius.all(Radius.circular(6)),
+                      decoration: ShapeDecoration(
+                          shape: Decorations.lineShapeBorder(
+                            context,
+                            lineWidth: 0.8,
+                            borderRadius: BorderRadius.circular(12),
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.8),
+                          ),
+                          color: Theme.of(context).cardColor.withOpacity(0.95),
+                          shadows: [
+                            BoxShadow(
+                              color: Theme.of(context).accentColor,
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 16,
+                            )
+                          ]
+                          ),
+                      // decoration: BoxDecoration(
+                      //   color: (ThemeViewModel.darkMode
+                      //           ? Colors.white
+                      //           : Colors.black)
+                      //       .withOpacity(0.9),
+                      //   borderRadius: BorderRadius.all(Radius.circular(6)),
 
-                        ///渐变色
-                        // gradient: LinearGradient(
-                        //   colors: [
-                        //     Colors.red,
-                        //     Colors.orange,
-                        //     Colors.yellow,
-                        //     Colors.green,
-                        //     Colors.cyan,
-                        //     Colors.blue,
-                        //     Colors.purple,
-                        //   ],
-                        // ),
-                        // boxShadow: [
-                        //   //阴影
-                        //   BoxShadow(
-                        //     color: Theme.of(context).accentColor.withOpacity(0.7),
-                        //     offset: Offset(1.0, 1.0),
-                        //     blurRadius: 6.0,
-                        //   )
-                        // ],
-                      ),
+                      ///渐变色
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     Colors.red,
+                      //     Colors.orange,
+                      //     Colors.yellow,
+                      //     Colors.green,
+                      //     Colors.cyan,
+                      //     Colors.blue,
+                      //     Colors.purple,
+                      //   ],
+                      // ),
+                      // boxShadow: [
+                      //   //阴影
+                      //   BoxShadow(
+                      //     color: Theme.of(context).accentColor.withOpacity(0.7),
+                      //     offset: Offset(1.0, 1.0),
+                      //     blurRadius: 6.0,
+                      //   )
+                      // ],
+                      // ),
                     ),
               _extendWidget(context, model.poemSentenceModel!, model),
             ],
@@ -135,6 +152,7 @@ class PoemSentence extends StatelessWidget {
                           color: Theme.of(context).accentColor,
                           fontSize: 11,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 1),
                       decoration: BoxDecoration(
@@ -179,8 +197,10 @@ class PoemSentence extends StatelessWidget {
                 alignment: Alignment.center,
                 backgroundColor:
                     MaterialStateProperty.all(Theme.of(context).accentColor),
+
+                ///hoverColor及splashColor
                 overlayColor:
-                    MaterialStateProperty.all(Colors.white.withOpacity(0.1)),
+                    MaterialStateProperty.all(Colors.black.withOpacity(0.3)),
                 padding: MaterialStateProperty.all(
                     EdgeInsets.symmetric(horizontal: 24))),
           ),

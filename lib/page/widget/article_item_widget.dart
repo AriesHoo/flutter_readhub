@@ -304,7 +304,9 @@ class SmallButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       message: tooltip,
-      child: GestureDetector(
+      child: InkWell(
+        autofocus: true,
+        focusColor: Colors.red,
         onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(10),

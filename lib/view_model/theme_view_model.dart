@@ -342,6 +342,9 @@ class ThemeViewModel with ChangeNotifier {
         ///后间隔
         endIndent: 0,
       ),
+
+      ///全局获取焦点颜色--键盘/遥控器上下左右enter控制--目前还没弄清楚焦点处理逻辑
+      focusColor: Colors.transparent,
     );
     setSystemBarTheme();
     return themeData;

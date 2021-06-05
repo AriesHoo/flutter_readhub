@@ -42,7 +42,7 @@ class UrlShareDialog extends BasisDialog {
 
   @override
   EdgeInsets? get insetPadding =>
-      smallDisplay ? EdgeInsets.zero : super.insetPadding;
+      smallDisplay ? EdgeInsets.only(top: kToolbarHeight) : super.insetPadding;
 
   @override
   ShapeBorder? get shape => RoundedRectangleBorder(

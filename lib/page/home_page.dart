@@ -386,6 +386,7 @@ class SideNav extends StatelessWidget {
                 builder: (context, index, child) {
                   bool isSelected = index == tabs.indexOf(e);
                   return TextButton(
+                    autofocus: true,
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(isSelected
                           ? Theme.of(context).accentColor
@@ -393,7 +394,7 @@ class SideNav extends StatelessWidget {
 
                       ///hoverColor及splashColor
                       overlayColor: MaterialStateProperty.all(
-                          Theme.of(context).accentColor.withOpacity(0.5)),
+                          Theme.of(context).accentColor.withOpacity(0.6)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),

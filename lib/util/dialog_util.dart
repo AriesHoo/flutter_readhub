@@ -59,10 +59,13 @@ class DialogUtil {
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                       ),
                       alignment: Alignment.center,
+                      padding: MaterialStateProperty.all(
+                        EdgeInsets.all(16),
+                      ),
                     ),
                     onPressed: () {
                       ///关闭对话框并返回
@@ -98,10 +101,13 @@ class DialogUtil {
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                       ),
                       alignment: Alignment.center,
+                      padding: MaterialStateProperty.all(
+                        EdgeInsets.all(16),
+                      ),
                     ),
                     onPressed: () {
                       ///关闭对话框并返回
