@@ -183,7 +183,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
       DesktopWindow.setMaxWindowSize(Size(1280, 800));
 
       ///保证只设置一次屏幕宽度--后续保留用户自己习惯
-      if (SpUtil.getBool('setWindowSize', defValue: false)!) {
+      if (!SpUtil.getBool('setWindowSize', defValue: false)!) {
         LogUtil.v('setWindowSize');
 
         ///设置默认尺寸
