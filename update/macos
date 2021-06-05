@@ -1,10 +1,7 @@
 {
-    "code":0,
-    "data":{
-        "buildVersionNo":1,
-        "buildVersion":"1.2.6",
-        "buildUpdateDescription":"1、初始版本",
-        "downloadURL":"https://note.youdao.com/s/SnOimKqO",
-        "needForceUpdate":true
-    }
+    "buildVersionNo":1,
+    "buildVersion":"1.2.6",
+    "buildUpdateDescription":"1、初始版本",
+    "downloadURL":"https://note.youdao.com/s/SnOimKqO",
+    "needForceUpdate":true
 }
