@@ -199,11 +199,8 @@ class HomeBody extends StatelessWidget {
 
           ///添加下划线装饰
           decoration: BoxDecoration(
-            border: Decorations.lineBoxBorder(
-              context,
-              bottom: !displayDesktop,
-              width: 0.7
-            ),
+            border: Decorations.lineBoxBorder(context,
+                bottom: !displayDesktop, width: 0.7),
 
             ///添加该属性去掉Tab按下水波纹效果
             color: Theme.of(context).appBarTheme.color,
@@ -394,7 +391,9 @@ class SideNav extends StatelessWidget {
 
                       ///hoverColor及splashColor
                       overlayColor: MaterialStateProperty.all(
-                          Theme.of(context).accentColor.withOpacity(0.6)),
+                          PlatformUtil.isBrowser
+                              ? Colors.transparent
+                              : Theme.of(context).accentColor.withOpacity(0.6)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
@@ -408,6 +407,7 @@ class SideNav extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
+                      FocusScope.of(context).requestFocus();
                       onTabChanged?.call(tabs.indexOf(e));
                       tabIndex.value = tabs.indexOf(e);
                     },

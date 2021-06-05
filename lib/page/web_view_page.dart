@@ -35,7 +35,7 @@ class WebViewPage extends StatefulWidget {
           fullscreenDialog: Platform.isIOS,
         ),
       );
-    } else if (Platform.isMacOS) {
+    } else if (PlatformUtil.isMacOS) {
       final macOSWebView = FlutterMacOSWebView(
         onOpen: () => print('Opened'),
         onClose: () => print('Closed'),

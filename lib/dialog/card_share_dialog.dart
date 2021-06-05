@@ -89,10 +89,10 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
         child: BasisProviderWidget<ShareCardStyleViewModel>(
           model: ShareCardStyleViewModel(),
           builder: (context, styleModel, child) => Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
+              Flexible(
                 child: Center(
                   child: SingleChildScrollView(
                     physics: ClampingScrollPhysics(),
