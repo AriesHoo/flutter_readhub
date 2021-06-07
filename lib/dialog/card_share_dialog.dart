@@ -58,7 +58,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   static SaveImageHelper _saveImageHelper = SaveImageHelper();
 
   @override
-  double get maxWidth => smallDisplay ? double.infinity : 480;
+  double get maxWidth => smallDisplay ? double.infinity : 380;
 
   @override
   double? get elevation => 0;
@@ -85,50 +85,57 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   bool get modalBottomSheet => true;
 
   @override
-  Widget? get child => Container(
-        child: BasisProviderWidget<ShareCardStyleViewModel>(
-          model: ShareCardStyleViewModel(),
-          builder: (context, styleModel, child) => Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Center(
-                  child: SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
-                    child: LifecycleWidget(
-                      child: styleModel.shareCardStyle == ShareCardStyle.app
-                          ? CaptureImageAppStyleWidget(
-                              model.title,
-                              model.summary,
-                              model.notice,
-                              model.url,
-                              model.bottomNotice,
-                              _globalKey,
-                              summaryWidget: model.summaryWidget,
-                            )
-                          : CaptureImageWidget(
-                              model.url,
-                              _globalJueJinKey,
-                              title: model.title,
-                              summary: model.summary,
-                              summaryWidget: model.summaryWidget,
-                            ),
-                      observer: this,
-                    ),
-                  ),
-                ),
-                flex: 1,
-              ),
+  Widget build(BuildContext context) {
+    Widget widget = super.build(context);
+    LogUtil.d('sizeHeight:${MediaQuery.of(context).size.height}'
+        ';top${insetPadding!.top};bottom${insetPadding!.bottom}'
+        ';kToolbarHeight:$kToolbarHeight;kBottomNavigationBarHeight:$kBottomNavigationBarHeight');
+    return widget;
+  }
 
-              ///保证操作栏在最底部
-              ShareBottomWidget(
-                model: ShareBottomViewModel(),
-                safeAreaBottom: smallDisplay,
-                onClick: (type, ctx) => _share(type, styleModel, ctx),
+  @override
+  Widget? get child => BasisProviderWidget<ShareCardStyleViewModel>(
+        model: ShareCardStyleViewModel(),
+        builder: (context, styleModel, child) => Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height*0.6,
               ),
-            ],
-          ),
+              child: SingleChildScrollView(
+                physics: ClampingScrollPhysics(),
+                child: LifecycleWidget(
+                  child: styleModel.shareCardStyle == ShareCardStyle.app
+                      ? CaptureImageAppStyleWidget(
+                          model.title,
+                          model.summary,
+                          model.notice,
+                          model.url,
+                          model.bottomNotice,
+                          _globalKey,
+                          summaryWidget: model.summaryWidget,
+                        )
+                      : CaptureImageWidget(
+                          model.url,
+                          _globalJueJinKey,
+                          title: model.title,
+                          summary: model.summary,
+                          summaryWidget: model.summaryWidget,
+                        ),
+                  observer: this,
+                ),
+              ),
+            ),
+
+            ///保证操作栏在最底部
+            ShareBottomWidget(
+              model: ShareBottomViewModel(),
+              safeAreaBottom: smallDisplay,
+              onClick: (type, ctx) => _share(type, styleModel, ctx),
+            ),
+          ],
         ),
       );
 
