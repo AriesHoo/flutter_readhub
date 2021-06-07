@@ -6,6 +6,7 @@ import 'package:flutter_readhub/enum/share_type.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/view_model/share_view_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 ///分享底部
 class ShareBottomWidget<A extends ShareBottomViewModel>
@@ -115,6 +116,7 @@ class ShareGridWidget extends StatelessWidget {
                     ),
                     Text(
                       listShare[index].text,
+                      textScaleFactor: ThemeViewModel.textScaleFactor,
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2!
@@ -176,6 +178,7 @@ class CancelShare extends StatelessWidget {
           child: Text(
             StringHelper.getS()!.cancel,
             style: Theme.of(context).textTheme.subtitle1,
+            textScaleFactor: ThemeViewModel.textScaleFactor,
           ),
         ),
       ),

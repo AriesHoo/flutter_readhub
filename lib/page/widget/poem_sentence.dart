@@ -7,6 +7,7 @@ import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/poem_sentence_view_model.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 ///诗歌视图-左侧tab下
 class PoemSentence extends StatelessWidget {
@@ -39,7 +40,8 @@ class PoemSentence extends StatelessWidget {
               ? TextOverflow.fade
               : TextOverflow.ellipsis,
           maxLines: isDisplayDesktop ? 4 : 1,
-          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+          textScaleFactor: ThemeViewModel.textScaleFactor,
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontWeight: FontWeight.normal,
                 fontSize: isDisplayDesktop ? 15 : 12,
                 color: isDisplayDesktop
@@ -67,8 +69,8 @@ class PoemSentence extends StatelessWidget {
                       preferBelow: !isDisplayDesktop,
                       textStyle:
                           Theme.of(context).textTheme.bodyText2!.copyWith(
-                              // fontSize: 14,
-                              // fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
                               ),
 
                       ///显示时间-点击其它地方消失
@@ -147,6 +149,7 @@ class PoemSentence extends StatelessWidget {
                     (e) => Container(
                       child: Text(
                         '$e',
+                        textScaleFactor: ThemeViewModel.textScaleFactor,
                         style: TextStyle(
                           color: Theme.of(context).accentColor,
                           fontSize: 11,
@@ -177,6 +180,7 @@ class PoemSentence extends StatelessWidget {
                   )
                 : Text(
                     '换一首',
+                    textScaleFactor: ThemeViewModel.textScaleFactor,
                   ),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             style: ButtonStyle(

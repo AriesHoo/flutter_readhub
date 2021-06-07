@@ -444,6 +444,7 @@ class SideNav extends StatelessWidget {
                     },
                     child: Text(
                       e.label,
+                      textScaleFactor: ThemeViewModel.textScaleFactor,
                     ),
                   );
                 },

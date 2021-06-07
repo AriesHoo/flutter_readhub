@@ -108,6 +108,7 @@ class ThemeDialog extends BasisDialog {
                             ThemeViewModel.themeName(i: index),
                             textScaleFactor: ThemeViewModel.textScaleFactor,
                             style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               color: Colors.white,
                               fontSize: 15,
                             ),

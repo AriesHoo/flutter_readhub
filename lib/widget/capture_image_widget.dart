@@ -68,6 +68,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                         child: Text(
                           '${widget.title}',
                           maxLines: 2,
+                          textScaleFactor: ThemeViewModel.textScaleFactor,
                           overflow: TextOverflow.ellipsis,
                           style:
                               Theme.of(context).textTheme.headline6!.copyWith(),
@@ -87,6 +88,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                             ? widget.summaryWidget!
                             : Text(
                                 '${widget.summary}',
+                                textScaleFactor: ThemeViewModel.textScaleFactor,
                                 strutStyle: StrutStyle(
                                   leading: 0.6,
                                 ),
@@ -149,6 +151,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                     children: [
                       Text(
                         StringHelper.getS()!.scanOrCodeForDetail,
+                        textScaleFactor: ThemeViewModel.textScaleFactor,
                         style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontSize: 18,
                             ),
@@ -212,6 +215,7 @@ class ShareSlogan extends StatelessWidget {
             children: [
               Text(
                 StringHelper.getS()!.appName,
+                textScaleFactor: ThemeViewModel.textScaleFactor,
                 style: Theme.of(context)
                     .textTheme
                     .headline6!
@@ -222,6 +226,7 @@ class ShareSlogan extends StatelessWidget {
               ),
               Text(
                 StringHelper.getS()!.slogan,
+                textScaleFactor: ThemeViewModel.textScaleFactor,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(

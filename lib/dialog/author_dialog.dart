@@ -193,7 +193,9 @@ class FeedbackWidget extends StatelessWidget {
         title: Text(
           StringHelper.getS()!.feedback,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                fontWeight: FontWeight.normal,
+              ),
         ),
         trailing: Text(
           'AriesHoo@126.com',
@@ -233,7 +235,9 @@ class UpdateWidget extends StatelessWidget {
           title: Text(
             StringHelper.getS()!.checkUpdate,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(),
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontWeight: FontWeight.normal,
+                ),
           ),
           trailing: model.loading
               ? CupertinoActivityIndicator(
@@ -570,11 +574,10 @@ class AppreciateWidget extends StatelessWidget {
                           if (_path == null) {
                             ToastUtil.show(StringHelper.getS()!.shotFailed);
                           } else {
-                            if (!await ShareUtil.isWeChatInstall()) {
-                              ToastUtil.show(
-                                  StringHelper.getS()!.weChatNotInstall);
-                            } else {
+                            if (await ShareUtil.isWeChatInstall()) {
                               ShareUtil.shareImagesToWeChatFriend([_path]);
+                            } else {
+                              ShareUtil.shareImages([_path]);
                             }
                           }
                         }
