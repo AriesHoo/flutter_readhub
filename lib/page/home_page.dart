@@ -389,11 +389,36 @@ class SideNav extends StatelessWidget {
                           ? Theme.of(context).accentColor
                           : Colors.transparent),
 
-                      ///hoverColor及splashColor
-                      overlayColor: MaterialStateProperty.all(
-                          PlatformUtil.isBrowser
-                              ? Colors.transparent
-                              : Theme.of(context).accentColor.withOpacity(0.6)),
+                      ///hoverColor及splashColor PlatformUtil.isBrowser
+                      overlayColor: MaterialStateProperty.resolveWith(
+                        (states) {
+                          if (states.contains(MaterialState.focused)) {
+                            return Colors.transparent;
+                          }
+                          if (states.contains(MaterialState.hovered) ||
+                              states.contains(MaterialState.pressed)) {
+                            return Theme.of(context)
+                                .accentColor
+                                .withOpacity(0.7);
+                          }
+                          return null;
+                        },
+                      ),
+                      foregroundColor: MaterialStateProperty.resolveWith(
+                        (states) {
+                          ///鼠标悬浮、(手指)按下
+                          if (isSelected ||
+                              states.contains(MaterialState.hovered) ||
+                              states.contains(MaterialState.pressed)) {
+                            return Colors.white;
+                          }
+                          return Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .color!
+                              .withOpacity(0.7);
+                        },
+                      ),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
@@ -407,23 +432,22 @@ class SideNav extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      FocusScope.of(context).requestFocus();
                       onTabChanged?.call(tabs.indexOf(e));
                       tabIndex.value = tabs.indexOf(e);
                     },
                     child: Text(
                       e.label,
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                            color: isSelected
-                                ? Colors.white
-                                : Theme.of(context)
-                                    .textTheme
-                                    .subtitle2!
-                                    .color!
-                                    .withOpacity(0.7),
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                          ),
+                      // style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      //       color: isSelected
+                      //           ? Colors.white
+                      //           : Theme.of(context)
+                      //               .textTheme
+                      //               .subtitle2!
+                      //               .color!
+                      //               .withOpacity(0.7),
+                      //       fontWeight: FontWeight.normal,
+                      //       fontSize: 14,
+                      //     ),
                     ),
                   );
                 },

@@ -305,8 +305,6 @@ class SmallButtonWidget extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: InkWell(
-        autofocus: true,
-        focusColor: Colors.red,
         onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(10),
