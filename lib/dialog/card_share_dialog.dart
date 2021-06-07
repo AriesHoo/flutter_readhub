@@ -14,6 +14,7 @@ import 'package:flutter_readhub/helper/share_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
+import 'package:flutter_readhub/page/home_page.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -58,14 +59,15 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   static SaveImageHelper _saveImageHelper = SaveImageHelper();
 
   @override
-  double get maxWidth => smallDisplay ? double.infinity : 380;
+  double get maxWidth => smallDisplay ? double.infinity : 460;
 
   @override
   double? get elevation => 0;
 
   @override
-  EdgeInsets? get insetPadding =>
-      smallDisplay ? EdgeInsets.only(top: kToolbarHeight) : super.insetPadding;
+  EdgeInsets? get insetPadding => smallDisplay
+      ? EdgeInsets.only(top: kToolbarHeight + tabHeight)
+      : super.insetPadding;
 
   @override
   ShapeBorder? get shape => RoundedRectangleBorder(
@@ -84,59 +86,76 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   @override
   bool get modalBottomSheet => true;
 
-  @override
-  Widget build(BuildContext context) {
-    Widget widget = super.build(context);
-    LogUtil.d('sizeHeight:${MediaQuery.of(context).size.height}'
-        ';top${insetPadding!.top};bottom${insetPadding!.bottom}'
-        ';kToolbarHeight:$kToolbarHeight;kBottomNavigationBarHeight:$kBottomNavigationBarHeight');
-    return widget;
-  }
+  ///检测底部高度
+  final ValueNotifier<double> _bottomHeight = ValueNotifier(200);
+
+  final GlobalKey _bottomKey = GlobalKey();
 
   @override
-  Widget? get child => BasisProviderWidget<ShareCardStyleViewModel>(
-        model: ShareCardStyleViewModel(),
-        builder: (context, styleModel, child) => Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height*0.6,
-              ),
-              child: SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
-                child: LifecycleWidget(
-                  child: styleModel.shareCardStyle == ShareCardStyle.app
-                      ? CaptureImageAppStyleWidget(
-                          model.title,
-                          model.summary,
-                          model.notice,
-                          model.url,
-                          model.bottomNotice,
-                          _globalKey,
-                          summaryWidget: model.summaryWidget,
-                        )
-                      : CaptureImageWidget(
-                          model.url,
-                          _globalJueJinKey,
-                          title: model.title,
-                          summary: model.summary,
-                          summaryWidget: model.summaryWidget,
-                        ),
-                  observer: this,
+  Widget? get child => Builder(
+        builder: (context) {
+          ///延迟等待控件渲染完毕再进行测量
+          Future.delayed(
+            Duration(milliseconds: 300),
+            () {
+              double bottomHeight = _bottomKey.currentContext!.size!.height;
+              if (bottomHeight != _bottomHeight.value) {
+                _bottomHeight.value = bottomHeight;
+              }
+            },
+          );
+          return BasisProviderWidget<ShareCardStyleViewModel>(
+            model: ShareCardStyleViewModel(),
+            builder: (context, styleModel, child) => Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ValueListenableBuilder<double>(
+                  valueListenable: _bottomHeight,
+                  builder: (context, height, child) => ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height -
+                          insetPadding!.top -
+                          insetPadding!.bottom -
+                          height,
+                    ),
+                    child: SingleChildScrollView(
+                      physics: ClampingScrollPhysics(),
+                      child: LifecycleWidget(
+                        child: styleModel.shareCardStyle == ShareCardStyle.app
+                            ? CaptureImageAppStyleWidget(
+                                model.title,
+                                model.summary,
+                                model.notice,
+                                model.url,
+                                model.bottomNotice,
+                                _globalKey,
+                                summaryWidget: model.summaryWidget,
+                              )
+                            : CaptureImageWidget(
+                                model.url,
+                                _globalJueJinKey,
+                                title: model.title,
+                                summary: model.summary,
+                                summaryWidget: model.summaryWidget,
+                              ),
+                        observer: this,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
 
-            ///保证操作栏在最底部
-            ShareBottomWidget(
-              model: ShareBottomViewModel(),
-              safeAreaBottom: smallDisplay,
-              onClick: (type, ctx) => _share(type, styleModel, ctx),
+                ///保证操作栏在最底部
+                ShareBottomWidget(
+                  key: _bottomKey,
+                  model: ShareBottomViewModel(),
+                  safeAreaBottom: smallDisplay,
+                  onClick: (type, ctx) => _share(type, styleModel, ctx),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       );
 
   ///开始分享

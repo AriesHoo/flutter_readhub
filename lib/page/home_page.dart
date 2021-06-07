@@ -159,6 +159,9 @@ class _HomePageState extends State<HomePage>
 ///用于侧边刷新顶部
 PoemSentenceViewModel? topViewModel;
 
+///顶部tab高度
+double tabHeight = 36;
+
 ///主页面主体
 class HomeBody extends StatelessWidget {
   const HomeBody(
@@ -355,6 +358,7 @@ class HomeBody extends StatelessWidget {
   }
 }
 
+///侧边栏宽度
 double get sideNavWidth => 160;
 
 ///侧边导航
