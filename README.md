@@ -22,196 +22,201 @@
 
 仅供学习使用，禁止商用
 
-## 前言
+### 前言
 
-Flutter 在 `2021.03.04` 发布了 `Flutter 2.0`版本 正式进入 `全平台Stable时代` 具体可见
+> `Freadhub`是由`AriesHoo`开发维护的一个`Flutter`开源项目--`readhub`的非官方产品。
 
-[【译】Flutter 2.0 正式版发布，全平台 Stable](https://juejin.cn/post/6935621027116531720)  
+之前`Freadhub`已有`Androd`、`iOS`版本,随着`Flutter2.0`的发布`Flutter`进入了全平台`stable`时代, 经过一段时间的适配调整及屏幕适配，`MacOS`版本它终于来了`说得好像有人在期待一样😭`。
 
-[【译】Flutter 2 正式版的新功能，一睹为快](https://juejin.cn/post/6935642154853203982)
+- 镇楼图 `1028*768` 默认尺寸
 
-[Flutter 升级 2.0 填坑指导，带你原地起飞](https://juejin.cn/post/6938342360833064974)
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4a823fc857a940199eee7743666500dc~tplv-k3u1fbpfcp-watermark.image)
 
-`Freadhub`没有第一时间升级,但是也在`4月`进行了`Flutter 2.0`及`空安全`的升级并在 `2021-04-12` 发布了 `1.2.4`版本,后期陆陆续续做了一些小调整，直到最近 公司的项目做了个卡片分享的功能，效果还不错就同步移植，在此做一个简单的记录。---当前最新版本`1.2.6`
 
-![扫码下载](https://upload-images.jianshu.io/upload_images/2828782-7e167a7701fa7497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
+| Fredhub | 链接 |
+| --- | --- |
+|  开源 Github| [flutter_readhub](https://github.com/AriesHoo/flutter_readhub) |
+|  开源 Gitee| [flutter_readhub](https://gitee.com/AriesHoo/flutter_readhub) |
+|  Android| [Freadhub](https://www.pgyer.com/ntMA) |
+|  iOS| clone自行运行或邮箱给下设备[UUID](https://www.pgyer.com/tools/udid) |
+|  MacOS| [Freadhub-聚合资讯](https://note.youdao.com/ynoteshare1/index.html?id=640fb7764ebdcbf884ccc8b2124a3db9&type=notebook#/WEB95829960b7022d52cc658ccae8d26b4e) [下载](https://note.youdao.com/yws/api/personal/file/WEB95829960b7022d52cc658ccae8d26b4e?method=download&shareKey=640fb7764ebdcbf884ccc8b2124a3db9)|
 
-注:还是只支持Android手机下载，iOS请自行下载运行。
+### Mac版本准备工作
 
-[开源地址-flutter_readhub](https://github.com/AriesHoo/flutter_readhub)
+#### 1、获取MacOS代码
 
-## 升级Flutter2.0
+本着`Flutter-Write Once Run Anywhere`的原则,`MacOS`版本也在`master`分支未开新分支。
 
-大家都知道执行`flutter upgrade` 或者 `Tools --> Flutter --> Flutter Upgrade`即可升级`Flutter`到最新版本。
+- 有原始版本代码只需`Update`一下，然后`flutter pub get`一下即可。
+- 没有原始代码则可在[Github](https://github.com/AriesHoo/flutter_readhub)或[Gitee](https://gitee.com/AriesHoo/flutter_readhub)上 `clone`一下，然后`flutter pub get`一下即可。
 
-![Flutter升级](https://upload-images.jianshu.io/upload_images/2828782-7265e2ed349aab89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
 
-但是在升级前还是建议copy 一份 以免出现意外情况--当然还有其它方式可以复原，自己习惯的即可。
+#### 2、开启MacOS支持
 
-## 迁移空安全
+> 目前`Flutter 2.0 Stable`已支持`MacOS`,只需开启下`MacOS`支持即可。
 
-[官网文档](https://dart.dev/null-safety/unsound-null-safety)、[中文文档](https://dart.cn/null-safety/migration-guide) ，`空安全` 迁移大概有下面几个步骤：
+- 环境：`Flutter SDK Flutter stable 2.0+`
+- 开启`MacOS`支持：`flutter config --enable-macos-desktop`
+- 创建`MacOS`环境配置:`flutter create --platforms=macos .`
 
-1、  执行`flutter pub outdated --mode=null-safety` ，检查自己项目依赖的库是否都支持空安全
+```
+ % flutter --version
+Flutter 2.2.0 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision b22742018b (12 days ago) • 2021-05-14 19:12:57 -0700
+Engine • revision a9d88a4d18
+Tools • Dart 2.13.0
 
-比较给力的是`Freadhub`所用到的三方库大多都已升级了`空安全`版本，唯一不支持的分享插件`flutter_share_plugin`已使用官网分享库 `share`替换 😂--大家在升级过程中也可尝试。如果是使用频度较高的库，大概率会很快升级的。不然就找下替代库即可。
+% flutter config --enable-macos-desktop
+Setting "enable-macos-desktop" value to "true".
 
-全支持会出现 `All your dependencies declare support for null-safety.` 提示
+  % flutter create --platforms=macos .
+Recreating project ....
+  flutter_readhub_github.iml (created)
+  macos/Runner.xcworkspace/contents.xcworkspacedata (created)
+  macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist (created)
+  macos/Flutter/Flutter-Debug.xcconfig (created)
+  macos/Flutter/Flutter-Release.xcconfig (created)
+  .idea/runConfigurations/main_dart.xml (created)
+  .idea/libraries/KotlinJavaRuntime.xml (created)
+Running "flutter pub get" in flutter_readhub_github...           1,078ms
+Wrote 7 files.
 
-![全部支持空安全](https://upload-images.jianshu.io/upload_images/2828782-1b1b2d2c8cbb6720.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
+All done!
 
-![有不支持空安全](https://upload-images.jianshu.io/upload_images/2828782-c3549641484b94d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
+```
 
-如果还有不支持`空安全`的库--那就再等等。因为自己下载下来修改成本太高，且后期维护成本也不小。
+#### 3、基础配置-icon、name、网络等
 
-2、 如果都支持了，执行 `dart migrate --apply-changes`。执行完毕之后，你的 `Dart SDK` 版本会自动改为大于`2.12.0`。
+- 准备`MacOS`需要的各种尺寸icon，推荐使用 [Image Asset Icon Resizer Lite](https://apps.apple.com/cn/app/image-asset-icon-resizer-lite/id1108313046?mt=12) 可以裁剪出各种尺寸的icon、launch image --包括`Android`、`iOS`、`MacOS`等。
 
-**注意：执行 dart migrate 命令必须确保 `SDK` 是小于 `2.12.0` 的；
-           不加 `--apply-changes` 的话，会有一个浏览器地址，打开之后，可以在浏览器中进行修改**
+![生成icon](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed11104d0e2540ffa8708fb75d73fa1d~tplv-k3u1fbpfcp-watermark.image)
 
-3 、工具执行完成一定会有一些 `错误`，根据自己的业务场景对代码进行更正。
+将生成的icon资源及配置文件拷贝到对应文件夹即可
 
-## 使用官方分享库
+![macos icon配置](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f239ec141a9b4fac80b510d17336d582~tplv-k3u1fbpfcp-watermark.image)
 
-前文提到：`Freadhub`之前版本使用的分享插件为`flutter_share_plugin`，遗憾的是该库未升级  `空安全`支持。故使用官方分享插件`share`替换。  
-其实之前使用`flutter_share_plugin`的原因在于官方的`share`插件功能太单一了只支持分享文本不支持分享文件。如今官方插件支持分享文件且支持`空安全`换回来何乐不为。---`0.6.5`版本开始增加分享文件功能
+这里推荐文件名保持和`Flutter`默认生成的一致，可在[Image Asset Icon Resizer Lite](https://apps.apple.com/cn/app/image-asset-icon-resizer-lite/id1108313046?mt=12)设置。如下图：
 
-## 丰富分享效果
+![设置导出flieName](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/100fcf673caa4dffa02b8491e22cdda4~tplv-k3u1fbpfcp-watermark.image)
 
-之前版本`Freadhub`只支持列表长按分享卡片模式，且不支持分享指定App(常见的QQ、微信、微博等)
+- 设置App 信息：依次进入`macos->Runner->Configs`文件夹打开`AppInfo.xcconfig`编辑`PRODUCT_NAME`值，该值决定了App窗口标题名和程序坞鼠标悬浮提示文字以及关于页面信息；`PRODUCT_COPYRIGHT`决定了关于页面版权声明信息。如下图：
 
-![之前版本分享功能](https://upload-images.jianshu.io/upload_images/2828782-7c5ddf57a9fcd556.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/720)
+![AppInfo.xcconfig](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c0bcd6a8b8b243f8a15c7902ca51be83~tplv-k3u1fbpfcp-watermark.image)
 
-最新版本支持:资讯详情页分享文本链接到`微信好友`、`QQ`、`微博`、`钉钉`、`企业微信`、`复制链接`、`浏览器打开`、`更多`。
+![程序坞](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e85ac9206b764c8d9ae3b4d3e3b6a5a9~tplv-k3u1fbpfcp-watermark.image)
 
-![资讯详情分享文本链接- Android](https://upload-images.jianshu.io/upload_images/2828782-3948f1cd5a7f470d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
+![关于信息](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/98ec0b27327342c9ab166b9d252e09e0~tplv-k3u1fbpfcp-watermark.image)
 
-![资讯详情分享文本链接- iOS](https://upload-images.jianshu.io/upload_images/2828782-d04dc6c879f4c3f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
+- 网络配置：因涉及请求接口需在`macos->Runner`文件夹下的`DebugProfile.entitlements`及`Release.entitlements`文件添加以下配置
 
-最新版本：资讯列表及资讯详情分享页支持卡片(图片)分享到`微信好友`、`朋友圈`、`QQ`、`微博`、`钉钉`、`企业微信`、`更多`等。--且内置`Freadhub卡片`样式及`掘金卡片`样式两种效果选择
+```
+    <key>com.apple.security.network.server</key>
+    <true/>
+    <key>com.apple.security.network.client</key>
+    <true/>
+```
 
-![Freadhub卡片样式- Android](https://upload-images.jianshu.io/upload_images/2828782-7a143c81ed39b754.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
+![网络配置](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4c955869088d446e8544c0059806a60d~tplv-k3u1fbpfcp-watermark.image)
 
-![掘金卡片样式- Android](https://upload-images.jianshu.io/upload_images/2828782-9b407ffd062f2f32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
+#### 4、运行与打包
 
-![掘金卡片样式- iOS](https://upload-images.jianshu.io/upload_images/2828782-a3bf37556e47fc26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/360)
+- 执行命令：`flutter run -d macos` 或直接通过 `Android Studio`选择`macOS(desktop)`运行
 
-注：该功能涉及修改  `share`插件-版本`2.0.1`当前最新版，且只修改了`Android`部分，`iOS`未找到相应实现方式，且网上实现方式均是`2017年`左右代码，拷贝运行未调起相关App。--如有大佬知道`iOS`如何使用系统自带分享功能指定App的麻烦不吝赐教，感谢🙏！
+```
+ % flutter run -d macos
+Launching lib/main.dart on macOS in debug mode...
+Running pod install...                                           1,956ms
+```
 
-## Android只支持64位cpu
+![Android Studio运行](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/27d738afb14d4a7c9e77992f0749faec~tplv-k3u1fbpfcp-watermark.image)
 
-`Freadhub`最初版本Android设置  `armeabi-v7a`这样可支持市场绝大多数32及64位cpu手机。现在最新版本`1.2.6` 设置`arm64-v8a` 即:只支持64位cpu手机
+- 执行命令：`flutter build macos --release`等待执行完成即可
 
-## 其它小优化
+```
+% flutter build macos --release
 
-1、全局增大圆角效果原先的6增大到12-包括`AlertDialog`、更多信息`Dialog`、底部`ModalBottomSheet`、卡片圆角线及`Card`、选择主题`Button`圆角
+💪 Building with sound null safety 💪
 
-2、优化选择主题方式-将原来的折叠形式改为底部弹出`ModalBottomSheet`模式
+Running pod install...                                           1,709ms
+``` 
 
-3、修改toast组件`oktoast`为`bot_toast`，并修改`ToastUtitl`默认使用悬浮通知卡片模式
+- 执行完成后，在`build->macos->Build->Products->Release`文件夹里可看到打包后的应用，直接双击打开即可。
 
-4、去除文本段前段后的空白字符，优化显示更多资讯逻辑。
+![打包后的app](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/daec0966dfff4ac3b20535c6cbedf839~tplv-k3u1fbpfcp-watermark.image)
 
-5、资讯详情页增加底部分享`FloatingActionButton`，方便单手操作
+### Freadhub MacOS功能介绍
 
-## 当前版本运行环境
+#### 1、主界面布局
 
-使用三方库
-~~~
-environment:
-  sdk: '>=2.12.0 <3.0.0'
+- 桌面端尺寸相较移动端更大如果采用移动端的底部/顶部tab模式会很丑，故在做`MacOS`适配过程中顺手做了下`响应式布局`--这里不做展开后期会单开文章阐述。
+- 通过使用`GridView`来让屏幕展示更多可用信息
+- 左侧顶部导航栏、底部为`今日诗词`推荐--使用[今日诗词](https://www.jinrishici.com/),在此感谢🙏、最底部仍然为更多信息及深色/浅色主题切换按钮
 
-dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.3
-  #  国际化支持
-  flutter_localizations:
-    sdk: flutter
-  # 状态管理State
-  provider: ^5.0.0
-  #  吐司toast
-  bot_toast: ^4.0.1
-  #  设备信息
-  device_info: ^2.0.0
-  #  应用包信息
-  package_info: ^2.0.0
+宽屏：`1280*800` 最大尺寸
 
-  # WebView
-  webview_flutter: ^2.0.4
-  #  网络请求相关dio
-  dio: ^4.0.0
-  #  加载网络图片
-  cached_network_image: ^3.0.0
-  synchronized: ^3.0.0
-  #  下拉刷新
-  pull_to_refresh: ^2.0.0
-  #  本地缓存sp
-  shared_preferences: ^2.0.5
-  #用于做骨架屏-闪光效果
-  shimmer: ^2.0.0
-  #跳转系统浏览器/打电话等
-  url_launcher: ^6.0.3
-  #二维码-生成
-  qr_flutter: ^4.0.0
-  #工具类
-  flustars: ^2.0.1
-  #动态权限申请
-  permission_handler: ^7.1.0
-  #文件路径
-  path_provider: ^2.0.1
-  #分享文字及文件-注意保存文件位置
-  #注意0.1.2以后的版本分享图片微信提示获取资源失败，分享到其它平台正常
-#  flutter_share_plugin: 0.1.2
-#  share: ^2.0.1
-  # 使用官网分支增加分享特定App/App某个方法 增加判断App是否安装方法-Android
-  # 参考官网 https://flutter.dev/docs/development/packages-and-plugins/using-packages
-  share:
-    git:
-      url: git://github.com/AriesHoo/plugins.git
-      path: packages/share
-      ref: change_share
-      version: 2.0.1
-~~~
+![宽屏最大尺寸](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d7225e0f73f44554b076b332bb1c5123~tplv-k3u1fbpfcp-watermark.image)
 
-运行环境
+窄屏：`480*640` 最小尺寸
 
-~~~
-Doctor summary (to see all details, run flutter doctor -v):
-[✓] Flutter (Channel stable, 2.0.6, on macOS 11.3.1 20E241 darwin-x64, locale zh-Hans-CN)
-[✓] Android toolchain - develop for Android devices (Android SDK version 30.0.3)
-[✓] Xcode - develop for iOS and macOS
-[✓] Chrome - develop for the web
-[✓] Android Studio (version 4.2)
-[✓] IntelliJ IDEA Ultimate Edition (version 2020.3.3)
-[✓] Connected device (2 available)
+![窄屏](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f0626347fb4541879c2d4e5db2ee96d7~tplv-k3u1fbpfcp-watermark.image)
 
-• No issues found!
-~~~
+- 这里设置widow 窗口大小用到了[desktop_window](https://pub.flutter-io.cn/packages/desktop_window)插件-支持`MacOS`、`Windows`、`Linux`；`Freadhub` 设置默认尺寸`1024*768`、最小尺寸`480*640`、最大尺寸`1280*800`。
 
-## 主要功能一览
+#### 2、今日诗词
 
-浅色主题 | 深色主题 | 
--|-
-![](https://upload-images.jianshu.io/upload_images/2828782-7b7e4e4c6017d4b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600) | ![](https://upload-images.jianshu.io/upload_images/2828782-7211bc2f36087cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
-资讯详情| 分享链接 | 
-![](https://upload-images.jianshu.io/upload_images/2828782-8ebce6e97ff6f9c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)| ![](https://upload-images.jianshu.io/upload_images/2828782-bb77d494acdb9f11.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
-Freadhub卡片| Freadhub卡片-深色模式 | 
-![](https://upload-images.jianshu.io/upload_images/2828782-667fb8e39808d361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)|![](https://upload-images.jianshu.io/upload_images/2828782-26187dca03c52476.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
-掘金样式卡片| 掘金样式卡片-深色模式 | 
-![](https://upload-images.jianshu.io/upload_images/2828782-5eda6647ac4965ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)|![](https://upload-images.jianshu.io/upload_images/2828782-10533e51a9299a8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
-分享微博效果| 分享邮箱效果 | 
-![](https://upload-images.jianshu.io/upload_images/2828782-eb7e0793afee3761.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)|![](https://upload-images.jianshu.io/upload_images/2828782-ceef288901523bc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
-更多资讯来源| 应用设置 | 
-![](https://upload-images.jianshu.io/upload_images/2828782-868445477b2ab804.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)|![](https://upload-images.jianshu.io/upload_images/2828782-45f6c95c2873fe86.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
-选择主题| 快速回到顶部 | 
-![](https://upload-images.jianshu.io/upload_images/2828782-3f7d270d1ff2df9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)|![](https://upload-images.jianshu.io/upload_images/2828782-a7b1968ba28afdc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+- 因屏幕尺寸过大，左侧导航栏部分只有导航tab功能会显得很空故在tab底部增加`今日诗词`功能
+- 为保持适配一致性和美观性：宽屏模式显示`诗词内容+匹配标签+切歌三部分内容`；窄屏模式只显示`诗词内容`。--当然这里的美观性是个见仁见智的事情，大家轻喷。
+- 增加`tooltip`功能当`鼠标悬浮或手指长按`则显示更多信息 `诗词标题+朝代作者+诗词全文+诗词翻译(如果有)`
 
-## 结语
+![今日诗词tooltip](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d4a2ebf2ca1a489baf970de492e8b51f~tplv-k3u1fbpfcp-watermark.image)
+
+#### 3、更多信息
+
+- 布局样式和移动端一致--开源地址显示了`Github`与`Gitee`
+- 分享功能与移动端有差异--移动端弹出卡片分享移动端蒲公英下载链接；桌面端的跳转网页显示`apk`及`macOS`压缩包分享页面
+
+![更多信息](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aa7b7db552f144018344eb371cd36830~tplv-k3u1fbpfcp-watermark.image)
+
+![下载分享页面](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f92a7ca39666473580972c2f1f3ffce7~tplv-k3u1fbpfcp-watermark.image)
+
+#### 4、资讯卡片
+
+- 每个资讯卡片背景样式优化-增加`边框线`区分不同资讯、`鼠标悬浮/手指按下边界线及背景变为主题色相关色`
+
+![悬浮边框色变化](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d5ed182ee722424ca16d0eee44addbac~tplv-k3u1fbpfcp-watermark.image)
+
+- 修改点击事件-将原来点击事件`资讯摘要信息全部展示`变更为`打开查看资讯详情`
+
+![查看详情](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/98a6657ccd14403ca43fc6d9b1a02c61~tplv-k3u1fbpfcp-watermark.image)
+
+该功能使用到了[flutter_macos_webview](https://pub.flutter-io.cn/packages/flutter_macos_webview)插件
+
+- 去掉热门话题`相关推荐icon`变更为`分享icon`-原长按弹出分享卡片不变、`热门话题详情直接跳转readhub网页详情`
+
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48824b1aa3b6440097d9d3b55b9940f3~tplv-k3u1fbpfcp-watermark.image)
+
+该功能使用到了[share_plus](https://pub.flutter-io.cn/packages/share_plus)插件
+
+#### 5、其它功能
+
+啥也不说了，都在代码里了，
+ [Github](https://github.com/AriesHoo/flutter_readhub)、 [Gitee](https://gitee.com/AriesHoo/flutter_readhub)。欢迎`拍砖` `扔鸡蛋`。
+
+### 总结
+
+1、就着这次适配`MacOS`过程，鄙人感觉`Flutter`确实很香！在`UI`层面确实在各个平台上的复用率在90%以上。但是确实需要根据不同的平台特性做调整：如在桌面系统使用移动端的顶部/底部导航就很别扭。
+
+2、 平台相关插件除开移动端的其它平台确实要走的路还很漫长。--所以未来会有`插件工程师`这个专门工种？
+
+3、桌面系统能多窗口就更好了。--`Android`是单`Activity`的模式的，`iOS`也是类似的。这种模式在移动端的没啥问题，毕竟设备就那么大点。但是桌面系统普遍较大,所有页面跳转都在同一个窗口就感觉差点意思。`也许是支持的只是我不知道？`--有知道的大佬万望不吝赐教，感谢🙏！
+
+4、`Flutter`仍然是未来跨平台的最佳选择 `没有之一`
+
+### 结语
 
 该App为笔者学习`Flutter`练手开发的 ，权当抛砖引玉了，万望各位不吝赐教
 
-##  关于我
+###  关于我
 
 掘金: [AriesHoo](https://juejin.im/user/57c3cdcb5bbb50006341a6a4) 
 
