@@ -389,6 +389,13 @@ class SideNav extends StatelessWidget {
                           ? Theme.of(context).accentColor
                           : Colors.transparent),
 
+                      textStyle: MaterialStateProperty.all(
+                        Theme.of(context).textTheme.subtitle2!.copyWith(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                            ),
+                      ),
+
                       ///hoverColor及splashColor PlatformUtil.isBrowser
                       overlayColor: MaterialStateProperty.resolveWith(
                         (states) {
@@ -437,17 +444,6 @@ class SideNav extends StatelessWidget {
                     },
                     child: Text(
                       e.label,
-                      // style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                      //       color: isSelected
-                      //           ? Colors.white
-                      //           : Theme.of(context)
-                      //               .textTheme
-                      //               .subtitle2!
-                      //               .color!
-                      //               .withOpacity(0.7),
-                      //       fontWeight: FontWeight.normal,
-                      //       fontSize: 14,
-                      //     ),
                     ),
                   );
                 },

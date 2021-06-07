@@ -177,11 +177,6 @@ class PoemSentence extends StatelessWidget {
                   )
                 : Text(
                     '换一首',
-                    style: TextStyle(
-                      // color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.normal,
-                    ),
                   ),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             style: ButtonStyle(
@@ -195,6 +190,12 @@ class PoemSentence extends StatelessWidget {
                   ),
                 ),
                 alignment: Alignment.center,
+                textStyle: MaterialStateProperty.all(
+                  TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
 
                 ///背景色
                 backgroundColor: MaterialStateProperty.resolveWith(
