@@ -16,6 +16,8 @@
 
 [相关文章五：Freadhub终于升级Flutter2.0了](https://juejin.cn/post/6963433655838441485)
 
+[相关文章六：Freadhub Mac版它来了](https://juejin.cn/post/6971301773604552735)
+
 该项目为Flutter实战项目,为[Readhub](https://readhub.me/)非官方客户端。
 
 数据来源于`Readhub`官方API接口。**版权及最终解释权归Readhub官方所有,如有侵权请邮箱联系删除!**
@@ -39,7 +41,17 @@
 |  开源 Gitee| [flutter_readhub](https://gitee.com/AriesHoo/flutter_readhub) |
 |  Android| [Freadhub](https://www.pgyer.com/ntMA) |
 |  iOS| clone自行运行或邮箱给下设备[UUID](https://www.pgyer.com/tools/udid) |
-|  MacOS| [Freadhub-聚合资讯](https://note.youdao.com/ynoteshare1/index.html?id=640fb7764ebdcbf884ccc8b2124a3db9&type=notebook#/WEB95829960b7022d52cc658ccae8d26b4e) [下载](https://note.youdao.com/yws/api/personal/file/WEB95829960b7022d52cc658ccae8d26b4e?method=download&shareKey=640fb7764ebdcbf884ccc8b2124a3db9)|
+|  MacOS| [Freadhub-聚合资讯](https://gitee.com/AriesHoo/flutter_readhub/raw/master/sample/Freadhub-%E8%81%9A%E5%90%88%E8%B5%84%E8%AE%AF.app.zip)|
+
+下载了 `MacOS`的压缩包解压后点击 图标 打开。
+
+![点击打开](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/efa7e4afbd4e4bc182e577e47bf3bf89~tplv-k3u1fbpfcp-watermark.image)
+
+出现 `来自身份不明的开发者`提示。依次`系统偏好设置->安全性与隐私->通用`中解锁并允许应用安装即可。
+
+![解锁运行](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/108e52ce6d3e46e29658d65b61b7ded4~tplv-k3u1fbpfcp-watermark.image)
+
+![打开](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5063b75a467d44da993252dff3400da1~tplv-k3u1fbpfcp-watermark.image)
 
 ### Mac版本准备工作
 
@@ -49,7 +61,6 @@
 
 - 有原始版本代码只需`Update`一下，然后`flutter pub get`一下即可。
 - 没有原始代码则可在[Github](https://github.com/AriesHoo/flutter_readhub)或[Gitee](https://gitee.com/AriesHoo/flutter_readhub)上 `clone`一下，然后`flutter pub get`一下即可。
-
 
 #### 2、开启MacOS支持
 
