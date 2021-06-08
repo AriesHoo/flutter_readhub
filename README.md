@@ -6,7 +6,7 @@
 [![](https://img.shields.io/badge/Github-Github主仓库-blue.svg)](https://github.com/AriesHoo/flutter_readhub)
 [![](https://img.shields.io/badge/Gitee-Gitee备用仓库-red.svg)](https://gitee.com/AriesHoo/flutter_readhub)
 
-[相关文章一：用Flutter给Readhub写一个App](https://www.jianshu.com/p/5e1db7423dac)
+~~[相关文章一：用Flutter给Readhub写一个App](https://www.jianshu.com/p/5e1db7423dac)~~
 
 [相关文章二：Flutter版本Readhub开源](https://www.jianshu.com/p/f4161c721ff7)
 
@@ -14,7 +14,7 @@
 
 [相关文章四：Flutter iOS打包过程及构建上线审核通过流程总结](https://www.jianshu.com/p/0bba10136bf5)
 
-[相关文章五：Freadhub终于升级Flutter2.0了](https://www.jianshu.com/p/742ca4745a51)
+[相关文章五：Freadhub终于升级Flutter2.0了](https://juejin.cn/post/6963433655838441485)
 
 该项目为Flutter实战项目,为[Readhub](https://readhub.me/)非官方客户端。
 
@@ -26,7 +26,7 @@
 
 > `Freadhub`是由`AriesHoo`开发维护的一个`Flutter`开源项目--`readhub`的非官方产品。
 
-之前`Freadhub`已有`Androd`、`iOS`版本,随着`Flutter2.0`的发布`Flutter`进入了全平台`stable`时代, 经过一段时间的适配调整及屏幕适配，`MacOS`版本它终于来了`说得好像有人在期待一样😭`。
+之前`Freadhub`已有`Androd`、`iOS`版本,随着`Flutter2.0`的发布`Flutter`进入了全平台`stable`时代, 经过一段时间的平台及屏幕适配，`MacOS`版本它终于来了`说得好像有人在期待一样😭`。
 
 - 镇楼图 `1028*768` 默认尺寸
 
@@ -144,13 +144,13 @@ Running pod install...                                           1,709ms
 
 ![打包后的app](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/daec0966dfff4ac3b20535c6cbedf839~tplv-k3u1fbpfcp-watermark.image)
 
-### Freadhub MacOS功能介绍
+### Freadhub MacOS功能简介
 
 #### 1、主界面布局
 
 - 桌面端尺寸相较移动端更大如果采用移动端的底部/顶部tab模式会很丑，故在做`MacOS`适配过程中顺手做了下`响应式布局`--这里不做展开后期会单开文章阐述。
-- 通过使用`GridView`来让屏幕展示更多可用信息
-- 左侧顶部导航栏、底部为`今日诗词`推荐--使用[今日诗词](https://www.jinrishici.com/),在此感谢🙏、最底部仍然为更多信息及深色/浅色主题切换按钮
+- 使用`GridView`来让屏幕展示更多可用信息
+- 左侧顶部导航栏、底部为`今日诗词`推荐--使用[今日诗词](https://www.jinrishici.com/),在此感谢🙏、最底部仍然为`更多信息`及`深色/浅色主题切换`按钮
 
 宽屏：`1280*800` 最大尺寸
 
@@ -181,17 +181,17 @@ Running pod install...                                           1,709ms
 
 #### 4、资讯卡片
 
-- 每个资讯卡片背景样式优化-增加`边框线`区分不同资讯、`鼠标悬浮/手指按下边界线及背景变为主题色相关色`
+- 资讯卡片背景样式优化-增加`边框线`区分不同资讯、`鼠标悬浮/手指按下边界线及背景变为主题相关色`
 
 ![悬浮边框色变化](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d5ed182ee722424ca16d0eee44addbac~tplv-k3u1fbpfcp-watermark.image)
 
-- 修改点击事件-将原来点击事件`资讯摘要信息全部展示`变更为`打开查看资讯详情`
+- 修改点击事件-将原来点击事件`资讯摘要信息全部展示`变更为`打开查看资讯详情`、`热门话题详情直接跳转readhub网页详情`
 
 ![查看详情](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/98a6657ccd14403ca43fc6d9b1a02c61~tplv-k3u1fbpfcp-watermark.image)
 
 该功能使用到了[flutter_macos_webview](https://pub.flutter-io.cn/packages/flutter_macos_webview)插件
 
-- 去掉热门话题`相关推荐icon`变更为`分享icon`-原长按弹出分享卡片不变、`热门话题详情直接跳转readhub网页详情`
+- 去掉热门话题`相关推荐icon`变更为`分享icon`-原长按弹出分享卡片不变
 
 ![分享](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b0b864cfc8bb4132ba815cf123174a82~tplv-k3u1fbpfcp-watermark.image)
 
