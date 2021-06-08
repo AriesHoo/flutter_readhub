@@ -2,6 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/poem_sentence_model.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -43,7 +44,7 @@ class PoemSentence extends StatelessWidget {
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontWeight: FontWeight.normal,
-                fontSize: isDisplayDesktop ? 15 : 12,
+                fontSize: isDisplayDesktop ? 16 : 13,
                 color: isDisplayDesktop
                     ? null
                     : Theme.of(context)
@@ -53,6 +54,10 @@ class PoemSentence extends StatelessWidget {
                         .withOpacity(0.8),
               ),
         );
+
+        ///避免因系统字号变大造成异常
+        LogUtil.v(
+            'textScale:$textScale;textScaleFactor:${MediaQuery.of(context).textScaleFactor}');
         return Container(
           padding: isDisplayDesktop
               ? EdgeInsets.symmetric(vertical: 24, horizontal: 16)
@@ -69,7 +74,7 @@ class PoemSentence extends StatelessWidget {
                       preferBelow: !isDisplayDesktop,
                       textStyle:
                           Theme.of(context).textTheme.bodyText2!.copyWith(
-                                fontSize: 14,
+                                fontSize: 14 * textScale,
                                 fontWeight: FontWeight.normal,
                               ),
 

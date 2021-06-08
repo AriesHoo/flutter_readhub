@@ -22,11 +22,11 @@ class PoemSentenceViewModel extends BasisViewModel {
       ///刷新顶部
       topViewModel?.poemSentenceModel = poemSentenceModel;
     } catch (e, s) {
+      setError(e, s);
+
       ///初始化失败延迟再获取
       if (init) {
         Future.delayed(Duration(seconds: 5), () => refresh(init: true));
-      } else {
-        setError(e, s);
       }
       LogUtil.e('e:$e;s:$s', tag: 'PoemSentenceViewModel');
     }

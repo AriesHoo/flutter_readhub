@@ -574,10 +574,20 @@ class AppreciateWidget extends StatelessWidget {
                           if (_path == null) {
                             ToastUtil.show(StringHelper.getS()!.shotFailed);
                           } else {
+                            final box =
+                                context.findRenderObject() as RenderBox?;
+                            final rect =
+                                box!.localToGlobal(Offset.zero) & box.size;
                             if (await ShareUtil.isWeChatInstall()) {
-                              ShareUtil.shareImagesToWeChatFriend([_path]);
+                              ShareUtil.shareImagesToWeChatFriend(
+                                [_path],
+                                rect: rect,
+                              );
                             } else {
-                              ShareUtil.shareImages([_path]);
+                              ShareUtil.shareImages(
+                                [_path],
+                                rect: rect,
+                              );
                             }
                           }
                         }

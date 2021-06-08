@@ -1,6 +1,8 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:provider/provider.dart';
@@ -137,7 +139,11 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                     m2.scrollController.position.maxScrollExtent) {
                   if (m1.refreshController.footerStatus != LoadStatus.noMore &&
                       m1.refreshController.footerStatus != LoadStatus.loading) {
-                    m1.refreshController.requestLoading();
+                    try {
+                      m1.refreshController.requestLoading();
+                    } catch (e) {
+                      LogUtil.e('$e');
+                    }
                   }
                 }
               });
@@ -173,6 +179,12 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                           color: ThemeViewModel.accentColor,
                         )
                       : ClassicHeader(
+                          ///文字样式
+                          textStyle: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16 * textScale,
+                          ),
                           refreshingIcon: !PlatformUtil.isAndroid
                               ? const CupertinoActivityIndicator()
                               : const SizedBox(

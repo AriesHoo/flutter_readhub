@@ -9,6 +9,7 @@ import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
+import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -135,6 +136,7 @@ class _WebViewPageState extends State<WebViewPage> {
               _title!,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
+              textScaleFactor: ThemeViewModel.textScaleFactor,
             ),
           ),
           actions: <Widget>[
@@ -209,6 +211,7 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.share),
+          tooltip: StringHelper.getS()!.share,
           onPressed: () => _showShare(),
         ),
       ),

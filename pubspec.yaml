@@ -30,11 +30,10 @@ dependencies:
   #  设备信息
   device_info_plus: ^1.0.1
   #  应用包信息
-  package_info_plus: ^1.0.1
+  package_info_plus: ^1.0.2
 
   # WebView
-  webview_flutter: ^2.0.4
-  flutter_webview_plugin: ^0.4.0
+  webview_flutter: ^2.0.8
   #  网络请求相关dio
   dio: ^4.0.0
   #  加载网络图片
@@ -43,17 +42,17 @@ dependencies:
   #  下拉刷新
   pull_to_refresh: ^2.0.0
   #  本地缓存sp
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.6
   #用于做骨架屏-闪光效果
   shimmer: ^2.0.0
   #跳转系统浏览器/打电话等
-  url_launcher: ^6.0.3
+  url_launcher: ^6.0.6
   #二维码-生成
   qr_flutter: ^4.0.0
   #工具类
   flustars: ^2.0.1
   #动态权限申请-8.0.0版本需在Profile申请需要启用的权限 https://github.com/Baseflow/flutter-permission-handler/blob/master/permission_handler/example/ios/Podfile
-  permission_handler: ^8.0.0+1
+  permission_handler: ^8.0.1
   #文件路径
   path_provider: ^2.0.1
   #分享文字及文件-注意保存文件位置

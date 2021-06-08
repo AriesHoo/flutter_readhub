@@ -35,7 +35,7 @@ class UrlShareDialog extends BasisDialog {
   final CardShareModel model;
 
   @override
-  double get maxWidth => smallDisplay ? double.infinity : 480;
+  double get maxWidth => smallDisplay ? double.infinity : 460;
 
   @override
   double? get elevation => 0;

@@ -267,7 +267,7 @@ class ThemeViewModel with ChangeNotifier {
       ///长按提示文本样式
       tooltipTheme: themeData.tooltipTheme.copyWith(
         textStyle: TextStyle(
-          fontSize: 14,
+          fontSize: 14 * textScale,
           color: (darkMode ? Colors.black : Colors.white).withOpacity(0.9),
         ),
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),

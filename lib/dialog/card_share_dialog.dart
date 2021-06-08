@@ -14,7 +14,6 @@ import 'package:flutter_readhub/helper/share_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
-import 'package:flutter_readhub/page/home_page.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -65,9 +64,8 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   double? get elevation => 0;
 
   @override
-  EdgeInsets? get insetPadding => smallDisplay
-      ? EdgeInsets.only(top: kToolbarHeight + tabHeight)
-      : super.insetPadding;
+  EdgeInsets? get insetPadding =>
+      smallDisplay ? EdgeInsets.only(top: kToolbarHeight) : super.insetPadding;
 
   @override
   ShapeBorder? get shape => RoundedRectangleBorder(

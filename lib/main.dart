@@ -48,6 +48,10 @@ AppRouteObserver appRouteObserver = AppRouteObserver();
 ///全局toast
 final botToastBuilder = BotToastInit();
 
+///避免因系统字号变大造成异常-反向缩放
+///获取当前系统textScaleFactor--MediaQuery.of(context).textScaleFactor获取
+var textScale = 1.0;
+
 ///清空所有Toast
 clearToast() {
   BotToast.closeAllLoading();
@@ -129,7 +133,11 @@ class _MaterialAppPageState extends State<MaterialAppPage>
         //     child: child,
         //   ),
         // ),
-        builder: (context, child) => botToastBuilder(context, child),
+        builder: (context, child) {
+          ///获取反向缩放比例
+          textScale = 1.0 / MediaQuery.of(context).textScaleFactor;
+          return botToastBuilder(context, child);
+        },
 
         ///路由监听
         navigatorObservers: [
@@ -234,7 +242,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     ///web端加载字体会有几秒时间文字异常
-    _timeLength = PlatformUtil.isBrowser ? 5000 : 1500;
+    _timeLength = PlatformUtil.isBrowser ? 6000 : 2000;
     _timer = Timer.periodic(
       Duration(
         milliseconds: _timeDur,

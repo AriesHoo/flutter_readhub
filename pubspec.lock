@@ -231,13 +231,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_webview_plugin:
-    dependency: "direct main"
-    description:
-      name: flutter_webview_plugin
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.4.0"
   http:
     dependency: transitive
     description:
@@ -314,7 +307,7 @@ packages:
       name: package_info_plus
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   package_info_plus_linux:
     dependency: transitive
     description:
@@ -342,7 +335,7 @@ packages:
       name: package_info_plus_web
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   package_info_plus_windows:
     dependency: transitive
     description:
@@ -488,10 +481,10 @@ packages:
     description:
       path: "packages/share"
       ref: master
-      resolved-ref: "598ece6eed1b36a2985f152189ff73fba0a5039a"
+      resolved-ref: "1f1dabe3333d08eae83fac492f43c0c7903dba1f"
       url: "git://github.com/AriesHoo/plugins.git"
     source: git
-    version: "2.0.1"
+    version: "2.0.2"
   share_plus:
     dependency: "direct main"
     description:

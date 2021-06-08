@@ -193,7 +193,7 @@ Running pod install...                                           1,709ms
 
 - 去掉热门话题`相关推荐icon`变更为`分享icon`-原长按弹出分享卡片不变、`热门话题详情直接跳转readhub网页详情`
 
-![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48824b1aa3b6440097d9d3b55b9940f3~tplv-k3u1fbpfcp-watermark.image)
+![分享](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b0b864cfc8bb4132ba815cf123174a82~tplv-k3u1fbpfcp-watermark.image)
 
 该功能使用到了[share_plus](https://pub.flutter-io.cn/packages/share_plus)插件
 
