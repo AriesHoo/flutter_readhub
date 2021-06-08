@@ -193,9 +193,7 @@ class FeedbackWidget extends StatelessWidget {
         title: Text(
           StringHelper.getS()!.feedback,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                fontWeight: FontWeight.normal,
-              ),
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),
         trailing: Text(
           'AriesHoo@126.com',
@@ -235,9 +233,7 @@ class UpdateWidget extends StatelessWidget {
           title: Text(
             StringHelper.getS()!.checkUpdate,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontWeight: FontWeight.normal,
-                ),
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(),
           ),
           trailing: model.loading
               ? CupertinoActivityIndicator(
