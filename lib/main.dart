@@ -136,6 +136,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
         builder: (context, child) {
           ///获取反向缩放比例
           textScale = 1.0 / MediaQuery.of(context).textScaleFactor;
+          ThemeViewModel.setSystemBarTheme();
           return botToastBuilder(context, child);
         },
 

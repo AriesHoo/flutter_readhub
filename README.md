@@ -2,9 +2,10 @@
 
 
 [![](https://img.shields.io/badge/download-apk-blue.svg)](https://gitee.com/AriesHoo/flutter_readhub/raw/master/sample/sample.apk)
+[![](https://img.shields.io/badge/download-MacOS.app-green.svg)](https://gitee.com/AriesHoo/flutter_readhub/raw/master/sample/Freadhub-聚合资讯.app.zip)
 [![GitHub license](https://img.shields.io/github/license/AriesHoo/flutter_readhub.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![](https://img.shields.io/badge/Github-Github主仓库-blue.svg)](https://github.com/AriesHoo/flutter_readhub)
-[![](https://img.shields.io/badge/Gitee-Gitee备用仓库-red.svg)](https://gitee.com/AriesHoo/flutter_readhub)
+[![](https://img.shields.io/badge/Gitee-Gitee备用仓库-green.svg)](https://gitee.com/AriesHoo/flutter_readhub)
 
 ~~[相关文章一：用Flutter给Readhub写一个App](https://www.jianshu.com/p/5e1db7423dac)~~
 
@@ -41,7 +42,7 @@
 |  开源 Gitee| [flutter_readhub](https://gitee.com/AriesHoo/flutter_readhub) |
 |  Android| [Freadhub](https://www.pgyer.com/ntMA) |
 |  iOS| clone自行运行或邮箱给下设备[UUID](https://www.pgyer.com/tools/udid) |
-|  MacOS| [Freadhub-聚合资讯](https://gitee.com/AriesHoo/flutter_readhub/raw/master/sample/Freadhub-%E8%81%9A%E5%90%88%E8%B5%84%E8%AE%AF.app.zip)|
+|  MacOS| [Gitee下载](https://gitee.com/AriesHoo/flutter_readhub/raw/master/sample/Freadhub-%E8%81%9A%E5%90%88%E8%B5%84%E8%AE%AF.app.zip) [共享盘下载](https://note.youdao.com/ynoteshare1/index.html?id=640fb7764ebdcbf884ccc8b2124a3db9&type=notebook#/WEBdae98e79784b4706c2d5e4ac7652445a)|
 
 下载了 `MacOS`的压缩包解压后点击 图标 打开。
 
