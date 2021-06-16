@@ -75,6 +75,8 @@ dependencies:
   #  macos webView
   flutter_macos_webview:
     path: ./plugins/flutter_macos_webview
+  #  生命周期
+  lifecycle: ^0.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

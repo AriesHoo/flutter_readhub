@@ -4,7 +4,7 @@ import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/page/widget/article_item_widget.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter_readhub/widget/qr_code.dart';
 
 ///需要进行截图-RepaintBoundary包裹部分参考
 ///https://www.codercto.com/a/46348.html
@@ -16,6 +16,7 @@ class CaptureImageWidget extends StatefulWidget {
   final String? title;
   final String? summary;
   final Widget? summaryWidget;
+  final bool showLogo;
 
   const CaptureImageWidget(
     this.url,
@@ -23,6 +24,7 @@ class CaptureImageWidget extends StatefulWidget {
     this.title,
     this.summary,
     this.summaryWidget,
+    this.showLogo: true,
     Key? key,
   }) : super(key: key);
 
@@ -58,7 +60,9 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       /// 顶部标题开始
-                      ShareSlogan(),
+                      ShareSlogan(
+                        showLogo: widget.showLogo,
+                      ),
 
                       /// 顶部标题结束
                       SizedBox(
@@ -133,14 +137,9 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                   ),
 
                   ///左侧二维码
-                  QrImage(
+                  QrCode(
                     data: widget.url,
-                    padding: EdgeInsets.zero,
-                    version: QrVersions.auto,
                     size: 64,
-                    foregroundColor:
-                        Theme.of(context).textTheme.headline6!.color,
-                    backgroundColor: Theme.of(context).cardColor,
                   ),
                   SizedBox(
                     width: 12,
@@ -193,18 +192,29 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
 
 ///分享截图slogan
 class ShareSlogan extends StatelessWidget {
-  const ShareSlogan({Key? key}) : super(key: key);
+  final bool showLogo;
+
+  const ShareSlogan({
+    Key? key,
+    this.showLogo: true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
-        Image.asset(
-          'assets/images/ic_logo_round.webp',
-          width: 54,
-          height: 54,
-        ),
+        showLogo
+            ? Image.asset(
+                'assets/images/ic_logo_round.webp',
+                width: 54,
+                height: 54,
+              )
+            : QrCode(
+                data: 'https://www.pgyer.com/ntMA',
+                size: 60,
+                embeddedImage: AssetImage('assets/images/ic_logo_round.webp'),
+              ),
         SizedBox(
           width: 12,
         ),
@@ -259,10 +269,18 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
   final String? bottomNotice;
   final GlobalKey globalKey;
   final Widget? summaryWidget;
+  final bool showLogo;
 
-  CaptureImageAppStyleWidget(this.title, this.summary, this.notice, this.url,
-      this.bottomNotice, this.globalKey,
-      {this.summaryWidget});
+  CaptureImageAppStyleWidget(
+    this.title,
+    this.summary,
+    this.notice,
+    this.url,
+    this.bottomNotice,
+    this.globalKey, {
+    this.summaryWidget,
+    this.showLogo: true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +300,9 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               ///统一分享头部
-              ShareSlogan(),
+              ShareSlogan(
+                showLogo: showLogo,
+              ),
               SizedBox(
                 height: 8,
               ),
@@ -389,14 +409,9 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
                         ),
 
                         ///右侧二维码
-                        QrImage(
+                        QrCode(
                           data: url,
-                          padding: EdgeInsets.all(2),
-                          version: QrVersions.auto,
                           size: 64,
-                          foregroundColor:
-                              Theme.of(context).textTheme.headline6!.color,
-                          backgroundColor: Theme.of(context).cardColor,
                         ),
                       ],
                     )

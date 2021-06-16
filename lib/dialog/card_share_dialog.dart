@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,8 +65,13 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   double? get elevation => 0;
 
   @override
-  EdgeInsets? get insetPadding =>
-      smallDisplay ? EdgeInsets.only(top: kToolbarHeight) : super.insetPadding;
+  EdgeInsets? get insetPadding => smallDisplay
+      ? EdgeInsets.only(
+          top: PlatformUtil.isMobile
+              ? MediaQueryData.fromWindow(window).padding.top
+              : 20,
+        )
+      : super.insetPadding;
 
   @override
   ShapeBorder? get shape => RoundedRectangleBorder(
@@ -81,11 +87,8 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   AlignmentGeometry get alignment =>
       smallDisplay ? Alignment.bottomCenter : Alignment.bottomRight;
 
-  @override
-  bool get modalBottomSheet => true;
-
   ///检测底部高度
-  final ValueNotifier<double> _bottomHeight = ValueNotifier(200);
+  final ValueNotifier<double> _bottomHeight = ValueNotifier(240);
 
   final GlobalKey _bottomKey = GlobalKey();
 
@@ -94,7 +97,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
         builder: (context) {
           ///延迟等待控件渲染完毕再进行测量
           Future.delayed(
-            Duration(milliseconds: 300),
+            Duration(milliseconds: 180),
             () {
               double bottomHeight = _bottomKey.currentContext!.size!.height;
               if (bottomHeight != _bottomHeight.value) {
@@ -129,6 +132,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
                                 model.bottomNotice,
                                 _globalKey,
                                 summaryWidget: model.summaryWidget,
+                                showLogo: model.showLogo,
                               )
                             : CaptureImageWidget(
                                 model.url,
@@ -136,6 +140,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
                                 title: model.title,
                                 summary: model.summary,
                                 summaryWidget: model.summaryWidget,
+                                showLogo: model.showLogo,
                               ),
                         observer: this,
                       ),
@@ -166,7 +171,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
 
       ///浏览器打开
     } else if (type == ShareType.browser) {
-      ShareHelper.singleton.shareTextOpenByBrowser(model.url);
+      ShareHelper.singleton.shareTextOpenByBrowser(model.showUrl ?? model.url);
       return;
 
       ///卡片模式

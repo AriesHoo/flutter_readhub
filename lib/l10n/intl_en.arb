@@ -66,8 +66,10 @@
   "dingTalk": "钉钉",
   "weWork": "企业微信",
   "copyLink": "复制链接",
+  "copyShare": "复制去分享",
   "openByBrowser": "浏览器打开",
   "more": "更多",
+  "shareToApp": "分享应用",
   "aboutUsShareTitle": "分享您一个不错的App",
   "scanOrCodeForDetail": "识别二维码查看详情",
   "shareForm": "分享自",
@@ -81,5 +83,7 @@
   "shareCarStyleJueJin": "掘金样式",
   "shotFailed": "截图失败,请开启访问存储权限",
   "weChatNotInstall": "您还未安装微信",
-  "openDetail": "查看详情"
+  "openDetail": "查看详情",
+  "forward": "前进",
+  "back": "后退"
 }

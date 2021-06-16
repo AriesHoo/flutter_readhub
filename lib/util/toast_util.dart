@@ -12,10 +12,13 @@ class ToastUtil {
     AlignmentGeometry? align,
     Duration? duration,
     Color? backgroundColor,
+    Color? textColor,
     int? milliseconds,
 
     ///是否通知形式
     bool notification: true,
+    BorderRadiusGeometry borderRadius:
+        const BorderRadius.all(Radius.circular(6)),
   }) {
     align ??= Alignment.center;
     duration ??= Duration(
@@ -38,7 +41,7 @@ class ToastUtil {
                 .subtitle1!
                 .copyWith(
                   fontSize: 16 * textScale,
-                  color: (isDark ? Colors.black : Colors.white),
+                  color: textColor ?? (isDark ? Colors.black : Colors.white),
                 ),
             hideCloseButton: true,
             animationDuration: Duration(milliseconds: 800),
@@ -61,7 +64,7 @@ class ToastUtil {
             align: align,
             backgroundColor: Colors.transparent,
             contentColor: backgroundColor ?? Color(0xA0000000),
-            borderRadius: BorderRadius.all(Radius.circular(6)),
+            borderRadius: borderRadius,
             contentPadding: EdgeInsets.symmetric(
               vertical: 8,
               horizontal: 10,
@@ -79,16 +82,21 @@ class ToastUtil {
     String text, {
     AlignmentGeometry? align,
     Duration? duration,
+    Color? textColor,
 
     ///是否通知形式
     bool notification: true,
+    BorderRadiusGeometry borderRadius:
+        const BorderRadius.all(Radius.circular(6)),
   }) {
     return show(
       text,
       align: align,
       duration: duration,
       backgroundColor: Colors.green.withOpacity(0.7),
+      textColor: textColor,
       notification: notification,
+      borderRadius: borderRadius,
     );
   }
 
@@ -97,16 +105,21 @@ class ToastUtil {
     String text, {
     AlignmentGeometry? align,
     Duration? duration,
+    Color? textColor,
 
     ///是否通知形式
     bool notification: true,
+    BorderRadiusGeometry borderRadius:
+        const BorderRadius.all(Radius.circular(6)),
   }) {
     return show(
       text,
       align: align,
       duration: duration,
       backgroundColor: Colors.red.withOpacity(0.7),
+      textColor: textColor,
       notification: notification,
+      borderRadius: borderRadius,
     );
   }
 
@@ -115,16 +128,21 @@ class ToastUtil {
     String text, {
     AlignmentGeometry? align,
     Duration? duration,
+    Color? textColor,
 
     ///是否通知形式
     bool notification: true,
+    BorderRadiusGeometry borderRadius:
+        const BorderRadius.all(Radius.circular(6)),
   }) {
     return show(
       text,
       align: align,
       duration: duration,
       backgroundColor: Colors.amber.withOpacity(0.7),
+      textColor: textColor,
       notification: true,
+      borderRadius: borderRadius,
     );
   }
 }

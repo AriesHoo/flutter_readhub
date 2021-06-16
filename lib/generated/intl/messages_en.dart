@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "checkUpdate": MessageLookupByLibrary.simpleMessage("检查版本"),
         "choiceTheme": MessageLookupByLibrary.simpleMessage("选择主题"),
         "copyLink": MessageLookupByLibrary.simpleMessage("复制链接"),
+        "copyShare": MessageLookupByLibrary.simpleMessage("复制去分享"),
         "copyToClipboardSucceed": MessageLookupByLibrary.simpleMessage("复制成功"),
         "currentIsNew": MessageLookupByLibrary.simpleMessage("当前已是最新版本"),
         "cyan": MessageLookupByLibrary.simpleMessage("青桔青"),
@@ -90,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareForm": MessageLookupByLibrary.simpleMessage("分享自"),
         "shareImageNeedInvite":
             MessageLookupByLibrary.simpleMessage("分享功能需使用访问您的"),
+        "shareToApp": MessageLookupByLibrary.simpleMessage("分享应用"),
         "shotFailed": MessageLookupByLibrary.simpleMessage("截图失败,请开启访问存储权限"),
         "slogan": MessageLookupByLibrary.simpleMessage("做轻便的聚合资讯"),
         "sunday": MessageLookupByLibrary.simpleMessage("周日"),

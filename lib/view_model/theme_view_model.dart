@@ -76,9 +76,9 @@ class ThemeViewModel with ChangeNotifier {
   static double get textScaleFactor => 1;
 
   /// 当前主size textScaleFactor
-  static double? _articleTextScaleFactor = 1.0;
+  static double _articleTextScaleFactor = 1.0;
 
-  static double? get articleTextScaleFactor => _articleTextScaleFactor;
+  static double get articleTextScaleFactor => _articleTextScaleFactor;
 
   ThemeViewModel() {
     /// 用户选择的明暗模式
@@ -95,7 +95,7 @@ class ThemeViewModel with ChangeNotifier {
 
     /// 获取本地文字缩放
     _articleTextScaleFactor =
-        SpUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0);
+        SpUtil.getDouble(SP_KEY_FONT_TEXT_SIZE, defValue: 1.0)!;
 
     ///如果缓存为黑色字体则进行
 //    if (_userDarkMode) {
@@ -120,7 +120,7 @@ class ThemeViewModel with ChangeNotifier {
   switchFontTextSize(double textScaleFactor) {
     _articleTextScaleFactor = textScaleFactor;
     switchTheme();
-    SpUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _articleTextScaleFactor!);
+    SpUtil.putDouble(SP_KEY_FONT_TEXT_SIZE, _articleTextScaleFactor);
   }
 
   static String fontFamily() {
@@ -181,8 +181,10 @@ class ThemeViewModel with ChangeNotifier {
 
   ///根据主题 明暗 和 颜色 生成对应的主题[dark]系统的Dark Mode
   themeData({bool platformDarkMode: false}) {
-    LogUtil.v('themeData_platform:$platformDarkMode');
-    var isDark = platformDarkMode || _userDarkMode;
+    LogUtil.v('themeData_platform:$platformDarkMode'
+        ';currentContext:${navigatorKey.currentContext}'
+        ';textScale:$textScale}');
+    var isDark = platformDarkMode || darkMode;
     var themeColor = _themeColor;
     _accentColor = (isDark ? themeColor[600] : _themeColor)!;
     Brightness brightness = isDark ? Brightness.dark : Brightness.light;
@@ -198,7 +200,7 @@ class ThemeViewModel with ChangeNotifier {
       primaryColor: accentColor,
 
       ///类苹果跟随滑动返回-修改后返回箭头及主标题iOS风格
-//      platform: TargetPlatform.iOS,
+      platform: TargetPlatform.iOS,
       errorColor: Colors.red,
       toggleableActiveColor: accentColor,
 
@@ -214,7 +216,6 @@ class ThemeViewModel with ChangeNotifier {
       ///字体
       fontFamily: fontValueList[_fontIndex!],
     );
-
     themeData = themeData.copyWith(
       cupertinoOverrideTheme: CupertinoThemeData(
         primaryColor: themeColor,
@@ -268,7 +269,7 @@ class ThemeViewModel with ChangeNotifier {
       tooltipTheme: themeData.tooltipTheme.copyWith(
         textStyle: TextStyle(
           fontSize: 14 * textScale,
-          color: (darkMode ? Colors.black : Colors.white).withOpacity(0.9),
+          color: (isDark ? Colors.black : Colors.white).withOpacity(0.9),
         ),
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         margin: EdgeInsets.only(

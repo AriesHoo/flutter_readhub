@@ -24,6 +24,7 @@ import 'package:url_launcher/url_launcher.dart';
 Future<void> showAuthorDialog(BuildContext context) async {
   await showDialog<int>(
     context: context,
+    barrierColor: Colors.black54.withOpacity(0.2),
     builder: (BuildContext context) {
       return AuthorDialog();
     },
@@ -297,6 +298,7 @@ class ShareAppWidget extends StatelessWidget {
         notice: 'AriesHoo开发\n扫码查看详情',
         bottomNotice: StringHelper.getS()!.saveImageShareTip,
         summaryWidget: ShareAppSummaryWidget(),
+        showLogo: true,
       ),
     );
   }
@@ -518,9 +520,9 @@ class FontSizeWidget extends StatelessWidget {
                   child: Slider(
                     min: 8,
                     max: 12,
-                    value: ThemeViewModel.articleTextScaleFactor! * 10,
+                    value: ThemeViewModel.articleTextScaleFactor * 10,
                     divisions: 8,
-                    label: '${ThemeViewModel.articleTextScaleFactor! * 10}',
+                    label: '${ThemeViewModel.articleTextScaleFactor * 10}',
                     onChanged: (value) {
                       ProviderHelper.of<ThemeViewModel>(context)
                           .switchFontTextSize(value / 10);

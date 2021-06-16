@@ -74,10 +74,16 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   late WebViewController _webViewController;
-  ValueNotifier _getTitle = ValueNotifier("...");
-  ValueNotifier _getProgress = ValueNotifier(true);
-  String? _currentUrl;
-  String? _title;
+  ValueNotifier<String> _getTitle = ValueNotifier("...");
+  ValueNotifier<bool> _getProgress = ValueNotifier(true);
+
+  ///可否返回
+  ValueNotifier<bool> _canGoBack = ValueNotifier(false);
+
+  ///可否前进
+  ValueNotifier<bool> _canGoForward = ValueNotifier(false);
+  String _currentUrl = '';
+  String _title = '';
 
   launchURL(String url) async {
     try {
@@ -96,14 +102,13 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
-    _title = widget.model.title;
+    _title = widget.model.title ?? StringHelper.getS()!.loadingWebTitle;
     // Enable hybrid composition.
     if (PlatformUtil.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
   Widget build(BuildContext context) {
-    _title = _title ?? StringHelper.getS()!.loadingWebTitle;
     return WillPopScope(
       onWillPop: () async {
         String? currentUrl = await _webViewController.currentUrl();
@@ -130,31 +135,33 @@ class _WebViewPageState extends State<WebViewPage> {
             icon: Icon(Icons.close),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: ValueListenableBuilder(
+          title: ValueListenableBuilder<String>(
             valueListenable: _getTitle,
-            builder: (context, dynamic title, child) => Text(
-              _title!,
+            builder: (context, title, child) => Text(
+              TextUtil.isEmpty(title)
+                  ? widget.model.title ?? StringHelper.getS()!.loadingWebTitle
+                  : title,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               textScaleFactor: ThemeViewModel.textScaleFactor,
             ),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.share),
-              tooltip: StringHelper.getS()!.share,
-              onPressed: () => _showShare(),
-            ),
-          ],
+          // actions: <Widget>[
+          //   IconButton(
+          //     icon: Icon(Icons.share),
+          //     tooltip: StringHelper.getS()!.share,
+          //     onPressed: () => _showShare(),
+          //   ),
+          // ],
         ),
         body: Hero(
           tag: widget.model.url,
           child: Column(
             children: <Widget>[
               /// 模糊进度条(会执行一个动画)
-              ValueListenableBuilder(
+              ValueListenableBuilder<bool>(
                 valueListenable: _getProgress,
-                builder: (context, dynamic loading, child) {
+                builder: (context, loading, child) {
                   return Container(
                     height: loading ? 2 : 0,
                     child: LinearProgressIndicator(
@@ -169,7 +176,7 @@ class _WebViewPageState extends State<WebViewPage> {
                 flex: 1,
                 child: SafeArea(
                   child: WebView(
-                    initialUrl: widget.model.url,
+                    initialUrl: widget.model.showUrl ?? widget.model.url,
                     debuggingEnabled: false,
                     javascriptMode: JavascriptMode.unrestricted,
                     initialMediaPlaybackPolicy:
@@ -195,8 +202,9 @@ class _WebViewPageState extends State<WebViewPage> {
                       ///webView 创建调用，
                       web.currentUrl().then((url) {
                         ///返回当前url
-                        _currentUrl = url;
-                        debugPrint("_currentUrl:" + _currentUrl!);
+                        _currentUrl =
+                            url ?? widget.model.showUrl ?? widget.model.url;
+                        debugPrint("_currentUrl:" + _currentUrl);
                       });
                     },
                     onPageFinished: (String value) async {
@@ -209,10 +217,45 @@ class _WebViewPageState extends State<WebViewPage> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.share),
-          tooltip: StringHelper.getS()!.share,
-          onPressed: () => _showShare(),
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.share),
+        //   tooltip: StringHelper.getS()!.share,
+        //   onPressed: () => _showShare(),
+        // ),
+        bottomNavigationBar: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ValueListenableBuilder<bool>(
+              valueListenable: _canGoBack,
+              builder: (context, value, child) => IconButton(
+                onPressed: value ? () => _webViewController.goBack() : null,
+                icon: Icon(Icons.arrow_back_ios),
+                tooltip: StringHelper.getS()!.back,
+              ),
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: _canGoForward,
+              builder: (context, value, child) => IconButton(
+                onPressed: value ? () => _webViewController.goForward() : null,
+                icon: Icon(Icons.arrow_forward_ios),
+                tooltip: StringHelper.getS()!.forward,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                _getProgress.value = true;
+                _webViewController.reload();
+              },
+              icon: Icon(Icons.refresh),
+              tooltip: StringHelper.getS()!.refresh,
+            ),
+            IconButton(
+              onPressed: () => _showShare(),
+              icon: Icon(Icons.share),
+              tooltip: StringHelper.getS()!.share,
+            ),
+          ],
         ),
       ),
     );
@@ -228,9 +271,19 @@ class _WebViewPageState extends State<WebViewPage> {
     _webViewController.getTitle().then((title) {
       _getProgress.value = title == null || title.isEmpty;
       LogUtil.v("getTitle:" + title!);
-      _title = !TextUtil.isEmpty(title) ? title : _title;
-      return _getTitle.value = title;
+      _title = title;
+      _getTitle.value = _title;
     });
+    _webViewController.canGoBack().then((value) {
+      LogUtil.v('canGoBack:$value');
+      _canGoBack.value = value;
+    });
+    _webViewController.canGoForward().then(
+      (value) {
+        LogUtil.v('canGoForward:$value');
+        _canGoForward.value = value;
+      },
+    );
   }
 
   ///弹出分享选择

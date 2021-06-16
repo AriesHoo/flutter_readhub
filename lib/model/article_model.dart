@@ -70,8 +70,10 @@ class ArticleItemModel {
   ///热点新闻
   bool isTopic = false;
 
-  String getUrl() {
-    if (isTopic) {
+  String getUrl({
+    bool showUrl: true,
+  }) {
+    if (isTopic && showUrl) {
       return 'https://readhub.cn/topic/$id';
     }
     return mobileUrl ??
@@ -95,10 +97,11 @@ class ArticleItemModel {
     return CardShareModel(
       title: title,
       text:
-          "${StringHelper.getS()!.saveImageShareTip} 资讯「$title」 链接: ${getUrl()}",
+          "${StringHelper.getS()!.saveImageShareTip}的资讯「$title」打开链接:${getUrl(showUrl: false)},查看详情。",
       summary: getSummary(),
       notice: getScanNote(),
-      url: getUrl(),
+      url: getUrl(showUrl: false),
+      showUrl: getUrl(),
       bottomNotice: StringHelper.getS()!.saveImageShareTip,
     );
   }
@@ -129,7 +132,9 @@ class ArticleItemModel {
         : '本篇报道暂无摘要，请查看详细信息。';
   }
 
+  ///获取媒体及发布时间
   String getTimeStr() {
+    parseTimeLong();
     String back = timeStr;
     if (siteName != null && siteName!.isNotEmpty) {
 //      if (authorName != null && authorName.isNotEmpty) {

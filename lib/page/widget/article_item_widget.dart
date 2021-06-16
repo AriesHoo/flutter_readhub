@@ -1,7 +1,8 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/basis/scroll_top_model.dart';
-import 'package:flutter_readhub/dialog/card_share_dialog.dart';
+import 'package:flutter_readhub/dialog/text_share_dialog.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/model/share_model.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_readhub/view_model/article_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/widget/highlight_card_widget.dart';
 import 'package:flutter_readhub/widget/skeleton.dart';
+import 'package:lifecycle/lifecycle.dart';
 
 final double leading = 1;
 final double textLineHeight = 0.5;
@@ -22,9 +24,11 @@ final letterSpacing = 1.0;
 ///文章item页--最终展示效果
 class ArticleItemWidget extends StatefulWidget {
   final String url;
+  final int index;
 
   const ArticleItemWidget(
-    this.url, {
+    this.url,
+    this.index, {
     Key? key,
   }) : super(key: key);
 
@@ -34,6 +38,8 @@ class ArticleItemWidget extends StatefulWidget {
 
 class _ArticleItemWidgetState extends State<ArticleItemWidget>
     with AutomaticKeepAliveClientMixin {
+  ArticleViewModel? _articleViewModel;
+
   @override
   void initState() {
     super.initState();
@@ -42,12 +48,18 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    double width = MediaQuery.of(context).size.width - sideNavWidth;
+    double width = MediaQuery.of(context).size.width -
+        (isDisplayDesktop ? sideNavWidth : 0);
     int crossAxisCount = width ~/ 350;
-    crossAxisCount = isDisplayDesktop ? crossAxisCount : 1;
-    return BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
+
+    ///去掉竖直状态强制1列逻辑-变更为最多3列
+    crossAxisCount = crossAxisCount >= 3 ? 3 : crossAxisCount;
+
+    Widget itemWidget =
+        BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
       ///初始化获取文章列表model
       model1: ArticleViewModel(widget.url),
+      onModelReady: (m1, m2) => _articleViewModel = m1,
 
       ///加载中占位-骨架屏-默认菊花loading
       loadingBuilder: (context, m1, m2, child) {
@@ -92,7 +104,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
 
           ///交叉轴单个子Widget之间间距
           crossAxisSpacing: 0.0,
-          mainAxisExtent: 170,
+          mainAxisExtent:
+              ThemeViewModel.articleTextScaleFactor >= 1.0 ? 180 : 165,
         ),
         itemBuilder: (context, index) => Hero(
           tag: m1.list[index].getUrl(),
@@ -102,6 +115,20 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
           ),
         ),
       ),
+    );
+    return ChildPageLifecycleWrapper(
+      index: widget.index,
+      onLifecycleEvent: (event) {
+        LogUtil.v('onLifecycleEvent_child:$event');
+
+        ///可见则获取新的资讯
+        if (event == LifecycleEvent.active &&
+            _articleViewModel != null &&
+            !_articleViewModel!.isDisposed) {
+          _articleViewModel!.preRefresh();
+        }
+      },
+      child: itemWidget,
     );
   }
 
@@ -159,11 +186,11 @@ class ArticleAdapter extends StatelessWidget {
         children: <Widget>[
           ///标题
           Text(
-            item.title!,
+            '${item.title}',
             textScaleFactor: ThemeViewModel.articleTextScaleFactor,
             maxLines: 1,
             strutStyle: StrutStyle(
-              forceStrutHeight: true,
+              forceStrutHeight: false,
               height: textLineHeight,
               leading: leading,
             ),
@@ -182,34 +209,34 @@ class ArticleAdapter extends StatelessWidget {
           ),
 
           ///描述摘要
-          Text(
-            item.getSummary(),
-            textScaleFactor: ThemeViewModel.articleTextScaleFactor,
-            maxLines: PlatformUtil.isMobile
-                ? item.maxLine
-                    ? 3
-                    : 10000
-                : 3,
-
-            ///浏览器...显示异常
-            overflow: PlatformUtil.isBrowser
-                ? TextOverflow.fade
-                : TextOverflow.ellipsis,
-            strutStyle: StrutStyle(
-                forceStrutHeight: true,
-                height: textLineHeight,
-                leading: leading),
-            style: Theme.of(context).textTheme.caption!.copyWith(
-                letterSpacing: letterSpacing,
-                color: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .color!
-                    .withOpacity(0.8)),
-          ),
           Expanded(
             flex: 1,
-            child: SizedBox(),
+            child: Text(
+              item.getSummary(),
+              textScaleFactor: ThemeViewModel.articleTextScaleFactor,
+              maxLines: PlatformUtil.isMobile
+                  ? item.maxLine
+                      ? 3
+                      : 10000
+                  : 3,
+
+              ///浏览器...显示异常
+              overflow: PlatformUtil.isBrowser
+                  ? TextOverflow.fade
+                  : TextOverflow.ellipsis,
+              strutStyle: StrutStyle(
+                forceStrutHeight: false,
+                height: textLineHeight,
+                leading: leading,
+              ),
+              style: Theme.of(context).textTheme.caption!.copyWith(
+                  letterSpacing: letterSpacing,
+                  color: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .color!
+                      .withOpacity(0.8)),
+            ),
           ),
           Row(
             children: <Widget>[
@@ -280,7 +307,7 @@ class ArticleAdapter extends StatelessWidget {
 
   ///长按
   _onLongPress(BuildContext context) {
-    CardShareDialog.show(
+    TextShareDialog.show(
       context,
       item.getCardShareModel(),
     );

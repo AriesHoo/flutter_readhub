@@ -7,9 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
+import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/page/home_page.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
+import 'package:lifecycle/lifecycle.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'generated/l10n.dart';
@@ -35,7 +37,7 @@ void main() async {
     maxLen: 1024,
   );
   runApp(
-    MyApp(),
+    MaterialAppPage(),
   );
 }
 
@@ -50,19 +52,14 @@ final botToastBuilder = BotToastInit();
 
 ///避免因系统字号变大造成异常-反向缩放
 ///获取当前系统textScaleFactor--MediaQuery.of(context).textScaleFactor获取
-var textScale = 1.0;
+double get textScale => navigatorKey.currentContext != null
+    ? 1.0 / MediaQuery.of((navigatorKey.currentContext)!).textScaleFactor
+    : 1.0;
 
 ///清空所有Toast
 clearToast() {
   BotToast.closeAllLoading();
   BotToast.cleanAll();
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialAppPage();
-  }
 }
 
 ///App入口
@@ -134,9 +131,6 @@ class _MaterialAppPageState extends State<MaterialAppPage>
         //   ),
         // ),
         builder: (context, child) {
-          ///获取反向缩放比例
-          textScale = 1.0 / MediaQuery.of(context).textScaleFactor;
-          ThemeViewModel.setSystemBarTheme();
           return botToastBuilder(context, child);
         },
 
@@ -147,6 +141,9 @@ class _MaterialAppPageState extends State<MaterialAppPage>
 
           ///BotToast监听
           BotToastNavigatorObserver(),
+
+          ///生命周期
+          defaultLifecycleObserver,
         ],
 
         ///主页面
@@ -164,6 +161,19 @@ class _MaterialAppPageState extends State<MaterialAppPage>
 
     ///设置窗口大小
     _setWindowSize();
+
+    ///延迟获取反向缩放比
+    Future.delayed(
+      Duration(
+        milliseconds: 100,
+      ),
+      () {
+        if (textScale != 1.0) {
+          ProviderHelper.of<ThemeViewModel>((navigatorKey.currentContext)!)
+              .switchTheme();
+        }
+      },
+    );
   }
 
   ///桌面系统设置窗口大小

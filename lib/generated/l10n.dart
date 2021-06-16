@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -720,6 +721,16 @@ class S {
     );
   }
 
+  /// `复制去分享`
+  String get copyShare {
+    return Intl.message(
+      '复制去分享',
+      name: 'copyShare',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `浏览器打开`
   String get openByBrowser {
     return Intl.message(
@@ -735,6 +746,16 @@ class S {
     return Intl.message(
       '更多',
       name: 'more',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `分享应用`
+  String get shareToApp {
+    return Intl.message(
+      '分享应用',
+      name: 'shareToApp',
       desc: '',
       args: [],
     );

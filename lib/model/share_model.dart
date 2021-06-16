@@ -8,7 +8,7 @@ class ShareModel {
   String? image;
   final IconData? icon;
 
-  ShareModel(this.type, this.text, this.image,{this.icon});
+  ShareModel(this.type, this.text, this.image, {this.icon});
 }
 
 ///卡片分享实体
@@ -22,6 +22,10 @@ class CardShareModel {
   final String? bottomNotice;
   final GlobalKey? globalKey;
   final Widget? summaryWidget;
+  final bool showLogo;
+
+  ///应用内展示url-与外部分享url区分
+  final String? showUrl;
 
   CardShareModel({
     this.title,
@@ -33,5 +37,7 @@ class CardShareModel {
     this.bottomNotice,
     this.globalKey,
     this.summaryWidget,
+    this.showUrl,
+    this.showLogo: false,
   });
 }

@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 
 ///基础Dialog
 class BasisDialog extends Dialog {
@@ -8,7 +11,6 @@ class BasisDialog extends Dialog {
   final double maxWidth;
   final double minWidth;
   final AlignmentGeometry alignment;
-  final bool modalBottomSheet;
 
   BasisDialog({
     Key? key,
@@ -16,7 +18,6 @@ class BasisDialog extends Dialog {
     this.maxWidth: 360.0,
     this.minWidth: 280.0,
     this.alignment: Alignment.center,
-    this.modalBottomSheet: false,
   });
 
   @override
@@ -24,7 +25,9 @@ class BasisDialog extends Dialog {
         left: 20,
         right: 20,
         bottom: 20,
-        top: kToolbarHeight,
+        top: PlatformUtil.isMobile
+            ? MediaQueryData.fromWindow(window).padding.top
+            : 20,
       );
 
   @override
@@ -67,14 +70,12 @@ class BasisDialog extends Dialog {
                 maxWidth: maxWidth,
               ),
 
-              ///ModalBottomSheet 特殊处理点击child部分不响应关闭事件
+              /// 特殊处理点击child部分不响应关闭事件
               ///即：点击半透明部分才关闭Dialog
-              child: modalBottomSheet
-                  ? GestureDetector(
-                      onTap: () => LogUtil.v('点击child'),
-                      child: child,
-                    )
-                  : child,
+              child: GestureDetector(
+                onTap: () => LogUtil.v('点击child'),
+                child: child,
+              ),
             ),
           ),
         ),
@@ -82,15 +83,16 @@ class BasisDialog extends Dialog {
     );
 
     ///ModalBottomSheet 特殊处理点击非child部分关闭
-    return modalBottomSheet
-        ? InkWell(
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            onTap: () => Navigator.of(context).pop(),
-            child: childWidget,
-          )
-        : childWidget;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        onTap: () => Navigator.of(context).pop(),
+        child: childWidget,
+      ),
+    );
   }
 }

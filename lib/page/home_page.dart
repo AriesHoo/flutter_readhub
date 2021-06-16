@@ -21,9 +21,13 @@ import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:flutter_readhub/widget/animated_switcher_icon_widget.dart';
 import 'package:flutter_readhub/widget/tab_bar_widget.dart';
+import 'package:lifecycle/lifecycle.dart';
 
 ///深色浅色模式切换
+///--mac上设置自动深色/浅色--当从深色切回浅色后异常
 void switchDarkMode(BuildContext context) {
+  LogUtil.v('platformBrightness:${MediaQuery.of(context).platformBrightness}'
+      ';platformBrightnessOf:${MediaQuery.platformBrightnessOf(context)}');
   if (ThemeViewModel.platformDarkMode) {
     ToastUtil.show(StringHelper.getS()!.tipSwitchThemeWhenPlatformDark);
   } else {
@@ -211,14 +215,22 @@ class HomeBody extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: PageView.builder(
-            itemBuilder: (context, index) => ArticleItemWidget(tabs[index].url),
-            itemCount: tabs.length,
-            onPageChanged: (index) => controller?.animateTo(index),
-            controller: pageController,
+          child: ParentPageLifecycleWrapper(
+            controller: pageController!,
+            onLifecycleEvent: (event) =>
+                LogUtil.v('onLifecycleEvent_parent:$event'),
+            child: PageView.builder(
+              itemBuilder: (context, index) =>
+                  ArticleItemWidget(tabs[index].url, index),
+              itemCount: tabs.length,
+              onPageChanged: (index) {
+                controller?.animateTo(index);
+              },
+              controller: pageController,
 
-            ///桌面端且大屏禁用水平滑动切换tab
-            physics: displayDesktop ? NeverScrollableScrollPhysics() : null,
+              ///桌面端且大屏禁用水平滑动切换tab
+              physics: displayDesktop ? NeverScrollableScrollPhysics() : null,
+            ),
           ),
           // child: TabBarView(
           //   controller: controller,
@@ -473,7 +485,8 @@ class AppLogo extends StatelessWidget {
     return Image.asset(
       'assets/images/title.png',
       width: width,
-      color: Theme.of(context).appBarTheme.iconTheme!.color,
+      // color: Theme.of(context).appBarTheme.iconTheme!.color,
+      color: Theme.of(context).accentColor,
       fit: BoxFit.fill,
       filterQuality: FilterQuality.high,
       colorBlendMode: BlendMode.srcIn,

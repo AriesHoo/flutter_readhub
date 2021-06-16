@@ -9,6 +9,7 @@ import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/poem_sentence_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
+import 'package:flutter_readhub/widget/tooltip_plus.dart';
 
 ///诗歌视图-左侧tab下
 class PoemSentence extends StatelessWidget {
@@ -67,7 +68,7 @@ class PoemSentence extends StatelessWidget {
             children: [
               TextUtil.isEmpty(model.poemSentenceModel!.getTooltip())
                   ? contentText
-                  : Tooltip(
+                  : TooltipPlus(
                       message: '${model.poemSentenceModel!.getTooltip()}',
                       padding: EdgeInsets.all(12),
                       child: contentText,
@@ -79,7 +80,51 @@ class PoemSentence extends StatelessWidget {
                               ),
 
                       ///显示时间-点击其它地方消失
-                      showDuration: Duration(seconds: 30),
+                      showDuration: Duration(seconds: 60),
+                      margin: EdgeInsets.only(
+                        bottom: isDisplayDesktop ? 12 : 84,
+                        top: isDisplayDesktop ? 12 : 0,
+                        left: 12,
+                        right: 12,
+                      ),
+                      tooltip: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${model.poemSentenceModel!.title}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                    fontSize: 14 * textScale,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            Text(
+                              '${model.poemSentenceModel!.dynastyAuthor}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                    fontSize: 12 * textScale,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                            ),
+                            Text(
+                              '${model.poemSentenceModel!.contentStr}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                    fontSize: 14 * textScale,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                            )
+                          ],
+                        ),
+                      ),
                       decoration: ShapeDecoration(
                           shape: Decorations.lineShapeBorder(
                             context,
@@ -92,8 +137,8 @@ class PoemSentence extends StatelessWidget {
                           shadows: [
                             BoxShadow(
                               color: Theme.of(context).accentColor,
-                              offset: Offset(1.0, 1.0),
-                              blurRadius: 16,
+                              offset: Offset(2.0, 2.0),
+                              blurRadius: 24,
                             )
                           ]),
                       // decoration: BoxDecoration(
@@ -147,8 +192,12 @@ class PoemSentence extends StatelessWidget {
 
           ///诗歌tag
           Wrap(
-              runSpacing: 6,
-              spacing: 6,
+
+              ///垂直间隔
+              runSpacing: 4,
+
+              ///水平间隔
+              spacing: 4,
               children: sentenceModel.matchTags!
                   .map(
                     (e) => Container(

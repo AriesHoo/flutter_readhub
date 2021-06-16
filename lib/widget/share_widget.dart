@@ -77,7 +77,7 @@ class ShareGridWidget extends StatelessWidget {
         return BasisProviderWidget<BasisHighlightViewModel>(
           model: BasisHighlightViewModel(),
           builder: (context, highlightModel, child) => Opacity(
-            opacity: highlightModel.highlight ? 0.5 : 1,
+            opacity: highlightModel.highlight ? 0.7 : 1,
             child: Builder(
               builder: (BuildContext buildContext) => InkWell(
                 splashColor: Colors.transparent,
@@ -155,7 +155,7 @@ class CancelShare extends StatelessWidget {
     return BasisProviderWidget<BasisHighlightViewModel>(
       model: BasisHighlightViewModel(),
       builder: (context, model, child) => Opacity(
-        opacity: model.highlight ? 0.5 : 1,
+        opacity: model.highlight ? 0.7 : 1,
         child: MaterialButton(
           height: 50,
           minWidth: double.infinity,
@@ -165,11 +165,11 @@ class CancelShare extends StatelessWidget {
               Navigator.of(context).pop();
             }
           },
-          color: Colors.transparent,
+          // color: Colors.transparent,
           splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          hoverColor: Colors.black.withOpacity(0.025),
-          focusColor: Colors.transparent,
+          // highlightColor: Colors.transparent,
+          // hoverColor: Colors.black.withOpacity(0.025),
+          // focusColor: Colors.transparent,
           elevation: 0,
           highlightElevation: 0,
           focusElevation: 0,

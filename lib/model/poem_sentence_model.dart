@@ -52,6 +52,14 @@ class PoemSentenceModel {
   String getTooltip() {
     return origin != null ? origin!.getTooltip() : '';
   }
+
+  String get contentStr => origin != null ? origin!.getContentStr() : '';
+
+  String get dynastyAuthor => origin != null ? origin!.dynastyAuthor : '';
+
+  String get translate => origin != null ? origin!.getTranslateStr() : '';
+
+  String get title => origin != null ? '${origin!.title}' : '';
 }
 
 class Origin {
@@ -115,7 +123,7 @@ class Origin {
       ? ''
       : TextUtil.isEmpty(dynasty)
           ? author!
-          : '$dynasty-$author';
+          : '$dynasty•$author';
 
   ///诗歌全文
   String getContentStr({String result: ''}) {
@@ -132,7 +140,7 @@ class Origin {
     if (translate != null && translate!.isNotEmpty) {
       result += !TextUtil.isEmpty(result) ? '译文:' : '译文:';
       translate!.forEach((element) {
-        result += '$element\n';
+        result += '\n$element';
       });
     }
     return result;

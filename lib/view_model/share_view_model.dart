@@ -2,13 +2,17 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_list_view_model.dart';
 import 'package:flutter_readhub/basis/basis_view_model.dart';
+import 'package:flutter_readhub/dialog/card_share_dialog.dart';
+import 'package:flutter_readhub/dialog/text_share_dialog.dart';
+import 'package:flutter_readhub/dialog/url_share_dialog.dart';
 import 'package:flutter_readhub/enum/share_card_style.dart';
 import 'package:flutter_readhub/enum/share_type.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
+import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/share_util.dart';
 
-///卡片分享底部ViewModel
+///卡片分享底部ViewModel[CardShareDialog]
 class ShareBottomViewModel extends BasisListViewModel<ShareModel> {
   @override
   Future<List<ShareModel>> loadData() async {
@@ -78,8 +82,8 @@ class ShareBottomViewModel extends BasisListViewModel<ShareModel> {
   }
 }
 
-///文本分享底部ViewModel
-class ShareTextViewModel extends ShareBottomViewModel {
+///url分享底部ViewModel [UrlShareDialog]
+class ShareUrlViewModel extends ShareBottomViewModel {
   @override
   Future<List<ShareModel>> loadData() async {
     List<ShareModel> list = [];
@@ -138,6 +142,47 @@ class ShareTextViewModel extends ShareBottomViewModel {
       StringHelper.getS()!.more,
       'ic_more',
     ));
+    return list;
+  }
+}
+
+///text分享底部ViewModel[TextShareDialog]
+class ShareTextViewModel extends ShareBottomViewModel {
+  @override
+  Future<List<ShareModel>> loadData() async {
+    List<ShareModel> list = [];
+    if (PlatformUtil.isMacOS) {
+      list.add(
+        ShareModel(
+          ShareType.card,
+          StringHelper.getS()!.cardShare,
+          'ic_card',
+        ),
+      );
+    }
+    list.add(
+      ShareModel(
+        ShareType.copyLink,
+        StringHelper.getS()!.copyShare,
+        'ic_copy_link',
+      ),
+    );
+    list.add(
+      ShareModel(
+        ShareType.browser,
+        StringHelper.getS()!.openByBrowser,
+        'ic_browser',
+      ),
+    );
+    if (PlatformUtil.isMacOS) {
+      list.add(
+        ShareModel(
+          ShareType.more,
+          StringHelper.getS()!.shareToApp,
+          'ic_more',
+        ),
+      );
+    }
     return list;
   }
 }
