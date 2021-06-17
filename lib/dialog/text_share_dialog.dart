@@ -77,6 +77,7 @@ class TextShareDialog extends BasisDialog {
                   '${model.text}',
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(
                         fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                 ),
               ),
@@ -96,6 +97,7 @@ class TextShareDialog extends BasisDialog {
                 '手机扫码查看并分享',
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
                       fontSize: 13,
+                      fontWeight: FontWeight.bold,
                     ),
               ),
 

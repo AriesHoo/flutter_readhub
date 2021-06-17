@@ -137,11 +137,11 @@ class ArticleItemModel {
     parseTimeLong();
     String back = timeStr;
     if (siteName != null && siteName!.isNotEmpty) {
-//      if (authorName != null && authorName.isNotEmpty) {
-//        back = '$siteName/$authorName    $timeStr';
-//      } else {
-      back = '$siteName $timeStr';
-//      }
+      if (authorName != null && authorName!.isNotEmpty) {
+        back = '$siteName / $authorName    $timeStr';
+      } else {
+        back = '$siteName $timeStr';
+      }
     } else {
       if (newsArray != null) {
         NewsArray item = newsArray![0];

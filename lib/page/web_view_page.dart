@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_macos_webview/flutter_macos_webview.dart';
 import 'package:flutter_readhub/dialog/url_share_dialog.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
-import 'package:flutter_readhub/view_model/theme_view_model.dart';
+import 'package:marquee_text/marquee_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -83,7 +84,6 @@ class _WebViewPageState extends State<WebViewPage> {
   ///可否前进
   ValueNotifier<bool> _canGoForward = ValueNotifier(false);
   String _currentUrl = '';
-  String _title = '';
 
   launchURL(String url) async {
     try {
@@ -102,7 +102,8 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
-    _title = widget.model.title ?? StringHelper.getS()!.loadingWebTitle;
+    _getTitle.value =
+        widget.model.title ?? StringHelper.getS()!.loadingWebTitle;
     // Enable hybrid composition.
     if (PlatformUtil.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
@@ -111,48 +112,34 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        String? currentUrl = await _webViewController.currentUrl();
         bool canGoBack = await _webViewController.canGoBack();
         if (canGoBack) {
           _webViewController.goBack();
-          String? current = await _webViewController.currentUrl();
-
-          ///回退后当前url和回退前url一致直接退出页面
-          if (currentUrl == current) {
-            return true;
-          }
         }
-        LogUtil.v(
-            'canGoBack:$canGoBack;currentUrl:$currentUrl;url:${widget.model.url}');
         return !canGoBack;
-//        return true;
       },
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0,
-          leading: IconButton(
-            tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-            icon: Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+          leading: CloseButton(),
           title: ValueListenableBuilder<String>(
             valueListenable: _getTitle,
-            builder: (context, title, child) => Text(
-              TextUtil.isEmpty(title)
-                  ? widget.model.title ?? StringHelper.getS()!.loadingWebTitle
-                  : title,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              textScaleFactor: ThemeViewModel.textScaleFactor,
+            builder: (context, title, child) => MarqueeText(
+              text: title,
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: 17 * textScale,
+                    fontWeight: FontWeight.bold,
+                  ),
+              speed: 15,
             ),
           ),
-          // actions: <Widget>[
-          //   IconButton(
-          //     icon: Icon(Icons.share),
-          //     tooltip: StringHelper.getS()!.share,
-          //     onPressed: () => _showShare(),
-          //   ),
-          // ],
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.share),
+              tooltip: StringHelper.getS()!.share,
+              onPressed: () => _showShare(),
+            ),
+          ],
         ),
         body: Hero(
           tag: widget.model.url,
@@ -222,40 +209,46 @@ class _WebViewPageState extends State<WebViewPage> {
         //   tooltip: StringHelper.getS()!.share,
         //   onPressed: () => _showShare(),
         // ),
-        bottomNavigationBar: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: _canGoBack,
-              builder: (context, value, child) => IconButton(
-                onPressed: value ? () => _webViewController.goBack() : null,
-                icon: Icon(Icons.arrow_back_ios),
-                tooltip: StringHelper.getS()!.back,
+        bottomNavigationBar: SafeArea(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: _canGoBack,
+                builder: (context, value, child) => value
+                    ? IconButton(
+                        onPressed:
+                            value ? () => _webViewController.goBack() : null,
+                        icon: Icon(Icons.arrow_back),
+                        tooltip: StringHelper.getS()!.back,
+                      )
+                    : CloseButton(),
               ),
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: _canGoForward,
-              builder: (context, value, child) => IconButton(
-                onPressed: value ? () => _webViewController.goForward() : null,
-                icon: Icon(Icons.arrow_forward_ios),
-                tooltip: StringHelper.getS()!.forward,
+              ValueListenableBuilder<bool>(
+                valueListenable: _canGoForward,
+                builder: (context, value, child) => IconButton(
+                  onPressed:
+                      value ? () => _webViewController.goForward() : null,
+                  icon: Icon(Icons.arrow_forward),
+                  tooltip: StringHelper.getS()!.forward,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                _getProgress.value = true;
-                _webViewController.reload();
-              },
-              icon: Icon(Icons.refresh),
-              tooltip: StringHelper.getS()!.refresh,
-            ),
-            IconButton(
-              onPressed: () => _showShare(),
-              icon: Icon(Icons.share),
-              tooltip: StringHelper.getS()!.share,
-            ),
-          ],
+              IconButton(
+                onPressed: () {
+                  _getProgress.value = true;
+                  _webViewController.reload();
+                },
+                icon: Icon(Icons.refresh),
+                tooltip: StringHelper.getS()!.refresh,
+              ),
+              IconButton(
+                onPressed: () => _showShare(),
+                icon: Icon(Icons.share),
+                tooltip: StringHelper.getS()!.share,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -271,8 +264,9 @@ class _WebViewPageState extends State<WebViewPage> {
     _webViewController.getTitle().then((title) {
       _getProgress.value = title == null || title.isEmpty;
       LogUtil.v("getTitle:" + title!);
-      _title = title;
-      _getTitle.value = _title;
+      if (!TextUtil.isEmpty(title)) {
+        _getTitle.value = title;
+      }
     });
     _webViewController.canGoBack().then((value) {
       LogUtil.v('canGoBack:$value');

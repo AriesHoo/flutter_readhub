@@ -24,7 +24,7 @@ class BasisDialog extends Dialog {
   EdgeInsets? get insetPadding => EdgeInsets.only(
         left: 20,
         right: 20,
-        bottom: 20,
+        bottom: MediaQueryData.fromWindow(window).padding.bottom + 20,
         top: PlatformUtil.isMobile
             ? MediaQueryData.fromWindow(window).padding.top
             : 20,
@@ -44,6 +44,7 @@ class BasisDialog extends Dialog {
     final DialogTheme dialogTheme = DialogTheme.of(context);
     final EdgeInsets effectivePadding =
         MediaQuery.of(context).viewInsets + (insetPadding ?? EdgeInsets.zero);
+    LogUtil.v('insetPadding:$insetPadding');
     final Widget childWidget = AnimatedPadding(
       padding: effectivePadding,
       duration: insetAnimationDuration,

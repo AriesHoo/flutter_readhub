@@ -77,6 +77,8 @@ dependencies:
     path: ./plugins/flutter_macos_webview
   #  生命周期
   lifecycle: ^0.2.0
+  #  跑马灯效果
+  marquee_text: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

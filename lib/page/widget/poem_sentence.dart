@@ -126,21 +126,21 @@ class PoemSentence extends StatelessWidget {
                         ),
                       ),
                       decoration: ShapeDecoration(
-                          shape: Decorations.lineShapeBorder(
-                            context,
-                            lineWidth: 0.8,
-                            borderRadius: BorderRadius.circular(12),
-                            color:
-                                Theme.of(context).accentColor.withOpacity(0.8),
-                          ),
-                          color: Theme.of(context).cardColor.withOpacity(0.95),
-                          shadows: [
-                            BoxShadow(
-                              color: Theme.of(context).accentColor,
-                              offset: Offset(2.0, 2.0),
-                              blurRadius: 24,
-                            )
-                          ]),
+                        shape: Decorations.lineShapeBorder(
+                          context,
+                          lineWidth: 0.8,
+                          borderRadius: BorderRadius.circular(12),
+                          color: Theme.of(context).accentColor.withOpacity(0.8),
+                        ),
+                        color: Theme.of(context).cardColor.withOpacity(0.95),
+                        shadows: [
+                          BoxShadow(
+                            color: Theme.of(context).accentColor,
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 24,
+                          )
+                        ],
+                      ),
                       // decoration: BoxDecoration(
                       //   color: (ThemeViewModel.darkMode
                       //           ? Colors.white
@@ -238,56 +238,58 @@ class PoemSentence extends StatelessWidget {
                   ),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(200),
-                    side: BorderSide(
-                      color: Theme.of(context).accentColor,
-                      width: 1,
-                    ),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(200),
+                  side: BorderSide(
+                    color: Theme.of(context).accentColor,
+                    width: 1,
                   ),
                 ),
-                alignment: Alignment.center,
-                textStyle: MaterialStateProperty.all(
-                  TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.normal,
-                  ),
+              ),
+              alignment: Alignment.center,
+              textStyle: MaterialStateProperty.all(
+                TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.normal,
                 ),
+              ),
 
-                ///背景色
-                backgroundColor: MaterialStateProperty.resolveWith(
-                  (states) {
-                    if (states.contains(MaterialState.hovered) ||
-                        states.contains(MaterialState.pressed)) {
-                      return Theme.of(context).accentColor;
-                    }
-                    return Colors.transparent;
-                  },
-                ),
-
-                ///前景色--TextColor
-                foregroundColor: MaterialStateProperty.resolveWith(
-                  (states) {
-                    ///鼠标悬浮及手指按下
-                    if (states.contains(MaterialState.hovered) ||
-                        states.contains(MaterialState.pressed)) {
-                      return Colors.white;
-                    }
+              ///背景色
+              backgroundColor: MaterialStateProperty.resolveWith(
+                (states) {
+                  if (states.contains(MaterialState.hovered) ||
+                      states.contains(MaterialState.pressed)) {
                     return Theme.of(context).accentColor;
-                  },
-                ),
+                  }
+                  return Colors.transparent;
+                },
+              ),
 
-                ///hoverColor及splashColor
-                overlayColor: MaterialStateProperty.resolveWith(
-                  (states) {
-                    if (states.contains(MaterialState.pressed)) {
-                      return Colors.black.withOpacity(0.2);
-                    }
-                  },
-                ),
-                padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 24))),
+              ///前景色--TextColor
+              foregroundColor: MaterialStateProperty.resolveWith(
+                (states) {
+                  ///鼠标悬浮及手指按下
+                  if (states.contains(MaterialState.hovered) ||
+                      states.contains(MaterialState.pressed)) {
+                    return Colors.white;
+                  }
+                  return Theme.of(context).accentColor;
+                },
+              ),
+
+              ///hoverColor及splashColor
+              overlayColor: MaterialStateProperty.resolveWith(
+                (states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.black.withOpacity(0.2);
+                  }
+                },
+              ),
+              padding: MaterialStateProperty.all(
+                EdgeInsets.symmetric(horizontal: 24),
+              ),
+            ),
           ),
         ],
       ),

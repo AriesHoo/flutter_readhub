@@ -232,7 +232,7 @@ class ThemeViewModel with ChangeNotifier {
           ///title Text样式 原title 被废弃
           headline6: TextStyle(
             color: isDark ? Colors.white : accentColor,
-            fontSize: 17,
+            fontSize: 17 * textScale,
             fontWeight: FontWeight.w500,
 
             ///字体
@@ -278,10 +278,29 @@ class ThemeViewModel with ChangeNotifier {
           bottom: 12,
           top: 2,
         ),
-        decoration: BoxDecoration(
-          color: (isDark ? Colors.white : Colors.black).withOpacity(0.75),
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
+        decoration: isDark
+            ? ShapeDecoration(
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  side: BorderSide(
+                    width: 0.8,
+                    color: themeData.accentColor.withOpacity(0.9),
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                color: Colors.white.withOpacity(0.9),
+                shadows: [
+                  BoxShadow(
+                    color: themeData.accentColor,
+                    offset: Offset(2.0, 2.0),
+                    blurRadius: 24,
+                  )
+                ],
+              )
+            : BoxDecoration(
+                color: (isDark ? Colors.white : Colors.black).withOpacity(0.75),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
       ),
 
       ///TabBar样式设置

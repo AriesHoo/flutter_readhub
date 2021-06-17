@@ -44,11 +44,12 @@ class Decorations {
     BorderRadiusGeometry borderRadius: BorderRadius.zero,
   }) {
     return BeveledRectangleBorder(
-        borderRadius: borderRadius,
-        side: BorderSide(
-          width: lineWidth ?? 0.2,
-          color: color ?? Theme.of(context).hintColor.withOpacity(0.075),
-          style: BorderStyle.solid,
-        ));
+      borderRadius: borderRadius,
+      side: BorderSide(
+        width: lineWidth ?? 0.2,
+        color: color ?? Theme.of(context).hintColor.withOpacity(0.075),
+        style: BorderStyle.solid,
+      ),
+    );
   }
 }

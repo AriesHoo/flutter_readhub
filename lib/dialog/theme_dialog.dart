@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_readhub/dialog/basis_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
-import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 
 ///弹出颜色选择框
@@ -76,9 +75,7 @@ class ThemeDialog extends BasisDialog {
           padding: EdgeInsets.only(
             left: 24,
             right: count <= 1 ? 24 : 0,
-            top: PlatformUtil.isMobile
-                ? MediaQueryData.fromWindow(window).padding.top
-                : 24,
+            top: 24,
             bottom: 24,
           ),
 
