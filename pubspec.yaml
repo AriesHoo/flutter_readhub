@@ -75,6 +75,8 @@ dependencies:
   #  macos webView
   flutter_macos_webview:
     path: ./plugins/flutter_macos_webview
+  #  windows webView
+  webview_windows: ^0.0.6
   #  生命周期
   lifecycle: ^0.2.0
   #  跑马灯效果

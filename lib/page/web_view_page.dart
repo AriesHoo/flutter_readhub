@@ -13,6 +13,7 @@ import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:marquee_text/marquee_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_windows/webview_windows.dart';
 
 ///加载网页
 class WebViewPage extends StatefulWidget {
@@ -51,12 +52,16 @@ class WebViewPage extends StatefulWidget {
       );
       Size size = await DesktopWindow.getWindowSize();
       await macOSWebView.open(
-        url: shareModel.url,
+        url: shareModel.showUrl ?? shareModel.url,
         presentationStyle: PresentationStyle.sheet,
         size: size,
         sheetCloseButtonTitle:
             MaterialLocalizations.of(context).closeButtonTooltip,
       );
+    } else if (PlatformUtil.isWindows) {
+      final WebviewController _controller;
+      _controller = WebviewController();
+      await _controller.loadUrl(shareModel.showUrl ?? shareModel.url);
     } else {
       await launch(shareModel.url);
     }

@@ -8,13 +8,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.4"
-  archive:
-    dependency: transitive
-    description:
-      name: archive
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.1.2"
   async:
     dependency: transitive
     description:
@@ -208,7 +201,7 @@ packages:
       name: flutter_cache_manager
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -245,13 +238,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.0"
-  image:
-    dependency: transitive
-    description:
-      name: image
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.0.2"
   intl:
     dependency: transitive
     description:
@@ -356,7 +342,7 @@ packages:
       name: package_info_plus_windows
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   path:
     dependency: transitive
     description:
@@ -405,7 +391,7 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   permission_handler:
     dependency: "direct main"
     description:
@@ -420,13 +406,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.6.0"
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.1.0"
   platform:
     dependency: transitive
     description:
@@ -735,6 +714,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.8"
+  webview_windows:
+    dependency: "direct main"
+    description:
+      name: webview_windows
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.6"
   win32:
     dependency: transitive
     description:
@@ -749,13 +735,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
-  xml:
-    dependency: transitive
-    description:
-      name: xml
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "5.1.2"
 sdks:
   dart: ">=2.13.0 <3.0.0"
   flutter: ">=2.0.0"

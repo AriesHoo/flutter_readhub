@@ -21,7 +21,7 @@ class ShareHelper {
   ///分享文本到粘贴板
   Future<void> shareTextToClipboard(String text, {String? tip}) {
     return Clipboard.setData(ClipboardData(text: text)).then((value) =>
-        tip ?? ToastUtil.show(StringHelper.getS()!.copyToClipboardSucceed));
+        ToastUtil.show(tip ?? StringHelper.getS()!.copyToClipboardSucceed));
   }
 
   ///分享网址-通过系统浏览器打开

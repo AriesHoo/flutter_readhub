@@ -10,6 +10,7 @@ import 'package:flutter_readhub/dialog/card_share_dialog.dart';
 import 'package:flutter_readhub/dialog/theme_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/save_image_helper.dart';
+import 'package:flutter_readhub/helper/share_helper.dart';
 import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/widget/article_item_widget.dart';
@@ -202,6 +203,10 @@ class FeedbackWidget extends StatelessWidget {
           style: Theme.of(context).textTheme.caption,
         ),
         onTap: () async {
+          if (PlatformUtil.isWindows) {
+            ShareHelper.singleton.shareTextToClipboard('AriesHoo@126.com',tip: '郵箱複製成功');
+            return;
+          }
           Uri _emailLaunchUri = Uri(
               scheme: 'mailto',
               path: 'AriesHoo@126.com',
