@@ -132,7 +132,7 @@ class _WebViewPageState extends State<WebViewPage> {
             builder: (context, title, child) => MarqueeText(
               text: title,
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    fontSize: 17 * textScale,
+                    fontSize: 18 * textScale,
                     fontWeight: FontWeight.bold,
                   ),
               speed: 15,

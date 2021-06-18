@@ -62,16 +62,11 @@ class ThemeViewModel with ChangeNotifier {
   static MaterialColor get themeColor => _themeColor;
 
   ///白色主题状态栏及导航栏颜色
-  static Color colorWhiteTheme = Color(0x66000000);
-
-//  Color colorWhiteTheme = Colors.transparent;
-
-  static Color colorBlackTheme = Colors.grey[900]!;
+  static Color colorBlackTheme = Colors.grey[850]!;
 
   static Color get accentColor => _accentColor;
 
-  static Color get themeAccentColor =>
-      _userDarkMode ? colorBlackTheme : accentColor;
+  static Color get themeAccentColor => darkMode ? colorBlackTheme : accentColor;
 
   static double get textScaleFactor => 1;
 
@@ -224,7 +219,7 @@ class ThemeViewModel with ChangeNotifier {
       ///主题设置Appbar样式背景
       appBarTheme: themeData.appBarTheme.copyWith(
         ///根据主题设置Appbar样式背景
-        color: isDark ? colorBlackTheme : Colors.white,
+        color: themeData.cardColor,
 
         ///去掉海拔高度
         elevation: 0,
@@ -232,7 +227,7 @@ class ThemeViewModel with ChangeNotifier {
           ///title Text样式 原title 被废弃
           headline6: TextStyle(
             color: isDark ? Colors.white : accentColor,
-            fontSize: 17 * textScale,
+            fontSize: 18 * textScale,
             fontWeight: FontWeight.w500,
 
             ///字体
@@ -258,6 +253,7 @@ class ThemeViewModel with ChangeNotifier {
       iconTheme: themeData.iconTheme.copyWith(
         color: accentColor,
       ),
+      scaffoldBackgroundColor: themeData.cardColor,
 
       ///水波纹
       splashColor: themeColor.withAlpha(50),
@@ -366,6 +362,7 @@ class ThemeViewModel with ChangeNotifier {
       ///全局获取焦点颜色--键盘/遥控器上下左右enter控制--目前还没弄清楚焦点处理逻辑
       focusColor: Colors.transparent,
     );
+    colorBlackTheme = themeData.cardColor;
     setSystemBarTheme();
     return themeData;
   }

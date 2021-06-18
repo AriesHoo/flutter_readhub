@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage>
           ToastUtil.show(
             StringHelper.getS()!.quitApp,
             duration: Duration(milliseconds: 1500),
-            notification: false,
+            notification: true,
           );
           return false;
         }
@@ -295,6 +295,7 @@ class HomeBody extends StatelessWidget {
           ///宽屏布局--宽度决定是否显示
           Container(
             width: displayDesktop ? sideNavWidth : 0,
+            color: Theme.of(context).appBarTheme.color,
             child: Column(
               children: [
                 Padding(
