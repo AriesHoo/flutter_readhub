@@ -25,6 +25,9 @@
 
 仅供学习使用，禁止商用
 
+[![Stargazers over time](https://starchart.cc/AriesHoo/flutter_readhub.svg)](https://starchart.cc/AriesHoo/flutter_readhub)
+
+
 ### 前言
 
 > `Freadhub`是由`AriesHoo`开发维护的一个`Flutter`开源项目--`readhub`的非官方产品。
