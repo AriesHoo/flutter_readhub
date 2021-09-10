@@ -5,6 +5,8 @@ import 'package:flutter_readhub/util/platform_util.dart';
 
 ///Readhub 文章接口调用
 class ArticleRepository {
+  static Dio _dio = Dio();
+
   ///根据传入URL获取首页数据--根据是否传递 lastCursor标识第一页
   ///查证只支持每页最多20个
   static Future getArticleList(String url,
@@ -22,8 +24,12 @@ class ArticleRepository {
         queryParameters: param,
       );
     } else {
-      response = await Dio()
-          .get('https://api.readhub.me/$url', queryParameters: param);
+      _dio.options.headers
+          .putIfAbsent('Access-Control-Allow-Origin', () => '*');
+      response = await _dio.get(
+        'https://api.readhub.me/$url',
+        queryParameters: param,
+      );
     }
     return ArticleModel.fromJson(response.data);
   }
