@@ -269,7 +269,6 @@ class _SplashPageState extends State<SplashPage> {
         setState(() {
           _opacity = _opacity < 0 ? 0 : _opacity;
         });
-        print('tick:${timer.tick};_opacity:$_opacity');
       },
     );
   }
