@@ -1,5 +1,5 @@
 import 'package:flustars/flustars.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 
 ///Readhub 文章item model
@@ -97,12 +97,12 @@ class ArticleItemModel {
     return CardShareModel(
       title: title,
       text:
-          "${StringHelper.getS()!.saveImageShareTip}的资讯「$title」打开链接:${getUrl(showUrl: false)},查看详情。",
+          "${appString.saveImageShareTip}的资讯「$title」打开链接:${getUrl(showUrl: false)},查看详情。",
       summary: getSummary(),
       notice: getScanNote(),
       url: getUrl(showUrl: false),
       showUrl: getUrl(),
-      bottomNotice: StringHelper.getS()!.saveImageShareTip,
+      bottomNotice: appString.saveImageShareTip,
     );
   }
 

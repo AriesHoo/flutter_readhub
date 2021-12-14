@@ -1,8 +1,9 @@
+import 'dart:ui';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 
@@ -30,15 +31,13 @@ class ThemeViewModel with ChangeNotifier {
 
   /// 当前主题颜色
   static MaterialColor _themeColor = Colors.blue;
-  static Color _accentColor = _themeColor;
+  static Color _primaryColor = _themeColor;
 
   /// 用户选择的明暗模式
   static bool _userDarkMode = false;
 
   static bool get platformDarkMode =>
-      navigatorKey.currentContext != null &&
-      MediaQuery.of(navigatorKey.currentContext!).platformBrightness ==
-          Brightness.dark;
+      window.platformBrightness == Brightness.dark;
 
   static bool get userDarkMode => _userDarkMode;
 
@@ -64,9 +63,10 @@ class ThemeViewModel with ChangeNotifier {
   ///白色主题状态栏及导航栏颜色
   static Color colorBlackTheme = Colors.grey[850]!;
 
-  static Color get accentColor => _accentColor;
+  static Color get primaryColor => _primaryColor;
 
-  static Color get themeAccentColor => darkMode ? colorBlackTheme : accentColor;
+  static Color get themePrimaryColor =>
+      darkMode ? colorBlackTheme : primaryColor;
 
   static double get textScaleFactor => 1;
 
@@ -83,7 +83,7 @@ class ThemeViewModel with ChangeNotifier {
     _themeIndex =
         SpUtil.getInt(SP_KEY_THEME_COLOR_INDEX, defValue: _themeIndex);
     _themeColor = themeValueList[_themeIndex!];
-    _accentColor = _themeColor;
+    _primaryColor = _themeColor;
 
     /// 获取本地字体
     _fontIndex = SpUtil.getInt(SP_KEY_FONT_INDEX);
@@ -177,35 +177,30 @@ class ThemeViewModel with ChangeNotifier {
   ///根据主题 明暗 和 颜色 生成对应的主题[dark]系统的Dark Mode
   themeData({bool platformDarkMode: false}) {
     LogUtil.v('themeData_platform:$platformDarkMode'
-        ';currentContext:${navigatorKey.currentContext}'
-        ';textScale:$textScale}');
+        ';currentContext:${navigatorKey.currentContext}');
     var isDark = platformDarkMode || darkMode;
     var themeColor = _themeColor;
-    _accentColor = (isDark ? themeColor[600] : _themeColor)!;
+    _primaryColor = (isDark ? themeColor[600] : _themeColor)!;
     Brightness brightness = isDark ? Brightness.dark : Brightness.light;
     var themeData = ThemeData(
       ///主题浅色或深色-
       brightness: brightness,
       primaryColorBrightness: brightness,
-      accentColorBrightness: brightness,
       primarySwatch: themeColor,
 
-      ///强调色
-      accentColor: accentColor,
-      primaryColor: accentColor,
+      ///主色调
+      primaryColor: primaryColor,
 
       ///类苹果跟随滑动返回-修改后返回箭头及主标题iOS风格
       platform: TargetPlatform.iOS,
       errorColor: Colors.red,
-      toggleableActiveColor: accentColor,
+      toggleableActiveColor: primaryColor,
 
       ///输入框光标
-      // cursorColor: accentColor,
-      ///输入框光标
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: accentColor,
-        selectionColor: accentColor.withAlpha(60),
-        selectionHandleColor: accentColor.withAlpha(60),
+        cursorColor: primaryColor,
+        selectionColor: primaryColor.withAlpha(60),
+        selectionHandleColor: primaryColor.withAlpha(60),
       ),
 
       ///字体
@@ -223,40 +218,42 @@ class ThemeViewModel with ChangeNotifier {
 
         ///去掉海拔高度
         elevation: 0,
-        textTheme: TextTheme(
-          ///title Text样式 原title 被废弃
-          headline6: TextStyle(
-            color: isDark ? Colors.white : accentColor,
-            fontSize: 18 * textScale,
-            fontWeight: FontWeight.w500,
 
-            ///字体
-            fontFamily: fontValueList[_fontIndex!],
-          ),
+        ///title Text样式 原title 被废弃
+        titleTextStyle: TextStyle(
+          color: isDark ? Colors.white : primaryColor,
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
 
-          ///action及leading Text样式 原body1废弃
-          bodyText2: TextStyle(
-            color: isDark ? Colors.white : accentColor,
-            fontSize: 10,
-            fontWeight: FontWeight.w500,
+          ///字体
+          fontFamily: fontValueList[_fontIndex!],
+        ),
 
-            ///字体
-            fontFamily: fontValueList[_fontIndex!],
-          ),
+        ///action及leading Text样式 原body1废弃
+        toolbarTextStyle: TextStyle(
+          color: isDark ? Colors.white : primaryColor,
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+
+          ///字体
+          fontFamily: fontValueList[_fontIndex!],
         ),
 
         ///icon样式
         iconTheme: IconThemeData(
-          color: isDark ? Colors.white : accentColor,
+          color: isDark ? Colors.white : primaryColor,
         ),
       ),
       iconTheme: themeData.iconTheme.copyWith(
-        color: accentColor,
+        color: primaryColor,
       ),
       scaffoldBackgroundColor: themeData.cardColor,
 
-      ///水波纹
-      splashColor: themeColor.withAlpha(50),
+      ///水波纹-去掉水波纹
+      splashColor: Colors.transparent,
+
+      ///高亮色
+      highlightColor: themeColor.withAlpha(50),
 
       ///鼠标悬浮颜色
       hoverColor: themeColor.withAlpha(50),
@@ -264,7 +261,7 @@ class ThemeViewModel with ChangeNotifier {
       ///长按提示文本样式
       tooltipTheme: themeData.tooltipTheme.copyWith(
         textStyle: TextStyle(
-          fontSize: 14 * textScale,
+          fontSize: 14,
           color: (isDark ? Colors.black : Colors.white).withOpacity(0.9),
         ),
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -280,14 +277,14 @@ class ThemeViewModel with ChangeNotifier {
                   borderRadius: BorderRadius.circular(6),
                   side: BorderSide(
                     width: 0.8,
-                    color: themeData.accentColor.withOpacity(0.9),
+                    color: themeData.primaryColor.withOpacity(0.9),
                     style: BorderStyle.solid,
                   ),
                 ),
                 color: Colors.white.withOpacity(0.9),
                 shadows: [
                   BoxShadow(
-                    color: themeData.accentColor,
+                    color: themeData.primaryColor,
                     offset: Offset(2.0, 2.0),
                     blurRadius: 24,
                   )
@@ -325,7 +322,7 @@ class ThemeViewModel with ChangeNotifier {
 
       ///floatingActionButton
       floatingActionButtonTheme: themeData.floatingActionButtonTheme.copyWith(
-        foregroundColor: accentColor,
+        foregroundColor: primaryColor,
         backgroundColor: themeData.cardColor,
         elevation: 10,
         splashColor: themeColor.withOpacity(0.5),
@@ -372,19 +369,19 @@ class ThemeViewModel with ChangeNotifier {
     int? index = i ?? _themeIndex;
     switch (index) {
       case 0:
-        return StringHelper.getS()!.red;
+        return appString.red;
       case 1:
-        return StringHelper.getS()!.orange;
+        return appString.orange;
       case 2:
-        return StringHelper.getS()!.yellow;
+        return appString.yellow;
       case 3:
-        return StringHelper.getS()!.green;
+        return appString.green;
       case 4:
-        return StringHelper.getS()!.cyan;
+        return appString.cyan;
       case 5:
-        return StringHelper.getS()!.blue;
+        return appString.blue;
       case 6:
-        return StringHelper.getS()!.purple;
+        return appString.purple;
       case 7:
         return '${getWeekStr()}-${themeName(i: DateTime.now().weekday - 1)}';
       default:
@@ -404,19 +401,19 @@ class ThemeViewModel with ChangeNotifier {
     int week = DateTime.now().weekday;
     switch (week) {
       case 1:
-        return StringHelper.getS()!.monday;
+        return appString.monday;
       case 2:
-        return StringHelper.getS()!.tuesday;
+        return appString.tuesday;
       case 3:
-        return StringHelper.getS()!.wednesday;
+        return appString.wednesday;
       case 4:
-        return StringHelper.getS()!.thursday;
+        return appString.thursday;
       case 5:
-        return StringHelper.getS()!.friday;
+        return appString.friday;
       case 6:
-        return StringHelper.getS()!.saturday;
+        return appString.saturday;
       case 7:
-        return StringHelper.getS()!.sunday;
+        return appString.sunday;
       default:
         return '';
     }

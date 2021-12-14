@@ -1,16 +1,12 @@
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flustars/flustars.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_macos_webview/flutter_macos_webview.dart';
 import 'package:flutter_readhub/dialog/url_share_dialog.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
-import 'package:marquee_text/marquee_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_windows/webview_windows.dart';
@@ -108,9 +104,13 @@ class _WebViewPageState extends State<WebViewPage> {
   void initState() {
     super.initState();
     _getTitle.value =
-        widget.model.title ?? StringHelper.getS()!.loadingWebTitle;
+        widget.model.title ?? appString.loadingWebTitle;
     // Enable hybrid composition.
-    if (PlatformUtil.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    if (PlatformUtil.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    } else if (PlatformUtil.isWeb) {
+      //WebView.platform = WebWebViewPlatform();
+    }
   }
 
   @override
@@ -129,19 +129,18 @@ class _WebViewPageState extends State<WebViewPage> {
           leading: CloseButton(),
           title: ValueListenableBuilder<String>(
             valueListenable: _getTitle,
-            builder: (context, title, child) => MarqueeText(
-              text: title,
+            builder: (context, title, child) => Text(
+              title,
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    fontSize: 18 * textScale,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
-              speed: 15,
             ),
           ),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.share),
-              tooltip: StringHelper.getS()!.share,
+              tooltip: appString.share,
               onPressed: () => _showShare(),
             ),
           ],
@@ -158,8 +157,8 @@ class _WebViewPageState extends State<WebViewPage> {
                     height: loading ? 2 : 0,
                     child: LinearProgressIndicator(
                       backgroundColor: Theme.of(context).appBarTheme.color,
-                      valueColor:
-                          AlwaysStoppedAnimation(Theme.of(context).accentColor),
+                      valueColor: AlwaysStoppedAnimation(
+                          Theme.of(context).primaryColor),
                     ),
                   );
                 },
@@ -211,7 +210,7 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
         // floatingActionButton: FloatingActionButton(
         //   child: Icon(Icons.share),
-        //   tooltip: StringHelper.getS()!.share,
+        //   tooltip: appString.share,
         //   onPressed: () => _showShare(),
         // ),
         bottomNavigationBar: SafeArea(
@@ -226,7 +225,7 @@ class _WebViewPageState extends State<WebViewPage> {
                         onPressed:
                             value ? () => _webViewController.goBack() : null,
                         icon: Icon(Icons.arrow_back),
-                        tooltip: StringHelper.getS()!.back,
+                        tooltip: appString.back,
                       )
                     : CloseButton(),
               ),
@@ -236,7 +235,7 @@ class _WebViewPageState extends State<WebViewPage> {
                   onPressed:
                       value ? () => _webViewController.goForward() : null,
                   icon: Icon(Icons.arrow_forward),
-                  tooltip: StringHelper.getS()!.forward,
+                  tooltip: appString.forward,
                 ),
               ),
               IconButton(
@@ -245,12 +244,12 @@ class _WebViewPageState extends State<WebViewPage> {
                   _webViewController.reload();
                 },
                 icon: Icon(Icons.refresh),
-                tooltip: StringHelper.getS()!.refresh,
+                tooltip: appString.refresh,
               ),
               IconButton(
                 onPressed: () => _showShare(),
                 icon: Icon(Icons.share),
-                tooltip: StringHelper.getS()!.share,
+                tooltip: appString.share,
               ),
             ],
           ),

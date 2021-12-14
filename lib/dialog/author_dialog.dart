@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/basis_dialog.dart';
 import 'package:flutter_readhub/dialog/card_share_dialog.dart';
@@ -11,7 +8,7 @@ import 'package:flutter_readhub/dialog/theme_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/helper/save_image_helper.dart';
 import 'package:flutter_readhub/helper/share_helper.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/widget/article_item_widget.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -22,12 +19,24 @@ import 'package:flutter_readhub/view_model/update_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///弹出作者信息分享提示框
-Future<void> showAuthorDialog(BuildContext context) async {
-  await showDialog<int>(
+void showAuthorDialog(BuildContext context) {
+  showGeneralDialog(
     context: context,
     barrierColor: Colors.black54.withOpacity(0.2),
-    builder: (BuildContext context) {
-      return AuthorDialog();
+    pageBuilder: (
+      BuildContext buildContext,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    ) {
+      return ScaleTransition(
+        scale: Tween(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: Curves.fastOutSlowIn,
+          ),
+        ),
+        child: AuthorDialog(),
+      );
     },
   );
 }
@@ -82,7 +91,7 @@ class TopRoundWidget extends StatelessWidget {
             clipper: BottomClipper(),
             child: Container(
               height: 80,
-              color: Theme.of(context).accentColor.withOpacity(0.8),
+              color: Theme.of(context).primaryColor.withOpacity(0.8),
             ),
           ),
           Column(
@@ -109,7 +118,7 @@ class TopRoundWidget extends StatelessWidget {
                   text: '开源',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 15,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                   children: [
                     TextSpan(text: '  '),
@@ -124,7 +133,7 @@ class TopRoundWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             fontSize: 15,
                             decoration: TextDecoration.underline,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -140,7 +149,7 @@ class TopRoundWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             fontSize: 15,
                             decoration: TextDecoration.underline,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -190,10 +199,10 @@ class FeedbackWidget extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           Icons.mail_outline,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          StringHelper.getS()!.feedback,
+          appString.feedback,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),
@@ -204,7 +213,8 @@ class FeedbackWidget extends StatelessWidget {
         ),
         onTap: () async {
           if (PlatformUtil.isWindows) {
-            ShareHelper.singleton.shareTextToClipboard('AriesHoo@126.com',tip: '郵箱複製成功');
+            ShareHelper.singleton
+                .shareTextToClipboard('AriesHoo@126.com', tip: '邮箱复制成功');
             return;
           }
           Uri _emailLaunchUri = Uri(
@@ -214,7 +224,7 @@ class FeedbackWidget extends StatelessWidget {
 
           ///发送邮件
           if (!await canLaunch(_emailLaunchUri.toString())) {
-            ToastUtil.show(StringHelper.getS()!.tipNoEmailApp);
+            ToastUtil.show(appString.tipNoEmailApp);
             return;
           }
           launch(_emailLaunchUri.toString());
@@ -234,10 +244,10 @@ class UpdateWidget extends StatelessWidget {
         child: ListTile(
           leading: Icon(
             Icons.system_update_tv_outlined,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).primaryColor,
           ),
           title: Text(
-            StringHelper.getS()!.checkUpdate,
+            appString.checkUpdate,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.bodyText1!.copyWith(),
           ),
@@ -270,10 +280,10 @@ class ShareAppWidget extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           Icons.share,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          StringHelper.getS()!.shareApp,
+          appString.shareApp,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),
@@ -297,11 +307,11 @@ class ShareAppWidget extends StatelessWidget {
       CardShareModel(
         title: '分享一个还不错的「Readhub」三方客户端-「Freadhub」',
         text:
-            "${StringHelper.getS()!.saveImageShareTip} App 「Readhub三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
-        summary: StringHelper.getS()!.appName,
+            "${appString.saveImageShareTip} App 「Readhub三方客户端-Freadhub」 链接:https://www.pgyer.com/ntMA",
+        summary: appString.appName,
         url: 'https://www.pgyer.com/ntMA',
         notice: 'AriesHoo开发\n扫码查看详情',
-        bottomNotice: StringHelper.getS()!.saveImageShareTip,
+        bottomNotice: appString.saveImageShareTip,
         summaryWidget: ShareAppSummaryWidget(),
         showLogo: true,
       ),
@@ -331,7 +341,7 @@ class ShareAppSummaryWidget extends StatelessWidget {
           TextSpan(
             style: Theme.of(context).textTheme.headline6!.copyWith(
                   fontSize: 12,
-                  color: Theme.of(context).accentColor.withOpacity(0.8),
+                  color: Theme.of(context).primaryColor.withOpacity(0.8),
                   fontWeight: FontWeight.bold,
                 ),
             text: '\n热门话题、科技动态、技术资讯、区块链四大模块'
@@ -358,7 +368,7 @@ class ChoiceThemeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        StringHelper.getS()!.choiceTheme,
+        appString.choiceTheme,
         textScaleFactor: ThemeViewModel.textScaleFactor,
         style: Theme.of(context).textTheme.bodyText1,
       ),
@@ -416,10 +426,10 @@ class ThemeWidget extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           Icons.color_lens,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          StringHelper.getS()!.choiceTheme,
+          appString.choiceTheme,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),
@@ -442,10 +452,10 @@ class FontSizeWidget extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.font_download,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          StringHelper.getS()!.fontSize,
+          appString.fontSize,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1,
         ),
@@ -495,14 +505,14 @@ class FontSizeWidget extends StatelessWidget {
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
                     ///已拖动的颜色
-                    activeTrackColor: Theme.of(context).accentColor,
+                    activeTrackColor: Theme.of(context).primaryColor,
 
                     ///未拖动的颜色
                     inactiveTrackColor:
-                        Theme.of(context).accentColor.withOpacity(0.25),
+                        Theme.of(context).primaryColor.withOpacity(0.25),
 
                     ///提示进度的气泡的背景色
-                    valueIndicatorColor: Theme.of(context).accentColor,
+                    valueIndicatorColor: Theme.of(context).primaryColor,
 
                     ///提示进度的气泡文本的颜色
                     valueIndicatorTextStyle: TextStyle(
@@ -511,16 +521,16 @@ class FontSizeWidget extends StatelessWidget {
                     ),
 
                     ///滑块中心的颜色
-                    thumbColor: Theme.of(context).accentColor,
+                    thumbColor: Theme.of(context).primaryColor,
 
                     ///滑块边缘的颜色
                     overlayColor:
-                        Theme.of(context).accentColor.withOpacity(0.3),
+                        Theme.of(context).primaryColor.withOpacity(0.3),
 
                     ///divisions对进度线分割后，断续线中间间隔的颜色
                     inactiveTickMarkColor:
-                        Theme.of(context).accentColor.withOpacity(0.25),
-                    activeTickMarkColor: Theme.of(context).accentColor,
+                        Theme.of(context).primaryColor.withOpacity(0.25),
+                    activeTickMarkColor: Theme.of(context).primaryColor,
                   ),
                   child: Slider(
                     min: 8,
@@ -556,10 +566,10 @@ class AppreciateWidget extends StatelessWidget {
         backgroundColor: Colors.transparent,
         leading: Icon(
           Icons.payment,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          StringHelper.getS()!.appreciateDeveloper,
+          appString.appreciateDeveloper,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1,
         ),
@@ -575,7 +585,7 @@ class AppreciateWidget extends StatelessWidget {
                           String? _path = await _saveImageHelper.saveImage(
                               context, _globalKey, '/pay.png');
                           if (_path == null) {
-                            ToastUtil.show(StringHelper.getS()!.shotFailed);
+                            ToastUtil.show(appString.shotFailed);
                           } else {
                             final box =
                                 context.findRenderObject() as RenderBox?;
@@ -631,7 +641,7 @@ class AppreciateWidget extends StatelessWidget {
                                     ? '←   长按图片保存,微信扫码'
                                     : '微信扫码',
                                 style: TextStyle(
-                                  color: Theme.of(context).accentColor,
+                                  color: Theme.of(context).primaryColor,
                                   fontSize: PlatformUtil.isMobile ? 12 : 16,
                                 )),
                             TextSpan(
@@ -659,7 +669,7 @@ class CopyrightWidget extends StatelessWidget {
           color: Theme.of(context).textTheme.headline6!.color!.withOpacity(0.8),
         );
     TextStyle textStyleAccent = textStyle.copyWith(
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).primaryColor,
       fontStyle: FontStyle.italic,
       fontWeight: FontWeight.bold,
     );
@@ -668,10 +678,10 @@ class CopyrightWidget extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.content_copy,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          StringHelper.getS()!.appCopyright,
+          appString.appCopyright,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(),
         ),

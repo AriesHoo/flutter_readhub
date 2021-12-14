@@ -38,7 +38,7 @@ class TabBarWidget extends StatelessWidget {
       indicatorWeight: 1.5,
 
       ///指示器颜色
-      indicatorColor: Theme.of(context).accentColor,
+      indicatorColor: Theme.of(context).primaryColor,
 
       ///指示器样式-根据label宽度
       indicatorSize: TabBarIndicatorSize.label,

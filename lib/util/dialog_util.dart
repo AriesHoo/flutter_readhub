@@ -81,7 +81,7 @@ class DialogUtil {
                     child: Text(
                       ensure!,
                       style: Theme.of(context).textTheme.caption!.copyWith(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 14,
                           ),
                     ),
@@ -94,7 +94,7 @@ class DialogUtil {
                     child: Text(
                       ensure!,
                       style: Theme.of(context).textTheme.caption!.copyWith(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 14,
                           ),
                     ),

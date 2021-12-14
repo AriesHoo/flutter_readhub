@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_readhub/basis/basis_list_view_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import 'basis_list_view_model.dart';
-
 
 /// 下拉刷新及上拉加载更多封装
 abstract class BasisRefreshListViewModel<T> extends BasisListViewModel<T> {
+
   /// 分页第一页页码
   int pageNumFirst = 0;
 
   /// 分页条目数量
-  int pageSize = 20;
+  int pageSize = 12;
 
   /// 当前页码
   int _currentPage = 0;

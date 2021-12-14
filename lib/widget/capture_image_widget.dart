@@ -1,6 +1,6 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/page/widget/article_item_widget.dart';
 import 'package:flutter_readhub/util/resource_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
@@ -149,7 +149,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        StringHelper.getS()!.scanOrCodeForDetail,
+                        appString.scanOrCodeForDetail,
                         textScaleFactor: ThemeViewModel.textScaleFactor,
                         style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontSize: 18,
@@ -160,16 +160,16 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                       ),
                       RichText(
                         text: TextSpan(
-                          text: StringHelper.getS()!.shareForm,
+                          text: appString.shareForm,
                           style: Theme.of(context).textTheme.bodyText2,
                           children: [
                             TextSpan(
-                              text: '「${StringHelper.getS()!.appName}」',
+                              text: '「${appString.appName}」',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2!
                                   .copyWith(
-                                    color: Theme.of(context).accentColor,
+                                    color: Theme.of(context).primaryColor,
                                   ),
                             ),
                             TextSpan(text: 'App'),
@@ -224,7 +224,7 @@ class ShareSlogan extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                StringHelper.getS()!.appName,
+                appString.appName,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
                 style: Theme.of(context)
                     .textTheme
@@ -235,7 +235,7 @@ class ShareSlogan extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                StringHelper.getS()!.slogan,
+                appString.slogan,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -426,7 +426,7 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
               ),
               RichText(
                 text: TextSpan(
-                  text: StringHelper.getS()!.shareForm,
+                  text: appString.shareForm,
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(
                         fontSize: 12,
                         color: Theme.of(context)
@@ -437,9 +437,9 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
                       ),
                   children: [
                     TextSpan(
-                      text: '「${StringHelper.getS()!.appName}」',
+                      text: '「${appString.appName}」',
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 12,
                           ),
                     ),

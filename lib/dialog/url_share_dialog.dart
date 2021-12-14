@@ -5,7 +5,6 @@ import 'package:flutter_readhub/dialog/basis_dialog.dart';
 import 'package:flutter_readhub/dialog/card_share_dialog.dart';
 import 'package:flutter_readhub/enum/share_type.dart';
 import 'package:flutter_readhub/helper/share_helper.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
@@ -127,7 +126,7 @@ class UrlShareDialog extends BasisDialog {
       case ShareType.more:
         ShareUtil.shareText(
           model.text!,
-          subject: StringHelper.getS()!.saveImageShareTip,
+          subject: appString.saveImageShareTip,
           rect: rect,
         );
         break;

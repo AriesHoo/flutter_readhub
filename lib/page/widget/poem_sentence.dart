@@ -2,7 +2,6 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/poem_sentence_model.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -38,9 +37,8 @@ class PoemSentence extends StatelessWidget {
           '${model.poemSentenceModel!.content}',
 
           ///浏览器...显示异常
-          overflow: PlatformUtil.isBrowser
-              ? TextOverflow.fade
-              : TextOverflow.ellipsis,
+          overflow:
+              PlatformUtil.isWeb ? TextOverflow.fade : TextOverflow.ellipsis,
           maxLines: isDisplayDesktop ? 4 : 1,
           textScaleFactor: ThemeViewModel.textScaleFactor,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -57,8 +55,7 @@ class PoemSentence extends StatelessWidget {
         );
 
         ///避免因系统字号变大造成异常
-        LogUtil.v(
-            'textScale:$textScale;textScaleFactor:${MediaQuery.of(context).textScaleFactor}');
+        LogUtil.v('textScaleFactor:${MediaQuery.of(context).textScaleFactor}');
         return Container(
           padding: isDisplayDesktop
               ? EdgeInsets.symmetric(vertical: 24, horizontal: 16)
@@ -75,7 +72,7 @@ class PoemSentence extends StatelessWidget {
                       preferBelow: !isDisplayDesktop,
                       textStyle:
                           Theme.of(context).textTheme.bodyText2!.copyWith(
-                                fontSize: 14 * textScale,
+                                fontSize: 14,
                                 fontWeight: FontWeight.normal,
                               ),
 
@@ -98,7 +95,7 @@ class PoemSentence extends StatelessWidget {
                                   .textTheme
                                   .bodyText2!
                                   .copyWith(
-                                    fontSize: 14 * textScale,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
@@ -108,7 +105,7 @@ class PoemSentence extends StatelessWidget {
                                   .textTheme
                                   .bodyText2!
                                   .copyWith(
-                                    fontSize: 12 * textScale,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.normal,
                                   ),
                             ),
@@ -118,7 +115,7 @@ class PoemSentence extends StatelessWidget {
                                   .textTheme
                                   .bodyText2!
                                   .copyWith(
-                                    fontSize: 14 * textScale,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                   ),
                             )
@@ -130,12 +127,13 @@ class PoemSentence extends StatelessWidget {
                           context,
                           lineWidth: 0.8,
                           borderRadius: BorderRadius.circular(12),
-                          color: Theme.of(context).accentColor.withOpacity(0.8),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.8),
                         ),
                         color: Theme.of(context).cardColor.withOpacity(0.95),
                         shadows: [
                           BoxShadow(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).primaryColor,
                             offset: Offset(2.0, 2.0),
                             blurRadius: 24,
                           )
@@ -163,7 +161,7 @@ class PoemSentence extends StatelessWidget {
                       // boxShadow: [
                       //   //阴影
                       //   BoxShadow(
-                      //     color: Theme.of(context).accentColor.withOpacity(0.7),
+                      //     color: Theme.of(context).primaryColor.withOpacity(0.7),
                       //     offset: Offset(1.0, 1.0),
                       //     blurRadius: 6.0,
                       //   )
@@ -205,7 +203,7 @@ class PoemSentence extends StatelessWidget {
                         '$e',
                         textScaleFactor: ThemeViewModel.textScaleFactor,
                         style: TextStyle(
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).primaryColor,
                           fontSize: 11,
                         ),
                         textAlign: TextAlign.center,
@@ -213,7 +211,7 @@ class PoemSentence extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 1),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).primaryColor,
                           width: 0.7,
                         ),
                         borderRadius: BorderRadius.circular(10000),
@@ -242,7 +240,7 @@ class PoemSentence extends StatelessWidget {
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(200),
                   side: BorderSide(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).primaryColor,
                     width: 1,
                   ),
                 ),
@@ -260,7 +258,7 @@ class PoemSentence extends StatelessWidget {
                 (states) {
                   if (states.contains(MaterialState.hovered) ||
                       states.contains(MaterialState.pressed)) {
-                    return Theme.of(context).accentColor;
+                    return Theme.of(context).primaryColor;
                   }
                   return Colors.transparent;
                 },
@@ -274,7 +272,7 @@ class PoemSentence extends StatelessWidget {
                       states.contains(MaterialState.pressed)) {
                     return Colors.white;
                   }
-                  return Theme.of(context).accentColor;
+                  return Theme.of(context).primaryColor;
                 },
               ),
 
@@ -282,7 +280,7 @@ class PoemSentence extends StatelessWidget {
               overlayColor: MaterialStateProperty.resolveWith(
                 (states) {
                   if (states.contains(MaterialState.pressed)) {
-                    return Colors.black.withOpacity(0.2);
+                    return Theme.of(context).primaryColor.withOpacity(0.2);
                   }
                 },
               ),

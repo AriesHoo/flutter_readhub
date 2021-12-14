@@ -64,25 +64,25 @@ class PlatformUtil {
   }
 
   ///判断当前是否为web系统
-  static bool get isBrowser => kIsWeb;
+  static bool get isWeb => kIsWeb;
 
   ///是否Linux系统
-  static bool get isLinux => !isBrowser && Platform.isLinux;
+  static bool get isLinux => !isWeb && Platform.isLinux;
 
   ///是否Mac系统
-  static bool get isMacOS => !isBrowser && Platform.isMacOS;
+  static bool get isMacOS => !isWeb && Platform.isMacOS;
 
   ///是否Windows系统
-  static bool get isWindows => !isBrowser && Platform.isWindows;
+  static bool get isWindows => !isWeb && Platform.isWindows;
 
   ///是否Android系统
-  static bool get isAndroid => !isBrowser && Platform.isAndroid;
+  static bool get isAndroid => !isWeb && Platform.isAndroid;
 
   ///是否iOS系统
-  static bool get isIOS => !isBrowser && Platform.isIOS;
+  static bool get isIOS => !isWeb && Platform.isIOS;
 
   ///是否Fuchsia系统
-  static bool get isFuchsia => !isBrowser && Platform.isFuchsia;
+  static bool get isFuchsia => !isWeb && Platform.isFuchsia;
 
   ///是否手机系统
   static bool get isMobile => isAndroid || isIOS;

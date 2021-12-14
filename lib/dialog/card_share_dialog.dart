@@ -12,7 +12,6 @@ import 'package:flutter_readhub/enum/share_type.dart';
 import 'package:flutter_readhub/helper/path_helper.dart';
 import 'package:flutter_readhub/helper/save_image_helper.dart';
 import 'package:flutter_readhub/helper/share_helper.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/adaptive.dart';
@@ -29,7 +28,7 @@ import 'package:flutter_readhub/widget/share_widget.dart';
 class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
   ///展示卡片分享
   static show(BuildContext context, CardShareModel model) async {
-    if (PlatformUtil.isWindows || PlatformUtil.isBrowser) {
+    if (PlatformUtil.isWindows || PlatformUtil.isWeb) {
       ShareHelper.singleton.shareTextToClipboard(model.text!);
       return;
     }
@@ -189,7 +188,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
 
     LogUtil.v('CardSharePage_filePath:$_filePath');
     if (TextUtil.isEmpty(_filePath)) {
-      ToastUtil.show(StringHelper.getS()!.shotFailed);
+      ToastUtil.show(appString.shotFailed);
       return;
     }
     final box = context.findRenderObject() as RenderBox?;
@@ -216,7 +215,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
         ShareUtil.shareImagesToWeiBoTimeLine(
           [_filePath!],
           text: model.text,
-          subject: StringHelper.getS()!.saveImageShareTip,
+          subject: appString.saveImageShareTip,
           rect: rect,
         );
         break;
@@ -236,7 +235,7 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
         ShareUtil.shareImages(
           [_filePath!],
           text: model.text,
-          subject: StringHelper.getS()!.saveImageShareTip,
+          subject: appString.saveImageShareTip,
           rect: rect,
         );
         break;
@@ -251,8 +250,8 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
     );
     ToastUtil.show(
       styleModel.shareCardStyle == ShareCardStyle.app
-          ? StringHelper.getS()!.shareCarStyleApp
-          : StringHelper.getS()!.shareCarStyleJueJin,
+          ? appString.shareCarStyleApp
+          : appString.shareCarStyleJueJin,
     );
   }
 

@@ -29,7 +29,7 @@ class ToastUtil {
               : 2500,
     );
     LogUtil.v(
-        'text:$text;textScale:$textScale'
+        'text:$text'
         ';textScaleFactor:${MediaQuery.of((navigatorKey.currentContext)!).textScaleFactor}',
         tag: 'showToast');
     bool isDark = ThemeViewModel.darkMode;
@@ -40,7 +40,7 @@ class ToastUtil {
                 .textTheme
                 .subtitle1!
                 .copyWith(
-                  fontSize: 16 * textScale,
+                  fontSize: 16,
                   color: textColor ?? (isDark ? Colors.black : Colors.white),
                 ),
             hideCloseButton: true,
@@ -58,7 +58,7 @@ class ToastUtil {
         : BotToast.showText(
             text: '$text',
             textStyle: TextStyle(
-              fontSize: 16 * textScale,
+              fontSize: 16,
               color: Colors.white,
             ),
             align: align,

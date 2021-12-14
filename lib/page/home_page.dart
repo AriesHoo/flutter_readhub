@@ -1,13 +1,9 @@
 import 'package:flustars/flustars.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_readhub/data/article_http.dart';
 import 'package:flutter_readhub/dialog/author_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/tab_model.dart';
 import 'package:flutter_readhub/page/widget/article_item_widget.dart';
@@ -29,7 +25,7 @@ void switchDarkMode(BuildContext context) {
   LogUtil.v('platformBrightness:${MediaQuery.of(context).platformBrightness}'
       ';platformBrightnessOf:${MediaQuery.platformBrightnessOf(context)}');
   if (ThemeViewModel.platformDarkMode) {
-    ToastUtil.show(StringHelper.getS()!.tipSwitchThemeWhenPlatformDark);
+    ToastUtil.show(appString.tipSwitchThemeWhenPlatformDark);
   } else {
     ProviderHelper.of<ThemeViewModel>(context).switchTheme(
         userDarkMode: Theme.of(context).brightness == Brightness.light);
@@ -57,6 +53,8 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+
+    SystemChrome.setEnabledSystemUIOverlays([]);
     _listTab.add(
       TabModel(
         '热门话题',
@@ -133,7 +131,7 @@ class _HomePageState extends State<HomePage>
           ///两次点击间隔超过阈值则重新计时
           _lastPressedAt = DateTime.now();
           ToastUtil.show(
-            StringHelper.getS()!.quitApp,
+            appString.quitApp,
             duration: Duration(milliseconds: 1500),
             notification: true,
           );
@@ -215,8 +213,7 @@ class HomeBody extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: ParentPageLifecycleWrapper(
-            controller: pageController!,
+          child: PageViewLifecycleWrapper(
             onLifecycleEvent: (event) =>
                 LogUtil.v('onLifecycleEvent_parent:$event'),
             child: PageView.builder(
@@ -271,7 +268,7 @@ class HomeBody extends StatelessWidget {
             AnimatedSwitcherIconWidget(
               defaultIcon: Icons.info,
               switchIcon: Icons.info_outline,
-              tooltip: StringHelper.getS()!.moreSetting,
+              tooltip: appString.moreSetting,
               onPressed: () => showAuthorDialog(context),
               checkTheme: true,
             ),
@@ -281,8 +278,8 @@ class HomeBody extends StatelessWidget {
               defaultIcon: Icons.brightness_2,
               switchIcon: Icons.brightness_5,
               tooltip: ThemeViewModel.darkMode
-                  ? StringHelper.getS()!.lightMode
-                  : StringHelper.getS()!.darkMode,
+                  ? appString.lightMode
+                  : appString.darkMode,
               onPressed: () => switchDarkMode(context),
             ),
           ],
@@ -330,7 +327,7 @@ class HomeBody extends StatelessWidget {
                       AnimatedSwitcherIconWidget(
                         defaultIcon: Icons.info,
                         switchIcon: Icons.info_outline,
-                        tooltip: StringHelper.getS()!.moreSetting,
+                        tooltip: appString.moreSetting,
                         onPressed: () => showAuthorDialog(context),
                         checkTheme: true,
                       ),
@@ -340,8 +337,8 @@ class HomeBody extends StatelessWidget {
                         defaultIcon: Icons.brightness_2,
                         switchIcon: Icons.brightness_5,
                         tooltip: ThemeViewModel.darkMode
-                            ? StringHelper.getS()!.lightMode
-                            : StringHelper.getS()!.darkMode,
+                            ? appString.lightMode
+                            : appString.darkMode,
                         onPressed: () => switchDarkMode(context),
                       ),
                     ],
@@ -403,7 +400,7 @@ class SideNav extends StatelessWidget {
                     autofocus: true,
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(isSelected
-                          ? Theme.of(context).accentColor
+                          ? Theme.of(context).primaryColor
                           : Colors.transparent),
 
                       textStyle: MaterialStateProperty.all(
@@ -413,7 +410,7 @@ class SideNav extends StatelessWidget {
                             ),
                       ),
 
-                      ///hoverColor及splashColor PlatformUtil.isBrowser
+                      ///hoverColor及splashColor PlatformUtil.isWeb
                       overlayColor: MaterialStateProperty.resolveWith(
                         (states) {
                           if (states.contains(MaterialState.focused)) {
@@ -422,8 +419,8 @@ class SideNav extends StatelessWidget {
                           if (states.contains(MaterialState.hovered) ||
                               states.contains(MaterialState.pressed)) {
                             return Theme.of(context)
-                                .accentColor
-                                .withOpacity(0.7);
+                                .primaryColor
+                                .withOpacity(0.6);
                           }
                           return null;
                         },
@@ -487,7 +484,7 @@ class AppLogo extends StatelessWidget {
       'assets/images/title.png',
       width: width,
       // color: Theme.of(context).appBarTheme.iconTheme!.color,
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).primaryColor,
       fit: BoxFit.fill,
       filterQuality: FilterQuality.high,
       colorBlendMode: BlendMode.srcIn,

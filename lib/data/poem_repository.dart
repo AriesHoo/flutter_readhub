@@ -12,7 +12,7 @@ class PoemRepository {
   ///获取token
   static Future<String> getPoemToken() async {
     Response response;
-    if (!PlatformUtil.isBrowser) {
+    if (!PlatformUtil.isWeb) {
       response = await http.get(
         'token',
       );
@@ -34,7 +34,7 @@ class PoemRepository {
     if (TextUtil.isEmpty(SpHelper.getPoemToken())) {
       await getPoemToken();
     }
-    if (!PlatformUtil.isBrowser) {
+    if (!PlatformUtil.isWeb) {
       response = await http.get(
         'sentence',
       );

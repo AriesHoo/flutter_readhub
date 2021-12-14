@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_view_model.dart';
 import 'package:flutter_readhub/data/update_repository.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/app_update_model.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -57,7 +57,7 @@ class UpdateViewModel extends BasisViewModel {
       {bool background = true}) async {
     if (info == null || !info.buildHaveNewVersion!) {
       if (!background) {
-        ToastUtil.show(StringHelper.getS()!.currentIsNew);
+        ToastUtil.show(appString.currentIsNew);
       }
       return;
     }
@@ -72,14 +72,14 @@ class UpdateViewModel extends BasisViewModel {
               TextSpan(
                   text: '\n系统自带浏览器打开',
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 13,
                       ))
             ]),
       ),
       content: info.buildUpdateDescription,
-      cancel: StringHelper.getS()!.updateNextTime,
-      ensure: StringHelper.getS()!.updateNow,
+      cancel: appString.updateNextTime,
+      ensure: appString.updateNow,
     ).then((index) {
       if (index == 1) {
         launch(info.downloadURL!);

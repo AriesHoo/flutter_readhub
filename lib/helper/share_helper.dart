@@ -1,6 +1,6 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,8 +20,8 @@ class ShareHelper {
 
   ///分享文本到粘贴板
   Future<void> shareTextToClipboard(String text, {String? tip}) {
-    return Clipboard.setData(ClipboardData(text: text)).then((value) =>
-        ToastUtil.show(tip ?? StringHelper.getS()!.copyToClipboardSucceed));
+    return Clipboard.setData(ClipboardData(text: text)).then(
+        (value) => ToastUtil.show(tip ?? appString.copyToClipboardSucceed));
   }
 
   ///分享网址-通过系统浏览器打开

@@ -7,7 +7,7 @@ import 'package:flutter_readhub/dialog/text_share_dialog.dart';
 import 'package:flutter_readhub/dialog/url_share_dialog.dart';
 import 'package:flutter_readhub/enum/share_card_style.dart';
 import 'package:flutter_readhub/enum/share_type.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/share_util.dart';
@@ -19,63 +19,63 @@ class ShareBottomViewModel extends BasisListViewModel<ShareModel> {
     List<ShareModel> list = [];
     list.add(ShareModel(
       ShareType.icon,
-      StringHelper.getS()!.shareCarStyle,
+      appString.shareCarStyle,
       '',
       icon: Icons.color_lens_rounded,
     ));
     if (await ShareUtil.isWeChatInstall()) {
       list.add(ShareModel(
         ShareType.weChatFriend,
-        StringHelper.getS()!.weChatFriend,
+        appString.weChatFriend,
         'ic_we_chat',
       ));
       list.add(ShareModel(
         ShareType.weChatTimeLine,
-        StringHelper.getS()!.weChatTimeLine,
+        appString.weChatTimeLine,
         'ic_we_chat_timeline',
       ));
     }
     if (await ShareUtil.isQQInstall()) {
       list.add(ShareModel(
         ShareType.qqFriend,
-        StringHelper.getS()!.qqFriend,
+        appString.qqFriend,
         'ic_qq',
       ));
     }
     if (await ShareUtil.isWeiBoInstall()) {
       list.add(ShareModel(
         ShareType.weiBoTimeLine,
-        StringHelper.getS()!.weiBoTimeLine,
+        appString.weiBoTimeLine,
         'ic_wei_bo',
       ));
     }
     if (await ShareUtil.isDingTalkInstall()) {
       list.add(ShareModel(
         ShareType.dingTalk,
-        StringHelper.getS()!.dingTalk,
+        appString.dingTalk,
         'ic_ding_talk',
       ));
     }
     if (await ShareUtil.isWeWorkInstall()) {
       list.add(ShareModel(
         ShareType.weWork,
-        StringHelper.getS()!.weWork,
+        appString.weWork,
         'ic_we_work',
       ));
     }
     list.add(ShareModel(
       ShareType.copyLink,
-      StringHelper.getS()!.copyLink,
+      appString.copyLink,
       'ic_copy_link',
     ));
     list.add(ShareModel(
       ShareType.browser,
-      StringHelper.getS()!.openByBrowser,
+      appString.openByBrowser,
       'ic_browser',
     ));
     list.add(ShareModel(
       ShareType.more,
-      StringHelper.getS()!.more,
+      appString.more,
       'ic_more',
     ));
     return list;
@@ -89,57 +89,57 @@ class ShareUrlViewModel extends ShareBottomViewModel {
     List<ShareModel> list = [];
     list.add(ShareModel(
       ShareType.card,
-      StringHelper.getS()!.cardShare,
+      appString.cardShare,
       'ic_card',
     ));
     if (await ShareUtil.isWeChatInstall()) {
       list.add(ShareModel(
         ShareType.weChatFriend,
-        StringHelper.getS()!.weChatFriend,
+        appString.weChatFriend,
         'ic_we_chat',
       ));
     }
     if (await ShareUtil.isQQInstall()) {
       list.add(ShareModel(
         ShareType.qqFriend,
-        StringHelper.getS()!.qqFriend,
+        appString.qqFriend,
         'ic_qq',
       ));
     }
     if (await ShareUtil.isWeiBoInstall()) {
       list.add(ShareModel(
         ShareType.weiBoTimeLine,
-        StringHelper.getS()!.weiBoTimeLine,
+        appString.weiBoTimeLine,
         'ic_wei_bo',
       ));
     }
     if (await ShareUtil.isDingTalkInstall()) {
       list.add(ShareModel(
         ShareType.dingTalk,
-        StringHelper.getS()!.dingTalk,
+        appString.dingTalk,
         'ic_ding_talk',
       ));
     }
     if (await ShareUtil.isWeWorkInstall()) {
       list.add(ShareModel(
         ShareType.weWork,
-        StringHelper.getS()!.weWork,
+        appString.weWork,
         'ic_we_work',
       ));
     }
     list.add(ShareModel(
       ShareType.copyLink,
-      StringHelper.getS()!.copyLink,
+      appString.copyLink,
       'ic_copy_link',
     ));
     list.add(ShareModel(
       ShareType.browser,
-      StringHelper.getS()!.openByBrowser,
+      appString.openByBrowser,
       'ic_browser',
     ));
     list.add(ShareModel(
       ShareType.more,
-      StringHelper.getS()!.more,
+      appString.more,
       'ic_more',
     ));
     return list;
@@ -155,7 +155,7 @@ class ShareTextViewModel extends ShareBottomViewModel {
       list.add(
         ShareModel(
           ShareType.card,
-          StringHelper.getS()!.cardShare,
+          appString.cardShare,
           'ic_card',
         ),
       );
@@ -163,14 +163,14 @@ class ShareTextViewModel extends ShareBottomViewModel {
     list.add(
       ShareModel(
         ShareType.copyLink,
-        StringHelper.getS()!.copyShare,
+        appString.copyShare,
         'ic_copy_link',
       ),
     );
     list.add(
       ShareModel(
         ShareType.browser,
-        StringHelper.getS()!.openByBrowser,
+        appString.openByBrowser,
         'ic_browser',
       ),
     );
@@ -178,7 +178,7 @@ class ShareTextViewModel extends ShareBottomViewModel {
       list.add(
         ShareModel(
           ShareType.more,
-          StringHelper.getS()!.shareToApp,
+          appString.shareToApp,
           'ic_more',
         ),
       );
@@ -195,46 +195,46 @@ class ShareImageViewModel extends ShareBottomViewModel {
     if (await ShareUtil.isWeChatInstall()) {
       list.add(ShareModel(
         ShareType.weChatFriend,
-        StringHelper.getS()!.weChatFriend,
+        appString.weChatFriend,
         'ic_we_chat',
       ));
       list.add(ShareModel(
         ShareType.weChatTimeLine,
-        StringHelper.getS()!.weChatTimeLine,
+        appString.weChatTimeLine,
         'ic_we_chat_timeline',
       ));
     }
     if (await ShareUtil.isQQInstall()) {
       list.add(ShareModel(
         ShareType.qqFriend,
-        StringHelper.getS()!.qqFriend,
+        appString.qqFriend,
         'ic_qq',
       ));
     }
     if (await ShareUtil.isWeiBoInstall()) {
       list.add(ShareModel(
         ShareType.weiBoTimeLine,
-        StringHelper.getS()!.weiBoTimeLine,
+        appString.weiBoTimeLine,
         'ic_wei_bo',
       ));
     }
     if (await ShareUtil.isDingTalkInstall()) {
       list.add(ShareModel(
         ShareType.dingTalk,
-        StringHelper.getS()!.dingTalk,
+        appString.dingTalk,
         'ic_ding_talk',
       ));
     }
     if (await ShareUtil.isWeWorkInstall()) {
       list.add(ShareModel(
         ShareType.weWork,
-        StringHelper.getS()!.weWork,
+        appString.weWork,
         'ic_we_work',
       ));
     }
     list.add(ShareModel(
       ShareType.more,
-      StringHelper.getS()!.more,
+      appString.more,
       'ic_more',
     ));
     return list;

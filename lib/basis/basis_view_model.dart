@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/basis/view_state.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
-
-import 'view_state.dart';
 
 ///基础ViewModel
 class BasisViewModel with ChangeNotifier {
@@ -86,7 +85,7 @@ class BasisViewModel with ChangeNotifier {
   showErrorMessage(context, {String? message}) {
     if (viewStateError != null && message != null) {
       if (viewStateError!.isNetworkError) {
-        message = StringHelper.getS()!.viewStateNetworkError;
+        message = appString.viewStateNetworkError;
       } else {
         message = viewStateError!.message;
       }

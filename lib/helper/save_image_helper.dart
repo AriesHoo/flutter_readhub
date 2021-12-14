@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -7,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_readhub/helper/path_helper.dart';
 import 'package:flutter_readhub/helper/permission_helper.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
@@ -48,13 +47,11 @@ class SaveImageHelper {
     if (!await PermissionHelper.checkStoragePermission()) {
       DialogUtil.showAlertDialog(
         context,
-        title: PlatformUtil.isIOS ? StringHelper.getS()!.dialogTitle : null,
-        content: StringHelper.getS()!.shareImageNeedInvite +
-            (PlatformUtil.isIOS
-                ? StringHelper.getS()!.photo
-                : StringHelper.getS()!.fileStorage),
-        cancel: StringHelper.getS()!.noPermission,
-        ensure: StringHelper.getS()!.goPermission,
+        title: PlatformUtil.isIOS ? appString.dialogTitle : null,
+        content: appString.shareImageNeedInvite +
+            (PlatformUtil.isIOS ? appString.photo : appString.fileStorage),
+        cancel: appString.noPermission,
+        ensure: appString.goPermission,
       ).then((value) {
         if (value == 1) {
           openAppSettings();

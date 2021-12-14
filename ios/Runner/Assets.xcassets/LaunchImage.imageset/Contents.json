@@ -49,14 +49,52 @@
       "scale": "3x"
     },
     {
-      "scale": "1x",
-      "filename": "LaunchImage-ipad.png",
-      "idiom": "ipad"
+      "filename": "LaunchImage-ipad@3x.png",
+      "idiom": "ipad",
+      "scale": "1x"
     },
     {
-      "filename": "LaunchImage-ipad@2x.png",
-      "scale": "2x",
-      "idiom": "ipad"
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ],
+      "filename": "LaunchImage-dark-ipad@3x.png",
+      "idiom": "ipad",
+      "scale": "1x"
+    },
+    {
+      "filename": "LaunchImage-ipad@3x.png",
+      "idiom": "ipad",
+      "scale": "2x"
+    },
+    {
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ],
+      "filename": "LaunchImage-dark-ipad@3x.png",
+      "idiom": "ipad",
+      "scale": "2x"
+    },
+    {
+      "filename": "LaunchImage-ipad@3x.png",
+      "idiom": "ipad",
+      "scale": "3x"
+    },
+    {
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ],
+      "filename": "LaunchImage-dark-ipad@3x.png",
+      "idiom": "ipad",
+      "scale": "3x"
     }
   ],
   "info": {

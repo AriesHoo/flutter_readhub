@@ -1,7 +1,12 @@
+import 'package:flutter_readhub/basis/basis_scroll_top_controller.dart';
+
 import 'basis_view_model.dart';
 
 /// 一次性获取列表数据
 abstract class BasisListViewModel<T> extends BasisViewModel {
+
+  ///ScrollController用于控制滚动逻辑
+  BasisScrollTopController scrollTopController = BasisScrollTopController.defaultTopController();
   /// 页面数据
   List<T> list = [];
 

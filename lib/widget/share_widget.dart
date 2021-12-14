@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_readhub/basis/basis_highlight_view_model.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/enum/share_type.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/view_model/share_view_model.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
@@ -104,7 +103,7 @@ class ShareGridWidget extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               ///背景
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).primaryColor,
 
                               ///设置四周圆角 角度
                               borderRadius:
@@ -176,7 +175,7 @@ class CancelShare extends StatelessWidget {
           disabledElevation: 0,
           hoverElevation: 0,
           child: Text(
-            StringHelper.getS()!.cancel,
+            appString.cancel,
             style: Theme.of(context).textTheme.subtitle1,
             textScaleFactor: ThemeViewModel.textScaleFactor,
           ),

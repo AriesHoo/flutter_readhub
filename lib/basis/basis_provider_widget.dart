@@ -1,17 +1,16 @@
+import 'dart:ui';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/basis/basis_list_view_model.dart';
+import 'package:flutter_readhub/basis/basis_refresh_list_view_model.dart';
+import 'package:flutter_readhub/basis/view_state_widget.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import 'basis_list_view_model.dart';
-import 'basis_refresh_list_view_model.dart';
-import 'scroll_top_model.dart';
-import 'view_state_widget.dart';
 
 /// Provider简单抽离方便数据初始化
 class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
@@ -102,66 +101,62 @@ class BasisListProviderWidget<T extends BasisListViewModel>
 }
 
 ///配合下拉刷新功能--配合上拉加载更多及返回顶部
-class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
-    B extends ScrollTopModel> extends BasisProviderWidget2<A, B> {
+class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
+    extends BasisProviderWidget<A> {
   BasisRefreshListProviderWidget({
     Key? key,
     Widget Function(BuildContext context, A model, int index)? itemBuilder,
-    required A model1,
-    Widget Function(BuildContext context, A model, B model2)? childBuilder,
-    B? model2,
-    Function(A, B)? onModelReady,
-    Widget Function(BuildContext context, A model1, B model2, Widget? child)?
+    required A model,
+    Widget Function(BuildContext context, A model)? childBuilder,
+    Function(A)? onModelReady,
+    Widget Function(BuildContext context, A model, Widget? child)?
         loadingBuilder,
-    Widget Function(BuildContext context, A model1, B model2, Widget? child)?
-        emptyBuilder,
-    Widget Function(BuildContext context, A model1, B model2, Widget? child)?
-        errorBuilder,
+    Widget Function(BuildContext context, A model, Widget? child)? emptyBuilder,
+    Widget Function(BuildContext context, A model, Widget? child)? errorBuilder,
     Widget? child,
   }) : super(
             key: key,
-            model1: model1,
-            model2: model2 ?? ScrollTopModel.defaultTopModel() as B,
+            model: model,
             child: child,
-            onModelReady: (m1, m2) {
+            onModelReady: (m1) {
               ///加载数据
               m1.initData();
 
               ///初始化滚动监听
-              m2.initListener();
+              m1.scrollTopController.initListener();
 
               ///初始化完成回调
-              onModelReady?.call(m1, m2);
+              onModelReady?.call(m1);
 
               ///非移动端滚动到底部有未触发加载下一页操作
-              m2.scrollController.addListener(() {
-                if (m2.scrollController.position.pixels ==
-                    m2.scrollController.position.maxScrollExtent) {
-                  if (m1.refreshController.footerStatus != LoadStatus.noMore &&
-                      m1.refreshController.footerStatus != LoadStatus.loading) {
-                    try {
-                      m1.refreshController.requestLoading();
-                    } catch (e) {
-                      LogUtil.e('$e');
-                    }
-                  }
-                }
-              });
+              //  m1.scrollTopController.scrollController.addListener(() {
+              //   if ( m1.scrollTopController.scrollController.position.pixels ==
+              //        m1.scrollTopController.scrollController.position.maxScrollExtent) {
+              //     if (m1.refreshController.footerStatus != LoadStatus.noMore &&
+              //         m1.refreshController.footerStatus != LoadStatus.loading) {
+              //       try {
+              //         m1.refreshController.requestLoading();
+              //       } catch (e) {
+              //         LogUtil.e('$e');
+              //       }
+              //     }
+              //   }
+              // });
             },
-            builder: (context, m1, m2, child) {
+            builder: (context, m1, child) {
               if (m1.loading) {
                 return loadingBuilder != null
-                    ? loadingBuilder(context, m1, m2, child)
+                    ? loadingBuilder(context, m1, child)
                     : LoadingStateWidget();
               } else if (m1.empty) {
                 return emptyBuilder != null
-                    ? emptyBuilder(context, m1, m2, child!)
+                    ? emptyBuilder(context, m1, child)
                     : EmptyStateWidget(
                         onPressed: m1.initData,
                       );
               } else if (m1.error && m1.list.isEmpty) {
                 return errorBuilder != null
-                    ? errorBuilder(context, m1, m2, child!)
+                    ? errorBuilder(context, m1, child)
                     : ErrorStateWidget(
                         error: m1.viewStateError,
                         onPressed: m1.initData,
@@ -176,14 +171,14 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                   header: PlatformUtil.isAndroid
                       ? MaterialClassicHeader(
                           backgroundColor: Colors.white,
-                          color: ThemeViewModel.accentColor,
+                          color: ThemeViewModel.primaryColor,
                         )
                       : ClassicHeader(
                           ///文字样式
                           textStyle: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.normal,
-                            fontSize: 16 * textScale,
+                            fontSize: 16,
                           ),
                           refreshingIcon: !PlatformUtil.isAndroid
                               ? const CupertinoActivityIndicator()
@@ -209,10 +204,10 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
 
                   ///子控件ListView
                   child: childBuilder != null
-                      ? childBuilder(context, m1, m2)
+                      ? childBuilder(context, m1)
                       : ListView.builder(
                           ///滚动监听-用于控制直达顶部功能
-                          controller: m2.scrollController,
+                          controller: m1.scrollTopController.scrollController,
 
                           ///内容适配
                           shrinkWrap: true,
@@ -225,18 +220,18 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel,
                           },
                         ),
                 ),
-                floatingActionButton:
-                    m2.showTopBtn && !ThemeViewModel.hideFloatingButton
-                        ? FloatingActionButton(
-                            tooltip: StringHelper.getS()!.tooltipScrollTop,
-                            child: Icon(
-                              Icons.vertical_align_top,
-                            ),
-                            onPressed: () {
-                              m2.scrollTo();
-                            },
-                          )
-                        : null,
+                floatingActionButton: m1.scrollTopController.showTopBtn &&
+                        !ThemeViewModel.hideFloatingButton
+                    ? FloatingActionButton.extended(
+                        label: Text(appString.tooltipScrollTop),
+                        icon: Icon(
+                          Icons.file_upload,
+                        ),
+                        onPressed: () {
+                          m1.scrollTopController.scrollTo();
+                        },
+                      )
+                    : null,
               );
             });
 }
@@ -308,13 +303,15 @@ class SmartLoadFooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double safeBottom = MediaQueryData.fromWindow(window).padding.bottom;
+    LogUtil.e('safeBottom:$safeBottom');
     return CustomFooter(
-      height: 50,
+      height: 50 + safeBottom,
       builder: (BuildContext context, LoadStatus? mode) {
         Widget body;
         if (mode == LoadStatus.idle) {
           body = Text(
-            StringHelper.getS()!.loadIdle,
+            appString.loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
@@ -322,29 +319,32 @@ class SmartLoadFooterWidget extends StatelessWidget {
           body = CupertinoActivityIndicator();
         } else if (mode == LoadStatus.failed) {
           body = Text(
-            StringHelper.getS()!.loadFailed,
+            appString.loadFailed,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.canLoading) {
           body = Text(
-            StringHelper.getS()!.loadIdle,
+            appString.loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         } else {
           body = Text(
-            StringHelper.getS()!.loadNoMore,
+            appString.loadNoMore,
             textScaleFactor: ThemeViewModel.textScaleFactor,
             style: Theme.of(context).textTheme.caption,
           );
         }
-        return Container(
-          height: 50,
-          child: Center(
-            child: GestureDetector(
-              onTap: () => controller?.requestLoading(),
-              child: body,
+        return SizedBox(
+          height: 50 + safeBottom,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: safeBottom),
+            child: Center(
+              child: GestureDetector(
+                onTap: () => controller?.requestLoading(),
+                child: body,
+              ),
             ),
           ),
         );

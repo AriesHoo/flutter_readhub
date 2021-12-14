@@ -1,9 +1,7 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter_readhub/data/article_http.dart';
 import 'package:flutter_readhub/data/basis_http.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
-import 'package:flutter_readhub/util/toast_util.dart';
 
 ///Readhub 文章接口调用
 class ArticleRepository {
@@ -20,7 +18,7 @@ class ArticleRepository {
           }
         : null;
     Response response;
-    if (!PlatformUtil.isBrowser) {
+    if (!PlatformUtil.isWeb) {
       response = await http.get(
         url,
         queryParameters: param,
@@ -28,12 +26,6 @@ class ArticleRepository {
     } else {
       _dio.options.headers
           .putIfAbsent('Access-Control-Allow-Origin', () => '*');
-
-      // await _dio
-      //     .get(
-      //         'http://192.168.100.160:9710/web/courseDetail/course/category?pageNum=1&pageSize=10')
-      //     .then(
-      //         (value) => ToastUtil.showSuccess('${value.data}'));
       response = await _dio.get(
         'https://api.readhub.me/$url',
         queryParameters: param,

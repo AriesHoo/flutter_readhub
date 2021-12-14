@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:desktop_window/desktop_window.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/helper/provider_helper.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/page/home_page.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
@@ -19,6 +19,28 @@ import 'observer/app_router_observer.dart';
 import 'view_model/locale_view_model.dart';
 import 'view_model/theme_view_model.dart';
 
+///全局获取context
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
+///全局Context
+BuildContext get currentContext => (navigatorKey.currentContext ?? _context)!;
+BuildContext? _context;
+
+///全局String国际化对象
+S get appString => S.of(currentContext);
+
+///全局路由监听-这里要设置Route基类
+AppRouteObserver appRouteObserver = AppRouteObserver();
+
+///全局toast
+final botToastBuilder = BotToastInit();
+
+///清空所有Toast
+clearToast() {
+  BotToast.closeAllLoading();
+  BotToast.cleanAll();
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -26,10 +48,13 @@ void main() async {
   await SpUtil.getInstance();
 
   ///黑白化效果-缅怀
-//  runApp(ColorFiltered(
-//    colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
-//    child: MyApp(),
-//  ));
+  // runApp(
+  //   ColorFiltered(
+  //     colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+  //     child: MaterialAppPage(),
+  //   ),
+  // );
+
   ///初始化日志打印-使用LogUtil.v设置debug模式才打印
   LogUtil.init(
     tag: 'flutter_readhub',
@@ -39,27 +64,6 @@ void main() async {
   runApp(
     MaterialAppPage(),
   );
-}
-
-///全局获取context
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
-///全局路由监听-这里要设置Route基类
-AppRouteObserver appRouteObserver = AppRouteObserver();
-
-///全局toast
-final botToastBuilder = BotToastInit();
-
-///避免因系统字号变大造成异常-反向缩放
-///获取当前系统textScaleFactor--MediaQuery.of(context).textScaleFactor获取
-double get textScale => navigatorKey.currentContext != null
-    ? 1.0 / MediaQuery.of((navigatorKey.currentContext)!).textScaleFactor
-    : 1.0;
-
-///清空所有Toast
-clearToast() {
-  BotToast.closeAllLoading();
-  BotToast.cleanAll();
 }
 
 ///App入口
@@ -131,7 +135,13 @@ class _MaterialAppPageState extends State<MaterialAppPage>
         //   ),
         // ),
         builder: (context, child) {
-          return botToastBuilder(context, child);
+          return MediaQuery(
+            ///设置应用字体大小不受系统缩放控制
+            data: MediaQuery.of(context).copyWith(
+              textScaleFactor: 1.0,
+            ),
+            child: botToastBuilder(context, child),
+          );
         },
 
         ///路由监听
@@ -155,25 +165,13 @@ class _MaterialAppPageState extends State<MaterialAppPage>
   @override
   void initState() {
     super.initState();
+    _context = context;
 
     ///添加监听用于监控前后台转换
     WidgetsBinding.instance!.addObserver(this);
 
     ///设置窗口大小
     _setWindowSize();
-
-    ///延迟获取反向缩放比
-    Future.delayed(
-      Duration(
-        milliseconds: 100,
-      ),
-      () {
-        if (textScale != 1.0) {
-          ProviderHelper.of<ThemeViewModel>((navigatorKey.currentContext)!)
-              .switchTheme();
-        }
-      },
-    );
   }
 
   ///桌面系统设置窗口大小
@@ -253,7 +251,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     ///web端加载字体会有几秒时间文字异常
-    _timeLength = PlatformUtil.isBrowser ? 6000 : 2000;
+    _timeLength = PlatformUtil.isWeb ? 6000 : 2000;
     _timer = Timer.periodic(
       Duration(
         milliseconds: _timeDur,

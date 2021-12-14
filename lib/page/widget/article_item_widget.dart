@@ -1,9 +1,8 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
-import 'package:flutter_readhub/basis/scroll_top_model.dart';
 import 'package:flutter_readhub/dialog/text_share_dialog.dart';
-import 'package:flutter_readhub/helper/string_helper.dart';
+import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/model/article_model.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/page/home_page.dart';
@@ -55,17 +54,16 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
     ///去掉竖直状态强制1列逻辑-变更为最多3列
     crossAxisCount = crossAxisCount >= 3 ? 3 : crossAxisCount;
 
-    Widget itemWidget =
-        BasisRefreshListProviderWidget<ArticleViewModel, ScrollTopModel>(
+    Widget itemWidget = BasisRefreshListProviderWidget<ArticleViewModel>(
       ///初始化获取文章列表model
-      model1: ArticleViewModel(widget.url),
-      onModelReady: (m1, m2) => _articleViewModel = m1,
+      model: ArticleViewModel(widget.url),
+      onModelReady: (m1) => _articleViewModel = m1,
 
       ///加载中占位-骨架屏-默认菊花loading
-      loadingBuilder: (context, m1, m2, child) {
+      loadingBuilder: (context, m1, child) {
         return SkeletonList(
           child: GridView.builder(
-            controller: m2.scrollController,
+            controller: m1.scrollTopController.scrollController,
             addAutomaticKeepAlives: true,
             physics: ClampingScrollPhysics(),
             itemCount: 60,
@@ -90,8 +88,8 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget>
           ),
         );
       },
-      childBuilder: (context, m1, m2) => GridView.builder(
-        controller: m2.scrollController,
+      childBuilder: (context, m1) => GridView.builder(
+        controller: m1.scrollTopController.scrollController,
         addAutomaticKeepAlives: true,
         physics: ClampingScrollPhysics(),
         itemCount: m1.list.length,
@@ -196,9 +194,8 @@ class ArticleAdapter extends StatelessWidget {
             ),
 
             ///浏览器...显示异常
-            overflow: PlatformUtil.isBrowser
-                ? TextOverflow.fade
-                : TextOverflow.ellipsis,
+            overflow:
+                PlatformUtil.isWeb ? TextOverflow.fade : TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.subtitle2!.copyWith(
                   fontWeight: FontWeight.bold,
                   letterSpacing: letterSpacing,
@@ -221,7 +218,7 @@ class ArticleAdapter extends StatelessWidget {
                   : 3,
 
               ///浏览器...显示异常
-              overflow: PlatformUtil.isBrowser
+              overflow: PlatformUtil.isWeb
                   ? TextOverflow.fade
                   : TextOverflow.ellipsis,
               strutStyle: StrutStyle(
@@ -248,7 +245,7 @@ class ArticleAdapter extends StatelessWidget {
                   maxLines: 2,
 
                   ///浏览器...显示异常
-                  overflow: PlatformUtil.isBrowser
+                  overflow: PlatformUtil.isWeb
                       ? TextOverflow.fade
                       : TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.caption!.copyWith(
@@ -260,7 +257,7 @@ class ArticleAdapter extends StatelessWidget {
               ///分享
               SmallButtonWidget(
                 onTap: () => _onLongPress(context),
-                tooltip: StringHelper.getS()!.share,
+                tooltip: appString.share,
                 child: Icon(
                   Icons.share,
                   size: 20,
@@ -271,7 +268,7 @@ class ArticleAdapter extends StatelessWidget {
               item.showLink()
                   ? SmallButtonWidget(
                       onTap: () => _showNewsDialog(context),
-                      tooltip: StringHelper.getS()!.more,
+                      tooltip: appString.more,
                       child: Icon(
                         IconFonts.ic_link,
                         size: 20,
@@ -283,7 +280,7 @@ class ArticleAdapter extends StatelessWidget {
               SmallButtonWidget(
                 onTap: () =>
                     WebViewPage.start(context, item.getCardShareModel()),
-                tooltip: StringHelper.getS()!.openDetail,
+                tooltip: appString.openDetail,
                 child: Icon(IconFonts.ic_glass),
               ),
             ],
@@ -358,11 +355,11 @@ class NewsAdapter extends StatelessWidget {
           CardShareModel(
             title: item.title,
             text:
-                "${StringHelper.getS()!.saveImageShareTip} 资讯 「${item.title}」 链接： ${item.getUrl()}",
+                "${appString.saveImageShareTip} 资讯 「${item.title}」 链接： ${item.getUrl()}",
             summary: item.getSummary(),
             notice: item.getScanNote(),
             url: item.getUrl(),
-            bottomNotice: StringHelper.getS()!.saveImageShareTip,
+            bottomNotice: appString.saveImageShareTip,
           ),
         ),
         child: Container(
@@ -395,7 +392,7 @@ class NewsAdapter extends StatelessWidget {
                     child: Text(
                       item.siteName!,
                       textScaleFactor: ThemeViewModel.textScaleFactor,
-                      style: Theme.of(context).textTheme.title!.copyWith(
+                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
                           ),

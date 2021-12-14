@@ -52,7 +52,7 @@ class HighlightCardWidget extends StatelessWidget {
         borderOnForeground: false,
         shadowColor: highlightMode.highlight
             ? shadowHighlightColor ?? Colors.deepPurpleAccent
-            : shadowColor ?? Theme.of(context).accentColor,
+            : shadowColor ?? Theme.of(context).primaryColor,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         shape: PlatformUtil.isMobile && !showBorder
             ? null
@@ -61,7 +61,7 @@ class HighlightCardWidget extends StatelessWidget {
                 lineWidth: highlightMode.highlight ? 1.6 : 0.8,
                 borderRadius: BorderRadius.circular(12),
                 color: highlightMode.highlight
-                    ? Theme.of(context).accentColor
+                    ? Theme.of(context).primaryColor
                     : Theme.of(context).hintColor.withOpacity(0.1),
               ),
         child: InkWell(
