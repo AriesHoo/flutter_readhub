@@ -251,7 +251,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     ///web端加载字体会有几秒时间文字异常
-    _timeLength = PlatformUtil.isWeb ? 6000 : 2000;
+    _timeLength = PlatformUtil.isWeb ? 6000 : 3000;
     _timer = Timer.periodic(
       Duration(
         milliseconds: _timeDur,

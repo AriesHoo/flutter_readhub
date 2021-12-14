@@ -220,18 +220,21 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
                           },
                         ),
                 ),
-                floatingActionButton: m1.scrollTopController.showTopBtn &&
-                        !ThemeViewModel.hideFloatingButton
-                    ? FloatingActionButton.extended(
-                        label: Text(appString.tooltipScrollTop),
-                        icon: Icon(
-                          Icons.file_upload,
-                        ),
-                        onPressed: () {
-                          m1.scrollTopController.scrollTo();
-                        },
-                      )
-                    : null,
+                floatingActionButton: ValueListenableBuilder<bool>(
+                  valueListenable: m1.scrollTopController.scrollWidgetNotifier,
+                  builder: (BuildContext context, bool show, Widget? child) =>
+                      show && !ThemeViewModel.hideFloatingButton
+                          ? FloatingActionButton.extended(
+                              label: Text(appString.tooltipScrollTop),
+                              icon: Icon(
+                                Icons.file_upload,
+                              ),
+                              onPressed: () {
+                                m1.scrollTopController.scrollTo();
+                              },
+                            )
+                          : SizedBox(),
+                ),
               );
             });
 }

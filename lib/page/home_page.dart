@@ -1,6 +1,5 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_readhub/data/article_http.dart';
 import 'package:flutter_readhub/dialog/author_dialog.dart';
 import 'package:flutter_readhub/helper/provider_helper.dart';
@@ -53,8 +52,6 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-
-    SystemChrome.setEnabledSystemUIOverlays([]);
     _listTab.add(
       TabModel(
         '热门话题',
@@ -292,7 +289,7 @@ class HomeBody extends StatelessWidget {
           ///宽屏布局--宽度决定是否显示
           Container(
             width: displayDesktop ? sideNavWidth : 0,
-            color: Theme.of(context).appBarTheme.color,
+            color: Theme.of(context).appBarTheme.backgroundColor,
             child: Column(
               children: [
                 Padding(
