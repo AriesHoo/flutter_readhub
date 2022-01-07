@@ -137,9 +137,10 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
                   LogUtil.e('footerStatus:${m1.refreshController.footerStatus}',
                       tag: 'footerStatusTag');
 
-                  ///非加载中且非无更多数据
-                  if (m1.refreshController.footerStatus != LoadStatus.noMore &&
-                      !m1.refreshController.isLoading) {
+                  ///非加载中且非下拉刷新且非无更多数据
+                  if (!m1.refreshController.isLoading &&
+                      !m1.refreshController.isRefresh &&
+                      LoadStatus.noMore != m1.refreshController.footerStatus) {
                     ///此处主要为实现更新底部loadingUI及触发加载更多回调使用
                     ///footerMode?.value 设置加载状态形式不使用requestLoading()
                     ///非手机端requestLoading()测试正常 手机端会异常
