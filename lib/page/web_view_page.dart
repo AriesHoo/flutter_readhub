@@ -156,7 +156,7 @@ class _WebViewPageState extends State<WebViewPage> {
                   return Container(
                     height: loading ? 2 : 0,
                     child: LinearProgressIndicator(
-                      backgroundColor: Theme.of(context).appBarTheme.color,
+                      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
                       valueColor: AlwaysStoppedAnimation(
                           Theme.of(context).primaryColor),
                     ),

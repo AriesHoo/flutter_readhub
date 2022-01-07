@@ -142,6 +142,8 @@ class TextShareDialog extends BasisDialog {
           rect: rect,
         );
         break;
+      default:
+        break;
     }
   }
 }

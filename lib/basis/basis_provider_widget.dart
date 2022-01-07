@@ -19,7 +19,7 @@ class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   final Widget? child;
   final Function(T)? onModelReady;
 
-  BasisProviderWidget({
+  const BasisProviderWidget({
     Key? key,
     required this.model,
     required this.builder,
@@ -27,6 +27,7 @@ class BasisProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
     this.onModelReady,
   }) : super(key: key);
 
+  @override
   _BasisProviderWidgetState<T> createState() => _BasisProviderWidgetState<T>();
 }
 
@@ -129,19 +130,23 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
               onModelReady?.call(m1);
 
               ///非移动端滚动到底部有未触发加载下一页操作
-              //  m1.scrollTopController.scrollController.addListener(() {
-              //   if ( m1.scrollTopController.scrollController.position.pixels ==
-              //        m1.scrollTopController.scrollController.position.maxScrollExtent) {
-              //     if (m1.refreshController.footerStatus != LoadStatus.noMore &&
-              //         m1.refreshController.footerStatus != LoadStatus.loading) {
-              //       try {
-              //         m1.refreshController.requestLoading();
-              //       } catch (e) {
-              //         LogUtil.e('$e');
-              //       }
-              //     }
-              //   }
-              // });
+              m1.scrollTopController.scrollController.addListener(() {
+                if (m1.scrollTopController.scrollController.position.pixels ==
+                    m1.scrollTopController.scrollController.position
+                        .maxScrollExtent) {
+                  LogUtil.e('footerStatus:${m1.refreshController.footerStatus}',
+                      tag: 'footerStatusTag');
+
+                  ///非加载中且非无更多数据
+                  if (m1.refreshController.footerStatus != LoadStatus.noMore &&
+                      !m1.refreshController.isLoading) {
+                    ///此处主要为实现更新底部loadingUI及触发加载更多回调使用
+                    ///footerMode?.value 设置加载状态形式不使用requestLoading()
+                    ///非手机端requestLoading()测试正常 手机端会异常
+                    m1.refreshController.footerMode?.value = LoadStatus.loading;
+                  }
+                }
+              });
             },
             builder: (context, m1, child) {
               if (m1.loading) {
@@ -175,7 +180,7 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
                         )
                       : ClassicHeader(
                           ///文字样式
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.normal,
                             fontSize: 16,
@@ -211,12 +216,12 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
 
                           ///内容适配
                           shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           itemCount: m1.list.length,
                           itemBuilder: (context, index) {
                             return itemBuilder != null
                                 ? itemBuilder(context, m1, index)
-                                : SizedBox();
+                                : const SizedBox();
                           },
                         ),
                 ),
@@ -226,14 +231,14 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
                       show && !ThemeViewModel.hideFloatingButton
                           ? FloatingActionButton.extended(
                               label: Text(appString.tooltipScrollTop),
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.file_upload,
                               ),
                               onPressed: () {
                                 m1.scrollTopController.scrollTo();
                               },
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                 ),
               );
             });
@@ -248,7 +253,7 @@ class BasisProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
   final Widget? child;
   final Function(A, B)? onModelReady;
 
-  BasisProviderWidget2({
+  const BasisProviderWidget2({
     Key? key,
     required this.builder,
     required this.model1,
@@ -257,6 +262,7 @@ class BasisProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
     this.onModelReady,
   }) : super(key: key);
 
+  @override
   _BasisProviderWidgetState2<A, B> createState() =>
       _BasisProviderWidgetState2<A, B>();
 }
@@ -319,7 +325,7 @@ class SmartLoadFooterWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.caption,
           );
         } else if (mode == LoadStatus.loading) {
-          body = CupertinoActivityIndicator();
+          body = const CupertinoActivityIndicator();
         } else if (mode == LoadStatus.failed) {
           body = Text(
             appString.loadFailed,

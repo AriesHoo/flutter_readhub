@@ -86,7 +86,6 @@ class ArticleItemModel {
   ///大于1才显示
   bool showLink() {
     return false;
-    return newsArray != null && newsArray!.length > 1;
   }
 
   String? getFileName() {
@@ -143,7 +142,7 @@ class ArticleItemModel {
         back = '$siteName $timeStr';
       }
     } else {
-      if (newsArray != null) {
+      if (ObjectUtil.isNotEmpty(newsArray)) {
         NewsArray item = newsArray![0];
         back =
             (newsArray!.length > 1 ? item.siteName : item.siteName).toString() +

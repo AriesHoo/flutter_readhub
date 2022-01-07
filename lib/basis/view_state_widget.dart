@@ -180,23 +180,50 @@ class ViewStateButton extends StatelessWidget {
   final Widget? child;
   final String? textData;
 
-  const ViewStateButton({required this.onPressed, this.child, this.textData})
-      : assert(child == null || textData == null);
+  const ViewStateButton({
+    required this.onPressed,
+    this.child,
+    this.textData,
+  }) : assert(child == null || textData == null);
 
   @override
   Widget build(BuildContext context) {
-    return OutlineButton(
+    return TextButton(
       child: child ??
           Text(
             textData ?? appString.viewStateRetry,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
           ),
-      textColor: Colors.grey,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      splashColor: Theme.of(context).splashColor,
+      style: buttonStyle(primaryColor: Theme.of(context).primaryColor),
       onPressed: onPressed,
-      highlightedBorderColor: Theme.of(context).splashColor,
     );
   }
+}
+
+///Button样式
+ButtonStyle buttonStyle({required Color primaryColor}) {
+  return ButtonStyle(
+      enableFeedback: true,
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
+      ),
+      alignment: Alignment.center,
+      padding: MaterialStateProperty.all(
+        EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 6,
+        ),
+      ),
+      backgroundColor: MaterialStateProperty.resolveWith(
+        (states) => states.contains(MaterialState.pressed)
+            ? primaryColor.withOpacity(0.75)
+            : primaryColor,
+      ),
+      overlayColor: MaterialStateProperty.all(
+        Colors.transparent,
+      ),
+      foregroundColor: MaterialStateProperty.all(Colors.white),
+      textStyle: MaterialStateProperty.all(TextStyle(fontSize: 14)));
 }

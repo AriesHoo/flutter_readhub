@@ -12,9 +12,10 @@ description: A new Flutter Readhub application.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.4.0+1400
+publish_to: none
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.15.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -52,7 +53,8 @@ dependencies:
   qr_flutter: ^4.0.0
   #工具类
   flustars: ^2.0.1
-  #动态权限申请-8.0.0版本需在Profile申请需要启用的权限 https://github.com/Baseflow/flutter-permission-handler/blob/master/permission_handler/example/ios/Podfile
+  #动态权限申请-8.0.0版本需在Profile申请需要启用的权限
+  #https://github.com/Baseflow/flutter-permission-handler/blob/master/permission_handler/example/ios/Podfile
   permission_handler: ^8.0.1
   #文件路径
   path_provider: ^2.0.1
@@ -64,7 +66,7 @@ dependencies:
   # 参考官网 https://flutter.dev/docs/development/packages-and-plugins/using-packages
   share:
     git:
-      url: git://github.com/AriesHoo/plugins.git
+      url: 'git://github.com/AriesHoo/plugins.git'
       path: packages/share
       ref: master
   #  mac分享才有意义web及windows无意义shareFile方法都没有实现shareText也是调用的url_launcher
@@ -75,13 +77,15 @@ dependencies:
   desktop_window: ^0.4.0
   #  macos webView
   flutter_macos_webview:
-    path: ./plugins/flutter_macos_webview
+    path: './plugins/flutter_macos_webview'
+
   #  windows webView
   webview_windows: ^0.0.6
   #  生命周期
   lifecycle: ^0.4.2
   decimal: 1.5.0
 dev_dependencies:
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
 

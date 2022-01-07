@@ -135,7 +135,6 @@ class _HomePageState extends State<HomePage>
           return false;
         }
         exit(0);
-        return true;
       },
       child: Stack(
         children: [
@@ -205,7 +204,7 @@ class HomeBody extends StatelessWidget {
                 bottom: !displayDesktop, width: 0.7),
 
             ///添加该属性去掉Tab按下水波纹效果
-            color: Theme.of(context).appBarTheme.color,
+            color: Theme.of(context).appBarTheme.backgroundColor,
           ),
         ),
         Expanded(

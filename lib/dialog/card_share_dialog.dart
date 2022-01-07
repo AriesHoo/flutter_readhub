@@ -1,10 +1,7 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_readhub/basis/basis_provider_widget.dart';
 import 'package:flutter_readhub/dialog/basis_dialog.dart';
 import 'package:flutter_readhub/enum/share_card_style.dart';
@@ -238,6 +235,8 @@ class CardShareDialog extends BasisDialog implements WidgetLifecycleObserver {
           subject: appString.saveImageShareTip,
           rect: rect,
         );
+        break;
+      default:
         break;
     }
   }

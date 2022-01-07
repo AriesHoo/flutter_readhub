@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 
 ///基础Dialog

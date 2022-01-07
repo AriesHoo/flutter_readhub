@@ -4,9 +4,10 @@ import 'basis_view_model.dart';
 
 /// 一次性获取列表数据
 abstract class BasisListViewModel<T> extends BasisViewModel {
-
   ///ScrollController用于控制滚动逻辑
-  BasisScrollTopController scrollTopController = BasisScrollTopController.defaultTopController();
+  BasisScrollTopController scrollTopController =
+      BasisScrollTopController.defaultTopController();
+
   /// 页面数据
   List<T> list = [];
 
@@ -39,4 +40,10 @@ abstract class BasisListViewModel<T> extends BasisViewModel {
   Future<List<T>?> loadData();
 
   onCompleted(List<T> data) {}
+
+  @override
+  void dispose() {
+    scrollTopController.scrollController.dispose();
+    super.dispose();
+  }
 }
