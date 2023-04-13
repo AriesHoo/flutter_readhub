@@ -107,7 +107,7 @@ class TooltipPlus extends StatefulWidget {
     this.showDuration,
     this.child,
     this.tooltip,
-  })  : super(key: key);
+  }) : super(key: key);
 
   /// The text to display in the tooltip.
   final String message;
@@ -177,9 +177,9 @@ class TooltipPlus extends StatefulWidget {
   ///
   /// If null, the message's [TextStyle] will be determined based on
   /// [ThemeData]. If [ThemeData.brightness] is set to [Brightness.dark],
-  /// [TextTheme.bodyText2] of [ThemeData.textTheme] will be used with
+  /// [TextTheme.bodyMedium] of [ThemeData.textTheme] will be used with
   /// [Colors.white]. Otherwise, if [ThemeData.brightness] is set to
-  /// [Brightness.light], [TextTheme.bodyText2] of [ThemeData.textTheme] will be
+  /// [Brightness.light], [TextTheme.bodyMedium] of [ThemeData.textTheme] will be
   /// used with [Colors.black].
   final TextStyle? textStyle;
 
@@ -261,18 +261,18 @@ class _TooltipPlusState extends State<TooltipPlus>
   @override
   void initState() {
     super.initState();
-    _mouseIsConnected = RendererBinding.instance!.mouseTracker.mouseIsConnected;
+    _mouseIsConnected = RendererBinding.instance.mouseTracker.mouseIsConnected;
     _controller = AnimationController(
       duration: _fadeInDuration,
       reverseDuration: _fadeOutDuration,
       vsync: this,
     )..addStatusListener(_handleStatusChanged);
     // Listen to see when a mouse is added.
-    RendererBinding.instance!.mouseTracker
+    RendererBinding.instance.mouseTracker
         .addListener(_handleMouseTrackerChange);
     // Listen to global pointer events so that we can hide a tooltip immediately
     // if some other control is clicked on.
-    GestureBinding.instance!.pointerRouter.addGlobalRoute(_handlePointerEvent);
+    GestureBinding.instance.pointerRouter.addGlobalRoute(_handlePointerEvent);
   }
 
   // https://material.io/components/tooltips#specs
@@ -318,7 +318,7 @@ class _TooltipPlusState extends State<TooltipPlus>
       return;
     }
     final bool mouseIsConnected =
-        RendererBinding.instance!.mouseTracker.mouseIsConnected;
+        RendererBinding.instance.mouseTracker.mouseIsConnected;
     if (mouseIsConnected != _mouseIsConnected) {
       setState(() {
         _mouseIsConnected = mouseIsConnected;
@@ -383,7 +383,7 @@ class _TooltipPlusState extends State<TooltipPlus>
     final OverlayState overlayState = Overlay.of(
       context,
       debugRequiredFor: widget,
-    )!;
+    );
 
     final RenderBox box = context.findRenderObject()! as RenderBox;
     final Offset target = box.localToGlobal(
@@ -449,9 +449,9 @@ class _TooltipPlusState extends State<TooltipPlus>
 
   @override
   void dispose() {
-    GestureBinding.instance!.pointerRouter
+    GestureBinding.instance.pointerRouter
         .removeGlobalRoute(_handlePointerEvent);
-    RendererBinding.instance!.mouseTracker
+    RendererBinding.instance.mouseTracker
         .removeListener(_handleMouseTrackerChange);
     if (_entry != null) _removeEntry();
     _controller.dispose();
@@ -466,13 +466,13 @@ class _TooltipPlusState extends State<TooltipPlus>
 
   @override
   Widget build(BuildContext context) {
-    assert(Overlay.of(context, debugRequiredFor: widget) != null);
     final ThemeData theme = Theme.of(context);
     final TooltipThemeData tooltipTheme = TooltipTheme.of(context);
     final TextStyle defaultTextStyle;
     final BoxDecoration defaultDecoration;
     if (theme.brightness == Brightness.dark) {
-      defaultTextStyle = theme.textTheme.bodyText2!.copyWith(
+      defaultTextStyle =
+          (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
         color: Colors.black,
         fontSize: _getDefaultFontSize(),
       );
@@ -481,7 +481,8 @@ class _TooltipPlusState extends State<TooltipPlus>
         borderRadius: const BorderRadius.all(Radius.circular(4)),
       );
     } else {
-      defaultTextStyle = theme.textTheme.bodyText2!.copyWith(
+      defaultTextStyle =
+          (theme.textTheme.bodyMedium ?? const TextStyle()).copyWith(
         color: Colors.white,
         fontSize: _getDefaultFontSize(),
       );
@@ -630,7 +631,7 @@ class _TooltipOverlay extends StatelessWidget {
                 maxHeight: MediaQuery.of(context).size.height - 20,
               ),
               child: DefaultTextStyle(
-                style: Theme.of(context).textTheme.bodyText2!,
+                style: Theme.of(context).textTheme.bodyMedium ?? TextStyle(),
                 child: Container(
                   decoration: decoration,
                   padding: padding,

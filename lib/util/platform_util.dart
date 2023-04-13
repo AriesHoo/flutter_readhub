@@ -46,7 +46,7 @@ class PlatformUtil {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (PlatformUtil.isAndroid) {
       AndroidDeviceInfo info = await deviceInfo.androidInfo;
-      return info.version.sdkInt! >= 23;
+      return info.version.sdkInt >= 23;
     } else {
       return true;
     }
@@ -57,7 +57,7 @@ class PlatformUtil {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (PlatformUtil.isAndroid) {
       AndroidDeviceInfo info = await deviceInfo.androidInfo;
-      return info.version.sdkInt! >= 26;
+      return info.version.sdkInt >= 26;
     } else {
       return true;
     }

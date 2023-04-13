@@ -382,9 +382,8 @@ class ShareUtil {
     Rect? rect,
   }) {
     if (!PlatformUtil.isMobile) {
-      SharePlus.Share.shareFiles(
-        paths,
-        mimeTypes: mimeTypes,
+      SharePlus.Share.shareXFiles(
+        paths.map((e) => SharePlus.XFile(e)).toList(),
         subject: subject,
         text: text,
         sharePositionOrigin: rect,

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/foundation.dart';
@@ -21,8 +20,8 @@ parseJson(String text) {
 abstract class BasisHttp with DioMixin implements Dio {
   BasisHttp() {
     options = BaseOptions();
-    httpClientAdapter = DefaultHttpClientAdapter();
-    (transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
+    httpClientAdapter = HttpClientAdapter();
+    // (transformer as HttpClientAdapter).jsonDecodeCallback = parseJson;
     interceptors..add(HeaderInterceptor());
     init();
   }
@@ -34,8 +33,8 @@ abstract class BasisHttp with DioMixin implements Dio {
 class HeaderInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.connectTimeout = 1000 * 15;
-    options.receiveTimeout = 1000 * 15;
+    options.connectTimeout = const Duration(seconds: 15);
+    options.receiveTimeout = const Duration(seconds: 15);
     options.responseType = ResponseType.json;
     options.contentType = Headers.jsonContentType;
     Map<String, dynamic> headers = options.headers;

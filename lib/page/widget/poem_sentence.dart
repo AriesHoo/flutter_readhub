@@ -41,16 +41,16 @@ class PoemSentence extends StatelessWidget {
               PlatformUtil.isWeb ? TextOverflow.fade : TextOverflow.ellipsis,
           maxLines: isDisplayDesktop ? 4 : 1,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.normal,
                 fontSize: isDisplayDesktop ? 16 : 13,
                 color: isDisplayDesktop
                     ? null
                     : Theme.of(context)
                         .textTheme
-                        .subtitle2!
-                        .color!
-                        .withOpacity(0.8),
+                        .titleSmall
+                        ?.color
+                        ?.withOpacity(0.8),
               ),
         );
 
@@ -71,7 +71,7 @@ class PoemSentence extends StatelessWidget {
                       child: contentText,
                       preferBelow: !isDisplayDesktop,
                       textStyle:
-                          Theme.of(context).textTheme.bodyText2!.copyWith(
+                          Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                               ),
@@ -93,8 +93,8 @@ class PoemSentence extends StatelessWidget {
                               '${model.poemSentenceModel!.title}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
-                                  .copyWith(
+                                  .bodyMedium
+                                  ?.copyWith(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -103,8 +103,8 @@ class PoemSentence extends StatelessWidget {
                               '${model.poemSentenceModel!.dynastyAuthor}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
-                                  .copyWith(
+                                  .bodyMedium
+                                  ?.copyWith(
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -113,8 +113,8 @@ class PoemSentence extends StatelessWidget {
                               '${model.poemSentenceModel!.contentStr}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
-                                  .copyWith(
+                                  .bodyMedium
+                                  ?.copyWith(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -282,6 +282,7 @@ class PoemSentence extends StatelessWidget {
                   if (states.contains(MaterialState.pressed)) {
                     return Theme.of(context).primaryColor.withOpacity(0.2);
                   }
+                  return null;
                 },
               ),
               padding: MaterialStateProperty.all(

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/manager/router_manger.dart';
 import 'package:flutter_readhub/model/share_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_windows/webview_windows.dart';
 
@@ -59,7 +60,7 @@ class WebViewPage extends StatefulWidget {
       _controller = WebviewController();
       await _controller.loadUrl(shareModel.showUrl ?? shareModel.url);
     } else {
-      await launch(shareModel.url);
+      await launchUrlString(shareModel.url);
     }
   }
 
@@ -88,23 +89,22 @@ class _WebViewPageState extends State<WebViewPage> {
 
   launchURL(String url) async {
     try {
-      bool can = await canLaunch(url);
+      bool can = await canLaunchUrlString(url);
       if (can) {
-        await launch(url);
+        await launchUrlString(url);
       } else {
-        await launch((await _webViewController.currentUrl())!);
+        await launchUrlString((await _webViewController.currentUrl())!);
       }
     } catch (e) {
       LogUtil.v('_launchURL:$e');
-      await launch((await _webViewController.currentUrl())!);
+      await launchUrlString((await _webViewController.currentUrl())!);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _getTitle.value =
-        widget.model.title ?? appString.loadingWebTitle;
+    _getTitle.value = widget.model.title ?? appString.loadingWebTitle;
     // Enable hybrid composition.
     if (PlatformUtil.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
@@ -129,10 +129,12 @@ class _WebViewPageState extends State<WebViewPage> {
           leading: CloseButton(),
           title: ValueListenableBuilder<String>(
             valueListenable: _getTitle,
-            builder: (context, title, child) => Text(
+            builder: (context, title, child) => AutoSizeText(
               title,
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    fontSize: 18,
+              minFontSize: 10,
+              maxFontSize: 18,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -156,7 +158,8 @@ class _WebViewPageState extends State<WebViewPage> {
                   return Container(
                     height: loading ? 2 : 0,
                     child: LinearProgressIndicator(
-                      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                      backgroundColor:
+                          Theme.of(context).appBarTheme.backgroundColor,
                       valueColor: AlwaysStoppedAnimation(
                           Theme.of(context).primaryColor),
                     ),

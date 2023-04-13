@@ -75,7 +75,7 @@ class TextShareDialog extends BasisDialog {
                 padding: EdgeInsets.all(12),
                 child: Text(
                   '${model.text}',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -95,7 +95,7 @@ class TextShareDialog extends BasisDialog {
               ),
               Text(
                 '手机扫码查看并分享',
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),

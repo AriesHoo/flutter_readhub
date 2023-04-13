@@ -19,7 +19,7 @@ class AnimatedSwitcherIconWidget extends StatefulWidget {
     this.tooltip,
     this.onPressed,
     this.duration = const Duration(milliseconds: 500),
-    this.checkTheme: false,
+    this.checkTheme = false,
   }) : super(key: key);
 
   @override

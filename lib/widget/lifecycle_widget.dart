@@ -17,7 +17,7 @@ class LifecycleWidget extends StatefulWidget {
     @required this.child,
     this.observer,
     this.onWidgetLifecycleChanged,
-    this.log: false,
+    this.log = false,
   }) : super(key: key);
 
   @override
@@ -41,12 +41,12 @@ class _LifecycleWidgetState extends State<LifecycleWidget>
 
     ///初始化App状态
     _isAppResumed =
-        WidgetsBinding.instance?.lifecycleState == AppLifecycleState.resumed;
+        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
 
     ///添加监听用于监控前后台转换
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     if (widget.log) {
-      LogUtil.v('initState_state:${WidgetsBinding.instance!.lifecycleState}',
+      LogUtil.v('initState_state:${WidgetsBinding.instance.lifecycleState}',
           tag: widget.tag);
     }
   }
@@ -62,7 +62,7 @@ class _LifecycleWidgetState extends State<LifecycleWidget>
     appRouteObserver.unsubscribe(this);
 
     ///移除状态监听
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     if (widget.log) {
       LogUtil.v('dispose', tag: widget.tag);
     }

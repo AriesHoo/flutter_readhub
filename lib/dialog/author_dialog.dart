@@ -16,7 +16,7 @@ import 'package:flutter_readhub/util/share_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
 import 'package:flutter_readhub/view_model/update_view_model.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 ///弹出作者信息分享提示框
 void showAuthorDialog(BuildContext context) {
@@ -116,7 +116,7 @@ class TopRoundWidget extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: '开源',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 15,
                         color: Theme.of(context).primaryColor,
                       ),
@@ -127,10 +127,10 @@ class TopRoundWidget extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
                           ///点击跳转链接
-                          await launch(
+                          await launchUrlString(
                               'https://github.com/AriesHoo/flutter_readhub');
                         },
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontSize: 15,
                             decoration: TextDecoration.underline,
                             color: Theme.of(context).primaryColor,
@@ -143,10 +143,10 @@ class TopRoundWidget extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
                           ///点击跳转链接
-                          await launch(
+                          await launchUrlString(
                               'https://gitee.com/AriesHoo/flutter_readhub');
                         },
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontSize: 15,
                             decoration: TextDecoration.underline,
                             color: Theme.of(context).primaryColor,
@@ -204,12 +204,12 @@ class FeedbackWidget extends StatelessWidget {
         title: Text(
           appString.feedback,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(),
         ),
         trailing: Text(
           'AriesHoo@126.com',
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         onTap: () async {
           if (PlatformUtil.isWindows) {
@@ -223,11 +223,11 @@ class FeedbackWidget extends StatelessWidget {
               queryParameters: {'subject': '关于Freadhub的意见反馈'});
 
           ///发送邮件
-          if (!await canLaunch(_emailLaunchUri.toString())) {
+          if (!await canLaunchUrlString(_emailLaunchUri.toString())) {
             ToastUtil.show(appString.tipNoEmailApp);
             return;
           }
-          launch(_emailLaunchUri.toString());
+          launchUrlString(_emailLaunchUri.toString());
         },
       ),
     );
@@ -249,7 +249,7 @@ class UpdateWidget extends StatelessWidget {
           title: Text(
             appString.checkUpdate,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(),
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           trailing: model.loading
               ? CupertinoActivityIndicator(
@@ -258,7 +258,7 @@ class UpdateWidget extends StatelessWidget {
               : Text(
                   '${UpdateViewModel.appVersion}（${UpdateViewModel.appVersionCode}）',
                   textScaleFactor: ThemeViewModel.textScaleFactor,
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
           onTap: model.loading
               ? null
@@ -285,11 +285,11 @@ class ShareAppWidget extends StatelessWidget {
         title: Text(
           appString.shareApp,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         trailing: Icon(
           Icons.chevron_right,
-          color: Theme.of(context).textTheme.caption!.color,
+          color: Theme.of(context).textTheme.bodySmall?.color,
         ),
         onTap: () => _shareApp(context),
       ),
@@ -299,7 +299,7 @@ class ShareAppWidget extends StatelessWidget {
   ///分享App
   _shareApp(BuildContext context) async {
     if (!PlatformUtil.isMobile) {
-      await launch('https://note.youdao.com/s/NQ6sledI');
+      await launchUrlString('https://note.youdao.com/s/NQ6sledI');
       return;
     }
     CardShareDialog.show(
@@ -326,20 +326,20 @@ class ShareAppSummaryWidget extends StatelessWidget {
     return RichText(
       textScaleFactor: ThemeViewModel.textScaleFactor,
       text: TextSpan(
-        style: Theme.of(context).textTheme.headline6!.copyWith(
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontSize: 13,
               color: Theme.of(context)
                   .textTheme
-                  .headline6!
-                  .color!
-                  .withOpacity(0.8),
+                  .titleLarge
+                  ?.color
+                  ?.withOpacity(0.8),
             ),
         text:
             'Freadhub 即 : Flutter 开发的 Readhub 客户端。由 Flutter 小学生 Aries Hoo 开发维护。'
             '\n囊括以下功能：',
         children: [
           TextSpan(
-            style: Theme.of(context).textTheme.headline6!.copyWith(
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontSize: 12,
                   color: Theme.of(context).primaryColor.withOpacity(0.8),
                   fontWeight: FontWeight.bold,
@@ -370,7 +370,7 @@ class ChoiceThemeWidget extends StatelessWidget {
       title: Text(
         appString.choiceTheme,
         textScaleFactor: ThemeViewModel.textScaleFactor,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
       trailing: Text('trailing'),
       initiallyExpanded: false,
@@ -431,11 +431,11 @@ class ThemeWidget extends StatelessWidget {
         title: Text(
           appString.choiceTheme,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         trailing: Icon(
           Icons.chevron_right,
-          color: Theme.of(context).textTheme.caption!.color,
+          color: Theme.of(context).textTheme.bodySmall?.color,
         ),
         onTap: () => showThemeDialog(context),
       ),
@@ -457,7 +457,7 @@ class FontSizeWidget extends StatelessWidget {
         title: Text(
           appString.fontSize,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         children: <Widget>[
           Padding(
@@ -476,7 +476,7 @@ class FontSizeWidget extends StatelessWidget {
                       height: textLineHeight,
                       leading: leading),
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         letterSpacing: letterSpacing,
                       ),
@@ -494,13 +494,14 @@ class FontSizeWidget extends StatelessWidget {
                       forceStrutHeight: true,
                       height: textLineHeight,
                       leading: leading),
-                  style: Theme.of(context).textTheme.caption!.copyWith(
-                      letterSpacing: letterSpacing,
-                      color: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .color!
-                          .withOpacity(0.8)),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        letterSpacing: letterSpacing,
+                        color: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.color
+                            ?.withOpacity(0.8),
+                      ),
                 ),
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
@@ -571,7 +572,7 @@ class AppreciateWidget extends StatelessWidget {
         title: Text(
           appString.appreciateDeveloper,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         children: <Widget>[
           Padding(
@@ -627,13 +628,13 @@ class AppreciateWidget extends StatelessWidget {
                           leading: leading),
                       text: TextSpan(
                           style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontSize: 13,
                                     color: Theme.of(context)
                                         .textTheme
-                                        .headline6!
-                                        .color!
-                                        .withOpacity(0.8),
+                                        .titleLarge
+                                        ?.color
+                                        ?.withOpacity(0.8),
                                   ),
                           children: [
                             TextSpan(
@@ -664,11 +665,11 @@ class AppreciateWidget extends StatelessWidget {
 class CopyrightWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    var textStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(
           fontSize: 12,
-          color: Theme.of(context).textTheme.headline6!.color!.withOpacity(0.8),
+          color: Theme.of(context).textTheme.titleLarge?.color?.withOpacity(0.8),
         );
-    TextStyle textStyleAccent = textStyle.copyWith(
+    var textStyleAccent = textStyle?.copyWith(
       color: Theme.of(context).primaryColor,
       fontStyle: FontStyle.italic,
       fontWeight: FontWeight.bold,
@@ -683,7 +684,7 @@ class CopyrightWidget extends StatelessWidget {
         title: Text(
           appString.appCopyright,
           textScaleFactor: ThemeViewModel.textScaleFactor,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         children: <Widget>[
           Padding(
@@ -716,13 +717,13 @@ class CopyrightWidget extends StatelessWidget {
                   ),
                   TextSpan(
                     text: ' readhub.cn ',
-                    style: textStyleAccent.copyWith(
+                    style: textStyleAccent?.copyWith(
                       decoration: TextDecoration.underline,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         ///点击跳转链接
-                        await launch('https://www.readhub.cn/');
+                        await launchUrlString('https://www.readhub.cn/');
                       },
                   ),
                   TextSpan(text: '了解更多。'),
@@ -745,13 +746,13 @@ class CopyrightWidget extends StatelessWidget {
                   ),
                   TextSpan(
                     text: ' jinrishici.com ',
-                    style: textStyleAccent.copyWith(
+                    style: textStyleAccent?.copyWith(
                       decoration: TextDecoration.underline,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         ///点击跳转链接
-                        await launch('https://www.jinrishici.com/');
+                        await launchUrlString('https://www.jinrishici.com/');
                       },
                   ),
                   TextSpan(text: '了解更多。'),

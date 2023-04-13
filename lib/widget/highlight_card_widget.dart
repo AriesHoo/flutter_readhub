@@ -33,7 +33,7 @@ class HighlightCardWidget extends StatelessWidget {
     this.shadowColor,
     this.shadowHighlightColor,
     this.borderRadius,
-    this.showBorder: false,
+    this.showBorder = false,
     required this.builder,
   }) : super(key: key);
 

@@ -175,7 +175,7 @@ class ThemeViewModel with ChangeNotifier {
   }
 
   ///根据主题 明暗 和 颜色 生成对应的主题[dark]系统的Dark Mode
-  themeData({bool platformDarkMode: false}) {
+  themeData({bool platformDarkMode = false}) {
     LogUtil.v('themeData_platform:$platformDarkMode'
         ';currentContext:${navigatorKey.currentContext}');
     var isDark = platformDarkMode || darkMode;
@@ -185,16 +185,13 @@ class ThemeViewModel with ChangeNotifier {
     var themeData = ThemeData(
       ///主题浅色或深色-
       brightness: brightness,
-      primaryColorBrightness: brightness,
-      primarySwatch: themeColor,
+      useMaterial3: true,
 
       ///主色调
       primaryColor: primaryColor,
 
       ///类苹果跟随滑动返回-修改后返回箭头及主标题iOS风格
       platform: TargetPlatform.iOS,
-      errorColor: Colors.red,
-      toggleableActiveColor: primaryColor,
 
       ///输入框光标
       textSelectionTheme: TextSelectionThemeData(
@@ -205,6 +202,58 @@ class ThemeViewModel with ChangeNotifier {
 
       ///字体
       fontFamily: fontValueList[_fontIndex!],
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primaryColor;
+          }
+          return null;
+        }),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primaryColor;
+          }
+          return null;
+        }),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primaryColor;
+          }
+          return null;
+        }),
+        trackColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primaryColor;
+          }
+          return null;
+        }),
+      ),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: themeColor,
+        brightness: brightness,
+      ).copyWith(
+        error: Colors.red,
+      ),
     );
     themeData = themeData.copyWith(
       cupertinoOverrideTheme: CupertinoThemeData(
@@ -253,10 +302,10 @@ class ThemeViewModel with ChangeNotifier {
       splashColor: Colors.transparent,
 
       ///高亮色
-      highlightColor: themeColor.withAlpha(50),
+      highlightColor: themeColor.withAlpha(20),
 
       ///鼠标悬浮颜色
-      hoverColor: themeColor.withAlpha(50),
+      hoverColor: themeColor.withAlpha(20),
 
       ///长按提示文本样式
       tooltipTheme: themeData.tooltipTheme.copyWith(
@@ -331,7 +380,7 @@ class ThemeViewModel with ChangeNotifier {
       ///dialog主题
       dialogTheme: DialogTheme(
         titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-        contentTextStyle: themeData.textTheme.subtitle1!.copyWith(
+        contentTextStyle: themeData.textTheme.titleMedium?.copyWith(
           fontSize: 14,
         ),
 

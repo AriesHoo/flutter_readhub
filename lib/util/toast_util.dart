@@ -16,9 +16,10 @@ class ToastUtil {
     int? milliseconds,
 
     ///是否通知形式
-    bool notification: true,
-    BorderRadiusGeometry borderRadius:
-        const BorderRadius.all(Radius.circular(6)),
+    bool notification = true,
+    BorderRadiusGeometry borderRadius = const BorderRadius.all(
+      Radius.circular(6),
+    ),
   }) {
     align ??= Alignment.center;
     duration ??= Duration(
@@ -38,8 +39,8 @@ class ToastUtil {
             title: '$text',
             titleStyle: Theme.of(navigatorKey.currentContext!)
                 .textTheme
-                .subtitle1!
-                .copyWith(
+                .titleMedium
+                ?.copyWith(
                   fontSize: 16,
                   color: textColor ?? (isDark ? Colors.black : Colors.white),
                 ),
@@ -85,9 +86,10 @@ class ToastUtil {
     Color? textColor,
 
     ///是否通知形式
-    bool notification: true,
-    BorderRadiusGeometry borderRadius:
-        const BorderRadius.all(Radius.circular(6)),
+    bool notification = true,
+    BorderRadiusGeometry borderRadius = const BorderRadius.all(
+      Radius.circular(6),
+    ),
   }) {
     return show(
       text,
@@ -108,9 +110,10 @@ class ToastUtil {
     Color? textColor,
 
     ///是否通知形式
-    bool notification: true,
-    BorderRadiusGeometry borderRadius:
-        const BorderRadius.all(Radius.circular(6)),
+    bool notification = true,
+    BorderRadiusGeometry borderRadius = const BorderRadius.all(
+      Radius.circular(6),
+    ),
   }) {
     return show(
       text,
@@ -131,9 +134,10 @@ class ToastUtil {
     Color? textColor,
 
     ///是否通知形式
-    bool notification: true,
-    BorderRadiusGeometry borderRadius:
-        const BorderRadius.all(Radius.circular(6)),
+    bool notification = true,
+    BorderRadiusGeometry borderRadius = const BorderRadius.all(
+      Radius.circular(6),
+    ),
   }) {
     return show(
       text,

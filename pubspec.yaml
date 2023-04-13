@@ -29,17 +29,17 @@ dependencies:
   #  吐司toast
   bot_toast: ^4.0.1
   #  设备信息
-  device_info_plus: ^3.1.1
+  device_info_plus: ^8.2.0
   #  应用包信息
-  package_info_plus: ^1.0.2
+  package_info_plus: ^3.1.0
 
   # WebView-增加Web端插件
   webview_flutter: ^3.0.0
   webview_flutter_web: ^0.1.0
   #  网络请求相关dio
-  dio: ^4.0.4
+  dio: ^5.1.1
   #  加载网络图片
-  cached_network_image: ^3.0.0
+  cached_network_image: ^3.2.3
   synchronized: ^3.0.0
   #  下拉刷新
   pull_to_refresh: ^2.0.0
@@ -48,16 +48,18 @@ dependencies:
   #用于做骨架屏-闪光效果
   shimmer: ^2.0.0
   #跳转系统浏览器/打电话等
-  url_launcher: ^6.0.6
+  url_launcher: ^6.1.10
   #二维码-生成
   qr_flutter: ^4.0.0
   #工具类
   flustars: ^2.0.1
+  #与flustars配合-版本要固定否则内部容易出现异常
+  decimal: 1.5.0
   #动态权限申请-8.0.0版本需在Profile申请需要启用的权限
   #https://github.com/Baseflow/flutter-permission-handler/blob/master/permission_handler/example/ios/Podfile
-  permission_handler: ^8.0.1
+  permission_handler: ^10.2.0
   #文件路径
-  path_provider: ^2.0.1
+  path_provider: ^2.0.14
   #分享文字及文件-注意保存文件位置
   #注意0.1.2以后的版本分享图片微信提示获取资源失败，分享到其它平台正常
   #  flutter_share_plugin: 0.1.2
@@ -66,11 +68,11 @@ dependencies:
   # 参考官网 https://flutter.dev/docs/development/packages-and-plugins/using-packages
   share:
     git:
-      url: 'git://github.com/AriesHoo/plugins.git'
+      url: 'https://gitee.com/AriesHoo/plugins.git'
       path: packages/share
       ref: master
   #  mac分享才有意义web及windows无意义shareFile方法都没有实现shareText也是调用的url_launcher
-  share_plus: ^2.1.2
+  share_plus: ^6.3.2
   #  自适应断点？---响应式
   adaptive_breakpoints: ^0.1.1
   #  desktop窗口控制
@@ -80,12 +82,13 @@ dependencies:
     path: './plugins/flutter_macos_webview'
 
   #  windows webView
-  webview_windows: ^0.0.6
+  webview_windows: ^0.2.2
   #  生命周期
-  lifecycle: ^0.4.2
-  decimal: 1.5.0
+  lifecycle: ^0.6.0
+  #  尺寸自适应Text
+  auto_size_text: ^3.0.0
 dev_dependencies:
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 

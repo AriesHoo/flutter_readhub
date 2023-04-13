@@ -43,12 +43,12 @@ class ViewStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var titleStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    var titleStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(
           color: Colors.grey,
           fontSize: 14,
         );
-    var messageStyle = titleStyle.copyWith(
-        color: titleStyle.color!.withOpacity(0.7), fontSize: 14);
+    var messageStyle = titleStyle?.copyWith(
+        color: titleStyle.color?.withOpacity(0.7), fontSize: 14);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,

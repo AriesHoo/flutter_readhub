@@ -18,7 +18,7 @@ class ShareBottomWidget<A extends ShareBottomViewModel>
     Key? key,
     required this.model,
     required this.onClick,
-    this.safeAreaBottom: true,
+    this.safeAreaBottom = true,
   }) : super(key: key);
 
   @override
@@ -118,8 +118,8 @@ class ShareGridWidget extends StatelessWidget {
                       textScaleFactor: ThemeViewModel.textScaleFactor,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: sizeMax ? 12 : 14),
+                          .bodyMedium
+                          ?.copyWith(fontSize: sizeMax ? 12 : 14),
                     ),
                   ],
                 ),
@@ -176,7 +176,7 @@ class CancelShare extends StatelessWidget {
           hoverElevation: 0,
           child: Text(
             appString.cancel,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
             textScaleFactor: ThemeViewModel.textScaleFactor,
           ),
         ),

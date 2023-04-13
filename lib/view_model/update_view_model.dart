@@ -7,7 +7,7 @@ import 'package:flutter_readhub/util/dialog_util.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
 import 'package:flutter_readhub/view_model/theme_view_model.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 ///检查更新
 class UpdateViewModel extends BasisViewModel {
@@ -66,12 +66,12 @@ class UpdateViewModel extends BasisViewModel {
       titleWidget: RichText(
         textScaleFactor: ThemeViewModel.textScaleFactor,
         text: TextSpan(
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
             text: '发现新版本:${info.buildVersion}',
             children: [
               TextSpan(
                   text: '\n系统自带浏览器打开',
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Theme.of(context).primaryColor,
                         fontSize: 13,
                       ))
@@ -82,7 +82,7 @@ class UpdateViewModel extends BasisViewModel {
       ensure: appString.updateNow,
     ).then((index) {
       if (index == 1) {
-        launch(info.downloadURL!);
+        launchUrlString(info.downloadURL!);
       }
     });
   }

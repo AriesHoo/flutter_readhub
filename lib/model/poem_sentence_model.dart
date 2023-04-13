@@ -126,7 +126,7 @@ class Origin {
           : '$dynasty•$author';
 
   ///诗歌全文
-  String getContentStr({String result: ''}) {
+  String getContentStr({String result = ''}) {
     if (content != null && content!.isNotEmpty) {
       content!.forEach((element) {
         result += !TextUtil.isEmpty(result) ? '\n$element' : element;
@@ -136,7 +136,7 @@ class Origin {
   }
 
   ///译文
-  String getTranslateStr({String result: ''}) {
+  String getTranslateStr({String result = ''}) {
     if (translate != null && translate!.isNotEmpty) {
       result += !TextUtil.isEmpty(result) ? '译文:' : '译文:';
       translate!.forEach((element) {

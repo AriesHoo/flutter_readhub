@@ -71,7 +71,7 @@ class ArticleItemModel {
   bool isTopic = false;
 
   String getUrl({
-    bool showUrl: true,
+    bool showUrl = true,
   }) {
     if (isTopic && showUrl) {
       return 'https://readhub.cn/topic/$id';

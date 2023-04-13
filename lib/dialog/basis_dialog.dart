@@ -14,9 +14,9 @@ class BasisDialog extends Dialog {
   BasisDialog({
     Key? key,
     this.kid,
-    this.maxWidth: 360.0,
-    this.minWidth: 280.0,
-    this.alignment: Alignment.center,
+    this.maxWidth = 360.0,
+    this.minWidth = 280.0,
+    this.alignment = Alignment.center,
   });
 
   @override

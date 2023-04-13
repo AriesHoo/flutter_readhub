@@ -166,7 +166,7 @@ class _MaterialAppPageState extends State<MaterialAppPage>
     _context = context;
 
     ///添加监听用于监控前后台转换
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     ///设置窗口大小
     _setWindowSize();
@@ -318,7 +318,7 @@ class SplashWidget extends StatelessWidget {
             width: 205,
             height: 205 * 140 / 815,
             color:
-                Theme.of(context).textTheme.headline6!.color!.withOpacity(0.8),
+                Theme.of(context).textTheme.titleLarge?.color?.withOpacity(0.8),
           ),
           SizedBox(
             height: 160,
@@ -335,9 +335,9 @@ class SplashWidget extends StatelessWidget {
               height: 110 * 100 / 436,
               color: Theme.of(context)
                   .textTheme
-                  .headline6!
-                  .color!
-                  .withOpacity(0.8),
+                  .titleLarge
+                  ?.color
+                  ?.withOpacity(0.8),
             ),
           ),
           SizedBox(

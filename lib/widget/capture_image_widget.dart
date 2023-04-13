@@ -24,7 +24,7 @@ class CaptureImageWidget extends StatefulWidget {
     this.title,
     this.summary,
     this.summaryWidget,
-    this.showLogo: true,
+    this.showLogo = true,
     Key? key,
   }) : super(key: key);
 
@@ -74,8 +74,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                           maxLines: 2,
                           textScaleFactor: ThemeViewModel.textScaleFactor,
                           overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.headline6!.copyWith(),
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         visible: !TextUtil.isEmpty(widget.title),
                       ),
@@ -100,8 +99,8 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText2!
-                                    .copyWith(
+                                    .bodyMedium
+                                    ?.copyWith(
                                       letterSpacing: 1,
                                     ),
                               ),
@@ -151,7 +150,7 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                       Text(
                         appString.scanOrCodeForDetail,
                         textScaleFactor: ThemeViewModel.textScaleFactor,
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontSize: 18,
                             ),
                       ),
@@ -161,14 +160,14 @@ class _CaptureImageWidgetState extends State<CaptureImageWidget> {
                       RichText(
                         text: TextSpan(
                           text: appString.shareForm,
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                           children: [
                             TextSpan(
                               text: '「${appString.appName}」',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
-                                  .copyWith(
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).primaryColor,
                                   ),
                             ),
@@ -196,7 +195,7 @@ class ShareSlogan extends StatelessWidget {
 
   const ShareSlogan({
     Key? key,
-    this.showLogo: true,
+    this.showLogo = true,
   }) : super(key: key);
 
   @override
@@ -228,8 +227,8 @@ class ShareSlogan extends StatelessWidget {
                 textScaleFactor: ThemeViewModel.textScaleFactor,
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
-                    .copyWith(fontSize: 20),
+                    .titleLarge
+                    ?.copyWith(fontSize: 20),
               ),
               SizedBox(
                 height: 2,
@@ -239,12 +238,12 @@ class ShareSlogan extends StatelessWidget {
                 textScaleFactor: ThemeViewModel.textScaleFactor,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .color!
-                          .withOpacity(0.5),
+                          .bodyMedium
+                          ?.color
+                          ?.withOpacity(0.5),
                       fontSize: 14,
                     ),
               ),
@@ -279,7 +278,7 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
     this.bottomNotice,
     this.globalKey, {
     this.summaryWidget,
-    this.showLogo: true,
+    this.showLogo = true,
   });
 
   @override
@@ -338,7 +337,7 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
                         '$title',
                         textScaleFactor: ThemeViewModel.textScaleFactor,
                         textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                               letterSpacing: letterSpacing,
                               fontSize: 17,
@@ -368,15 +367,15 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
                                     leading: leading),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline6!
-                                    .copyWith(
+                                    .titleLarge
+                                    ?.copyWith(
                                       fontSize: 13,
                                       letterSpacing: letterSpacing,
                                       color: Theme.of(context)
                                           .textTheme
-                                          .headline6!
-                                          .color!
-                                          .withOpacity(0.8),
+                                          .titleLarge
+                                          ?.color
+                                          ?.withOpacity(0.8),
                                     ),
                               ),
                             ),
@@ -399,8 +398,8 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
                               textAlign: TextAlign.start,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline6!
-                                  .copyWith(
+                                  .titleLarge
+                                  ?.copyWith(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12,
                                   ),
@@ -427,18 +426,18 @@ class CaptureImageAppStyleWidget extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: appString.shareForm,
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 12,
                         color: Theme.of(context)
                             .textTheme
-                            .bodyText2!
-                            .color!
-                            .withOpacity(0.6),
+                            .bodyMedium
+                            ?.color
+                            ?.withOpacity(0.6),
                       ),
                   children: [
                     TextSpan(
                       text: '「${appString.appName}」',
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).primaryColor,
                             fontSize: 12,
                           ),

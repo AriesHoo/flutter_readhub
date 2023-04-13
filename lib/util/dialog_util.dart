@@ -37,8 +37,8 @@ class DialogUtil {
             ? PlatformUtil.isIOS
                 ? CupertinoButton(
                     child: Text(
-                      cancel!,
-                      style: Theme.of(context).textTheme.caption!.copyWith(
+                      cancel ?? '',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontSize: 14,
                           ),
                     ),
@@ -49,8 +49,8 @@ class DialogUtil {
                   )
                 : TextButton(
                     child: Text(
-                      cancel!,
-                      style: Theme.of(context).textTheme.caption!.copyWith(
+                      cancel ?? '',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontSize: 14,
                           ),
                     ),
@@ -78,7 +78,7 @@ class DialogUtil {
                 ? CupertinoButton(
                     child: Text(
                       ensure!,
-                      style: Theme.of(context).textTheme.caption!.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                           ),
@@ -91,7 +91,7 @@ class DialogUtil {
                 : TextButton(
                     child: Text(
                       ensure!,
-                      style: Theme.of(context).textTheme.caption!.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                           ),
@@ -149,13 +149,13 @@ class DialogUtil {
     BuildContext context, {
     Widget? child,
     IndexedWidgetBuilder? itemBuilder,
-    int count: 1,
+    int count = 1,
     Color? barrierColor,
     Color? backgroundColor,
     RouteSettings? settings,
     ShapeBorder? shape,
     Clip? clipBehavior,
-    bool childOutside: false,
+    bool childOutside = false,
   }) async {
     // if (isDisplayDesktop) {
     //   return await showDialog(

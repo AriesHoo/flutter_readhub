@@ -38,6 +38,6 @@ class CardShareModel {
     this.globalKey,
     this.summaryWidget,
     this.showUrl,
-    this.showLogo: false,
+    this.showLogo = false,
   });
 }

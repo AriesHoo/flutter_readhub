@@ -5,7 +5,6 @@ import 'package:flutter_readhub/model/app_update_model.dart';
 import 'package:flutter_readhub/util/platform_util.dart';
 
 import 'basis_http.dart';
-import 'update_http.dart';
 
 /// App更新相关接口
 class UpdateRepository {

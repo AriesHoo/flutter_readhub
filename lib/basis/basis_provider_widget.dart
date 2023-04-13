@@ -230,9 +230,10 @@ class BasisRefreshListProviderWidget<A extends BasisRefreshListViewModel>
                   valueListenable: m1.scrollTopController.scrollWidgetNotifier,
                   builder: (BuildContext context, bool show, Widget? child) =>
                       show && !ThemeViewModel.hideFloatingButton
-                          ? FloatingActionButton.extended(
-                              label: Text(appString.tooltipScrollTop),
-                              icon: const Icon(
+                          ? FloatingActionButton.small(
+                              tooltip: appString.tooltipScrollTop,
+                              // label: Text(appString.tooltipScrollTop),
+                              child: const Icon(
                                 Icons.file_upload,
                               ),
                               onPressed: () {
@@ -323,7 +324,7 @@ class SmartLoadFooterWidget extends StatelessWidget {
           body = Text(
             appString.loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           );
         } else if (mode == LoadStatus.loading) {
           body = const CupertinoActivityIndicator();
@@ -331,19 +332,19 @@ class SmartLoadFooterWidget extends StatelessWidget {
           body = Text(
             appString.loadFailed,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           );
         } else if (mode == LoadStatus.canLoading) {
           body = Text(
             appString.loadIdle,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           );
         } else {
           body = Text(
             appString.loadNoMore,
             textScaleFactor: ThemeViewModel.textScaleFactor,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           );
         }
         return SizedBox(

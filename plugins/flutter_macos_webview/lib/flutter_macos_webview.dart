@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 const _kChannel = 'com.vanelizarov.flutter_macos_webview/method';
 
@@ -69,7 +67,7 @@ class FlutterMacOSWebView {
     PresentationStyle presentationStyle = PresentationStyle.sheet,
     Size? size,
     // Offset origin,
-    String userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+    String userAgent='Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
     String modalTitle = '',
     String sheetCloseButtonTitle = 'Close',
   }) async {

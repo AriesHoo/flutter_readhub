@@ -25,7 +25,7 @@ class BasisScrollTopController {
   BasisScrollTopController({
     required this.scrollController,
     double? height,
-    bool canScrollToTop: true,
+    bool canScrollToTop= true,
   }) {
     _height = height ?? 500;
     _canScrollToTop = canScrollToTop;

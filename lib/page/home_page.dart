@@ -286,62 +286,66 @@ class HomeBody extends StatelessWidget {
       body: Row(
         children: [
           ///宽屏布局--宽度决定是否显示
-          Container(
-            width: displayDesktop ? sideNavWidth : 0,
-            color: Theme.of(context).appBarTheme.backgroundColor,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 24, bottom: 12),
-                  child: AppLogo(),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    child: Column(
+          Visibility(
+            child: Container(
+              width: displayDesktop ? sideNavWidth : 0,
+              color: Theme.of(context).appBarTheme.backgroundColor,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 24, bottom: 12),
+                    child: AppLogo(),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SideNav(
+                            tabs: tabs,
+                            tabIndex: ValueNotifier(controller!.index),
+                            onTabChanged: (index) =>
+                                controller?.animateTo(index),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  ///侧边栏诗歌
+                  PoemSentence(),
+
+                  ///底部更多信息及深浅色主题切换
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SideNav(
-                          tabs: tabs,
-                          tabIndex: ValueNotifier(controller!.index),
-                          onTabChanged: (index) => controller?.animateTo(index),
+                        ///更多信息
+                        AnimatedSwitcherIconWidget(
+                          defaultIcon: Icons.info,
+                          switchIcon: Icons.info_outline,
+                          tooltip: appString.moreSetting,
+                          onPressed: () => showAuthorDialog(context),
+                          checkTheme: true,
+                        ),
+
+                        ///暗黑模式切换
+                        AnimatedSwitcherIconWidget(
+                          defaultIcon: Icons.brightness_2,
+                          switchIcon: Icons.brightness_5,
+                          tooltip: ThemeViewModel.darkMode
+                              ? appString.lightMode
+                              : appString.darkMode,
+                          onPressed: () => switchDarkMode(context),
                         ),
                       ],
                     ),
                   ),
-                ),
-
-                ///侧边栏诗歌
-                PoemSentence(),
-
-                ///底部更多信息及深浅色主题切换
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ///更多信息
-                      AnimatedSwitcherIconWidget(
-                        defaultIcon: Icons.info,
-                        switchIcon: Icons.info_outline,
-                        tooltip: appString.moreSetting,
-                        onPressed: () => showAuthorDialog(context),
-                        checkTheme: true,
-                      ),
-
-                      ///暗黑模式切换
-                      AnimatedSwitcherIconWidget(
-                        defaultIcon: Icons.brightness_2,
-                        switchIcon: Icons.brightness_5,
-                        tooltip: ThemeViewModel.darkMode
-                            ? appString.lightMode
-                            : appString.darkMode,
-                        onPressed: () => switchDarkMode(context),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
+            visible: displayDesktop,
           ),
 
           ///侧边栏竖直分割线
@@ -400,7 +404,7 @@ class SideNav extends StatelessWidget {
                           : Colors.transparent),
 
                       textStyle: MaterialStateProperty.all(
-                        Theme.of(context).textTheme.subtitle2!.copyWith(
+                        Theme.of(context).textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.normal,
                               fontSize: 14,
                             ),
@@ -431,9 +435,9 @@ class SideNav extends StatelessWidget {
                           }
                           return Theme.of(context)
                               .textTheme
-                              .subtitle2!
-                              .color!
-                              .withOpacity(0.7);
+                              .titleSmall
+                              ?.color
+                              ?.withOpacity(0.7);
                         },
                       ),
                       shape: MaterialStateProperty.all(
@@ -470,7 +474,7 @@ class SideNav extends StatelessWidget {
 class AppLogo extends StatelessWidget {
   const AppLogo({
     Key? key,
-    this.width: 108.0,
+    this.width = 108.0,
   }) : super(key: key);
   final double width;
 

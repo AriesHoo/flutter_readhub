@@ -2,7 +2,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_readhub/main.dart';
 import 'package:flutter_readhub/util/toast_util.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 ///分享帮助类
 class ShareHelper {
@@ -27,7 +27,7 @@ class ShareHelper {
   ///分享网址-通过系统浏览器打开
   void shareTextOpenByBrowser(String url) async {
     try {
-      await launch(url);
+      await launchUrlString(url);
     } catch (e) {
       LogUtil.v('e:$e}', tag: 'shareTextOpenByBrowser');
     }

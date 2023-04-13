@@ -44,13 +44,13 @@ class TabBarWidget extends StatelessWidget {
       indicatorSize: TabBarIndicatorSize.label,
 
       ///选中label颜色
-      labelColor: Theme.of(context).textTheme.headline6!.color,
+      labelColor: Theme.of(context).textTheme.titleLarge?.color,
 
       enableFeedback: false,
 
       ///未选择label颜色
       unselectedLabelColor:
-          Theme.of(context).textTheme.headline6!.color!.withOpacity(0.6),
+          Theme.of(context).textTheme.titleLarge?.color?.withOpacity(0.6),
     );
   }
 }

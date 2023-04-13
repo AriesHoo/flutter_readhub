@@ -27,7 +27,7 @@ class QrCode extends StatelessWidget {
       embeddedImageStyle: QrEmbeddedImageStyle(
         size: embeddedImageSize,
       ),
-      foregroundColor: Theme.of(context).textTheme.headline6!.color,
+      foregroundColor: Theme.of(context).textTheme.titleLarge?.color,
       backgroundColor: Theme.of(context).cardColor,
     );
   }

@@ -16,10 +16,10 @@ class Decorations {
     BuildContext context, {
     double? width,
     Color? color,
-    bool left: false,
-    bool top: false,
-    bool right: false,
-    bool bottom: false,
+    bool left = false,
+    bool top = false,
+    bool right = false,
+    bool bottom = false,
   }) {
     BorderSide side = BorderSide(
       width: 0.4,
@@ -39,7 +39,7 @@ class Decorations {
     BuildContext context, {
     Color? color,
     double? lineWidth,
-    BorderRadiusGeometry borderRadius: BorderRadius.zero,
+    BorderRadiusGeometry borderRadius = BorderRadius.zero,
   }) {
     return BeveledRectangleBorder(
       borderRadius: borderRadius,

@@ -15,10 +15,10 @@ class SkeletonBox extends StatelessWidget {
   SkeletonBox({
     required this.width,
     required this.height,
-    this.isCircle: false,
+    this.isCircle = false,
     this.borderRadius,
-    this.margin: const EdgeInsets.all(0),
-    this.padding: const EdgeInsets.all(0),
+    this.margin = const EdgeInsets.all(0),
+    this.padding = const EdgeInsets.all(0),
   });
 
   @override
@@ -41,8 +41,8 @@ class SkeletonBox extends StatelessWidget {
 /// 骨架屏元素 ->形状及颜色及圆角
 class SkeletonDecoration extends BoxDecoration {
   SkeletonDecoration({
-    isCircle: false,
-    isDark: false,
+    isCircle = false,
+    isDark = false,
 
     ///圆角
     BorderRadiusGeometry? borderRadius,
@@ -73,8 +73,8 @@ class SkeletonList extends StatelessWidget {
 
   SkeletonList({
     this.builder,
-    this.length: 10,
-    this.horizontal: false,
+    this.length = 10,
+    this.horizontal = false,
     this.baseColor,
     this.highlightColor,
     this.padding = const EdgeInsets.all(0),

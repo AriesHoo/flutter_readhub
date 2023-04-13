@@ -139,7 +139,7 @@ class ArticleAdapter extends StatelessWidget {
   const ArticleAdapter(
     this.item, {
     Key? key,
-    this.showBorder: false,
+    this.showBorder = false,
   }) : super(key: key);
   final ArticleItemModel item;
   final bool showBorder;
@@ -196,7 +196,7 @@ class ArticleAdapter extends StatelessWidget {
             ///浏览器...显示异常
             overflow:
                 PlatformUtil.isWeb ? TextOverflow.fade : TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.subtitle2!.copyWith(
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   letterSpacing: letterSpacing,
                 ),
@@ -226,13 +226,13 @@ class ArticleAdapter extends StatelessWidget {
                 height: textLineHeight,
                 leading: leading,
               ),
-              style: Theme.of(context).textTheme.caption!.copyWith(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   letterSpacing: letterSpacing,
                   color: Theme.of(context)
                       .textTheme
-                      .headline6!
-                      .color!
-                      .withOpacity(0.8)),
+                      .titleLarge
+                      ?.color
+                      ?.withOpacity(0.8)),
             ),
           ),
           Row(
@@ -248,7 +248,7 @@ class ArticleAdapter extends StatelessWidget {
                   overflow: PlatformUtil.isWeb
                       ? TextOverflow.fade
                       : TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 12,
                       ),
                 ),
@@ -375,7 +375,7 @@ class NewsAdapter extends StatelessWidget {
               Text(
                 item.title!,
                 textScaleFactor: ThemeViewModel.textScaleFactor,
-                style: Theme.of(context).textTheme.headline6!.copyWith(
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontSize: 14,
                     ),
               ),
@@ -392,7 +392,7 @@ class NewsAdapter extends StatelessWidget {
                     child: Text(
                       item.siteName!,
                       textScaleFactor: ThemeViewModel.textScaleFactor,
-                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
                           ),
@@ -401,7 +401,7 @@ class NewsAdapter extends StatelessWidget {
                   Text(
                     item.parseTimeLong()!,
                     textScaleFactor: ThemeViewModel.textScaleFactor,
-                    style: Theme.of(context).textTheme.caption!.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontSize: 10,
                         ),
                   ),
